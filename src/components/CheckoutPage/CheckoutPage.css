@@ -1,0 +1,48 @@
+/* Checkout Page Styling - GoMo Deals Luxury Theme */
+
+.gomo-checkout-page {
+  --gomo-orange: #ea580c;
+  --gomo-orange-dark: #c2410c;
+  --gomo-orange-soft: #fff7ed;
+  --gomo-stone-900: #1c1917;
+  --gomo-stone-600: #57534e;
+  --gomo-stone-200: #e7e5e4;
+  --gomo-emerald: #059669;
+  --gomo-emerald-soft: #ecfdf5;
+}
+
+/* Custom Radio Appearance with GoMo Orange */
+.gomo-checkout-page .gomo-custom-radio:checked {
+  border-color: #ea580c;
+  background-color: #ea580c;
+  box-shadow: inset 0 0 0 3px #ffffff;
+}
+
+/* Smooth Accordion Transitions */
+.gomo-checkout-page .payment-body {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.35s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.3s ease;
+  opacity: 0;
+}
+
+.gomo-checkout-page .payment-body.active {
+  max-height: 380px;
+  opacity: 1;
+}
+
+/* Shimmer Loading Animation */
+@keyframes shimmerAnim {
+  0% {
+    background-position: -600px 0;
+  }
+  100% {
+    background-position: 600px 0;
+  }
+}
+
+.gomo-checkout-page .skeleton-shimmer {
+  background: linear-gradient(90deg, #f5f2eb 0%, #ede8df 50%, #f5f2eb 100%);
+  background-size: 800px 100%;
+  animation: shimmerAnim 1.8s infinite ease-in-out;
+}
