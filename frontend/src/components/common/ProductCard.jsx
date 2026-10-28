@@ -156,11 +156,11 @@ const ProductCard = ({ product }) => {
     <>
       <div 
         onClick={() => navigate(`/product/${productId}`)}
-        className="group flex flex-col bg-white border border-stone-200 hover:border-orange-500/60 rounded-xl p-3 shadow-card hover:shadow-card-hover hover:-translate-y-0.5 transition-all duration-200 ease-out cursor-pointer h-full relative gpu-accelerate overflow-hidden"
+        className="group flex flex-col bg-white border border-stone-200 hover:border-stone-300 rounded-2xl p-3.5 shadow-xs hover:shadow-sm hover:-translate-y-1 transition-all duration-200 ease-out cursor-pointer h-full relative overflow-hidden"
       >
         
         {/* Image Container with Top Badges & Actions */}
-        <div className="relative aspect-[3/4] overflow-hidden bg-stone-100 rounded-md mb-3 flex items-center justify-center flex-shrink-0 group-hover:bg-stone-200 transition-colors">
+        <div className="relative aspect-[3/4] overflow-hidden bg-stone-100 rounded-xl mb-3 flex items-center justify-center flex-shrink-0 group-hover:bg-stone-200 transition-colors">
           <Link to={`/product/${productId}`} className="w-full h-full block overflow-hidden">
             <img
               src={image}
@@ -169,23 +169,23 @@ const ProductCard = ({ product }) => {
                 e.target.onerror = null;
                 e.target.src = getProductImage(product);
               }}
-              className="w-full h-full object-cover transition-transform duration-500 ease-out group-hover:scale-105"
+              className="w-full h-full object-cover transition-transform duration-500 ease-out group-hover:scale-103"
             />
           </Link>
 
           {/* Top-Left Minimalist Badge with Live Stock */}
           <div className="absolute top-2.5 left-2.5 z-10 flex flex-col gap-1 items-start">
-            <span className="bg-white text-stone-950 font-black text-[9px] uppercase tracking-wider px-2.5 py-1 rounded-md shadow-2xs border border-stone-200/80">
+            <span className="bg-stone-900 text-white font-bold text-[9px] uppercase tracking-wider px-2 py-0.5 rounded-md shadow-2xs">
               {discountPercent > 0 ? `${discountPercent}% OFF` : '30% OFF'}
             </span>
             {isLowStock && (
-              <span className="bg-[#f76e28] text-white font-black text-[8px] uppercase tracking-wider px-2 py-0.5 rounded-md shadow-xs animate-pulse flex items-center gap-1">
+              <span className="bg-[#f76e28] text-white font-bold text-[8px] uppercase tracking-wider px-2 py-0.5 rounded-md shadow-xs flex items-center gap-1">
                 <Zap size={9} className="shrink-0" />
                 <span>Only {liveStock} Left</span>
               </span>
             )}
             {isOutOfStock && (
-              <span className="bg-rose-600 text-white font-black text-[8px] uppercase tracking-wider px-2 py-0.5 rounded-md shadow-xs">
+              <span className="bg-stone-800 text-white font-bold text-[8px] uppercase tracking-wider px-2 py-0.5 rounded-md shadow-xs">
                 Sold Out
               </span>
             )}
@@ -195,7 +195,7 @@ const ProductCard = ({ product }) => {
           <div className="absolute top-2.5 right-2.5 z-20">
             <button 
               onClick={handleToggleWishlist}
-              className={`w-8 h-8 rounded-full flex items-center justify-center transition-all duration-200 border shadow-xs hover:scale-115 active:scale-90 cursor-pointer hover-heart-beat group/wish ${
+              className={`w-8 h-8 rounded-full flex items-center justify-center transition-all duration-200 border shadow-xs hover:scale-110 active:scale-95 cursor-pointer group/wish ${
                 isInWishlist(productId) 
                   ? 'bg-rose-50 text-rose-600 border-rose-200 fill-rose-600' 
                   : 'bg-white/95 text-stone-600 border-stone-200/80 hover:text-rose-600 hover:border-rose-200 hover:bg-rose-50'
@@ -206,8 +206,8 @@ const ProductCard = ({ product }) => {
                 size={14} 
                 className={`transition-all duration-200 ${
                   isInWishlist(productId) 
-                    ? "fill-rose-500 text-rose-500 animate-heart-pop" 
-                    : "group-hover:text-rose-500 group-hover:scale-110"
+                    ? "fill-rose-500 text-rose-500" 
+                    : "group-hover:text-rose-500 group-hover:scale-105"
                 }`} 
               />
             </button>
@@ -218,12 +218,12 @@ const ProductCard = ({ product }) => {
         <div className="flex flex-col flex-grow justify-between px-0.5">
           <div>
             {/* Category / Department Tag */}
-            <span className="text-[10px] uppercase font-black text-stone-400 tracking-wider block truncate mb-1">
+            <span className="text-[10px] uppercase font-bold text-stone-400 tracking-wider block truncate mb-1">
               {t(product.category || product.brand || 'GoMo Curated')}
             </span>
 
-            {/* Clean Bold Title */}
-            <h3 className="font-bold text-sm sm:text-[15px] text-stone-950 leading-snug line-clamp-2 min-h-[38px] group-hover:text-orange-600 transition-colors">
+            {/* Clean Bold Title clamped to 2 lines */}
+            <h3 className="font-bold text-sm sm:text-[15px] text-stone-950 leading-snug line-clamp-2 min-h-[42px] group-hover:text-orange-600 transition-colors">
               <Link to={`/product/${productId}`}>{t(product.name)}</Link>
             </h3>
 
@@ -233,11 +233,8 @@ const ProductCard = ({ product }) => {
                 <Star size={11} className="fill-amber-400 text-amber-400" />
                 <span className="text-stone-700">{Number(product.rating || 4.5).toFixed(1)}</span>
               </div>
-              <span className="text-stone-300">•</span>
-              <div className="inline-flex items-center gap-1 text-[9.5px] font-semibold text-emerald-800 bg-emerald-50 px-2 py-0.5 rounded-sm border border-emerald-100">
-                <Zap size={9} className="fill-emerald-600 text-emerald-600" />
-                <span>12-24h</span>
-              </div>
+              <span className="h-2.5 w-px bg-stone-200" />
+              <span className="text-[10.5px] text-stone-500 font-medium">12-24h delivery</span>
             </div>
           </div>
 

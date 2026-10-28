@@ -31,10 +31,10 @@ const Hero = () => {
             
             {/* 1. TOP EDITORIAL TEXT CONTAINER (Warm Cream/Ivory Brand Palette) */}
             <motion.div
-              initial={{ opacity: 0, y: 20 }}
+              initial={{ opacity: 0, y: 16 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6 }}
-              className="bg-[#f5f1eb] rounded-3xl p-6 sm:p-8 md:p-10 lg:p-11 flex-1 flex flex-col justify-between shadow-xs border border-stone-200/80 min-h-[320px] sm:min-h-[380px]"
+              transition={{ duration: 0.45, ease: [0.22, 1, 0.36, 1] }}
+              className="bg-[#f5f1eb] rounded-2xl p-6 sm:p-8 md:p-10 flex-1 flex flex-col justify-between shadow-xs border border-stone-200 min-h-[320px] sm:min-h-[380px]"
             >
               {/* Bold Editorial Headline Matching Reference Design */}
               <div className="space-y-1 sm:space-y-2">
@@ -71,16 +71,16 @@ const Hero = () => {
               
               {/* Card 1: Sacred Pooja Items */}
               <motion.div
-                initial={{ opacity: 0, y: 20 }}
+                initial={{ opacity: 0, y: 16 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6, delay: 0.1 }}
+                transition={{ duration: 0.45, delay: 0.08, ease: [0.22, 1, 0.36, 1] }}
                 onClick={() => navigate('/collection/pooja-items')}
-                className="group relative h-[180px] sm:h-[220px] md:h-[240px] rounded-2xl sm:rounded-3xl overflow-hidden cursor-pointer shadow-md bg-stone-100 border border-stone-200/80"
+                className="group relative h-[180px] sm:h-[220px] md:h-[240px] rounded-2xl overflow-hidden cursor-pointer shadow-xs bg-stone-100 border border-stone-200"
               >
                 <img
                   src="https://images.unsplash.com/photo-1606293926075-69a00dbfde81?w=600&auto=format&fit=crop&q=80"
                   alt="Pooja Items"
-                  className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                  className="w-full h-full object-cover transition-transform duration-500 ease-out group-hover:scale-103"
                   loading="lazy"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/30 to-transparent" />
@@ -95,16 +95,16 @@ const Hero = () => {
 
               {/* Card 2: Handloom & Festive Wear */}
               <motion.div
-                initial={{ opacity: 0, y: 20 }}
+                initial={{ opacity: 0, y: 16 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6, delay: 0.15 }}
+                transition={{ duration: 0.45, delay: 0.12, ease: [0.22, 1, 0.36, 1] }}
                 onClick={() => navigate('/collection/clothing?section=women')}
-                className="group relative h-[180px] sm:h-[220px] md:h-[240px] rounded-2xl sm:rounded-3xl overflow-hidden cursor-pointer shadow-md bg-stone-100 border border-stone-200/80"
+                className="group relative h-[180px] sm:h-[220px] md:h-[240px] rounded-2xl overflow-hidden cursor-pointer shadow-xs bg-stone-100 border border-stone-200"
               >
                 <img
                   src="https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?w=600&auto=format&fit=crop&q=80"
                   alt="Handloom Fashion"
-                  className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                  className="w-full h-full object-cover transition-transform duration-500 ease-out group-hover:scale-103"
                   loading="lazy"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/30 to-transparent" />
@@ -125,10 +125,10 @@ const Hero = () => {
           {/* RIGHT COLUMN: VIDEO CONTAINER (Our Hero Video Asset)      */}
           {/* ======================================================== */}
           <motion.div
-            initial={{ opacity: 0, scale: 0.98 }}
+            initial={{ opacity: 0, scale: 0.99 }}
             animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.7 }}
-            className="lg:col-span-6 relative rounded-3xl overflow-hidden shadow-xl min-h-[420px] sm:min-h-[520px] lg:min-h-full h-full flex flex-col justify-between p-6 sm:p-8 bg-stone-100 border border-stone-200/80 group"
+            transition={{ duration: 0.45, ease: [0.22, 1, 0.36, 1] }}
+            className="lg:col-span-6 relative rounded-2xl overflow-hidden shadow-sm min-h-[420px] sm:min-h-[520px] lg:min-h-full h-full flex flex-col justify-between p-6 sm:p-8 bg-stone-100 border border-stone-200 group"
           >
             {/* Background Video */}
             <div className="absolute inset-0 w-full h-full overflow-hidden select-none pointer-events-none">
@@ -150,7 +150,7 @@ const Hero = () => {
               <button
                 type="button"
                 onClick={() => scrollTo('deals-section')}
-                className="w-20 h-20 sm:w-24 sm:h-24 rounded-full bg-white/20 hover:bg-orange-600 hover:scale-105 border border-white/40 backdrop-blur-md text-white text-xs sm:text-sm font-black uppercase tracking-wider flex flex-col items-center justify-center transition-all duration-300 shadow-2xl cursor-pointer group"
+                className="w-20 h-20 sm:w-24 sm:h-24 rounded-full bg-white/20 hover:bg-orange-600 hover:scale-102 border border-white/40 backdrop-blur-md text-white text-xs sm:text-sm font-black uppercase tracking-wider flex flex-col items-center justify-center transition-all duration-200 shadow-md cursor-pointer group"
                 aria-label="Shop Now"
               >
                 <span className="leading-tight">{t("hero_shop_now", "SHOP NOW")}</span>
@@ -164,7 +164,7 @@ const Hero = () => {
               <button
                 type="button"
                 onClick={() => scrollTo('deals-section')}
-                className="bg-white hover:bg-orange-50 text-stone-950 font-bold text-xs sm:text-sm pl-5 pr-2 py-2 rounded-full flex items-center gap-3 shadow-xl transition-all duration-200 cursor-pointer group"
+                className="bg-white hover:bg-orange-50 text-stone-950 font-bold text-xs sm:text-sm pl-5 pr-2 py-2 rounded-full flex items-center gap-3 shadow-md transition-all duration-200 cursor-pointer group"
               >
                 <span className="uppercase tracking-wider">{t("hero_explore_deals", "Explore Deals")}</span>
                 <div className="w-7 h-7 rounded-full bg-stone-950 group-hover:bg-orange-600 text-white flex items-center justify-center transition-colors">
@@ -176,7 +176,7 @@ const Hero = () => {
               <button
                 type="button"
                 onClick={() => scrollTo('featured-categories')}
-                className="bg-black/50 hover:bg-black/70 backdrop-blur-md border border-white/30 text-white font-bold text-xs sm:text-sm pl-5 pr-2.5 py-2 rounded-full flex items-center gap-3 shadow-xl transition-all duration-200 cursor-pointer group"
+                className="bg-black/50 hover:bg-black/70 backdrop-blur-md border border-white/30 text-white font-bold text-xs sm:text-sm pl-5 pr-2.5 py-2 rounded-full flex items-center gap-3 shadow-md transition-all duration-200 cursor-pointer group"
               >
                 <span className="uppercase tracking-wider">{t("hero_browse_catalog", "Browse Catalog")}</span>
                 <div className="w-7 h-7 rounded-full bg-white/20 group-hover:bg-white/30 text-white flex items-center justify-center transition-colors">

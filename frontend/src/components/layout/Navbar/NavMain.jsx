@@ -1457,7 +1457,7 @@ const NavMain = ({ isTransparent = false, isHome = false }) => {
           </div>
 
           {/* 3. Right: Essential E-Commerce Actions */}
-          <div className="flex items-center gap-2 sm:gap-3 lg:gap-4 flex-shrink-0">
+          <div className="flex items-center gap-2 sm:gap-2.5 lg:gap-3 flex-shrink-0">
             {/* Mobile Search Toggle */}
             <button
               type="button"
@@ -1507,7 +1507,7 @@ const NavMain = ({ isTransparent = false, isHome = false }) => {
               >
                 <Bell size={20} className="transition-all duration-300 origin-top group-hover:text-orange-600" />
                 {unreadCount > 0 && (
-                  <span className="absolute -top-1 -right-1 min-w-[18px] h-[18px] px-1 rounded-full bg-orange-600 text-white text-[10px] font-black flex items-center justify-center ring-2 ring-white shadow-sm animate-pulse group-hover:scale-110 group-hover:ring-orange-200 transition-transform duration-200">
+                  <span className="absolute -top-0.5 -right-0.5 min-w-[16px] h-[16px] px-1 rounded-full bg-stone-900 text-white text-[9.5px] font-bold flex items-center justify-center">
                     {unreadCount > 9 ? "9+" : unreadCount}
                   </span>
                 )}
@@ -2000,7 +2000,7 @@ const NavMain = ({ isTransparent = false, isHome = false }) => {
       >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 min-h-[46px] flex items-center justify-between gap-3 relative">
           {/* Left: Department Navigation Links */}
-          <div className="flex items-center gap-0.5 sm:gap-1 xl:gap-1.5 overflow-x-auto lg:overflow-visible xl:overflow-visible no-scrollbar py-2 relative min-w-0 flex-1">
+          <div className="flex items-center gap-1 xl:gap-2 overflow-x-auto lg:overflow-visible no-scrollbar py-2 relative min-w-0 flex-1">
             {/* All Categories Button */}
             <button
               type="button"
@@ -2031,7 +2031,7 @@ const NavMain = ({ isTransparent = false, isHome = false }) => {
                 >
                   <Link
                     to={dept.path}
-                    className={`group relative px-2 lg:px-2.5 xl:px-3 py-1.5 rounded-lg text-[10.5px] xl:text-[11px] uppercase tracking-wider transition-all duration-200 flex items-center gap-1 sm:gap-1.5 cursor-pointer font-bold whitespace-nowrap flex-shrink-0 hover:-translate-y-0.5 active:translate-y-0 active:scale-95 ${
+                    className={`group relative px-2 xl:px-2.5 py-1.5 rounded-lg text-[10.5px] xl:text-[11px] uppercase tracking-wider transition-all duration-200 flex items-center gap-1 sm:gap-1.5 cursor-pointer font-bold whitespace-nowrap flex-shrink-0 hover:-translate-y-0.5 active:translate-y-0 active:scale-95 ${
                       dept.isHighlight || dept.isHighlighted
                         ? isTransparent
                           ? "text-white bg-orange-600/90 hover:bg-orange-600 border border-orange-400/60 shadow-xs hover:shadow-orange-500/20"
@@ -2045,7 +2045,7 @@ const NavMain = ({ isTransparent = false, isHome = false }) => {
                             : "text-stone-700 hover:text-orange-600 hover:bg-orange-50/70 hover:border-orange-200/60 border border-transparent hover:shadow-xs"
                     }`}
                   >
-                    <span>{t(dept.key.replace(/-/g, "_"), dept.label)}</span>
+                    <span>{t(dept.label) || dept.label}</span>
 
                     {/* Next to the text: drop down arrow turns into that category animation when hovered */}
                     <span className="relative w-3.5 h-3.5 flex items-center justify-center flex-shrink-0">
@@ -2145,34 +2145,6 @@ const NavMain = ({ isTransparent = false, isHome = false }) => {
                 </div>
               );
             })}
-          </div>
-
-          {/* Right: E-Commerce Value Perks - shown only on ultra-wide screens to prevent any overlap */}
-          <div
-            className={`hidden 2xl:flex items-center gap-5 text-[11px] font-medium flex-shrink-0 ml-auto ${isTransparent ? "text-white/80" : "text-stone-500"}`}
-          >
-            <div className="flex items-center gap-1.5">
-              <Truck size={13} className="text-orange-500 flex-shrink-0" />
-              <span className="whitespace-nowrap">
-                <span className="hidden 2xl:inline">Free Express </span>Delivery
-                &gt;₹500
-              </span>
-            </div>
-            <div className="flex items-center gap-1.5">
-              <RotateCcw size={13} className="text-orange-500 flex-shrink-0" />
-              <span className="whitespace-nowrap">
-                <span className="hidden 2xl:inline">15-Day </span>Easy Returns
-              </span>
-            </div>
-            <div className="flex items-center gap-1.5">
-              <ShieldCheck
-                size={13}
-                className="text-orange-500 flex-shrink-0"
-              />
-              <span className="whitespace-nowrap">
-                100% Genuine<span className="hidden 2xl:inline"> Brands</span>
-              </span>
-            </div>
           </div>
         </div>
       </div>

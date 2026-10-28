@@ -78,11 +78,13 @@ export default function CategoryBubbles() {
 
   return (
     <section id="featured-categories" className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-8 pb-10">
-      {/* Section Header: Minimal & Crisp */}
-      <div className="flex items-center justify-between mb-5 sm:mb-6">
-        <div className="flex items-center gap-2.5">
-          <span className="w-1.5 h-5 bg-gradient-to-b from-[#f76e28] to-orange-400 rounded-full" />
-          <h2 className="text-lg sm:text-xl font-extrabold text-stone-900 tracking-tight">
+      {/* Section Header: Standardized Structure */}
+      <div className="flex items-end justify-between mb-6">
+        <div>
+          <span className="text-[11px] font-bold uppercase tracking-widest text-stone-500 block mb-1">
+            {t("browse_catalog", "Browse Catalog")}
+          </span>
+          <h2 className="text-xl sm:text-2xl md:text-3xl font-extrabold text-stone-900 tracking-tight">
             {t("categories", "Top Categories")}
           </h2>
         </div>
@@ -92,7 +94,7 @@ export default function CategoryBubbles() {
           className="group flex items-center gap-1 text-xs font-bold text-stone-500 hover:text-orange-600 transition-colors cursor-pointer"
         >
           <span>{t("view_all", "View All")}</span>
-          <ChevronRight size={13} className="group-hover:translate-x-0.5 transition-transform" />
+          <ChevronRight size={14} className="group-hover:translate-x-0.5 transition-transform" />
         </button>
       </div>
 
@@ -104,11 +106,11 @@ export default function CategoryBubbles() {
             initial={{ opacity: 0, y: 10 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            transition={{ duration: 0.3, delay: idx * 0.03 }}
+            transition={{ duration: 0.25, delay: idx * 0.02 }}
             onClick={() => handleCategoryClick(cat)}
-            className="group relative flex flex-col bg-white rounded-2xl p-2 sm:p-2.5 border border-stone-200/70 hover:border-orange-300 hover:shadow-[0_10px_25px_rgba(247,110,40,0.08)] transition-all duration-300 ease-out cursor-pointer hover:-translate-y-1.5 select-none"
+            className="group relative flex flex-col bg-white rounded-2xl p-2.5 border border-stone-200 hover:border-stone-300 shadow-xs transition-all duration-200 ease-out cursor-pointer hover:-translate-y-1 select-none"
           >
-            {/* Minimal Image Frame with Smooth Zoom & Shimmer */}
+            {/* Minimal Image Frame with Smooth Zoom */}
             <div className="relative w-full aspect-square rounded-xl overflow-hidden bg-stone-100 mb-2">
               <img
                 src={cat.image}
@@ -117,14 +119,14 @@ export default function CategoryBubbles() {
                   e.target.onerror = null;
                   e.target.src = 'https://images.unsplash.com/photo-1617137984095-74e4e5e3613f?w=320&auto=format&fit=crop&q=80';
                 }}
-                className="w-full h-full object-cover transition-transform duration-500 ease-out group-hover:scale-110"
+                className="w-full h-full object-cover transition-transform duration-500 ease-out group-hover:scale-105"
                 loading="lazy"
               />
               {/* Subtle hover gradient wash */}
-              <div className="absolute inset-0 bg-gradient-to-t from-black/35 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-200" />
               
-              {/* Minimal Tag Pill */}
-              <span className="absolute top-1.5 left-1.5 px-1.5 py-0.5 rounded-md text-[9px] font-bold tracking-wider uppercase bg-white/90 backdrop-blur-xs text-stone-700 shadow-2xs group-hover:bg-[#f76e28] group-hover:text-white transition-colors duration-200">
+              {/* Plain text Category Tag Label: no pill, no bg, no border, no radius */}
+              <span className="absolute top-2 left-2 text-[9px] font-bold tracking-widest uppercase text-white drop-shadow-md select-none pointer-events-none">
                 {t(cat.tag)}
               </span>
             </div>
@@ -136,7 +138,7 @@ export default function CategoryBubbles() {
               </span>
               <ArrowUpRight
                 size={13}
-                className="text-stone-300 group-hover:text-orange-500 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-all duration-200 flex-shrink-0"
+                className="text-stone-400 group-hover:text-orange-500 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-all duration-200 flex-shrink-0"
               />
             </div>
           </motion.div>

@@ -291,9 +291,7 @@ const ChatbotWidget = () => {
                                 className="absolute inset-0 bg-gradient-to-r from-transparent via-sky-300/40 to-transparent w-full h-full -skew-x-[25deg] pointer-events-none z-[1]"
                             />
 
-                            <MessageSquare className="w-6 h-6 text-white relative z-[2] drop-shadow-xs animate-pulse" />
-                            {/* Live Active status dot */}
-                            <span className="absolute top-1.5 right-1.5 w-3 h-3 bg-emerald-400 border-2 border-white rounded-full z-[2] shadow-sm"></span>
+                            <MessageSquare className="w-6 h-6 text-white relative z-[2] drop-shadow-xs" />
                         </motion.button>
                     </div>
                 )}

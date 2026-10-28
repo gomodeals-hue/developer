@@ -4,22 +4,22 @@ import { useShop } from '../../../../context/ShopContext';
 
 const PERKS = [
   {
-    icon: <Truck className="w-5 h-5 text-orange-600" />,
+    icon: <Truck className="w-5 h-5 text-[#f76e28]" />,
     title: 'Free Express Shipping',
     desc: 'On all orders above ₹499 nationwide'
   },
   {
-    icon: <CreditCard className="w-5 h-5 text-emerald-600" />,
+    icon: <CreditCard className="w-5 h-5 text-[#f76e28]" />,
     title: 'Secure Payment',
     desc: '100% protected UPI & card checkout'
   },
   {
-    icon: <RotateCcw className="w-5 h-5 text-sky-600" />,
+    icon: <RotateCcw className="w-5 h-5 text-[#f76e28]" />,
     title: '7-Day Easy Returns',
     desc: 'Doorstep pickup & instant refunds'
   },
   {
-    icon: <ShieldCheck className="w-5 h-5 text-purple-600" />,
+    icon: <ShieldCheck className="w-5 h-5 text-[#f76e28]" />,
     title: '100% Genuine Certified',
     desc: 'Direct verified merchant sourcing'
   }
@@ -33,9 +33,9 @@ export default function TrustGuarantee() {
         {PERKS.map((perk, idx) => (
           <div 
             key={idx} 
-            className="bg-white p-4 sm:p-5 rounded-2xl border border-stone-200/90 shadow-2xs hover:shadow-xs hover:border-orange-500/40 transition-all duration-200 flex items-center gap-3.5 group cursor-default"
+            className="bg-white p-4 sm:p-5 rounded-2xl border border-stone-200 shadow-xs hover:border-stone-300 transition-colors duration-180 flex items-center gap-3.5 group cursor-default min-h-[76px]"
           >
-            <div className="w-10 h-10 rounded-xl bg-stone-50 border border-stone-100 flex items-center justify-center shrink-0 group-hover:scale-105 transition-transform">
+            <div className="w-10 h-10 rounded-xl bg-stone-50 border border-stone-200/80 flex items-center justify-center shrink-0">
               {perk.icon}
             </div>
             <div className="text-left min-w-0">

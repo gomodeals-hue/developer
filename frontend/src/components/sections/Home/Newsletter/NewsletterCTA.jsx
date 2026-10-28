@@ -19,16 +19,15 @@ export default function NewsletterCTA() {
 
   return (
     <section className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
-      <div className="relative rounded-3xl bg-gradient-to-br from-orange-600 via-amber-600 to-orange-700 p-8 sm:p-12 text-white overflow-hidden shadow-xl">
+      <div className="relative rounded-2xl bg-gradient-to-br from-orange-600 via-amber-600 to-orange-700 p-8 sm:p-12 text-white overflow-hidden shadow-md">
         
         {/* Decorative circle glow */}
         <div className="absolute right-0 top-0 w-96 h-96 bg-white/10 rounded-full blur-2xl pointer-events-none" />
 
         <div className="relative z-10 max-w-2xl mx-auto text-center">
-          <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white/15 backdrop-blur-md border border-white/25 text-white text-[10px] font-bold uppercase tracking-wider mb-3">
-            <Mail size={12} />
-            <span>{t("insiders_club", "GoMo Insiders Club")}</span>
-          </div>
+          <span className="text-[11px] font-bold uppercase tracking-widest text-orange-200 block mb-2">
+            {t("insiders_club", "GoMo Insiders Club")}
+          </span>
           <h2 className="text-2xl sm:text-3xl md:text-4xl font-extrabold tracking-tight text-white mb-3">
             {t("newsletter_header", "Get ₹500 Off Your First Order")}
           </h2>
@@ -37,8 +36,8 @@ export default function NewsletterCTA() {
           </p>
 
           {subscribed ? (
-            <div className="inline-flex items-center gap-2 bg-white/20 backdrop-blur-md border border-white/30 px-6 py-3 rounded-full text-white text-sm font-bold animate-fade-in">
-              <Check size={18} className="text-emerald-300" />
+            <div className="inline-flex items-center gap-2 bg-white/20 backdrop-blur-md border border-white/30 px-6 py-3 rounded-xl text-white text-sm font-bold animate-fade-in">
+              <Check size={18} className="text-white" />
               <span>{t("newsletter_success", "Thank you! Your coupon code WELCOME500 has been activated.")}</span>
             </div>
           ) : (
@@ -49,11 +48,11 @@ export default function NewsletterCTA() {
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 placeholder={t("enter_email_addr", "Enter your email address")}
-                className="w-full px-5 py-3.5 rounded-full text-stone-900 bg-white placeholder:text-stone-400 text-sm focus:outline-none focus:ring-4 focus:ring-white/30 shadow-md font-medium"
+                className="w-full h-11 px-4 rounded-xl text-stone-900 bg-white placeholder:text-stone-400 text-sm focus:outline-none focus:ring-2 focus:ring-white/40 shadow-xs font-medium"
               />
               <button
                 type="submit"
-                className="w-full sm:w-auto px-7 py-3.5 rounded-full bg-stone-900 hover:bg-stone-950 text-white text-sm font-bold transition-all shadow-md flex items-center justify-center gap-2 flex-shrink-0 cursor-pointer"
+                className="w-full sm:w-auto h-11 px-7 rounded-xl bg-stone-900 hover:bg-stone-950 text-white text-sm font-bold transition-colors shadow-xs flex items-center justify-center gap-2 flex-shrink-0 cursor-pointer"
               >
                 <span>{t("subscribe_btn", "Subscribe")}</span>
                 <ArrowRight size={15} />

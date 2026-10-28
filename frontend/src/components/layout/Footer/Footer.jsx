@@ -76,19 +76,19 @@ const Footer = () => {
             ['Authentic Catalog', 'Curated listings, inspected images, and seller accountability.', ShieldCheck],
             ['Seller Friendly', 'Low-fee merchant hub built for local Indian businesses.', Store]
           ].map(([title, body, Icon]) => (
-            <div key={title} className="bg-white border border-stone-200/90 rounded-xl p-4 flex items-start gap-3 shadow-2xs">
-              <span className="w-9 h-9 rounded-full bg-orange-50 text-orange-600 flex items-center justify-center shrink-0">
-                <Icon size={17} />
+            <div key={title} className="bg-white border border-stone-200 rounded-2xl p-4 flex items-start gap-3 shadow-xs min-h-[84px]">
+              <span className="w-10 h-10 rounded-xl bg-orange-50 text-[#f76e28] flex items-center justify-center shrink-0">
+                <Icon size={20} />
               </span>
               <div>
-                <h3 className="text-xs font-black uppercase tracking-wider text-stone-900">{t(title)}</h3>
+                <h3 className="text-xs font-bold uppercase tracking-wider text-stone-900">{t(title)}</h3>
                 <p className="text-xs text-stone-500 leading-relaxed mt-1">{t(body)}</p>
               </div>
             </div>
           ))}
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-12 mb-8">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-12 mb-8 items-start">
           {/* Brand Info */}
           <div className="space-y-3">
             <Link to="/" className="inline-block group focus:outline-none">
@@ -102,21 +102,21 @@ const Footer = () => {
               {t("footer_brand_desc", "Verified deals, local sellers, festive essentials, fashion, gadgets, and everyday finds curated for quick confident shopping.")}
             </p>
             <div className="flex items-center gap-4 pt-1">
-              <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" className="text-stone-600 hover:text-[#f76e28] transition-colors" aria-label="Instagram">
-                <Instagram size={17} strokeWidth={1.75} />
+              <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" className="text-stone-600 hover:text-[#f76e28] transition-colors inline-flex items-center justify-center w-7 h-7" aria-label="Instagram">
+                <Instagram size={18} strokeWidth={1.75} />
               </a>
-              <a href="https://x.com" target="_blank" rel="noopener noreferrer" className="text-stone-600 hover:text-[#f76e28] transition-colors" aria-label="Twitter">
-                <Twitter size={17} strokeWidth={1.75} />
+              <a href="https://x.com" target="_blank" rel="noopener noreferrer" className="text-stone-600 hover:text-[#f76e28] transition-colors inline-flex items-center justify-center w-7 h-7" aria-label="Twitter">
+                <Twitter size={18} strokeWidth={1.75} />
               </a>
-              <a href="https://whatsapp.com" target="_blank" rel="noopener noreferrer" className="text-stone-600 hover:text-[#f76e28] transition-colors" aria-label="WhatsApp">
-                <MessageCircle size={17} strokeWidth={1.75} />
+              <a href="https://whatsapp.com" target="_blank" rel="noopener noreferrer" className="text-stone-600 hover:text-[#f76e28] transition-colors inline-flex items-center justify-center w-7 h-7" aria-label="WhatsApp">
+                <MessageCircle size={18} strokeWidth={1.75} />
               </a>
             </div>
           </div>
 
           {/* Quick Links */}
           <div>
-            <h4 className="text-xs font-black uppercase tracking-wider text-stone-900 mb-3">{t("collections_title")}</h4>
+            <h4 className="text-xs font-bold uppercase tracking-wider text-stone-900 mb-3">{t("collections_title")}</h4>
             <ul className="space-y-2 text-xs font-medium text-stone-600">
               {collectionLinks.map(([label, path]) => (
                 <li key={path}>
@@ -130,7 +130,7 @@ const Footer = () => {
 
           {/* Customer Support & Policies */}
           <div>
-            <h4 className="text-xs font-black uppercase tracking-wider text-stone-900 mb-3">{t("support_title")}</h4>
+            <h4 className="text-xs font-bold uppercase tracking-wider text-stone-900 mb-3">{t("support_title")}</h4>
             <ul className="space-y-2 text-xs font-medium text-stone-600">
               {supportLinks.map(([label, path]) => (
                 <li key={path}>
@@ -150,17 +150,17 @@ const Footer = () => {
 
           {/* Newsletter */}
           <div className="space-y-3">
-            <h4 className="text-xs font-black uppercase tracking-wider text-stone-900">{t("newsletter_title")}</h4>
+            <h4 className="text-xs font-bold uppercase tracking-wider text-stone-900">{t("newsletter_title")}</h4>
             <p className="text-stone-600 text-xs font-normal leading-relaxed">
               {t("newsletter_desc")}
             </p>
-            <div className="flex items-center bg-white border border-stone-200/90 rounded-xl p-1 shadow-2xs focus-within:border-orange-500 focus-within:ring-2 focus-within:ring-orange-500/15 max-w-xs transition-all">
+            <div className="flex items-center bg-white border border-stone-200 rounded-xl p-1 shadow-2xs focus-within:border-orange-500 focus-within:ring-2 focus-within:ring-orange-500/15 max-w-xs transition-all h-11">
               <input 
                 type="email" 
                 placeholder={t("email_address")} 
                 className="bg-transparent border-none text-xs font-medium px-3 py-1.5 w-full focus:outline-none placeholder:text-stone-400 text-stone-900"
               />
-              <button className="bg-[#f76e28] hover:bg-[#de5713] active:scale-95 text-white p-1.5 rounded-lg transition-all cursor-pointer shrink-0 shadow-xs" aria-label="Subscribe to newsletter">
+              <button className="bg-[#f76e28] hover:bg-[#de5713] active:scale-95 text-white p-2 rounded-lg transition-all cursor-pointer shrink-0 shadow-xs" aria-label="Subscribe to newsletter">
                 <ArrowRight size={14} />
               </button>
             </div>
@@ -169,32 +169,35 @@ const Footer = () => {
 
         {/* Compact Integrated Bottom Strip */}
         <div className="pt-5 border-t border-stone-200/90 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-stone-500">
-          <div className="flex flex-wrap items-center gap-3 text-[11px] text-stone-600 font-medium">
+          <div className="flex flex-wrap items-center gap-2.5 text-[11px] text-stone-600 font-medium">
             <span>&copy; {new Date().getFullYear()} GoMo Deals. {t("all_rights_reserved")}</span>
-            <span className="hidden sm:inline text-stone-300">•</span>
+            <span className="hidden sm:inline h-2.5 w-px bg-stone-300" />
             <Link to="/terms" className="hover:text-orange-600 transition-colors">{t("Terms & Conditions")}</Link>
-            <span className="text-stone-300">•</span>
+            <span className="h-2.5 w-px bg-stone-300" />
             <Link to="/legal/return-policy" className="hover:text-orange-600 transition-colors">{t("Return Policy")}</Link>
-            <span className="text-stone-300">•</span>
-            <Link to="/legal/database-security" className="hover:text-orange-600 text-emerald-700 font-bold transition-colors">{t("100% Data Security")}</Link>
-            <span className="text-stone-300">•</span>
+            <span className="h-2.5 w-px bg-stone-300" />
+            <Link to="/legal/database-security" className="hover:text-orange-600 text-stone-700 font-bold transition-colors">{t("100% Data Security")}</Link>
+            <span className="h-2.5 w-px bg-stone-300" />
             <Link to="/legal/faqs" className="hover:text-orange-600 transition-colors">{t("FAQ")}</Link>
-            <span className="text-stone-300">•</span>
+            <span className="h-2.5 w-px bg-stone-300" />
             <Link to="/legal/privacy-policy" className="hover:text-orange-600 transition-colors">{t("Privacy Policy")}</Link>
-            <span className="text-stone-300">•</span>
+            <span className="h-2.5 w-px bg-stone-300" />
             <Link to="/legal/cookies" className="hover:text-orange-600 transition-colors">{t("cookies")}</Link>
           </div>
 
           {/* Compact Payment Badges & SSL */}
-          <div className="flex items-center gap-2 flex-wrap">
-            <div className="flex items-center gap-1.5 text-[9px] font-bold text-stone-700">
-              <span className="px-2 py-0.5 bg-white rounded-md border border-stone-200 shadow-2xs">UPI</span>
-              <span className="px-2 py-0.5 bg-white rounded-md border border-stone-200 shadow-2xs">RuPay</span>
-              <span className="px-2 py-0.5 bg-white rounded-md border border-stone-200 shadow-2xs">VISA</span>
-              <span className="px-2 py-0.5 bg-white rounded-md border border-stone-200 shadow-2xs">MasterCard</span>
+          <div className="flex items-center gap-3 flex-wrap">
+            <div className="flex items-center gap-2 text-[10px] font-bold text-stone-500 uppercase tracking-wider">
+              <span>UPI</span>
+              <span className="h-2 w-px bg-stone-300" />
+              <span>RuPay</span>
+              <span className="h-2 w-px bg-stone-300" />
+              <span>VISA</span>
+              <span className="h-2 w-px bg-stone-300" />
+              <span>MasterCard</span>
             </div>
             <div className="flex items-center gap-1 text-emerald-800 font-bold text-[9px] uppercase tracking-wider pl-1">
-              <Lock size={10} />
+              <Lock size={11} />
               <span>{t("SSL Secure")}</span>
             </div>
           </div>
