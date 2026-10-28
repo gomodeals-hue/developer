@@ -9,7 +9,7 @@
     "server": "node backend/server.js",
     "backend": "node backend/server.js",
     "frontend": "npm --prefix frontend run dev",
-    "build": "npm --prefix frontend run build",
+    "build": "npm --prefix frontend install && npm --prefix frontend run build",
     "db:setup": "node backend/database/setupPostgres.js"
   }
 }
