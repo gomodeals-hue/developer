@@ -90,16 +90,16 @@ export default function FeaturedBrandShowcase() {
         <motion.div 
           initial={{ opacity: 0, y: 15 }}
           animate={{ opacity: 1, y: 0 }}
-          className="relative rounded-2xl bg-gradient-to-r from-gray-950 via-gray-900 to-amber-950/70 p-5 sm:p-6 text-white shadow-xl border border-amber-500/40 overflow-hidden"
+          className="relative rounded-2xl bg-gradient-to-r from-gray-950 via-gray-900 to-[#f76e28]/20 p-5 sm:p-6 text-white shadow-xl border border-[#f76e28]/40 overflow-hidden"
         >
           {/* Subtle Ambient Glow */}
-          <div className="absolute -right-10 -top-10 w-60 h-60 bg-amber-500/15 rounded-full blur-2xl pointer-events-none"></div>
+          <div className="absolute -right-10 -top-10 w-60 h-60 bg-[#f76e28]/15 rounded-full blur-2xl pointer-events-none"></div>
 
           {/* Compact Showcase Content */}
           <div className="relative z-10 flex flex-col md:flex-row items-start md:items-center justify-between gap-5">
             <div className="flex items-center gap-4 min-w-0 flex-1">
-              <div className="w-14 h-14 rounded-2xl bg-gradient-to-tr from-amber-400 to-orange-500 p-0.5 shadow-lg flex-shrink-0">
-                <div className="w-full h-full bg-gray-900 rounded-[14px] flex items-center justify-center overflow-hidden font-bold text-xl text-amber-400">
+              <div className="w-14 h-14 rounded-2xl bg-[#f76e28] p-0.5 shadow-lg flex-shrink-0">
+                <div className="w-full h-full bg-gray-900 rounded-[14px] flex items-center justify-center overflow-hidden font-bold text-xl text-[#f76e28]">
                   {showcase.store_logo ? (
                     <img src={showcase.store_logo} alt="" className="w-full h-full object-cover" />
                   ) : (
@@ -128,14 +128,14 @@ export default function FeaturedBrandShowcase() {
 
             {/* Right: Shopper Votes & Shop Store Link Button */}
             <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 w-full md:w-auto justify-end flex-shrink-0">
-              <div className="flex items-center justify-center sm:justify-start gap-1.5 px-3.5 py-2.5 bg-black/40 rounded-xl border border-amber-500/20 text-xs font-bold text-amber-400">
+              <div className="flex items-center justify-center sm:justify-start gap-1.5 px-3.5 py-2.5 bg-black/40 rounded-xl border border-[#f76e28]/20 text-xs font-bold text-[#f76e28]">
                 <ThumbsUp size={14} />
                 <span>{showcase.total_votes} {parseInt(showcase.total_votes) === 1 ? 'Shopper Vote' : 'Shopper Votes'}</span>
               </div>
 
               <button
                 onClick={() => navigate(`/?search=${encodeURIComponent(showcase.store_name)}&category=all`)}
-                className="px-5 py-2.5 bg-gradient-to-r from-amber-500 to-orange-600 hover:from-amber-600 hover:to-orange-700 text-white font-extrabold text-xs rounded-xl shadow-md hover:shadow-lg transition-all flex items-center justify-center gap-2 group cursor-pointer hover:scale-105 active:scale-95"
+                className="px-5 py-2.5 bg-[#f76e28] hover:bg-[#de5713] active:bg-[#c44908] text-white font-extrabold text-xs rounded-xl shadow-md shadow-[#f76e28]/25 hover:shadow-lg hover:shadow-[#f76e28]/35 transition-all flex items-center justify-center gap-2 group cursor-pointer hover:scale-105 active:scale-95"
               >
                 <Store size={15} />
                 <span>Shop Store Products</span>
@@ -237,7 +237,7 @@ export default function FeaturedBrandShowcase() {
                               className={`px-3 py-1.5 rounded-lg font-bold text-[11px] transition-all flex items-center gap-1.5 shadow-sm ${
                                 hasVotedInComp
                                   ? 'bg-gray-800 text-gray-500 cursor-not-allowed border border-gray-700'
-                                  : 'bg-gradient-to-r from-orange-500 to-amber-600 hover:from-orange-600 hover:to-amber-700 text-white hover:shadow-md hover:scale-105 active:scale-95'
+                                  : 'bg-[#f76e28] hover:bg-[#de5713] active:bg-[#c44908] text-white hover:shadow-md hover:scale-105 active:scale-95'
                               }`}
                               title={hasVotedInComp ? 'You already voted in this event' : `Vote for ${app.store_name}`}
                             >

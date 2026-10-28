@@ -1,6 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
+import { motion } from "framer-motion";
 import { useShop } from "../../context/ShopContext";
+import { useAuth } from "../../context/AuthContext";
+import { toast } from "react-hot-toast";
 import { 
   Check, 
   ShoppingBag, 
@@ -12,13 +15,17 @@ import {
   Truck, 
   Printer, 
   ShieldCheck, 
-  ChevronRight
+  ChevronRight,
+  UserPlus,
+  Lock,
+  Sparkles
 } from "lucide-react";
 
 const OrderPlaced = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const { formatPrice, t } = useShop();
+  const { user, register } = useAuth();
 
   const stateData = location.state || {};
   const order = stateData.order || null;
@@ -26,6 +33,9 @@ const OrderPlaced = () => {
   const orderNumber = stateData.orderNumber || order?.order_number || `GOMO-2026-${orderId.toString().slice(-5).toUpperCase()}`;
 
   const [animate, setAnimate] = useState(false);
+  const [accountPassword, setAccountPassword] = useState("");
+  const [isCreatingAccount, setIsCreatingAccount] = useState(false);
+  const [accountCreated, setAccountCreated] = useState(false);
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -35,6 +45,36 @@ const OrderPlaced = () => {
 
   const items = order?.items || [];
   const address = order?.delivery_address || order?.address || null;
+  const customerEmail = order?.customer_email || order?.customer?.email || address?.email || "customer@gomodeals.com";
+  const customerName = address?.full_name || address?.name || "Customer";
+
+  const handleCreateGuestAccount = async (e) => {
+    e.preventDefault();
+    if (!accountPassword || accountPassword.length < 6) {
+      toast.error("Password must be at least 6 characters");
+      return;
+    }
+    setIsCreatingAccount(true);
+    try {
+      const res = await register({
+        name: customerName,
+        email: customerEmail,
+        password: accountPassword,
+        phone: address?.phone || ""
+      });
+      if (res.success !== false) {
+        setAccountCreated(true);
+        toast.success("Account created! You can now track your orders seamlessly.");
+      } else {
+        toast.error(res.message || "Could not create account with this email.");
+      }
+    } catch (err) {
+      toast.error("Account creation failed. Try logging in.");
+    } finally {
+      setIsCreatingAccount(false);
+    }
+  };
+
   const paymentMethod = order?.payment_method || "CARD";
   const paymentStatus = order?.payment_status || "PAID";
   const deliveryMethod = order?.shipping_method || "standard";
@@ -53,27 +93,126 @@ const OrderPlaced = () => {
   return (
     <div className="min-h-screen bg-[#faf8f5] pt-24 pb-24 px-4 sm:px-8">
       <div className="max-w-3xl mx-auto">
-        {/* Animated Confirmation Badge */}
-        <div className="text-center mb-10">
-          <div className="flex justify-center mb-6">
-            <div className={`relative transition-all duration-700 ease-out ${animate ? 'scale-100 opacity-100' : 'scale-50 opacity-0'}`}>
-              <div className="w-20 h-20 rounded-full bg-orange-955 flex items-center justify-center text-white shadow-xl shadow-orange-955/20 relative z-10">
-                <Check size={36} strokeWidth={2.5} className={`transition-transform duration-500 delay-300 ${animate ? 'scale-100' : 'scale-0'}`} />
-              </div>
-              <div className="absolute inset-0 rounded-full bg-orange-900/10 animate-ping" style={{ animationDuration: '2.5s' }} />
-              <div className="absolute -inset-3 rounded-full border border-orange-200 animate-pulse" />
-            </div>
+        {/* Animated Ordered Booked Celebration Badge */}
+        <div className="text-center mb-8 relative">
+          {/* Celebratory Micro-Particles */}
+          <div className="absolute inset-0 pointer-events-none flex items-center justify-center overflow-hidden">
+            {[0, 30, 60, 90, 120, 150, 180, 210, 240, 270, 300, 330].map((deg, i) => {
+              const rad = (deg * Math.PI) / 180;
+              const dist = 55 + (i % 3) * 15;
+              const x = Math.cos(rad) * dist;
+              const y = Math.sin(rad) * dist;
+              const color = i % 3 === 0 ? "#f76e28" : i % 3 === 1 ? "#0077c8" : "#10b981";
+              return (
+                <motion.div
+                  key={deg}
+                  initial={{ scale: 0, x: 0, y: 0, opacity: 1 }}
+                  animate={{ scale: [0, 1.4, 0.8], x, y, opacity: [1, 1, 0] }}
+                  transition={{ duration: 0.65, delay: 0.05 + (i * 0.015), ease: "easeOut" }}
+                  className="absolute w-2 h-2 rounded-full"
+                  style={{ backgroundColor: color }}
+                />
+              );
+            })}
           </div>
 
-          <span className="text-[10px] uppercase tracking-[0.4em] font-black text-orange-600 block mb-2">
-            {t("Order Confirmed")}
-          </span>
-          <h1 className="text-3xl sm:text-4xl font-serif italic text-orange-950 font-normal mb-3">
-            {t("Thank you for your order")}
-          </h1>
-          <p className="text-xs text-orange-850/70 uppercase tracking-widest font-bold max-w-md mx-auto leading-relaxed">
-            {t("We have received your order and are dispatching it with exceptional care.")}
-          </p>
+          {/* Central Official GoMo Deals Verified Seal */}
+          <div className="flex justify-center mb-4">
+            <motion.div
+              initial={{ scale: 0.4, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              transition={{ type: "spring", damping: 16, stiffness: 320, duration: 0.28 }}
+              className="relative"
+            >
+              {/* Concentric Aura Rings */}
+              <div className="absolute -inset-3 rounded-full bg-[#f76e28]/15 animate-pulse pointer-events-none" />
+              <div className="absolute -inset-1 rounded-full bg-[#f76e28]/10 pointer-events-none" />
+
+              {/* Main Badge Seal */}
+              <div className="w-20 h-20 rounded-full bg-[#f76e28] flex items-center justify-center text-white shadow-[0_12px_28px_rgba(247,110,40,0.35)] relative z-10 border-2 border-white/60">
+                <motion.div
+                  initial={{ scale: 0, rotate: -30 }}
+                  animate={{ scale: 1, rotate: 0 }}
+                  transition={{ delay: 0.15, type: "spring", stiffness: 350, damping: 18 }}
+                >
+                  <Check size={38} strokeWidth={3} className="text-white drop-shadow-sm" />
+                </motion.div>
+              </div>
+            </motion.div>
+          </div>
+
+          <motion.div
+            initial={{ opacity: 0, y: 8 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.25, delay: 0.12 }}
+          >
+            <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-100 text-emerald-800 border border-emerald-300 text-[10px] font-black uppercase tracking-widest mb-2 shadow-xs">
+              <ShieldCheck size={13} className="text-emerald-600" />
+              <span>{t("Order Booked & Secured")}</span>
+            </div>
+            <h1 className="text-2xl sm:text-3xl font-extrabold text-stone-900 tracking-tight mb-2">
+              {t("Thank You, Your Order is Confirmed!")}
+            </h1>
+            <p className="text-xs text-stone-600 max-w-md mx-auto leading-relaxed">
+              {t("Your order has been booked successfully. A confirmation receipt has been dispatched to your email.")}
+            </p>
+          </motion.div>
+
+          {/* Snappy Live Order Journey Timeline */}
+          <motion.div 
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.3, delay: 0.2 }}
+            className="mt-6 max-w-xl mx-auto bg-white border border-stone-200/90 rounded-2xl p-4 shadow-xs"
+          >
+            <div className="flex items-center justify-between relative">
+              {/* Timeline Connecting Line */}
+              <div className="absolute left-6 right-6 top-3.5 h-0.5 bg-stone-200 z-0">
+                <motion.div 
+                  initial={{ width: "0%" }}
+                  animate={{ width: "35%" }}
+                  transition={{ duration: 0.6, delay: 0.3, ease: "easeOut" }}
+                  className="h-full bg-gradient-to-r from-emerald-500 to-orange-500"
+                />
+              </div>
+
+              {/* Step 1: Booked */}
+              <div className="relative z-10 flex flex-col items-center text-center">
+                <div className="w-7 h-7 rounded-full bg-emerald-500 text-white flex items-center justify-center text-xs font-bold shadow-xs">
+                  <Check size={14} className="stroke-[3]" />
+                </div>
+                <span className="text-[10px] font-bold text-stone-900 mt-1.5 leading-tight">Booked</span>
+                <span className="text-[8px] text-emerald-600 font-semibold">Just Now</span>
+              </div>
+
+              {/* Step 2: Quality Check */}
+              <div className="relative z-10 flex flex-col items-center text-center">
+                <div className="w-7 h-7 rounded-full bg-orange-600 text-white flex items-center justify-center text-xs font-bold shadow-xs animate-pulse">
+                  <Package size={13} />
+                </div>
+                <span className="text-[10px] font-bold text-orange-950 mt-1.5 leading-tight">Packing</span>
+                <span className="text-[8px] text-orange-600 font-semibold">In Progress</span>
+              </div>
+
+              {/* Step 3: Express Transit */}
+              <div className="relative z-10 flex flex-col items-center text-center">
+                <div className="w-7 h-7 rounded-full bg-stone-100 text-stone-400 border border-stone-200 flex items-center justify-center text-xs font-bold">
+                  <Truck size={13} />
+                </div>
+                <span className="text-[10px] font-medium text-stone-500 mt-1.5 leading-tight">Express Transit</span>
+                <span className="text-[8px] text-stone-400">BlueDart</span>
+              </div>
+
+              {/* Step 4: Doorstep */}
+              <div className="relative z-10 flex flex-col items-center text-center">
+                <div className="w-7 h-7 rounded-full bg-stone-100 text-stone-400 border border-stone-200 flex items-center justify-center text-xs font-bold">
+                  <MapPin size={13} />
+                </div>
+                <span className="text-[10px] font-medium text-stone-500 mt-1.5 leading-tight">Delivery</span>
+                <span className="text-[8px] text-stone-400">1–2 Days</span>
+              </div>
+            </div>
+          </motion.div>
         </div>
 
         {/* Main Receipt Sheet */}
@@ -90,8 +229,9 @@ const OrderPlaced = () => {
             </div>
 
             <div className="flex items-center gap-3">
-              <span className="px-3 py-1 bg-emerald-50 border border-emerald-200 text-emerald-800 text-[10px] font-black uppercase tracking-wider">
-                ✓ {order?.order_status || t("Confirmed")}
+              <span className="px-3 py-1 bg-emerald-50 border border-emerald-200 text-emerald-800 text-[10px] font-black uppercase tracking-wider inline-flex items-center gap-1">
+                <Check size={12} className="stroke-[3]" />
+                <span>{order?.order_status || t("Confirmed")}</span>
               </span>
               <span className="px-3 py-1 bg-orange-100/60 border border-orange-200 text-orange-900 text-[10px] font-mono font-bold uppercase tracking-wider">
                 {paymentStatus === "PAID" ? t("Paid") : t("Pending Doorstep")}
@@ -120,7 +260,7 @@ const OrderPlaced = () => {
                   <p className="font-serif italic font-bold text-sm">{address.full_name || address.name}</p>
                   <p>{address.street || address.address}</p>
                   <p>{address.city}, {address.state} — {address.postal_code || address.pincode}</p>
-                  <p className="font-mono text-[11px] text-orange-600 pt-1">📞 {address.phone}</p>
+                  <p className="font-mono text-[11px] text-orange-600 pt-1">Phone: {address.phone}</p>
                 </div>
               ) : (
                 <p className="text-xs text-orange-500 italic">{t("Address on file")}</p>
@@ -252,6 +392,59 @@ const OrderPlaced = () => {
             <span>GoMo Deals Studio</span>
           </div>
         </div>
+
+        {/* Guest Account Creation Prompt */}
+        {!user && (
+          <div className="mt-8 bg-white border border-orange-200 p-6 sm:p-8 shadow-sm print:hidden">
+            <div className="flex items-start gap-4">
+              <div className="w-12 h-12 rounded-2xl bg-orange-100 text-orange-700 flex items-center justify-center shrink-0">
+                <UserPlus size={22} />
+              </div>
+              <div className="flex-1">
+                <div className="flex items-center gap-2 mb-1">
+                  <h3 className="text-sm sm:text-base font-bold text-orange-950 font-serif italic">
+                    Save Order & Track Real-time
+                  </h3>
+                  <span className="text-[9px] uppercase tracking-wider px-2 py-0.5 bg-orange-50 text-orange-700 border border-orange-200 font-bold rounded-full">
+                    Instant Setup
+                  </span>
+                </div>
+                <p className="text-xs text-stone-600 mb-4">
+                  Create a password to turn your guest checkout into a registered account for <strong>{customerEmail}</strong>. Track status, request returns, and save payment methods.
+                </p>
+
+                {accountCreated ? (
+                  <div className="p-3.5 bg-emerald-50 border border-emerald-200 rounded-xl flex items-center gap-2.5 text-xs text-emerald-800 font-bold">
+                    <Check size={16} className="text-emerald-600" />
+                    <span>Account created successfully! Your order is now linked to your profile.</span>
+                  </div>
+                ) : (
+                  <form onSubmit={handleCreateGuestAccount} className="flex flex-col sm:flex-row gap-2.5 max-w-md">
+                    <div className="relative flex-1">
+                      <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-stone-400">
+                        <Lock size={14} />
+                      </div>
+                      <input
+                        type="password"
+                        placeholder="Create a password (min 6 chars)"
+                        value={accountPassword}
+                        onChange={(e) => setAccountPassword(e.target.value)}
+                        className="w-full pl-9 pr-3 py-2.5 text-xs bg-stone-50 border border-stone-200 rounded-xl focus:bg-white focus:outline-none focus:border-orange-500 font-medium"
+                      />
+                    </div>
+                    <button
+                      type="submit"
+                      disabled={isCreatingAccount || accountPassword.length < 6}
+                      className="px-5 py-2.5 bg-orange-955 hover:bg-orange-900 disabled:opacity-50 text-white text-xs font-black uppercase tracking-wider rounded-xl transition-all shadow-xs cursor-pointer shrink-0"
+                    >
+                      {isCreatingAccount ? "Saving..." : "Create Account"}
+                    </button>
+                  </form>
+                )}
+              </div>
+            </div>
+          </div>
+        )}
 
         {/* Action Buttons */}
         <div className="flex flex-col sm:flex-row gap-4 mt-8 print:hidden">

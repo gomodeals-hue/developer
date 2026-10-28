@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { validateCoupon } from "../../services/couponService";
-import { Tag, ShieldCheck, Truck, RefreshCcw } from "lucide-react";
+import { Tag, ShieldCheck, Truck, RefreshCcw, Sparkles } from "lucide-react";
 import { useShop } from "../../context/ShopContext";
 
 const OrderSummary = ({
@@ -161,8 +161,9 @@ const OrderSummary = ({
         {/* Coupon */}
         {isBargain ? (
           <div className="p-4 bg-orange-50 border border-orange-200/50 rounded-sm text-center">
-            <p className="text-[9.5px] text-orange-600 font-black uppercase tracking-widest font-sans">
-              🤝 {t("Negotiated Offer Active")}
+            <p className="text-[9.5px] text-orange-600 font-black uppercase tracking-widest font-sans flex items-center justify-center gap-1.5">
+              <ShieldCheck size={13} />
+              <span>{t("Negotiated Offer Active")}</span>
             </p>
             <p className="text-[8.5px] text-orange-400 uppercase tracking-widest mt-1 font-sans">
               {t("Coupons cannot be stacked on bargained checkouts.")}
@@ -224,7 +225,7 @@ const OrderSummary = ({
             {error && <p className="text-[9px] font-bold text-rose-500 tracking-wider uppercase font-sans">{t(error)}</p>}
             {appliedCoupon && (
               <p className="text-[9px] font-black text-orange-600 tracking-wider uppercase font-sans">
-                ✓ {t("Applied")}: {appliedCoupon.code} (-{formatPrice(discountAmount)})
+                {t("Applied")}: {appliedCoupon.code} (-{formatPrice(discountAmount)})
               </p>
             )}
           </div>
@@ -276,7 +277,7 @@ const OrderSummary = ({
                 membershipTier === 'platinum' ? 'text-slate-600' :
                 membershipTier === 'gold' ? 'text-amber-600' : 'text-gray-500'
               }`}>
-                <span>{membershipTier === 'platinum' ? '💎' : membershipTier === 'gold' ? '👑' : '⭐'}</span>
+                <Sparkles size={12} />
                 {membershipTier.charAt(0).toUpperCase() + membershipTier.slice(1)} {t("Savings")}
               </span>
               <span className={`${

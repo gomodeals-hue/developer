@@ -9,7 +9,7 @@ import { Button } from "../../ui/button";
 import { cn } from "../../../lib/utils";
 import { useToast } from "../../../hooks/use-toast";
 import { api } from "../../../services/api";
-import { useAuth } from "../../../context/AuthContext.jsx";
+import { useAdminAuth } from "../../../context/AdminAuthContext.jsx";
 import { StatCard } from "../components/StatCard";
 import { exportToExcel } from "../../../utils/exportUtils";
 
@@ -17,7 +17,7 @@ const fmt = (n) => `₹${Number(n).toLocaleString("en-IN")}`;
 
 export default function FinancePage() {
   const [range, setRange] = useState('monthly');
-  const { user } = useAuth();
+  const { user } = useAdminAuth();
   const { toast } = useToast();
 
   const [loading, setLoading] = useState(true);

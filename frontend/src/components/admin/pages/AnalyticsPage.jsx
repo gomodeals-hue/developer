@@ -26,7 +26,7 @@ const RANGES = [
   { id: 'all', label: 'All Time' },
 ];
 
-const COLORS = ["#f97316", "#ea580c", "#0c0a09", "#fdba74", "#7c2d12", "#a8a29e"];
+const COLORS = ["#f76e28", "#de5713", "#0c0a09", "#fdba74", "#7c2d12", "#a8a29e"];
 
 export default function AnalyticsPage() {
   const [range, setRange] = useState('daily');
@@ -178,7 +178,7 @@ export default function AnalyticsPage() {
               <ResponsiveContainer width="100%" height="100%" minWidth={0} minHeight={0}>
                 <AreaChart data={analytics.trend}>
                   <defs>
-                    <linearGradient id="colorRev" x1="0" y1="0" x2="0" y2="1"><stop offset="5%" stopColor="#f97316" stopOpacity={0.15}/><stop offset="95%" stopColor="#f97316" stopOpacity={0}/></linearGradient>
+                    <linearGradient id="colorRev" x1="0" y1="0" x2="0" y2="1"><stop offset="5%" stopColor="#f76e28" stopOpacity={0.15}/><stop offset="95%" stopColor="#f76e28" stopOpacity={0}/></linearGradient>
                     <linearGradient id="colorProfit" x1="0" y1="0" x2="0" y2="1"><stop offset="5%" stopColor="#fdba74" stopOpacity={0.15}/><stop offset="95%" stopColor="#fdba74" stopOpacity={0}/></linearGradient>
                   </defs>
                   <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#eaeaea" />
@@ -189,9 +189,9 @@ export default function AnalyticsPage() {
                     itemStyle={{ fontWeight: '800', fontSize: '13px', color: '#0c0a09' }}
                     formatter={(v, name) => [`₹${Number(v).toLocaleString('en-IN')}`, name.toUpperCase()]}
                   />
-                  <Area type="monotone" dataKey="revenue" stroke="#f97316" strokeWidth={4} fillOpacity={1} fill="url(#colorRev)" activeDot={{ r: 6, strokeWidth: 0, fill: '#f97316' }} />
+                  <Area type="monotone" dataKey="revenue" stroke="#f76e28" strokeWidth={4} fillOpacity={1} fill="url(#colorRev)" activeDot={{ r: 6, strokeWidth: 0, fill: '#f76e28' }} />
                   <Area type="monotone" dataKey="costs" stroke="#f43f5e" strokeWidth={2} strokeDasharray="6 6" fill="transparent" />
-                  <Area type="monotone" dataKey="profit" stroke="#ea580c" strokeWidth={4} fillOpacity={1} fill="url(#colorProfit)" activeDot={{ r: 6, strokeWidth: 0, fill: '#ea580c' }} />
+                  <Area type="monotone" dataKey="profit" stroke="#f76e28" strokeWidth={4} fillOpacity={1} fill="url(#colorProfit)" activeDot={{ r: 6, strokeWidth: 0, fill: '#f76e28' }} />
                 </AreaChart>
               </ResponsiveContainer>
             )}
@@ -221,7 +221,7 @@ export default function AnalyticsPage() {
               <ResponsiveContainer width="100%" height="100%" minWidth={0} minHeight={0}>
                 <AreaChart data={analytics.trend}>
                   <defs>
-                    <linearGradient id="colorOrders" x1="0" y1="0" x2="0" y2="1"><stop offset="5%" stopColor="#f97316" stopOpacity={0.15}/><stop offset="95%" stopColor="#f97316" stopOpacity={0}/></linearGradient>
+                    <linearGradient id="colorOrders" x1="0" y1="0" x2="0" y2="1"><stop offset="5%" stopColor="#f76e28" stopOpacity={0.15}/><stop offset="95%" stopColor="#f76e28" stopOpacity={0}/></linearGradient>
                   </defs>
                   <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#eaeaea" />
                   <XAxis dataKey="name" axisLine={false} tickLine={false} tick={{ fontSize: 10, fontWeight: 700, fill: '#78716c' }} dy={10} />
@@ -231,7 +231,7 @@ export default function AnalyticsPage() {
                     itemStyle={{ fontWeight: '800', fontSize: '13px', color: '#0c0a09' }}
                     formatter={v => [v, 'ORDERS']}
                   />
-                  <Area type="monotone" dataKey="orders" stroke="#f97316" strokeWidth={5} fillOpacity={1} fill="url(#colorOrders)" />
+                  <Area type="monotone" dataKey="orders" stroke="#f76e28" strokeWidth={5} fillOpacity={1} fill="url(#colorOrders)" />
                 </AreaChart>
               </ResponsiveContainer>
             </div>
@@ -316,7 +316,7 @@ export default function AnalyticsPage() {
                       itemStyle={{ fontWeight: '800', fontSize: '13px', color: '#0c0a09' }}
                       formatter={v => [`₹${Number(v).toLocaleString('en-IN')}`, 'REVENUE']}
                     />
-                    <Bar dataKey="revenue" fill="#f97316" radius={[8, 8, 0, 0]} barSize={40} />
+                    <Bar dataKey="revenue" fill="#f76e28" radius={[8, 8, 0, 0]} barSize={40} />
                   </BarChart>
                 </ResponsiveContainer>
              </div>
@@ -402,7 +402,7 @@ export default function AnalyticsPage() {
                          itemStyle={{ fontWeight: '800', fontSize: '13px', color: '#0c0a09' }}
                          formatter={(v) => [`₹${v.toLocaleString()}`, 'REVENUE']}
                        />
-                       <Bar dataKey="revenue" fill="#f97316" radius={[0, 8, 8, 0]} barSize={24} />
+                       <Bar dataKey="revenue" fill="#f76e28" radius={[0, 8, 8, 0]} barSize={24} />
                     </BarChart>
                  </ResponsiveContainer>
               </div>

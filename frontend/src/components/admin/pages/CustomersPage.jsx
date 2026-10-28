@@ -5,7 +5,7 @@ import {
   MapPin, Trash2, ArrowRight, ExternalLink, History
 } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
-import { useAuth } from "../../../context/AuthContext";
+import { useAdminAuth } from "../../../context/AdminAuthContext.jsx";
 import { Button } from '../../ui/button';
 import { cn } from "../../../lib/utils";
 import { useToast } from "../../../hooks/use-toast";
@@ -27,7 +27,7 @@ export default function CustomersPage() {
   const [customerToDelete, setCustomerToDelete] = useState(null);
   const { toast } = useToast();
   const navigate = useNavigate();
-  const { currentUser } = useAuth();
+  const { currentUser } = useAdminAuth();
   const isSuperAdmin = currentUser?.type === 'super_admin';
 
   useEffect(() => {

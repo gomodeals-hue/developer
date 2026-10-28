@@ -17,24 +17,87 @@ import {
   Plus,
   CheckCircle2,
   X,
-  Tag
+  Tag,
+  MessageSquareQuote,
+  Ruler
 } from 'lucide-react';
 import * as productService from '../../services/productService';
+import VoiceOfCustomerModal from '../../components/Orders/VoiceOfCustomerModal';
+import SizeChartModal from '../../components/common/SizeChartModal';
+import { apiClient } from '../../services/apiClient';
+import lottie from 'lottie-web';
+import addToCartAnimationData from '../../assets/addToCartAnimation.json';
 import { useShop } from '../../context/ShopContext';
 import { useAuth } from '../../context/AuthContext';
 import { useToast } from '../../context/ToastContext';
+import { useLiveStock } from '../../hooks/useRealtime';
 import './ProductDetails.css';
 
-const DEFAULT_COLORS = [
-  { name: 'Midnight', hex: '#18252a' },
-  { name: 'Sand', hex: '#b7a58a' },
-  { name: 'Maroon', hex: '#7b2634' },
-  { name: 'Amber Gold', hex: '#d97706' }
-];
-
-const DEFAULT_CLOTHING_SIZES = ['S', 'M', 'L', 'XL', 'XXL'];
+const DEFAULT_CLOTHING_SIZES = ['S', 'M', 'L', 'XL', '2XL'];
 const DEFAULT_FOOTWEAR_SIZES = ['UK 6', 'UK 7', 'UK 8', 'UK 9', 'UK 10', 'UK 11'];
-const DEFAULT_PACK_SIZES = ['Standard', 'Pack of 1', 'Pack of 2', 'Gift Set'];
+
+// Accurate detector for bottomwear
+export const isBottomwearProduct = (p) => {
+  if (!p) return false;
+  const cat = (p.category || p.category_name || '').toLowerCase();
+  const sub = (p.subcategory || p.childCategory || '').toLowerCase();
+  const name = (p.name || p.title || '').toLowerCase();
+  const tags = (Array.isArray(p.tags) ? p.tags.join(' ') : p.tags || '').toLowerCase();
+  const combined = `${cat} ${sub} ${name} ${tags}`;
+  const keywords = ['pant', 'pants', 'jeans', 'jean', 'trouser', 'trousers', 'chino', 'chinos', 'jogger', 'joggers', 'track pant', 'track-pant', 'denim', 'shorts'];
+  return keywords.some(kw => combined.includes(kw));
+};
+
+// Accurate detector for clothing / apparel products
+export const isClothingProduct = (p) => {
+  if (!p) return false;
+  const cat = (p.category || p.category_name || '').toLowerCase();
+  const sub = (p.subcategory || '').toLowerCase();
+  const name = (p.name || p.title || '').toLowerCase();
+  const tags = (Array.isArray(p.tags) ? p.tags.join(' ') : p.tags || '').toLowerCase();
+  const combined = `${cat} ${sub} ${name} ${tags}`;
+
+  // Strict non-clothing blacklist (Shoes, Pooja, Electronics, Home Decor, Beauty, Groceries, etc.)
+  if (
+    combined.includes('pooja') || combined.includes('puja') || combined.includes('shoe') ||
+    combined.includes('footwear') || combined.includes('sneaker') || combined.includes('boot') ||
+    combined.includes('loafer') || combined.includes('sandal') || combined.includes('chappal') ||
+    combined.includes('electronic') || combined.includes('gadget') || combined.includes('mobile') ||
+    combined.includes('phone') || combined.includes('laptop') || combined.includes('audio') ||
+    combined.includes('headphone') || combined.includes('kitchen') || combined.includes('home') ||
+    combined.includes('decor') || combined.includes('beauty') || combined.includes('cosmetic') ||
+    combined.includes('perfume') || combined.includes('fragrance') || combined.includes('book') ||
+    combined.includes('toy') || combined.includes('grocery') || combined.includes('diya') ||
+    combined.includes('incense') || combined.includes('dhoop') || combined.includes('statue') ||
+    combined.includes('idol') || combined.includes('brass') || combined.includes('gift set')
+  ) {
+    return false;
+  }
+
+  const clothingKeywords = [
+    'clothing', 'apparel', 'fashion', 'shirt', 't-shirt', 'tshirt', 'pant', 'jeans',
+    'trouser', 'kurta', 'kurti', 'saree', 'sari', 'dress', 'top', 'blouse', 'hoodie',
+    'jacket', 'blazer', 'suit', 'sweater', 'cardigan', 'lehenga', 'ethnic', 'shorts',
+    'tracksuit', 'polo', 'mens wear', 'womens wear', 'men wear', 'women wear', 'kids wear'
+  ];
+  return clothingKeywords.some(kw => combined.includes(kw));
+};
+
+// Accurate detector for footwear / shoes products
+export const isFootwearProduct = (p) => {
+  if (!p) return false;
+  const cat = (p.category || p.category_name || '').toLowerCase();
+  const sub = (p.subcategory || '').toLowerCase();
+  const name = (p.name || p.title || '').toLowerCase();
+  const tags = (Array.isArray(p.tags) ? p.tags.join(' ') : p.tags || '').toLowerCase();
+  const combined = `${cat} ${sub} ${name} ${tags}`;
+
+  const footwearKeywords = [
+    'footwear', 'shoe', 'shoes', 'sneaker', 'sneakers', 'sandal', 'sandals', 'boot',
+    'boots', 'loafer', 'loafers', 'heel', 'heels', 'chappal', 'slippers', 'flip flop'
+  ];
+  return footwearKeywords.some(kw => combined.includes(kw));
+};
 
 const ProductDetails = () => {
   const { id } = useParams();
@@ -57,8 +120,48 @@ const ProductDetails = () => {
   // Gallery & Variant State
   const [activeImageIndex, setActiveImageIndex] = useState(0);
   const [selectedSize, setSelectedSize] = useState('M');
-  const [selectedColor, setSelectedColor] = useState(DEFAULT_COLORS[0]);
-  const [addCartFeedback, setAddCartFeedback] = useState(false);
+  const [isSizeChartOpen, setIsSizeChartOpen] = useState(false);
+  const [addCartPhase, setAddCartPhase] = useState('idle'); // 'idle' | 'animating' | 'transitioning'
+  const [isVocOpen, setIsVocOpen] = useState(false);
+  const detailsLottieRef = useRef(null);
+  const detailsAnimRef = useRef(null);
+
+  const isAddingToCart = addCartPhase === 'animating' || addCartPhase === 'transitioning';
+
+  useEffect(() => {
+    if (addCartPhase !== 'animating' || !detailsLottieRef.current) return;
+    detailsLottieRef.current.innerHTML = '';
+    const anim = lottie.loadAnimation({
+      container: detailsLottieRef.current,
+      renderer: 'svg',
+      loop: false,
+      autoplay: true,
+      animationData: addToCartAnimationData,
+      rendererSettings: {
+        preserveAspectRatio: 'xMidYMid meet'
+      }
+    });
+    anim.setSpeed(1.25);
+    detailsAnimRef.current = anim;
+
+    // Cart completes drive-off at ~1400ms, crossfade into confirmed state
+    const transTimer = setTimeout(() => {
+      setAddCartPhase('transitioning');
+    }, 1400);
+
+    const finishTimer = setTimeout(() => {
+      setAddCartPhase('idle');
+    }, 1750);
+
+    return () => {
+      clearTimeout(transTimer);
+      clearTimeout(finishTimer);
+      if (detailsAnimRef.current) {
+        detailsAnimRef.current.destroy();
+        detailsAnimRef.current = null;
+      }
+    };
+  }, [addCartPhase === 'animating']);
 
   // Interactive Pincode Delivery State
   const [pincode, setPincode] = useState('');
@@ -76,6 +179,9 @@ const ProductDetails = () => {
   const [userReviews, setUserReviews] = useState([]);
 
   const productId = product?.product_id || product?.id;
+  const liveStock = useLiveStock(product?.stock_quantity !== undefined ? Number(product.stock_quantity) : 25, productId);
+  const isOutOfStock = liveStock <= 0;
+  const isLowStock = liveStock > 0 && liveStock <= 5;
 
   // Fetch product data
   useEffect(() => {
@@ -91,22 +197,25 @@ const ProductDetails = () => {
           setActiveImageIndex(0);
 
           // Set sensible initial size depending on category
-          const cat = (item.category || item.category_name || '').toLowerCase();
-          if (cat.includes('footwear') || cat.includes('shoe')) {
-            setSelectedSize('UK 8');
-          } else if (cat.includes('pooja') || cat.includes('home') || cat.includes('kitchen') || cat.includes('gadget') || cat.includes('electronic')) {
-            setSelectedSize('Standard');
-          } else {
+          if (isClothingProduct(item)) {
             setSelectedSize('M');
+          } else if (isFootwearProduct(item)) {
+            setSelectedSize('UK 8');
+          } else {
+            setSelectedSize('');
           }
 
           // Record in recently viewed
           productService.recordRecentlyViewed(item);
 
-          // Fetch similar products (5 items for similar grid)
-          const relRes = await productService.getRelatedProducts(item.product_id || item.id, 5);
-          if (relRes.success && isMounted) {
-            setSimilarProducts(relRes.data || []);
+          // Fetch similar products safely (5 items for similar grid)
+          try {
+            const relRes = await productService.getRelatedProducts(item.product_id || item.id, 5);
+            if (relRes.success && isMounted) {
+              setSimilarProducts(relRes.data || []);
+            }
+          } catch (relErr) {
+            console.warn('Could not load related products:', relErr);
           }
         } else if (isMounted) {
           setNotFound(true);
@@ -127,56 +236,73 @@ const ProductDetails = () => {
     };
   }, [id]);
 
-  // Gallery assets list (ensure at least 5 thumbnail items)
+  // Single photo maintenance per product page (maintain only one photo, not five)
   const imageAssets = useMemo(() => {
     if (!product) return [];
-    const collected = [];
+    const mainPhoto = product.thumbnail || 
+      (Array.isArray(product.images) && product.images[0]) || 
+      (Array.isArray(product.pi_images) && (product.pi_images[0]?.image_url || product.pi_images[0])) || 
+      'https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=900&q=80';
+    return [mainPhoto];
+  }, [product]);
 
-    if (product.images && Array.isArray(product.images) && product.images.length > 0) {
-      product.images.forEach(img => {
-        if (typeof img === 'string') collected.push(img);
-        else if (img?.image_url) collected.push(img.image_url);
-      });
-    }
-
-    if (product.pi_images && Array.isArray(product.pi_images)) {
-      product.pi_images.forEach(img => {
-        const url = typeof img === 'string' ? img : img?.image_url;
-        if (url && !collected.includes(url)) collected.push(url);
-      });
-    }
-
-    if (product.thumbnail && !collected.includes(product.thumbnail)) {
-      collected.unshift(product.thumbnail);
-    }
-
-    if (collected.length === 0) {
-      collected.push('https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=900&q=80');
-    }
-
-    // Pad with high-quality variations if fewer than 5 images
-    while (collected.length < 5) {
-      collected.push(collected[collected.length % collected.length]);
-    }
-
-    return collected.slice(0, 5);
+  const isClothing = useMemo(() => isClothingProduct(product), [product]);
+  const isBottomwear = useMemo(() => isBottomwearProduct(product), [product]);
+  const isFootwear = useMemo(() => isFootwearProduct(product), [product]);
+  const isKids = useMemo(() => {
+    if (!product) return false;
+    const dept = (product.department || product.section || product.gender || '').toLowerCase();
+    const cat = (product.category || product.category_name || '').toLowerCase();
+    const tags = (Array.isArray(product.tags) ? product.tags.join(' ') : product.tags || '').toLowerCase();
+    return dept.includes('kid') || dept.includes('boy') || dept.includes('girl') || cat.includes('kid') || tags.includes('kid');
+  }, [product]);
+  const isBaby = useMemo(() => {
+    if (!product) return false;
+    const sub = (product.subcategory || product.childCategory || '').toLowerCase();
+    const name = (product.name || '').toLowerCase();
+    const tags = (Array.isArray(product.tags) ? product.tags.join(' ') : product.tags || '').toLowerCase();
+    return sub.includes('baby') || sub.includes('romper') || sub.includes('onesie') || name.includes('baby') || name.includes('romper') || tags.includes('baby');
   }, [product]);
 
   // Determine sizing list options based on category
   const sizeOptions = useMemo(() => {
-    if (!product) return DEFAULT_CLOTHING_SIZES;
+    if (!product) return [];
+
+    // Clothing section gets adult, kids age, or baby month sizes
+    if (isClothing) {
+      if (product.sizes && Array.isArray(product.sizes) && product.sizes.length > 0) {
+        return product.sizes;
+      }
+      if (isBaby) {
+        return ['0-3M', '3-6M', '6-9M', '9-12M', '12-18M', '18-24M'];
+      }
+      if (isKids) {
+        return ['3-4Y', '5-6Y', '7-8Y', '9-10Y', '11-12Y', '13-14Y'];
+      }
+      return DEFAULT_CLOTHING_SIZES; // ['S', 'M', 'L', 'XL', '2XL']
+    }
+
+    // Footwear section gets adult UK sizes or kids shoe sizes
+    if (isFootwear) {
+      if (product.sizes && Array.isArray(product.sizes) && product.sizes.length > 0) {
+        return product.sizes;
+      }
+      if (isKids) {
+        return ['UK 8', 'UK 9', 'UK 10', 'UK 11', 'UK 12', 'UK 13', 'UK 1', 'UK 2'];
+      }
+      return DEFAULT_FOOTWEAR_SIZES; // ['UK 6', 'UK 7', 'UK 8', 'UK 9', 'UK 10', 'UK 11']
+    }
+
+    // Non-clothing & non-footwear items (e.g. Pooja items, electronics, home decor, beauty):
+    // Do NOT show clothing sizes like S, M, L, XL!
     if (product.sizes && Array.isArray(product.sizes) && product.sizes.length > 0) {
-      return product.sizes;
+      const validOptions = product.sizes.filter(s => !['S', 'M', 'L', 'XL', 'XXL', 'XS', '3XL'].includes(String(s).trim().toUpperCase()));
+      return validOptions;
     }
-    const cat = (product.category || product.category_name || '').toLowerCase();
-    if (cat.includes('footwear') || cat.includes('shoes')) {
-      return DEFAULT_FOOTWEAR_SIZES;
-    }
-    if (cat.includes('pooja') || cat.includes('home') || cat.includes('kitchen') || cat.includes('electronic') || cat.includes('gadget') || cat.includes('beauty')) {
-      return DEFAULT_PACK_SIZES;
-    }
-    return DEFAULT_CLOTHING_SIZES;
-  }, [product]);
+
+    // No sizes for pooja items, electronics, home goods, etc.
+    return [];
+  }, [product, isClothing, isFootwear, isKids, isBaby]);
 
   // Pricing calculations
   const price = useMemo(() => Number(product?.price || 0), [product]);
@@ -220,36 +346,33 @@ const ProductDetails = () => {
 
   // Add to cart handler
   const handleAddToCart = () => {
-    if (!product) return;
-    if (!user) {
-      navigate('/login');
-      return;
-    }
-    addToCart(product, 1);
-    setAddCartFeedback(true);
+    if (!product || isOutOfStock) return;
+    addToCart({ ...product, stock_quantity: liveStock }, 1, {
+      variant_value: selectedSize,
+      selectedSize,
+      price: Number(product.price || 0)
+    });
+    setAddCartPhase('animating');
     if (toast?.success) {
       toast.success(`${product.name || product.title} added to your cart!`);
     }
-    setTimeout(() => {
-      setAddCartFeedback(false);
-    }, 1800);
   };
 
   // Buy now handler
   const handleBuyNow = () => {
-    if (!product) return;
+    if (!product || isOutOfStock) return;
     if (!user) {
       navigate('/login', { state: { from: `/product/${productId}` } });
       return;
     }
     const buyNowItem = {
       ...product,
+      stock_quantity: liveStock,
       product_id: productId,
       id: productId,
       name: product.name || product.title,
       quantity: 1,
       selectedSize,
-      selectedColor,
       price: Number(product.price || 0),
       mrp: Number(mrp || 0),
       thumbnail: mainImgSrc || product.thumbnail,
@@ -270,8 +393,8 @@ const ProductDetails = () => {
     toggleWishlist(product);
   };
 
-  // Pincode validation handler
-  const handleCheckPincode = (e) => {
+  // Pincode validation handler with backend delivery estimator
+  const handleCheckPincode = async (e) => {
     e?.preventDefault();
     const cleanPin = pincode.trim();
     if (cleanPin.length !== 6 || !/^\d{6}$/.test(cleanPin)) {
@@ -280,6 +403,19 @@ const ProductDetails = () => {
         message: 'Please enter a valid 6-digit PIN code.'
       });
       return;
+    }
+
+    try {
+      const res = await apiClient.get(`/delivery/check?pincode=${cleanPin}`);
+      if (res.data?.success) {
+        setPincodeResult({
+          valid: true,
+          message: `Delivery by ${res.data.estimated_delivery} | Free Express Delivery & COD available for ${cleanPin}`
+        });
+        return;
+      }
+    } catch {
+      // Fallback local calculation
     }
 
     const estDays = product?.delivery_info?.estimated_days || 3;
@@ -297,8 +433,8 @@ const ProductDetails = () => {
     });
   };
 
-  // Review submission handler
-  const handleReviewSubmit = (e) => {
+  // Review submission handler with backend sync
+  const handleReviewSubmit = async (e) => {
     e.preventDefault();
     if (!reviewTitle.trim() || !reviewComment.trim()) {
       if (toast?.error) toast.error('Please enter a review title and comment.');
@@ -308,12 +444,19 @@ const ProductDetails = () => {
     const newRev = {
       id: Date.now(),
       reviewer: user?.name || user?.email?.split('@')[0] || 'Verified Customer',
+      user: user?.name || user?.email?.split('@')[0] || 'Verified Customer',
       rating: reviewRating,
       title: reviewTitle.trim(),
       comment: reviewComment.trim(),
       date: new Date().toLocaleDateString('en-IN', { day: '2-digit', month: 'short', year: 'numeric' }),
       verified: true
     };
+
+    try {
+      await apiClient.post(`/products/${productId}/reviews`, newRev);
+    } catch (err) {
+      console.warn('Backend review sync notice:', err?.message);
+    }
 
     setUserReviews(prev => [newRev, ...prev]);
     setIsReviewModalOpen(false);
@@ -431,30 +574,9 @@ const ProductDetails = () => {
 
         {/* MAIN PRODUCT LAYOUT */}
         <section className="product-layout">
-          {/* GALLERY */}
-          <div className="gallery">
-            <div className="thumbs" id="thumbs">
-              {imageAssets.map((assetUrl, idx) => (
-                <button
-                  key={idx}
-                  className={`thumb ${activeImageIndex === idx ? 'active' : ''}`}
-                  onClick={() => setActiveImageIndex(idx)}
-                  aria-label={`Product image ${idx + 1}`}
-                  type="button"
-                >
-                  <img
-                    src={assetUrl}
-                    alt={`${product.name} thumbnail ${idx + 1}`}
-                    loading="lazy"
-                    onError={(e) => {
-                      e.target.src = 'https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=300&q=80';
-                    }}
-                  />
-                </button>
-              ))}
-            </div>
-
-            <div>
+          {/* GALLERY - Single photo layout */}
+          <div className="gallery single-image">
+            <div className="w-full">
               <div className="main-image" id="mainImage">
                 <img
                   src={mainImgSrc}
@@ -501,14 +623,19 @@ const ProductDetails = () => {
             </div>
 
             {/* Ratings Row */}
-            <div className="rating-row">
-              <span className="rating">
-                {product.rating ? Number(product.rating).toFixed(1) : '4.8'} ★
+            <div className="rating-row flex items-center gap-2">
+              <span className="rating inline-flex items-center gap-1 font-bold">
+                {product.rating ? Number(product.rating).toFixed(1) : '4.8'}
+                <Star size={13} className="fill-amber-400 text-amber-400 inline" />
               </span>
-              <span className="stars">★★★★★</span>
+              <span className="stars inline-flex items-center gap-0.5 text-amber-400">
+                {[...Array(5)].map((_, i) => (
+                  <Star key={i} size={13} className="fill-amber-400 text-amber-400" />
+                ))}
+              </span>
               <button
                 type="button"
-                className="rating-link"
+                className="rating-link ml-1"
                 onClick={() => handleScrollToSection('reviews')}
               >
                 {product.reviews_count || 148} ratings &amp; {allReviews.length} reviews
@@ -531,44 +658,77 @@ const ProductDetails = () => {
                 )}
               </div>
               <div className="tax-note">Inclusive of all applicable taxes</div>
+              {isLowStock && (
+                <div className="flex items-center gap-2 p-3 mt-3 bg-amber-50 border border-amber-300 rounded-xl text-amber-900 text-xs font-bold animate-pulse">
+                  <AlertCircle size={15} className="text-amber-700 shrink-0" />
+                  <span><strong>Hurry! Only {liveStock} units remaining</strong> in central stock.</span>
+                </div>
+              )}
+              {isOutOfStock && (
+                <div className="flex items-center gap-2 p-3 mt-3 bg-rose-50 border border-rose-300 rounded-xl text-rose-900 text-xs font-bold">
+                  <AlertCircle size={15} className="text-rose-700 shrink-0" />
+                  <span><strong>Currently Sold Out.</strong> Restock is in progress.</span>
+                </div>
+              )}
             </section>
 
             <div className="divider"></div>
 
-            {/* Size Selector */}
-            <section>
-              <div className="section-label">Select Option / Size</div>
-              <div className="option-row" id="sizeOptions">
-                {sizeOptions.map((sz) => (
-                  <button
-                    key={sz}
-                    type="button"
-                    className={`option ${selectedSize === sz ? 'active' : ''}`}
-                    onClick={() => setSelectedSize(sz)}
-                  >
-                    {sz}
-                  </button>
-                ))}
-              </div>
-            </section>
-
-            {/* Color Selector */}
-            <section style={{ marginTop: '18px' }}>
-              <div className="section-label">Color: <span className="font-normal normal-case text-stone-600">{selectedColor.name}</span></div>
-              <div className="option-row" id="colorOptions">
-                {DEFAULT_COLORS.map((col) => (
-                  <button
-                    key={col.name}
-                    type="button"
-                    className={`option color-option ${selectedColor.name === col.name ? 'active' : ''}`}
-                    onClick={() => setSelectedColor(col)}
-                  >
-                    <span className="swatch" style={{ background: col.hex }}></span>
-                    {col.name}
-                  </button>
-                ))}
-              </div>
-            </section>
+            {/* Size Selector - ONLY render when sizeOptions exists and has items (e.g. Clothing or Footwear) */}
+            {sizeOptions && sizeOptions.length > 0 && (
+              <section>
+                <div className="flex items-center justify-between mb-2">
+                  <div className="section-label mb-0">
+                    {isBaby 
+                      ? 'Select Baby Size (Age / Months)' 
+                      : isKids 
+                      ? (isFootwear ? 'Select Kids Shoe Size' : 'Select Kids Size (Age)') 
+                      : isClothing 
+                      ? 'Select Clothing Size' 
+                      : isFootwear 
+                      ? 'Select Shoe Size (UK)' 
+                      : 'Select Option'}
+                  </div>
+                  <div className="flex items-center gap-2">
+                    {isBaby ? (
+                      <span className="text-[11px] font-bold text-teal-700 bg-teal-50 px-2 py-0.5 rounded-md border border-teal-200 hidden sm:inline">
+                        Infant & Baby Sizing
+                      </span>
+                    ) : isKids ? (
+                      <span className="text-[11px] font-bold text-amber-700 bg-amber-50 px-2 py-0.5 rounded-md border border-amber-200 hidden sm:inline">
+                        {isFootwear ? 'Kids Footwear Sizing' : 'Kids Age Sizing'}
+                      </span>
+                    ) : isClothing && (
+                      <span className="text-[11px] font-bold text-sky-700 bg-sky-50 px-2 py-0.5 rounded-md border border-sky-200 hidden sm:inline">
+                        Standard Apparel Sizing
+                      </span>
+                    )}
+                    {(isClothing || isFootwear) && (
+                      <button
+                        type="button"
+                        onClick={() => setIsSizeChartOpen(true)}
+                        className="inline-flex items-center gap-1.5 text-xs font-bold text-orange-600 hover:text-orange-700 hover:underline cursor-pointer bg-orange-50 hover:bg-orange-100/70 border border-orange-200 px-2.5 py-1 rounded-lg transition-colors"
+                      >
+                        <Ruler size={13} />
+                        <span>Size Chart</span>
+                      </button>
+                    )}
+                  </div>
+                </div>
+                <div className="option-row" id="sizeOptions">
+                  {sizeOptions.map((sz) => (
+                    <button
+                      key={sz}
+                      type="button"
+                      className={`option ${selectedSize === sz ? 'active' : ''}`}
+                      onClick={() => setSelectedSize(sz)}
+                    >
+                      {sz}
+                    </button>
+                  ))}
+                </div>
+              </section>
+            )}
 
             {/* Offers Box */}
             <section style={{ marginTop: '18px' }}>
@@ -646,21 +806,39 @@ const ProductDetails = () => {
             {/* Action Buttons */}
             <div className="actions">
               <button
-                className="btn secondary"
+                className={`btn secondary relative overflow-hidden transition-all duration-300 ${isOutOfStock ? 'opacity-50 cursor-not-allowed' : ''} ${isAddingToCart ? 'bg-stone-950 text-white' : ''}`}
                 id="addCart"
                 type="button"
+                disabled={isOutOfStock || isAddingToCart}
                 onClick={handleAddToCart}
               >
-                <ShoppingBag size={18} />
-                {addCartFeedback ? 'Added to Cart ✓' : (isInCart(productId) ? 'In Cart (+1 More)' : 'Add to Cart')}
+                {/* Standard button text/icon with smooth fade */}
+                <div className={`flex items-center justify-center gap-2 transition-all duration-300 ease-out ${
+                  addCartPhase === 'animating' ? 'opacity-0 scale-90' : 'opacity-100 scale-100'
+                }`}>
+                  <ShoppingBag size={18} />
+                  <span>{isOutOfStock ? 'Out of Stock' : (isInCart(productId) ? 'In Cart (+1 More)' : 'Add to Cart')}</span>
+                </div>
+
+                {/* Animation Overlay with silky fade-in & crossfade */}
+                {isAddingToCart && (
+                  <div className={`absolute inset-0 flex items-center justify-center pointer-events-none transition-all duration-350 ease-out ${
+                    addCartPhase === 'animating'
+                      ? 'opacity-100 scale-100 animate-in fade-in zoom-in-95 duration-200'
+                      : 'opacity-0 scale-95 duration-350'
+                  }`}>
+                    <div ref={detailsLottieRef} className="w-full h-[68px] flex items-center justify-center overflow-visible" />
+                  </div>
+                )}
               </button>
               <button
-                className="btn primary"
+                className={`btn primary ${isOutOfStock ? 'opacity-50 cursor-not-allowed' : ''}`}
                 id="buyNow"
                 type="button"
+                disabled={isOutOfStock}
                 onClick={handleBuyNow}
               >
-                Buy Now
+                {isOutOfStock ? 'Sold Out' : 'Buy Now'}
                 <ArrowRight size={18} />
               </button>
             </div>
@@ -669,8 +847,32 @@ const ProductDetails = () => {
             <div className="seller">
               <div>
                 <div className="seller-title">Sold by</div>
-                <div className="seller-name">{brandName}</div>
+                <Link 
+                  to={`/store/${product.seller_id || 'seller-1'}`}
+                  className="seller-name hover:text-orange-600 transition-colors inline-flex items-center gap-1.5 group cursor-pointer"
+                  title="Visit verified merchant storefront"
+                >
+                  <span>{product.seller_name || brandName}</span>
+                  <ChevronRight size={13} className="text-orange-600 group-hover:translate-x-0.5 transition-transform" />
+                </Link>
                 <div className="seller-meta">4.8 seller rating · 99% positive · Verified GoMo Deals Partner</div>
+                <div className="flex items-center gap-2 mt-2.5 flex-wrap">
+                  <button
+                    type="button"
+                    onClick={() => setIsVocOpen(true)}
+                    className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-amber-50 hover:bg-amber-100 text-amber-900 border border-amber-300 rounded text-xs font-bold transition-colors cursor-pointer"
+                    title="Direct Voice of Customer connection to the verified seller of this product"
+                  >
+                    <MessageSquareQuote size={14} className="text-amber-700" />
+                    <span>Voice of Customer · Ask Seller</span>
+                  </button>
+                  <Link
+                    to={`/store/${product.seller_id || 'seller-1'}`}
+                    className="inline-flex items-center gap-1 px-3 py-1.5 bg-stone-100 hover:bg-stone-200 text-stone-800 rounded text-xs font-bold transition-colors cursor-pointer"
+                  >
+                    <span>Visit Storefront</span>
+                  </Link>
+                </div>
               </div>
               <div className="seller-badge">VERIFIED SELLER</div>
             </div>
@@ -704,97 +906,102 @@ const ProductDetails = () => {
             </div>
           </section>
 
-          {/* 2. HIGHLIGHTS SECTION */}
-          <section className="detail-section" id="highlights">
-            <h2 className="section-heading">Highlights</h2>
-            <div className="highlights">
-              <div className="highlight">
-                <strong>Material</strong>
-                <span>{materialVal}</span>
+          {/* 2 & 3. HIGHLIGHTS & SPECIFICATIONS (2-GRID HORIZONTAL ROW) */}
+          <div className="highlights-specs-grid">
+            {/* 2. HIGHLIGHTS SECTION */}
+            <section className="detail-section" id="highlights">
+              <h2 className="section-heading">Highlights</h2>
+              <div className="highlights">
+                <div className="highlight">
+                  <strong>Material</strong>
+                  <span>{materialVal}</span>
+                </div>
+                {isClothing && (
+                  <div className="highlight">
+                    <strong>Fit / Cut</strong>
+                    <span>{fitVal}</span>
+                  </div>
+                )}
+                {isClothing && (
+                  <div className="highlight">
+                    <strong>Pattern</strong>
+                    <span>{patternVal}</span>
+                  </div>
+                )}
+                <div className="highlight">
+                  <strong>Occasion</strong>
+                  <span>{occasionVal}</span>
+                </div>
+                <div className="highlight">
+                  <strong>Care</strong>
+                  <span>{careVal}</span>
+                </div>
+                <div className="highlight">
+                  <strong>Country of Origin</strong>
+                  <span>{originVal}</span>
+                </div>
+                <div className="highlight">
+                  <strong>Pack / Qty</strong>
+                  <span>1 Unit {selectedSize ? `(${selectedSize})` : ''}</span>
+                </div>
+                <div className="highlight">
+                  <strong>Warranty</strong>
+                  <span>{warrantyVal}</span>
+                </div>
               </div>
-              <div className="highlight">
-                <strong>Fit / Cut</strong>
-                <span>{fitVal}</span>
-              </div>
-              <div className="highlight">
-                <strong>Pattern</strong>
-                <span>{patternVal}</span>
-              </div>
-              <div className="highlight">
-                <strong>Occasion</strong>
-                <span>{occasionVal}</span>
-              </div>
-              <div className="highlight">
-                <strong>Care</strong>
-                <span>{careVal}</span>
-              </div>
-              <div className="highlight">
-                <strong>Country of Origin</strong>
-                <span>{originVal}</span>
-              </div>
-              <div className="highlight">
-                <strong>Pack</strong>
-                <span>1 Unit ({selectedSize})</span>
-              </div>
-              <div className="highlight">
-                <strong>Warranty</strong>
-                <span>{warrantyVal}</span>
-              </div>
-            </div>
-          </section>
+            </section>
 
-          {/* 3. SPECIFICATIONS SECTION */}
-          <section className="detail-section" id="specifications">
-            <h2 className="section-heading">Specifications</h2>
-            <table className="spec-table">
-              <tbody>
-                <tr>
-                  <td>Brand</td>
-                  <td>{brandName}</td>
-                </tr>
-                <tr>
-                  <td>Model / SKU</td>
-                  <td>{productId}</td>
-                </tr>
-                <tr>
-                  <td>Department</td>
-                  <td>{categoryName}</td>
-                </tr>
-                <tr>
-                  <td>Sub-category</td>
-                  <td>{subcategoryName || 'Store Collection'}</td>
-                </tr>
-                <tr>
-                  <td>Gender / Demographic</td>
-                  <td>{product.gender || product.recipient || 'All / Unisex'}</td>
-                </tr>
-                <tr>
-                  <td>Material</td>
-                  <td>{materialVal}</td>
-                </tr>
-                <tr>
-                  <td>Colour</td>
-                  <td>{selectedColor.name}</td>
-                </tr>
-                <tr>
-                  <td>Size / Pack</td>
-                  <td>{selectedSize}</td>
-                </tr>
-                <tr>
-                  <td>Net Quantity</td>
-                  <td>1 Unit</td>
-                </tr>
-                <tr>
-                  <td>Country of Origin</td>
-                  <td>{originVal}</td>
-                </tr>
-                <tr>
-                  <td>Manufacturer / Seller</td>
-                  <td>{brandName} Verified Merchant</td>
-                </tr>
-              </tbody>
-            </table>
-          </section>
+            {/* 3. SPECIFICATIONS SECTION */}
+            <section className="detail-section" id="specifications">
+              <h2 className="section-heading">Specifications</h2>
+              <table className="spec-table">
+                <tbody>
+                  <tr>
+                    <td>Brand</td>
+                    <td>{brandName}</td>
+                  </tr>
+                  <tr>
+                    <td>Model / SKU</td>
+                    <td>{productId}</td>
+                  </tr>
+                  <tr>
+                    <td>Department</td>
+                    <td>{categoryName}</td>
+                  </tr>
+                  <tr>
+                    <td>Sub-category</td>
+                    <td>{subcategoryName || 'Store Collection'}</td>
+                  </tr>
+                  <tr>
+                    <td>Gender / Demographic</td>
+                    <td>{product.gender || product.recipient || 'All / Unisex'}</td>
+                  </tr>
+                  <tr>
+                    <td>Material</td>
+                    <td>{materialVal}</td>
+                  </tr>
+                  {selectedSize ? (
+                    <tr>
+                      <td>{isClothing ? 'Clothing Size' : isFootwear ? 'Shoe Size' : 'Option / Pack'}</td>
+                      <td>{selectedSize}</td>
+                    </tr>
+                  ) : null}
+                  <tr>
+                    <td>Net Quantity</td>
+                    <td>1 Unit</td>
+                  </tr>
+                  <tr>
+                    <td>Country of Origin</td>
+                    <td>{originVal}</td>
+                  </tr>
+                  <tr>
+                    <td>Manufacturer / Seller</td>
+                    <td>{brandName} Verified Merchant</td>
+                  </tr>
+                </tbody>
+              </table>
+            </section>
+          </div>
 
           {/* 4. REVIEWS SECTION */}
           <section className="detail-section" id="reviews">
@@ -815,7 +1022,11 @@ const ProductDetails = () => {
                 <div className="score">
                   {product.rating ? Number(product.rating).toFixed(1) : '4.8'}
                 </div>
-                <div className="score-stars">★★★★★</div>
+                <div className="score-stars flex items-center gap-1 text-amber-400">
+                  {[...Array(5)].map((_, i) => (
+                    <Star key={i} size={16} className="fill-amber-400 text-amber-400" />
+                  ))}
+                </div>
                 <div className="score-count">
                   {product.reviews_count || 148} ratings · {allReviews.length} written reviews
                 </div>
@@ -853,7 +1064,9 @@ const ProductDetails = () => {
               {allReviews.map((rev) => (
                 <article className="review" key={rev.id}>
                   <div className="review-head">
-                    <span className="rating">{rev.rating} ★</span>
+                    <span className="rating inline-flex items-center gap-1">
+                      {rev.rating} <Star size={12} className="fill-amber-400 text-amber-400" />
+                    </span>
                     <span className="reviewer">{rev.reviewer}</span>
                     {rev.verified && <span className="verified">VERIFIED PURCHASE</span>}
                   </div>
@@ -907,8 +1120,15 @@ const ProductDetails = () => {
                       <div className="card-name" title={sim.name || sim.title}>
                         {sim.name || sim.title}
                       </div>
-                      <div className="card-rating">
-                        ★★★★★ {sim.rating ? Number(sim.rating).toFixed(1) : '4.6'}
+                      <div className="card-rating flex items-center gap-1">
+                        <span className="flex items-center gap-0.5 text-amber-400">
+                          {[...Array(5)].map((_, i) => (
+                            <Star key={i} size={11} className="fill-amber-400 text-amber-400" />
+                          ))}
+                        </span>
+                        <span className="text-[11px] font-bold text-stone-600 ml-1">
+                          {sim.rating ? Number(sim.rating).toFixed(1) : '4.6'}
+                        </span>
                       </div>
                       <div className="card-price">
                         {formatPrice(simPrice)}
@@ -961,11 +1181,11 @@ const ProductDetails = () => {
                         type="button"
                         key={starVal}
                         onClick={() => setReviewRating(starVal)}
-                        className={`p-2 rounded-lg text-lg transition-colors ${
-                          reviewRating >= starVal ? 'text-amber-500 bg-amber-50' : 'text-stone-300 hover:text-stone-400'
+                        className={`p-2 rounded-lg text-lg transition-colors flex items-center justify-center cursor-pointer ${
+                          reviewRating >= starVal ? 'bg-amber-50' : 'hover:bg-stone-50'
                         }`}
                       >
-                        ★
+                        <Star size={18} className={reviewRating >= starVal ? 'fill-amber-500 text-amber-500' : 'text-stone-300'} />
                       </button>
                     ))}
                   </div>
@@ -1019,6 +1239,32 @@ const ProductDetails = () => {
           </div>
         )}
       </AnimatePresence>
+
+      {/* Voice of Customer Modal */}
+      <VoiceOfCustomerModal
+        isOpen={isVocOpen}
+        onClose={() => setIsVocOpen(false)}
+        product={product}
+      />
+
+      {/* Interactive Size Chart Modal */}
+      <SizeChartModal
+        isOpen={isSizeChartOpen}
+        onClose={() => setIsSizeChartOpen(false)}
+        selectedSize={selectedSize}
+        onSelectSize={(sz) => setSelectedSize(sz)}
+        chartType={
+          isFootwear 
+            ? (isKids ? 'kids-footwear' : 'footwear')
+            : isBaby
+            ? 'baby'
+            : isKids 
+            ? (isBottomwear ? 'kids-bottomwear' : 'kids-topwear')
+            : isBottomwear 
+            ? 'bottomwear' 
+            : 'topwear'
+        }
+      />
     </div>
   );
 };

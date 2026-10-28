@@ -49,6 +49,29 @@ export const wishlistService = {
   async addToWishlist(userId, product, variant_id = null) {
     const p = typeof product === 'object' ? product : { id: product, product_id: product, variant_id };
     const productId = p.product_id || p.id;
+    const uid = userId || p.customer_id || p.userId;
+
+    if (!API_CONFIG.USE_MOCK && uid) {
+      try {
+        const res = await apiClient.post(API_CONFIG.ENDPOINTS.WISHLIST.ADD, {
+          userId: uid,
+          customer_id: uid,
+          product_id: productId,
+          variant_id: variant_id || p.variant_id || null,
+          name: p.name,
+          price: p.price,
+          mrp: p.mrp,
+          thumbnail: p.thumbnail || p.image
+        });
+        if (res.data?.success) {
+          saveLocalWishlist(res.data.data);
+          return res.data;
+        }
+      } catch (err) {
+        console.warn('API addToWishlist failed, using local wishlist:', err.message);
+      }
+    }
+
     let list = loadLocalWishlist();
     if (!list.some(item => (item.product_id || item.id) === productId)) {
       list.push({ ...p, id: productId, product_id: productId });
@@ -66,13 +89,9 @@ export const wishlistService = {
     const index = list.findIndex(p => (p.product_id || p.id) === productId);
 
     if (index > -1) {
-      list.splice(index, 1);
-      saveLocalWishlist(list);
-      return { success: true, action: 'removed', data: list };
+      return this.removeFromWishlist(userId, productId);
     } else {
-      list.push({ ...product, id: productId, product_id: productId });
-      saveLocalWishlist(list);
-      return { success: true, action: 'added', data: list };
+      return this.addToWishlist(userId, product);
     }
   },
 
@@ -80,6 +99,20 @@ export const wishlistService = {
    * Remove item from wishlist
    */
   async removeFromWishlist(userId, productId) {
+    if (!API_CONFIG.USE_MOCK && productId) {
+      try {
+        const uid = userId || 'usr-1';
+        const res = await apiClient.delete(API_CONFIG.ENDPOINTS.WISHLIST.REMOVE(uid, productId));
+        if (res.data?.success) {
+          let list = loadLocalWishlist().filter(p => (p.product_id || p.id) !== productId);
+          saveLocalWishlist(list);
+          return res.data;
+        }
+      } catch (err) {
+        console.warn('API removeFromWishlist failed, removing locally:', err.message);
+      }
+    }
+
     let list = loadLocalWishlist().filter(p => (p.product_id || p.id) !== productId);
     saveLocalWishlist(list);
     return { success: true, data: list };
@@ -89,7 +122,14 @@ export const wishlistService = {
     return this.removeFromWishlist(null, wishlistItemId);
   },
 
-  async clearWishlist(_userId) {
+  async clearWishlist(userId) {
+    if (!API_CONFIG.USE_MOCK && userId) {
+      try {
+        await apiClient.delete(`/wishlist/clear/${userId}`);
+      } catch (err) {
+        console.warn('API clearWishlist failed:', err.message);
+      }
+    }
     saveLocalWishlist([]);
     return { success: true, data: [] };
   },

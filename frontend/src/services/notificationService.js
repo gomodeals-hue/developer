@@ -51,6 +51,30 @@ const DEFAULT_NOTIFICATIONS = [
     created_at: '2026-03-10T08:00:00Z',
     is_read: false,
     link: '/deals'
+  },
+  {
+    notification_id: 'notif_5',
+    id: 'notif_5',
+    customer_id: 'all',
+    title: 'Shipping SLA Guarantee Active',
+    message: 'On-time delivery of your order is important for customer satisfaction. 97.8% on-time delivery across all routes.',
+    type: 'SLA_NOTICE',
+    icon: 'ShieldCheck',
+    created_at: '2026-03-12T10:00:00Z',
+    is_read: false,
+    link: '/support'
+  },
+  {
+    notification_id: 'notif_6',
+    id: 'notif_6',
+    customer_id: 'all',
+    title: 'Seller Advantage: 0% Commission Tier',
+    message: '0% commission for less than Rs. 1000 for sellers (not customers). Verified local merchants keep 100% earnings.',
+    type: 'POLICY_UPDATE',
+    icon: 'Store',
+    created_at: '2026-03-12T14:30:00Z',
+    is_read: false,
+    link: '/seller/dashboard'
   }
 ];
 

@@ -1,0 +1,328 @@
+[
+  {
+    "id": "grocery-items",
+    "slug": "grocery-items",
+    "name": "Grocery Items",
+    "description": "Staples, dals, edible oils, spices, snacks & dairy",
+    "image_url": "https://images.unsplash.com/photo-1542838132-92c53300491e?w=800&q=80",
+    "is_active": true,
+    "subcategories": [
+      "staples-grains",
+      "dals-pulses",
+      "edible-oils-ghee",
+      "spices-masalas",
+      "salt-sugar",
+      "dry-fruits-nuts",
+      "breakfast-cereals",
+      "biscuits-cookies",
+      "snacks-namkeen",
+      "bakery-products",
+      "tea-coffee",
+      "beverages",
+      "dairy-eggs",
+      "fresh-fruits",
+      "fresh-vegetables",
+      "instant-ready-to-eat",
+      "sauces-spreads",
+      "frozen-foods",
+      "meat-seafood",
+      "baby-food"
+    ]
+  },
+  {
+    "id": "pet-accessories",
+    "slug": "pet-accessories",
+    "name": "Pet Accessories",
+    "description": "Food, treats, collars, grooming, feeding bowls & toys for pets",
+    "image_url": "https://images.unsplash.com/photo-1583511655857-d19b40a7a54e?w=800&q=80",
+    "is_active": true,
+    "subcategories": [
+      "dog-food",
+      "dog-treats",
+      "dog-collars-leashes",
+      "collars-leashes",
+      "dog-toys",
+      "dog-beds",
+      "cat-food",
+      "cat-litter",
+      "cat-scratchers",
+      "cat-toys",
+      "cat-collars",
+      "pet-shampoo",
+      "pet-brushes",
+      "nail-clippers",
+      "pet-bowls",
+      "birds-fish-supplies"
+    ]
+  },
+  {
+    "id": "western-wear",
+    "slug": "western-wear",
+    "name": "Western Wear",
+    "description": "Dresses, shirts, jeans, tops, and coordinated sets",
+    "image_url": "https://images.unsplash.com/photo-1572804013309-59a88b7e92f1?w=800&q=80",
+    "is_active": true,
+    "subcategories": [
+      "dresses",
+      "tops",
+      "jeans-jeggings",
+      "shirts",
+      "t-shirts",
+      "trousers-pants",
+      "jackets",
+      "co-ord-sets"
+    ]
+  },
+  {
+    "id": "clothing",
+    "slug": "clothing",
+    "name": "Clothing & Apparel",
+    "description": "Everyday, western & traditional apparel",
+    "image_url": "https://images.unsplash.com/photo-1602810318383-e386cc2a3ccf?w=800&q=80",
+    "is_active": true,
+    "subcategories": [
+      "shirts",
+      "t-shirts",
+      "jeans-jeggings",
+      "kurtas",
+      "sarees",
+      "dresses",
+      "track-pants"
+    ]
+  },
+  {
+    "id": "ethnic-wear",
+    "slug": "ethnic-wear",
+    "name": "Ethnic Wear",
+    "description": "Kurtas, lehengas, suit sets, and sarees",
+    "image_url": "https://images.unsplash.com/photo-1617137984095-74e4e5e3613f?w=800&q=80",
+    "is_active": true,
+    "subcategories": [
+      "sarees",
+      "kurtas",
+      "kurta-suit-sets",
+      "lehenga-choli-sets",
+      "nehru-jackets"
+    ]
+  },
+  {
+    "id": "footwear",
+    "slug": "footwear",
+    "name": "Footwear",
+    "description": "Sneakers, boots, sandals, casual & sports shoes",
+    "image_url": "https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=800&q=80",
+    "is_active": true,
+    "subcategories": [
+      "sneakers",
+      "casual-shoes",
+      "formal-shoes",
+      "sandals",
+      "sports-shoes"
+    ]
+  },
+  {
+    "id": "accessories",
+    "slug": "accessories",
+    "name": "Accessories",
+    "description": "Backpacks, belts, handbags, sunglasses & watches",
+    "image_url": "https://images.unsplash.com/photo-1522335789203-aabd1fc54bc9?w=800&q=80",
+    "is_active": true,
+    "subcategories": [
+      "handbags",
+      "wallets",
+      "belts",
+      "sunglasses",
+      "watches",
+      "backpacks"
+    ]
+  },
+  {
+    "id": "gadgets",
+    "slug": "gadgets",
+    "name": "Gadgets & Electronics",
+    "description": "Smart wearables, headphones & wireless audio",
+    "image_url": "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=800&q=80",
+    "is_active": true,
+    "subcategories": [
+      "headphones",
+      "smartwatches",
+      "earbuds",
+      "speakers",
+      "chargers-cables"
+    ]
+  },
+  {
+    "id": "home-living",
+    "slug": "home-living",
+    "name": "Home & Living",
+    "description": "Bedding, decor, dinnerware, cookware, and home lighting",
+    "image_url": "https://images.unsplash.com/photo-1522771739844-6a9f6d5f14af?w=800&q=80",
+    "is_active": true,
+    "subcategories": [
+      "cookware",
+      "dinner-sets",
+      "storage-containers",
+      "water-bottles-flasks",
+      "bedsheets",
+      "curtains",
+      "cushions",
+      "blankets-quilts",
+      "wall-decor",
+      "artificial-flowers-plants",
+      "lighting",
+      "showpieces"
+    ]
+  },
+  {
+    "id": "beauty",
+    "slug": "beauty",
+    "name": "Beauty & Grooming",
+    "description": "Cosmetics, skincare, fragrances, haircare & grooming",
+    "image_url": "https://images.unsplash.com/photo-1620916566398-39f1143ab7be?w=800&q=80",
+    "is_active": true,
+    "subcategories": [
+      "face-creams-moisturizers",
+      "face-wash-cleansers",
+      "sunscreen-serums",
+      "shampoo-conditioner",
+      "hair-oils-serums",
+      "perfumes-deodorants",
+      "body-mists-sprays",
+      "men-grooming-shaving",
+      "skincare",
+      "haircare",
+      "fragrances"
+    ]
+  },
+  {
+    "id": "jewellery",
+    "slug": "jewellery",
+    "name": "Jewellery",
+    "description": "Fashion jewellery, silver sterling, earrings and necklaces",
+    "image_url": "https://images.unsplash.com/photo-1535632066927-ab7c9ab60908?w=800&q=80",
+    "is_active": true,
+    "subcategories": [
+      "earrings",
+      "necklaces",
+      "bracelets",
+      "rings",
+      "silver-jewellery",
+      "fashion-jewellery"
+    ]
+  },
+  {
+    "id": "pooja-items",
+    "slug": "pooja-items",
+    "name": "Pooja Items",
+    "description": "Sacred brass diyas, idols, loban, camphor & samagri",
+    "image_url": "https://images.unsplash.com/photo-1606293926075-69a00dbfde81?w=800&q=80",
+    "is_active": true,
+    "subcategories": [
+      "idols-statues",
+      "home-temple-mandir",
+      "brass-silver-pooja-items",
+      "thalis",
+      "diyas-lamps",
+      "incense-fragrance",
+      "pooja-samagri",
+      "rudraksha-spiritual",
+      "festival-pooja-kits"
+    ]
+  },
+  {
+    "id": "kids",
+    "slug": "kids",
+    "name": "Kids & Baby",
+    "description": "Kids apparel, toys, and nursery essentials",
+    "image_url": "https://images.unsplash.com/photo-1522771930-78848d9293e8?w=800&q=80",
+    "is_active": true,
+    "subcategories": [
+      "boys-clothing",
+      "girls-clothing",
+      "baby-clothes",
+      "toys-games",
+      "shirts-tshirts",
+      "jeans-shorts",
+      "ethnic-sets",
+      "dresses-frocks",
+      "tops-skirts",
+      "casual-shoes",
+      "sandals"
+    ]
+  },
+  {
+    "id": "healthy-foods",
+    "slug": "healthy-foods",
+    "name": "Healthy Foods & Pantry",
+    "description": "Organic raw honey, wild grains, dry fruits and superfoods",
+    "image_url": "https://images.unsplash.com/photo-1587049352846-4a222e784d38?w=800&q=80",
+    "is_active": true,
+    "subcategories": [
+      "organic-foods",
+      "dry-fruits",
+      "honey",
+      "healthy-snacks"
+    ]
+  },
+  {
+    "id": "grocery",
+    "slug": "grocery",
+    "name": "Grocery & Staples",
+    "description": "Daily staples, premium grains, pulses, and cold-pressed oils",
+    "image_url": "https://images.unsplash.com/photo-1586201375761-83865001e31c?w=800&q=80",
+    "is_active": true,
+    "subcategories": [
+      "organic-foods",
+      "atta-flour",
+      "healthy-snacks",
+      "spices",
+      "staples-grains",
+      "dals-pulses",
+      "edible-oils-ghee",
+      "spices-masalas",
+      "salt-sugar",
+      "dry-fruits-nuts",
+      "breakfast-cereals",
+      "biscuits-cookies",
+      "snacks-namkeen",
+      "bakery-products",
+      "tea-coffee",
+      "beverages",
+      "dairy-eggs",
+      "fresh-fruits",
+      "fresh-vegetables",
+      "instant-ready-to-eat",
+      "sauces-spreads",
+      "frozen-foods",
+      "meat-seafood",
+      "baby-food"
+    ]
+  },
+  {
+    "id": "stationery",
+    "slug": "stationery",
+    "name": "Stationery & Office",
+    "description": "Notebooks, journals, executive pens, and desk supplies",
+    "image_url": "https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?w=800&q=80",
+    "is_active": true,
+    "subcategories": [
+      "spiral-notebooks",
+      "diaries-planners",
+      "pens-pencils",
+      "desk-accessories"
+    ]
+  },
+  {
+    "id": "gifts",
+    "slug": "gifts",
+    "name": "Gifts & Festive Hampers",
+    "description": "Curated premium gift boxes and seasonal hampers",
+    "image_url": "https://images.unsplash.com/photo-1549465220-1a8b9238cd48?w=800&q=80",
+    "is_active": true,
+    "subcategories": [
+      "festive-gifts",
+      "aroma-candles",
+      "gift-sets"
+    ]
+  }
+]

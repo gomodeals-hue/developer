@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
 import { Mail, Check, ArrowRight, ShieldCheck } from 'lucide-react';
+import { useShop } from '../../../../context/ShopContext';
 
 export default function NewsletterCTA() {
+  const { t } = useShop();
   const [email, setEmail] = useState('');
   const [subscribed, setSubscribed] = useState(false);
 
@@ -25,19 +27,19 @@ export default function NewsletterCTA() {
         <div className="relative z-10 max-w-2xl mx-auto text-center">
           <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white/15 backdrop-blur-md border border-white/25 text-white text-[10px] font-bold uppercase tracking-wider mb-3">
             <Mail size={12} />
-            <span>GoMo Insiders Club</span>
+            <span>{t("insiders_club", "GoMo Insiders Club")}</span>
           </div>
           <h2 className="text-2xl sm:text-3xl md:text-4xl font-extrabold tracking-tight text-white mb-3">
-            Get ₹500 Off Your First Order
+            {t("newsletter_header", "Get ₹500 Off Your First Order")}
           </h2>
           <p className="text-orange-100 text-xs sm:text-sm mb-6 max-w-lg mx-auto leading-relaxed">
-            Subscribe for exclusive insider coupon drops, flash sales alerts, and weekly handpicked artisan deals.
+            {t("newsletter_desc_sub", "Subscribe for exclusive insider coupon drops, flash sales alerts, and weekly handpicked artisan deals.")}
           </p>
 
           {subscribed ? (
             <div className="inline-flex items-center gap-2 bg-white/20 backdrop-blur-md border border-white/30 px-6 py-3 rounded-full text-white text-sm font-bold animate-fade-in">
               <Check size={18} className="text-emerald-300" />
-              <span>Thank you! Your coupon code WELCOME500 has been activated.</span>
+              <span>{t("newsletter_success", "Thank you! Your coupon code WELCOME500 has been activated.")}</span>
             </div>
           ) : (
             <form onSubmit={handleSubmit} className="flex flex-col sm:flex-row items-center gap-3 max-w-md mx-auto">
@@ -46,14 +48,14 @@ export default function NewsletterCTA() {
                 required
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                placeholder="Enter your email address"
+                placeholder={t("enter_email_addr", "Enter your email address")}
                 className="w-full px-5 py-3.5 rounded-full text-stone-900 bg-white placeholder:text-stone-400 text-sm focus:outline-none focus:ring-4 focus:ring-white/30 shadow-md font-medium"
               />
               <button
                 type="submit"
                 className="w-full sm:w-auto px-7 py-3.5 rounded-full bg-stone-900 hover:bg-stone-950 text-white text-sm font-bold transition-all shadow-md flex items-center justify-center gap-2 flex-shrink-0 cursor-pointer"
               >
-                <span>Subscribe</span>
+                <span>{t("subscribe_btn", "Subscribe")}</span>
                 <ArrowRight size={15} />
               </button>
             </form>

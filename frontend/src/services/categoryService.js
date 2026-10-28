@@ -6,27 +6,23 @@ export const categoryTree = categorySubcategories;
 export { categorySections, departmentMegaMenu };
 
 export const MAIN_CATEGORIES = [
-  { slug: 'clothing', label: 'Clothing', icon: 'Shirt', description: 'Everyday, western & traditional apparel' },
-  { slug: 'western-wear', label: 'Western Wear', icon: 'Shirt', description: 'Dresses, jeans, tops, and coordinated sets' },
+  { slug: 'grocery-items', label: 'Grocery Items', icon: 'ShoppingBasket', description: 'Staples, dals, edible oils, spices, snacks & dairy' },
+  { slug: 'pet-accessories', label: 'Pet Accessories', icon: 'Dog', description: 'Food, treats, collars, grooming & pet toys' },
+  { slug: 'western-wear', label: 'Western Wear', icon: 'Shirt', description: 'Dresses, shirts, jeans, tops, and coordinated sets' },
+  { slug: 'clothing', label: 'Clothing & Apparel', icon: 'Shirt', description: 'Everyday, western & traditional apparel' },
   { slug: 'ethnic-wear', label: 'Ethnic Wear', icon: 'Crown', description: 'Kurtas, lehengas, suit sets, and sarees' },
   { slug: 'footwear', label: 'Footwear', icon: 'Footprints', description: 'Sneakers, boots, sandals, casual & sports shoes' },
   { slug: 'accessories', label: 'Accessories', icon: 'Watch', description: 'Backpacks, belts, handbags, sunglasses & wallets' },
-  { slug: 'gadgets', label: 'Gadgets', icon: 'Laptop', description: 'Smart wearables, fitness bands, headphones & speakers' },
-  { slug: 'jewellery', label: 'Jewellery', icon: 'Gem', description: 'Fashion jewellery, bracelets, and fine watches' },
-  { slug: 'lingerie-innerwear', label: 'Lingerie & Innerwear', icon: 'Heart', description: 'Bras, loungewear sets, nightwear & shapewear' },
-  { slug: 'night-lounge-wear', label: 'Night & Lounge Wear', icon: 'Moon', description: 'Cozy sleep sets, pyjamas, and robes' },
-  { slug: 'athleisure', label: 'Athleisure', icon: 'Activity', description: 'Track pants, training tees, and sporty hoodies' },
-  { slug: 'winterwear', label: 'Winterwear', icon: 'CloudSnow', description: 'Jackets, merino sweaters, coats & thermals' },
-  { slug: 'beauty', label: 'Beauty', icon: 'ShoppingBag', description: 'Cosmetics, skincare, fragrances & wellness' },
-  { slug: 'electronics', label: 'Electronics', icon: 'Laptop', description: 'Tech gadgets and accessories' },
-  { slug: 'fashion', label: 'Fashion', icon: 'Watch', description: 'Designer accessories and luxury wear' },
-  { slug: 'home-living', label: 'Home & Living', icon: 'Home', description: 'Furniture, decor, and bedding' },
-  { slug: 'mens', label: 'Mens', icon: 'User', description: 'Men tailored and casual collections' },
-  { slug: 'women', label: 'Women', icon: 'Heart', description: 'Women apparel and essentials' },
-  { slug: 'kids', label: 'Kids', icon: 'Smile', description: 'Kids fashion, toys, and essentials' },
-  { slug: 'pooja-items', label: 'Pooja Items', icon: 'Sun', description: 'Sacred essentials and festive decor' },
-  { slug: 'gifts', label: 'Gifts', icon: 'Gift', description: 'Curated gifts for every celebration' },
-  { slug: 'healthy-foods', label: 'Healthy Foods', icon: 'Apple', description: 'Organic snacks and beverages' }
+  { slug: 'beauty', label: 'Beauty & Grooming', icon: 'ShoppingBag', description: 'Cosmetics, skincare, fragrances & wellness' },
+  { slug: 'gadgets', label: 'Gadgets & Electronics', icon: 'Laptop', description: 'Smart wearables, headphones & audio' },
+  { slug: 'home-living', label: 'Home & Living', icon: 'Home', description: 'Bedding, decor, dinnerware, and furniture' },
+  { slug: 'jewellery', label: 'Jewellery', icon: 'Gem', description: 'Fashion jewellery, earrings, and bracelets' },
+  { slug: 'pooja-items', label: 'Pooja Items', icon: 'Sun', description: 'Sacred diyas, idols, loban, and samagri kits' },
+  { slug: 'kids', label: 'Kids & Baby', icon: 'Smile', description: 'Kids fashion, toys, and infant essentials' },
+  { slug: 'healthy-foods', label: 'Healthy Foods', icon: 'Apple', description: 'Organic snacks, dry fruits, and beverages' },
+  { slug: 'grocery', label: 'Grocery', icon: 'ShoppingBasket', description: 'Daily staples, pulses, dry fruits, and oils' },
+  { slug: 'stationary', label: 'Stationery', icon: 'BookOpen', description: 'Notebooks, planners, folders, and desk supplies' },
+  { slug: 'gifts', label: 'Gifts & Hampers', icon: 'Gift', description: 'Curated gifts for every celebration' }
 ];
 
 export const OCCASIONS = [
@@ -49,6 +45,8 @@ export const RECIPIENTS = [
 ];
 
 export const CATEGORY_IMAGES = {
+  'grocery-items': 'https://images.unsplash.com/photo-1542838132-92c53300491e?w=800&q=80',
+  'pet-accessories': 'https://images.unsplash.com/photo-1583511655857-d19b40a7a54e?w=800&q=80',
   'clothing': 'https://images.unsplash.com/photo-1489987707025-afc232f7ea0f?w=800&q=80',
   'western-wear': 'https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?w=800&q=80',
   'ethnic-wear': 'https://images.unsplash.com/photo-1610030469983-98e550d6193c?w=800&q=80',
@@ -69,7 +67,10 @@ export const CATEGORY_IMAGES = {
   'kids': 'https://images.unsplash.com/photo-1514090458221-65bb69cf63e6?w=800&q=80',
   'pooja-items': 'https://images.unsplash.com/photo-1609825488888-3a766db05542?w=800&q=80',
   'gifts': 'https://images.unsplash.com/photo-1549465220-1a8b9238cd48?w=800&q=80',
-  'healthy-foods': 'https://images.unsplash.com/photo-1490818387583-1baba5e638af?w=800&q=80'
+  'healthy-foods': 'https://images.unsplash.com/photo-1490818387583-1baba5e638af?w=800&q=80',
+  'grocery': 'https://images.unsplash.com/photo-1586201375761-83865001e31c?w=800&q=80',
+  'stationery': 'https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?w=800&q=80',
+  'stationary': 'https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?w=800&q=80'
 };
 
 export const categoryService = {

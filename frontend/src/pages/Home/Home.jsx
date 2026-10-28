@@ -2,12 +2,14 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import { useLocation } from 'react-router-dom';
 import Hero from '../../components/sections/Home/Hero/Hero';
+import TrustGuarantee from '../../components/sections/Home/TrustGuarantee/TrustGuarantee';
+import EasyShoppingExplainer from '../../components/sections/Home/EasyShoppingExplainer/EasyShoppingExplainer';
 import CategoryBubbles from '../../components/sections/Home/CategoryBubbles/CategoryBubbles';
+import EditorialShowcase from '../../components/sections/Home/EditorialShowcase/EditorialShowcase';
 import FlashDeals from '../../components/sections/Home/FlashDeals/FlashDeals';
 import AdBannerCarousel from '../../components/sections/Home/AdBannerCarousel/AdBannerCarousel';
 import HomeCategorySections from '../../components/sections/Home/HomeCategorySections/HomeCategorySections';
 import ProductGrid from '../../components/sections/Home/ProductGrid/ProductGrid';
-import TrustGuarantee from '../../components/sections/Home/TrustGuarantee/TrustGuarantee';
 import CustomerReviews from '../../components/sections/Home/Reviews/CustomerReviews';
 import NewsletterCTA from '../../components/sections/Home/Newsletter/NewsletterCTA';
 
@@ -25,35 +27,41 @@ const Home = () => {
       transition={{ duration: 0.4 }}
       className="overflow-x-hidden bg-white"
     >
-      {/* 1. Cinematic Video Hero Section (Navbar transparent over it) */}
+      {/* 1. Cinematic Video Hero Section */}
       {!isSearching && <Hero />}
 
-      {/* 2. Visual Circular Department Bubbles */}
+      {/* 2. Sleek Benefit & Trust Strip (Directly beneath hero like reference) */}
+      {!isSearching && <TrustGuarantee />}
+
+      {/* 2b. Super Easy 4-Step Shopping Explainer & Roles Connect */}
+      {!isSearching && <EasyShoppingExplainer />}
+
+      {/* 3. Visual Circular Department Bubbles */}
       {!isSearching && <CategoryBubbles />}
 
-      {/* 3. Limited-Time Flash Deals of the Day (Countdown Timer) */}
+      {/* 4. Editorial Bento Collection Showcase (Our New Collection) */}
+      {!isSearching && <EditorialShowcase />}
+
+      {/* 5. Limited-Time Flash Deals */}
       {!isSearching && <FlashDeals />}
 
-      {/* 4. Sponsored Partner Highlights (if active) */}
+      {/* 6. Sponsored Partner Highlights (if active) */}
       {!isSearching && <AdBannerCarousel />}
 
-      {/* 5. Separated Category Sections with Visible Products */}
+      {/* 7. Separated Category Sections with Clean 4-Column Grids */}
       {!isSearching && <HomeCategorySections />}
 
-      {/* 6. Search Results Grid (only shown when actively searching) */}
+      {/* 8. Search Results Grid (only shown when actively searching) */}
       {isSearching && (
         <div id="catalog-section" className="w-full">
           <ProductGrid />
         </div>
       )}
 
-      {/* 7. E-Commerce Trust & Guarantee Signals */}
-      {!isSearching && <TrustGuarantee />}
-
-      {/* 8. Verified Buyer Reviews & Social Proof */}
+      {/* 9. Verified Buyer Reviews & Social Proof */}
       {!isSearching && <CustomerReviews />}
 
-      {/* 9. Exclusive VIP Club / Deals Newsletter */}
+      {/* 10. Exclusive VIP Club / Deals Newsletter */}
       {!isSearching && <NewsletterCTA />}
     </motion.div>
   );

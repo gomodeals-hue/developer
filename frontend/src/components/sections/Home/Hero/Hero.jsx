@@ -2,10 +2,12 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import { ArrowRight, ArrowDown, Compass } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
+import { useShop } from '../../../../context/ShopContext';
 import heroVideo from '../../../../assets/Hero_video.mp4';
 
 const Hero = () => {
   const navigate = useNavigate();
+  const { t } = useShop();
 
   const scrollTo = (id) => {
     const el = document.getElementById(id);
@@ -36,7 +38,7 @@ const Hero = () => {
             >
               {/* Bold Editorial Headline Matching Reference Design */}
               <div className="space-y-1 sm:space-y-2">
-                {/* Line 1: DISCOVER ────> */}
+                {/* Line 1: {t("hero_discover", "DISCOVER")} ────> */}
                 <div className="flex items-center gap-3 sm:gap-4">
                   <span className="text-3xl sm:text-4xl md:text-5xl lg:text-[50px] font-black tracking-tight text-stone-950 uppercase leading-none">
                     DISCOVER
@@ -47,12 +49,12 @@ const Hero = () => {
                   </div>
                 </div>
 
-                {/* Line 2: VERIFIED DEALS ON */}
+                {/* Line 2: {t("hero_verified_deals", "VERIFIED DEALS ON")} */}
                 <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-[50px] font-black tracking-tight text-stone-950 uppercase leading-[1.04]">
                   VERIFIED DEALS ON
                 </h1>
 
-                {/* Line 3: HANDPICKED ELEGANCE */}
+                {/* Line 3: {t("hero_handpicked_elegance", "HANDPICKED ELEGANCE")} */}
                 <div className="text-3xl sm:text-4xl md:text-5xl lg:text-[50px] font-black tracking-tight text-orange-600 uppercase leading-[1.04]">
                   HANDPICKED ELEGANCE
                 </div>
@@ -60,7 +62,7 @@ const Hero = () => {
 
               {/* Subtitle Text at the Bottom */}
               <p className="mt-8 text-xs sm:text-sm md:text-[15px] text-stone-600 font-medium leading-relaxed max-w-lg">
-                Explore thousands of verified artisan creations, latest designer fashion, sacred pooja essentials, and modern electronics with guaranteed authentic savings.
+                {t("hero_subtitle", "Explore thousands of verified artisan creations, latest designer fashion, sacred pooja essentials, and modern electronics with guaranteed authentic savings.")}
               </p>
             </motion.div>
 
@@ -83,9 +85,9 @@ const Hero = () => {
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/30 to-transparent" />
                 <div className="absolute bottom-4 left-4 sm:bottom-5 sm:left-5 z-10 flex flex-col">
-                  <span className="text-[10px] sm:text-xs font-semibold text-orange-300 uppercase tracking-widest">Spiritual</span>
+                  <span className="text-[10px] sm:text-xs font-semibold text-orange-300 uppercase tracking-widest">{t("hero_spiritual", "Spiritual")}</span>
                   <span className="text-sm sm:text-base md:text-lg font-bold tracking-tight text-white drop-shadow-md flex items-center gap-1.5">
-                    Pooja Essentials
+                    {t("hero_pooja_essentials", "Pooja Essentials")}
                     <ArrowRight size={14} className="text-orange-400 group-hover:translate-x-1 transition-transform" />
                   </span>
                 </div>
@@ -107,9 +109,9 @@ const Hero = () => {
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/30 to-transparent" />
                 <div className="absolute bottom-4 left-4 sm:bottom-5 sm:left-5 z-10 flex flex-col">
-                  <span className="text-[10px] sm:text-xs font-semibold text-orange-300 uppercase tracking-widest">Artisan</span>
+                  <span className="text-[10px] sm:text-xs font-semibold text-orange-300 uppercase tracking-widest">{t("hero_artisan", "Artisan")}</span>
                   <span className="text-sm sm:text-base md:text-lg font-bold tracking-tight text-white drop-shadow-md flex items-center gap-1.5">
-                    Ethnic Handloom
+                    {t("hero_ethnic_handloom", "Ethnic Handloom")}
                     <ArrowRight size={14} className="text-orange-400 group-hover:translate-x-1 transition-transform" />
                   </span>
                 </div>
@@ -151,8 +153,7 @@ const Hero = () => {
                 className="w-20 h-20 sm:w-24 sm:h-24 rounded-full bg-white/20 hover:bg-orange-600 hover:scale-105 border border-white/40 backdrop-blur-md text-white text-xs sm:text-sm font-black uppercase tracking-wider flex flex-col items-center justify-center transition-all duration-300 shadow-2xl cursor-pointer group"
                 aria-label="Shop Now"
               >
-                <span className="leading-tight">SHOP</span>
-                <span className="leading-tight">NOW</span>
+                <span className="leading-tight">{t("hero_shop_now", "SHOP NOW")}</span>
               </button>
             </div>
 
@@ -165,7 +166,7 @@ const Hero = () => {
                 onClick={() => scrollTo('deals-section')}
                 className="bg-white hover:bg-orange-50 text-stone-950 font-bold text-xs sm:text-sm pl-5 pr-2 py-2 rounded-full flex items-center gap-3 shadow-xl transition-all duration-200 cursor-pointer group"
               >
-                <span className="uppercase tracking-wider">Explore Deals</span>
+                <span className="uppercase tracking-wider">{t("hero_explore_deals", "Explore Deals")}</span>
                 <div className="w-7 h-7 rounded-full bg-stone-950 group-hover:bg-orange-600 text-white flex items-center justify-center transition-colors">
                   <ArrowDown size={14} className="group-hover:translate-y-0.5 transition-transform" />
                 </div>
@@ -177,7 +178,7 @@ const Hero = () => {
                 onClick={() => scrollTo('featured-categories')}
                 className="bg-black/50 hover:bg-black/70 backdrop-blur-md border border-white/30 text-white font-bold text-xs sm:text-sm pl-5 pr-2.5 py-2 rounded-full flex items-center gap-3 shadow-xl transition-all duration-200 cursor-pointer group"
               >
-                <span className="uppercase tracking-wider">Browse Catalog</span>
+                <span className="uppercase tracking-wider">{t("hero_browse_catalog", "Browse Catalog")}</span>
                 <div className="w-7 h-7 rounded-full bg-white/20 group-hover:bg-white/30 text-white flex items-center justify-center transition-colors">
                   <Compass size={14} />
                 </div>

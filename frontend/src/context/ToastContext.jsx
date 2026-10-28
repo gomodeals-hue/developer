@@ -20,8 +20,16 @@ export const ToastProvider = ({ children }) => {
     setToasts((prev) => prev.filter((t) => t.id !== id));
   }, []);
 
+  const showToast = useCallback((message, type = 'info') => {
+    toast({
+      title: type === 'error' ? 'Notice' : type === 'success' ? 'Success' : 'Information',
+      description: typeof message === 'string' ? message : JSON.stringify(message),
+      variant: type === 'error' ? 'destructive' : 'default'
+    });
+  }, [toast]);
+
   return (
-    <ToastContext.Provider value={{ toast }}>
+    <ToastContext.Provider value={{ toast, showToast }}>
       {children}
       <div className="fixed bottom-8 right-8 z-[100] flex flex-col gap-3 w-full max-w-sm">
         <AnimatePresence>
@@ -67,7 +75,8 @@ export const useToast = () => {
   if (!context) {
     // Fallback if provider is missing
     return {
-      toast: ({ title, description }) => console.log('Toast (no provider):', title, description)
+      toast: ({ title, description }) => console.log('Toast (no provider):', title, description),
+      showToast: (message, type) => console.log(`Toast [${type}]:`, message)
     };
   }
   return context;

@@ -13,7 +13,6 @@ const Navbar = () => {
                 const heroEl = document.getElementById('hero-section');
                 if (heroEl) {
                     const rect = heroEl.getBoundingClientRect();
-                    // Navbar height is ~110px. When the hero section's bottom passes this, the navbar has crossed the hero
                     setScrolledPastHero(rect.bottom <= 110);
                 } else {
                     setScrolledPastHero(window.scrollY > 450);
@@ -27,9 +26,6 @@ const Navbar = () => {
         window.addEventListener('scroll', handleScroll, { passive: true });
         return () => window.removeEventListener('scroll', handleScroll);
     }, [isHome]);
-
-    // Transparent only on the Home page when inside the hero section
-    const isTransparent = isHome && !scrolledPastHero;
 
     return (
         <header

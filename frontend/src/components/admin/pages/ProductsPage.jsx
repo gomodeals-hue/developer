@@ -15,8 +15,9 @@ import { api } from "../../../services/api";
 import { exportToExcel } from "../../../utils/exportUtils";
 import { motion, AnimatePresence } from "framer-motion";
 import { StatCard } from "../components/StatCard";
+import { useToast } from "../../../context/ToastContext";
 
-const CHART_COLORS = ['#f97316', '#ea580c', '#0c0a09', '#c2410c', '#fdba74', '#9a3412'];
+const CHART_COLORS = ['#f76e28', '#de5713', '#0c0a09', '#c2410c', '#fdba74', '#9a3412'];
 
 const OccasionIcon = ({ occasion, className }) => {
   const o = occasion?.toLowerCase() || '';
@@ -45,6 +46,7 @@ function ProductImage({ src, name, size = 64 }) {
 
 export default function ProductsPage() {
   const navigate = useNavigate();
+  const { toast } = useToast();
   const { searchQuery: search, setSearchQuery: setSearch } = useAdminSearch();
   const { deleteProduct } = useContext(ProductContext) || {};
   const [products, setProducts] = useState([]);

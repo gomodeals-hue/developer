@@ -15,7 +15,8 @@ const loadLocalCart = () => {
 
 const saveLocalCart = (items) => {
   try {
-    localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(items));
+    localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(items || []));
+    localStorage.setItem('cart', JSON.stringify(items || []));
   } catch (err) {
     console.error('Failed to persist local cart:', err);
   }
@@ -211,21 +212,54 @@ export const cartService = {
   /**
    * Remove item from cart
    */
-  async removeItem(cartItemId) {
+  async removeItem(cartItemId, options = {}) {
+    // 1. Immediately prune from local storage synchronously
+    const local = loadLocalCart().filter(item => {
+      const match = (
+        String(item.cart_item_id) === String(cartItemId) ||
+        String(item.id) === String(cartItemId) ||
+        String(item.product_id) === String(cartItemId) ||
+        item.id == cartItemId ||
+        item.product_id == cartItemId ||
+        item.cart_item_id == cartItemId
+      );
+      if (!match) return true;
+      const targetVariant = options.variant_value || options.selectedColor;
+      if (targetVariant && targetVariant !== 'default') {
+        const itemVar = item.variant_value || item.selectedColor;
+        return !(itemVar === targetVariant);
+      }
+      return false; // remove
+    });
+    saveLocalCart(local);
+
+    // 2. Call backend if not mocked
     if (!API_CONFIG.USE_MOCK) {
       try {
-        const res = await apiClient.delete(API_CONFIG.ENDPOINTS.CART.REMOVE(cartItemId));
-        if (res.data?.success) return res.data;
+        const res = await apiClient.delete(API_CONFIG.ENDPOINTS.CART.REMOVE(cartItemId), {
+          params: {
+            variant_value: options.variant_value || options.selectedColor || undefined,
+            userId: options.userId || undefined
+          }
+        });
+        if (res.data?.success) {
+          if (Array.isArray(res.data.data)) {
+            const sanitized = res.data.data.filter(i => 
+              String(i.cart_item_id) !== String(cartItemId) &&
+              String(i.id) !== String(cartItemId) &&
+              String(i.product_id) !== String(cartItemId)
+            );
+            saveLocalCart(sanitized);
+            return { ...res.data, data: sanitized, items: sanitized };
+          }
+          return res.data;
+        }
       } catch (err) {
-        console.warn('API removeItem failed, removing locally:', err.message);
+        console.warn('API removeItem failed, using local cart:', err.message);
       }
     }
 
-    const cart = loadLocalCart().filter(
-      item => item.cart_item_id !== cartItemId && item.id !== cartItemId && item.product_id !== cartItemId
-    );
-    saveLocalCart(cart);
-    return { success: true, data: cart };
+    return { success: true, data: local, items: local };
   },
 
   /**
@@ -241,6 +275,24 @@ export const cartService = {
     }
     saveLocalCart([]);
     return { success: true, data: [] };
+  },
+
+  /**
+   * Merge anonymous guest cart with user cart on login
+   */
+  async mergeCart(userId, items = []) {
+    if (!API_CONFIG.USE_MOCK && userId) {
+      try {
+        const res = await apiClient.post('/cart/merge', { userId, items });
+        if (res.data?.success) {
+          saveLocalCart(res.data.data);
+          return res.data;
+        }
+      } catch (err) {
+        console.warn('API mergeCart failed:', err.message);
+      }
+    }
+    return { success: true, data: loadLocalCart() };
   }
 };
 
@@ -250,6 +302,7 @@ export const addToCart = (payload) => cartService.addToCart(payload);
 export const updateQuantity = (id, q) => cartService.updateQuantity(id, q);
 export const removeItem = (id) => cartService.removeItem(id);
 export const clearCart = (id) => cartService.clearCart(id);
+export const mergeCart = (userId, items) => cartService.mergeCart(userId, items);
 export const calculateCartSummary = (items, coupon, opts) => cartService.calculateCartSummary(items, coupon, opts);
 export const validateCartStock = (items) => cartService.validateCartStock(items);
 

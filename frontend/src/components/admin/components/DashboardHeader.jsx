@@ -1,15 +1,17 @@
 import { useState, useEffect, useRef } from "react";
 import { Bell, X, Mail, Phone, LogOut, Menu, Home, LayoutDashboard, Package, ShoppingCart, Users, CreditCard, RotateCcw, FileBarChart, Settings, Store, Ticket, Shield, MessageSquare, ShieldCheck, Info, Tag, Truck, CheckCircle2, XCircle, RefreshCw, ShoppingBag, Clock } from "lucide-react";
-import { useNavigate, NavLink, useLocation } from "react-router-dom";
-import { useAuth } from "../../../context/AuthContext.jsx";
+import { useNavigate, NavLink, useLocation, Link } from "react-router-dom";
+import { useAdminAuth } from "../../../context/AdminAuthContext.jsx";
 import { cn } from "../../../lib/utils";
 import { motion, AnimatePresence } from "framer-motion";
 import { api } from "../../../services/api";
+import gmdLogo from "../../../assets/GMD_Logo.png";
+import { navItems } from "./AdminSidebar.jsx";
 
 export function DashboardHeader() {
   const navigate = useNavigate();
   const location = useLocation();
-  const { user, logout } = useAuth();
+  const { adminUser: user, logoutAdmin } = useAdminAuth();
   const [showNotifications, setShowNotifications] = useState(false);
   const [showProfile, setShowProfile] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -116,8 +118,8 @@ export function DashboardHeader() {
   ];
 
   const handleLogout = () => {
-    logout();
-    navigate("/admin-login");
+    logoutAdmin();
+    navigate("/admin/login");
   };
 
   return (
@@ -126,18 +128,19 @@ export function DashboardHeader() {
         <div className="flex justify-between items-center w-full">
           <div className="flex items-center gap-8">
             {/* Logo - Mobile only */}
-            <div
-              className="flex lg:hidden items-center gap-4 cursor-pointer group"
-              onClick={() => navigate("/admin")}
+            <Link
+              to="/admin"
+              className="flex lg:hidden items-center gap-2.5 cursor-pointer group focus:outline-none"
             >
-              <div className="h-10 w-10 bg-orange-600 flex items-center justify-center text-white flex-shrink-0 transition-transform duration-500 rounded-xl shadow-sm">
-                <ShieldCheck size={20} />
-              </div>
-              <div className="hidden sm:block">
-                <span className="block text-xl font-bold text-orange-900 tracking-widest uppercase">GoMo</span>
-                <span className="block text-[8px] font-bold text-orange-500 uppercase tracking-[0.3em] mt-1">Admin</span>
-              </div>
-            </div>
+              <img 
+                src={gmdLogo} 
+                alt="GoMo Deals" 
+                className="h-9 sm:h-10 w-auto object-contain transition-transform duration-150 group-hover:scale-105 filter drop-shadow-sm" 
+              />
+              <span className="text-[8.5px] font-black uppercase tracking-[0.2em] text-orange-600 bg-orange-50 px-2 py-0.5 rounded-md border border-orange-200">
+                Admin
+              </span>
+            </Link>
 
             {/* Page Title - Desktop only */}
             <div className="hidden lg:flex flex-col">
@@ -151,13 +154,25 @@ export function DashboardHeader() {
           <div className="flex items-center gap-2 sm:gap-4">
             {/* Action Buttons */}
             <div className="flex items-center gap-1.5">
-              <button
-                onClick={() => navigate("/")}
-                className="p-2.5 hover:bg-orange-50 transition-all text-orange-500 hover:text-orange-950 group rounded-xl"
-                title="View Storefront"
-              >
-                <Home size={18} className="transition-transform group-hover:scale-110" strokeWidth={1.5} />
-              </button>
+              {/* Quick Portal Switcher */}
+              <div className="flex items-center gap-1.5 mr-1">
+                <button
+                  onClick={() => navigate("/")}
+                  className="px-3 py-1.5 text-xs font-bold text-orange-800 bg-orange-100/70 hover:bg-orange-200 rounded-xl transition-colors flex items-center gap-1.5"
+                  title="View Customer Storefront"
+                >
+                  <Home size={14} />
+                  <span className="hidden sm:inline">Storefront</span>
+                </button>
+                <button
+                  onClick={() => navigate("/seller")}
+                  className="px-3 py-1.5 text-xs font-bold text-stone-700 bg-stone-100 hover:bg-stone-200 rounded-xl transition-colors flex items-center gap-1.5"
+                  title="Open Seller Hub"
+                >
+                  <Store size={14} />
+                  <span className="hidden sm:inline">Seller Hub</span>
+                </button>
+              </div>
 
               {/* Notifications */}
               <div className="relative">
@@ -413,8 +428,12 @@ export function DashboardHeader() {
                   : "text-orange-400 hover:text-white hover:bg-white/5"
               )}
             >
-              <item.icon size={16} strokeWidth={1.5} className={isActive ? "text-white" : "text-orange-400"} />
-              {item.title}
+              {({ isActive }) => (
+                <>
+                  <item.icon size={16} strokeWidth={1.5} className={isActive ? "text-white" : "text-orange-400"} />
+                  {item.title}
+                </>
+              )}
             </NavLink>
           ))}
         </div>

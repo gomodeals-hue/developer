@@ -1,0 +1,112 @@
+[
+  {
+    "id": "TKT-27639",
+    "ticket_id": "TKT-27639",
+    "author_type": "customer",
+    "author_id": "usr-1",
+    "author_name": "Ananya Roy",
+    "author_email": "",
+    "seller_id": null,
+    "order_id": "GMD-ORD-10022",
+    "order_number": "GOMO-2026-10022",
+    "product_name": null,
+    "category": "shipping_delay",
+    "subject": "Shipment delayed past delivery window",
+    "description": "Carrier status shows out for delivery but package has not arrived.",
+    "priority": "medium",
+    "status": "open",
+    "resolution_note": "",
+    "history": [
+      {
+        "timestamp": "2026-10-05T06:13:20.542Z",
+        "actor": "Ananya Roy",
+        "action": "Ticket raised",
+        "note": "Issue reported under shipping delay"
+      }
+    ],
+    "created_at": "2026-10-05T06:13:20.542Z",
+    "updated_at": "2026-10-05T06:13:20.542Z"
+  },
+  {
+    "id": "TKT-16109",
+    "ticket_id": "TKT-16109",
+    "author_type": "seller",
+    "author_id": "seller-1",
+    "author_name": "Divine Brass",
+    "author_email": "",
+    "seller_id": "seller-1",
+    "order_id": null,
+    "order_number": null,
+    "product_name": null,
+    "category": "shipping_performance",
+    "subject": "BlueDart cutoff time extension request",
+    "description": "Requesting 1 hour extension on festival eve for evening pickup.",
+    "priority": "high",
+    "status": "open",
+    "resolution_note": "",
+    "history": [
+      {
+        "timestamp": "2026-10-05T06:11:56.598Z",
+        "actor": "Divine Brass",
+        "action": "Ticket raised",
+        "note": "Issue reported under shipping performance"
+      }
+    ],
+    "created_at": "2026-10-05T06:11:56.598Z",
+    "updated_at": "2026-10-05T06:11:56.598Z"
+  },
+  {
+    "id": "TKT-10081",
+    "ticket_id": "TKT-10081",
+    "author_type": "seller",
+    "author_id": "seller-1",
+    "author_name": "Divine Brass & Temple Arts",
+    "order_id": "GMD-ORD-10021",
+    "order_number": "GOMO-2026-10021",
+    "product_name": "Handcrafted Brass Peacock Pooja Diya",
+    "category": "shipping_performance",
+    "subject": "Courier pickup delayed for Order GOMO-2026-10021",
+    "description": "Carrier BlueDart pickup executive arrived after evening cutoff time. Requesting LDR (Late Delivery Rate) waiver since parcel was packed within 4 hours of order confirmation.",
+    "priority": "high",
+    "status": "under_review",
+    "resolution_note": "Investigation opened with BlueDart regional hub. SLA waiver logged.",
+    "created_at": "2026-10-03T06:11:32.135Z",
+    "updated_at": "2026-10-04T06:11:32.135Z"
+  },
+  {
+    "id": "TKT-10082",
+    "ticket_id": "TKT-10082",
+    "author_type": "seller",
+    "author_id": "seller-1",
+    "author_name": "Divine Brass & Temple Arts",
+    "order_id": null,
+    "order_number": null,
+    "product_name": "Brass Pooja Thali Set",
+    "category": "pdt_policy_compliance",
+    "subject": "Clarification regarding hallmark certification upload",
+    "description": "Uploaded artisan brass purity certificate under PDT Compliance tab. Requesting confirmation of approval status.",
+    "priority": "medium",
+    "status": "resolved",
+    "resolution_note": "Certificate verified and registered under Product Policy Compliance.",
+    "created_at": "2026-10-01T06:11:32.135Z",
+    "updated_at": "2026-10-03T06:11:32.135Z"
+  },
+  {
+    "id": "TKT-10083",
+    "ticket_id": "TKT-10083",
+    "author_type": "customer",
+    "author_id": "usr-1",
+    "author_name": "Rajesh Kumar",
+    "order_id": "GMD-ORD-10021",
+    "order_number": "GOMO-2026-10021",
+    "product_name": "Handcrafted Brass Peacock Pooja Diya",
+    "category": "shipping_delay",
+    "subject": "Escalation for expedited delivery before festival",
+    "description": "Placed order for upcoming festival. Want to ensure delivery is completed by Friday as requested.",
+    "priority": "medium",
+    "status": "resolved",
+    "resolution_note": "Courier expedited to Priority Express; delivery confirmed.",
+    "created_at": "2026-10-04T06:11:32.135Z",
+    "updated_at": "2026-10-04T18:11:32.135Z"
+  }
+]

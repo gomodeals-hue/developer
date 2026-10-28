@@ -19,9 +19,9 @@ const WELCOME_TIERS = [
     name: 'Free',
     icon: ShoppingBag,
     price: 0,
-    gradient: 'from-orange-50 to-amber-50',
+    gradient: 'from-orange-50 to-orange-100/60',
     border: 'border-orange-200',
-    headerGrad: 'from-orange-400 to-amber-400',
+    headerGrad: 'from-orange-500 to-orange-600',
     textColor: 'text-orange-500',
     highlight: 'Basic access to all products',
     discountPct: 0,
@@ -43,10 +43,10 @@ const WELCOME_TIERS = [
     name: 'Gold',
     icon: Crown,
     price: 599,
-    gradient: 'from-amber-50 to-yellow-50',
-    border: 'border-amber-300',
-    headerGrad: 'from-amber-500 to-yellow-400',
-    textColor: 'text-amber-700',
+    gradient: 'from-orange-50 to-orange-100/50',
+    border: 'border-orange-300',
+    headerGrad: 'from-orange-500 to-orange-600',
+    textColor: 'text-orange-700',
     highlight: '10% off + Always free shipping',
     discountPct: 10,
     recommended: true,
@@ -233,7 +233,7 @@ const MembershipWelcomeModal = () => {
                       }`}
                     >
                       {tier.recommended && (
-                        <div className="absolute -top-2.5 left-1/2 -translate-x-1/2 bg-gradient-to-r from-amber-500 to-orange-500 text-white text-[6px] font-black uppercase tracking-widest px-2 py-0.5 rounded-full whitespace-nowrap shadow">
+                        <div className="absolute -top-2.5 left-1/2 -translate-x-1/2 bg-[#f76e28] text-white text-[6px] font-black uppercase tracking-widest px-2 py-0.5 rounded-full whitespace-nowrap shadow">
                           Best Value
                         </div>
                       )}

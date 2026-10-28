@@ -264,7 +264,7 @@ const ProductGrid = () => {
       list.push({ id: 'occasion', label: `${t('occasion')}: ${filterOccasion}`, clear: () => setFilterOccasion('all') });
     }
     if (minRating > 0) {
-      list.push({ id: 'rating', label: `Rating: ${minRating}★ & Up`, clear: () => setMinRating(0) });
+      list.push({ id: 'rating', label: `Rating: ${minRating}+ Stars`, clear: () => setMinRating(0) });
     }
     if (filterBrand !== 'all') {
       list.push({ id: 'brand', label: `${t('brand') || 'Brand'}: ${filterBrand}`, clear: () => setFilterBrand('all') });
@@ -290,14 +290,15 @@ const ProductGrid = () => {
     // Helper for clean includes check
     const fieldContains = (field, search) => {
       if (!field || !search) return false;
-      const cleanField = field.toLowerCase().replace(/[^a-z0-9]/g, '');
-      const cleanSearch = search.toLowerCase().replace(/[^a-z0-9]/g, '');
+      const str = Array.isArray(field) ? field.join(' ') : String(field);
+      const cleanField = str.toLowerCase().replace(/[^a-z0-9]/g, '');
+      const cleanSearch = String(search).toLowerCase().replace(/[^a-z0-9]/g, '');
       return cleanField.includes(cleanSearch);
     };
 
     const isMenField = (val) => {
       if (!val) return false;
-      const str = String(val).toLowerCase();
+      const str = (Array.isArray(val) ? val.join(' ') : String(val)).toLowerCase();
       const withoutWomen = str.replace(/wom[ae]n('?s)?/g, '');
       return /\b(men|mens|man|him|husband|boyfriend|groom|boy|father|male)\b/.test(withoutWomen) ||
              /men's/.test(withoutWomen);
@@ -305,7 +306,7 @@ const ProductGrid = () => {
 
     const isWomenField = (val) => {
       if (!val) return false;
-      const str = String(val).toLowerCase();
+      const str = (Array.isArray(val) ? val.join(' ') : String(val)).toLowerCase();
       return /\b(women|womens|woman|womans|her|wife|girlfriend|bride|girl|mother|female|lady|ladies)\b/.test(str) ||
              /women's/.test(str);
     };
@@ -313,9 +314,9 @@ const ProductGrid = () => {
     const fleaMarketCategories = ['flea', 'dal', 'paruppu', 'rice', 'wheat', 'maize', 'groundnut', 'sesame', 'black-pepper', 'turmeric', 'coriander', 'cumin', 'sugar', 'daily-essentials-groceries'];
 
     let result = sellerProducts.filter(p => {
-      const pCat = (p.category_name || '').toLowerCase();
-      const pName = (p.name || '').toLowerCase();
-      const pTags = (p.tags || '').toLowerCase();
+      const pCat = (p.category_name || '').toString().toLowerCase();
+      const pName = (p.name || '').toString().toLowerCase();
+      const pTags = (Array.isArray(p.tags) ? p.tags.join(' ') : (p.tags || '')).toString().toLowerCase();
       
       // Explicitly check for Flea Market indicators
       if (
@@ -470,7 +471,17 @@ const ProductGrid = () => {
             fieldContains(p.tags, 'heels') ||
             fieldContains(p.name, 'handbag');
 
-          if (isExplicitMen && !isExplicitWomen) {
+          const isKids = 
+            fieldContains(p.section, 'kid') ||
+            fieldContains(p.department, 'kid') ||
+            fieldContains(p.gender, 'girls') ||
+            fieldContains(p.gender, 'boys') ||
+            fieldContains(p.category_name, 'kid') ||
+            fieldContains(p.tags, 'kids');
+
+          if (isKids) {
+            matchSection = false;
+          } else if (isExplicitMen && !isExplicitWomen) {
             matchSection = false;
           } else if (isExplicitWomen) {
             matchSection = true;
@@ -590,9 +601,11 @@ const ProductGrid = () => {
         const pRec = p.recipient?.toLowerCase() || '';
         const pNameDescTags = `${p.name || ''} ${p.description || ''} ${p.tags || ''}`.toLowerCase();
         if (rec === 'him') {
-          matchRecipient = pRec.includes('him') || pRec.includes('boyfriend') || pRec.includes('father') || pRec.includes('husband') || pNameDescTags.includes('men') || pNameDescTags.includes('mens');
+          const isExplicitWoman = /\b(women|womens|women's|woman|ladies|saree|kurti|lehenga|blouse|heels|bra|skirt)\b/i.test(pNameDescTags);
+          matchRecipient = !isExplicitWoman && (pRec.includes('him') || pRec.includes('boyfriend') || pRec.includes('father') || pRec.includes('husband') || (p.gender || '').toLowerCase() === 'men' || (p.section || '').toLowerCase() === 'men' || /\b(men|mens|men's)\b/i.test(pNameDescTags));
         } else if (rec === 'her') {
-          matchRecipient = pRec.includes('her') || pRec.includes('girlfriend') || pRec.includes('mother') || pRec.includes('sister') || pNameDescTags.includes('women') || pNameDescTags.includes('womens');
+          const isExplicitMan = /\b(men|mens|men's|man|gent|boy|boys)\b/i.test(pNameDescTags);
+          matchRecipient = !isExplicitMan && (pRec.includes('her') || pRec.includes('girlfriend') || pRec.includes('mother') || pRec.includes('sister') || (p.gender || '').toLowerCase() === 'women' || (p.section || '').toLowerCase() === 'women' || /\b(women|womens|women's|ladies|saree|kurti)\b/i.test(pNameDescTags));
         } else if (rec === 'couples') {
           matchRecipient = pRec.includes('couple') || pRec.includes('wedding') || pRec.includes('both');
         } else if (rec === 'kids') {
@@ -654,9 +667,11 @@ const ProductGrid = () => {
         const pRec = p.recipient?.toLowerCase() || '';
         const pNameDesc = `${p.name || ''} ${p.description || ''}`.toLowerCase();
         if (gen === 'men') {
-          matchGender = pRec.includes('him') || pRec.includes('boyfriend') || pRec.includes('father') || pRec.includes('husband') || pNameDesc.includes('men') || pNameDesc.includes('mens');
+          const isExplicitWoman = /\b(women|womens|women's|woman|ladies|saree|kurti|lehenga|blouse|heels|bra|skirt)\b/i.test(pNameDesc);
+          matchGender = !isExplicitWoman && (pRec.includes('him') || pRec.includes('boyfriend') || pRec.includes('father') || pRec.includes('husband') || (p.gender || '').toLowerCase() === 'men' || (p.section || '').toLowerCase() === 'men' || /\b(men|mens|men's)\b/i.test(pNameDesc));
         } else if (gen === 'women') {
-          matchGender = pRec.includes('her') || pRec.includes('girlfriend') || pRec.includes('mother') || pRec.includes('sister') || pRec.includes('wife') || pNameDesc.includes('women') || pNameDesc.includes('womens');
+          const isExplicitMan = /\b(men|mens|men's|man|gent|boy|boys)\b/i.test(pNameDesc);
+          matchGender = !isExplicitMan && (pRec.includes('her') || pRec.includes('girlfriend') || pRec.includes('mother') || pRec.includes('sister') || pRec.includes('wife') || (p.gender || '').toLowerCase() === 'women' || (p.section || '').toLowerCase() === 'women' || /\b(women|womens|women's|ladies|saree|kurti)\b/i.test(pNameDesc));
         }
       }
 
@@ -879,11 +894,6 @@ const ProductGrid = () => {
                                               <span className="w-1.5 h-1.5 rounded-full bg-orange-600 flex-shrink-0"></span>
                                             )}
                                           </div>
-                                          {sec.subtitle && (
-                                            <p className="text-[10px] text-stone-400 truncate leading-tight mt-0.5 font-normal">
-                                              {sec.subtitle}
-                                            </p>
-                                          )}
                                         </div>
                                       </button>
 

@@ -1,0 +1,16 @@
+{
+  "announcementText": "FLASH SALE: Free Express Shipping on orders over ₹499 | Use Code GOMO50 for Flat ₹50 Off",
+  "heroHeadline": "Curated Elegance, Guaranteed Authenticity",
+  "heroSubheadline": "Explore thousands of verified single-vendor boutique deals with direct brand warranty and seamless doorstep returns.",
+  "featuredProductIds": [
+    "men-101",
+    "women-201",
+    "kids-301"
+  ],
+  "dealOfTheDay": {
+    "productId": "men-101",
+    "title": "Men Slim Fit Pure Linen Casual Shirt",
+    "discountText": "Special Flash Drop: 48% OFF Today",
+    "expiryHours": 14
+  }
+}

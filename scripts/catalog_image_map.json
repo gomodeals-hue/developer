@@ -1,0 +1,2914 @@
+{
+  "https://images.unsplash.com/photo-1602810318383-e386cc2a3ccf?w=800&q=80": {
+    "id": "gmd-men-shirts-1",
+    "name": "Raymond Slim Fit Pure Cotton White Formal Shirt",
+    "category": "clothing",
+    "subcategory": "shirts",
+    "section": "men",
+    "gender": "men"
+  },
+  "https://images.unsplash.com/photo-1589310243389-96a5483213a8?w=800&q=80": {
+    "id": "gmd-men-shirts-2",
+    "name": "Levi's Classic Western Denim Long Sleeve Casual Shirt",
+    "category": "clothing",
+    "subcategory": "shirts",
+    "section": "men",
+    "gender": "men"
+  },
+  "https://images.unsplash.com/photo-1598033129183-c4f50c736f10?w=800&q=80": {
+    "id": "gmd-men-shirts-3",
+    "name": "Zara Breathable Pure Linen Camp Collar Casual Shirt",
+    "category": "clothing",
+    "subcategory": "shirts",
+    "section": "men",
+    "gender": "men"
+  },
+  "https://images.unsplash.com/photo-1603252109303-2751441dd157?w=800&q=80": {
+    "id": "gmd-men-shirts-4",
+    "name": "Peter England Navy Blue Gingham Checked Casual Shirt",
+    "category": "clothing",
+    "subcategory": "shirts",
+    "section": "men",
+    "gender": "men"
+  },
+  "https://images.unsplash.com/photo-1521572267360-ee0c2909d518?w=800&q=80": {
+    "id": "gmd-men-tshirts-1",
+    "name": "H&M Classic Crewneck Organic Cotton T-Shirt",
+    "category": "clothing",
+    "subcategory": "t-shirts",
+    "section": "men",
+    "gender": "men"
+  },
+  "https://images.unsplash.com/photo-1581655353564-df123a1eb820?w=800&q=80": {
+    "id": "gmd-men-tshirts-2",
+    "name": "Nike Dri-FIT Athletic Training Performance T-Shirt",
+    "category": "clothing",
+    "subcategory": "t-shirts",
+    "section": "men",
+    "gender": "men"
+  },
+  "https://images.unsplash.com/photo-1586363104862-3a5e2ab60d99?w=800&q=80": {
+    "id": "gmd-men-tshirts-3",
+    "name": "Tommy Hilfiger Pique Cotton Solid Polo T-Shirt",
+    "category": "clothing",
+    "subcategory": "t-shirts",
+    "section": "men",
+    "gender": "men"
+  },
+  "https://images.unsplash.com/photo-1576566588028-4147f3842f27?w=800&q=80": {
+    "id": "gmd-men-tshirts-4",
+    "name": "Roadster Vintage Graphic Print Streetwear T-Shirt",
+    "category": "clothing",
+    "subcategory": "t-shirts",
+    "section": "men",
+    "gender": "men"
+  },
+  "https://images.unsplash.com/photo-1542272604-780c96856592?w=800&q=80": {
+    "id": "gmd-men-jeans-1",
+    "name": "Levi's 511 Slim Fit Stretch Denim Jeans",
+    "category": "clothing",
+    "subcategory": "jeans-jeggings",
+    "section": "men",
+    "gender": "men"
+  },
+  "https://images.unsplash.com/photo-1541099649105-f69ad21f3246?w=800&q=80": {
+    "id": "gmd-men-jeans-2",
+    "name": "Wrangler Rugged Wear Regular Straight Leg Jeans",
+    "category": "clothing",
+    "subcategory": "jeans-jeggings",
+    "section": "men",
+    "gender": "men"
+  },
+  "https://images.unsplash.com/photo-1560243563-062bfc001d68?w=800&q=80": {
+    "id": "gmd-men-jeans-3",
+    "name": "Spykar Distressed Washed Tapered Denim Jeans",
+    "category": "clothing",
+    "subcategory": "jeans-jeggings",
+    "section": "men",
+    "gender": "men"
+  },
+  "https://images.unsplash.com/photo-1582552938357-32b906df40cb?w=800&q=80": {
+    "id": "gmd-men-jeans-4",
+    "name": "Pepe Jeans Clean Dark Indigo Slim Jeans",
+    "category": "clothing",
+    "subcategory": "jeans-jeggings",
+    "section": "men",
+    "gender": "men"
+  },
+  "https://images.unsplash.com/photo-1624378439575-d8705ad7ae80?w=800&q=80": {
+    "id": "gmd-men-trousers-1",
+    "name": "Dockers Slim Tapered Stretch Khaki Chinos",
+    "category": "clothing",
+    "subcategory": "trousers-pants",
+    "section": "men",
+    "gender": "men"
+  },
+  "https://images.unsplash.com/photo-1594938298603-c8148c4dae35?w=800&q=80": {
+    "id": "gmd-men-trousers-2",
+    "name": "Blackberrys Flat Front Charcoal Grey Formal Trousers",
+    "category": "clothing",
+    "subcategory": "trousers-pants",
+    "section": "men",
+    "gender": "men"
+  },
+  "https://images.unsplash.com/photo-1479064555552-3ef4979f8908?w=800&q=80": {
+    "id": "gmd-men-trousers-3",
+    "name": "Arrow Smart Executive Navy Formal Dress Pants",
+    "category": "clothing",
+    "subcategory": "trousers-pants",
+    "section": "men",
+    "gender": "men"
+  },
+  "https://images.unsplash.com/photo-1473966968600-fa801b869a1a?w=800&q=80": {
+    "id": "gmd-men-trousers-4",
+    "name": "Allen Solly Casual Slim Fit Olive Cotton Chino Trousers",
+    "category": "clothing",
+    "subcategory": "trousers-pants",
+    "section": "men",
+    "gender": "men"
+  },
+  "https://images.unsplash.com/photo-1552902865-b72c031ac5ea?w=800&q=80": {
+    "id": "gmd-men-trackpants-1",
+    "name": "Puma Heather Grey Moisture-Wicking Jogger Track Pants",
+    "category": "clothing",
+    "subcategory": "track-pants",
+    "section": "men",
+    "gender": "men"
+  },
+  "https://images.unsplash.com/photo-1517438476312-10d79c077509?w=800&q=80": {
+    "id": "gmd-men-trackpants-2",
+    "name": "Adidas Tiro Essential Cuffed Athletic Sweatpants",
+    "category": "clothing",
+    "subcategory": "track-pants",
+    "section": "men",
+    "gender": "men"
+  },
+  "https://images.unsplash.com/photo-1550684848-fac1c5b4e853?w=800&q=80": {
+    "id": "gmd-eth-women-kurtas-4",
+    "name": "Aurelia Teal Green Chikankari Cotton Daily Kurti",
+    "category": "ethnic-wear",
+    "subcategory": "kurtas",
+    "section": "women",
+    "gender": "women"
+  },
+  "https://images.unsplash.com/photo-1556905055-8f358a7a47b2?w=800&q=80": {
+    "id": "gmd-men-trackpants-4",
+    "name": "Decathlon Domyos Breathable Cotton Training Joggers",
+    "category": "clothing",
+    "subcategory": "track-pants",
+    "section": "men",
+    "gender": "men"
+  },
+  "https://images.unsplash.com/photo-1576995853123-5a10305d93c0?w=800&q=80": {
+    "id": "gmd-eth-women-gowns-2",
+    "name": "Biba Flared Anarkali Maxi Gown with Embellished Neckline",
+    "category": "ethnic-wear",
+    "subcategory": "dresses-gowns",
+    "section": "women",
+    "gender": "women"
+  },
+  "https://images.unsplash.com/photo-1593030761757-71fae45fa0e7?w=800&q=80": {
+    "id": "gmd-men-jackets-2",
+    "name": "Raymond Tailored Navy Blue Formal Single-Breasted Blazer",
+    "category": "clothing",
+    "subcategory": "jackets",
+    "section": "men",
+    "gender": "men"
+  },
+  "https://images.unsplash.com/photo-1521223890158-f9f7c3d5d504?w=800&q=80": {
+    "id": "gmd-men-jackets-3",
+    "name": "Zara Faux Suede Minimalist Biker Jacket",
+    "category": "clothing",
+    "subcategory": "jackets",
+    "section": "men",
+    "gender": "men"
+  },
+  "https://images.unsplash.com/photo-1548883354-7622d03aca27?w=800&q=80": {
+    "id": "gmd-men-jackets-4",
+    "name": "Woodland Full-Zip Outdoor Windbreaker Bomber Jacket",
+    "category": "clothing",
+    "subcategory": "jackets",
+    "section": "men",
+    "gender": "men"
+  },
+  "https://images.unsplash.com/photo-1572804013309-59a88b7e92f1?w=800&q=80": {
+    "id": "gmd-women-dresses-1",
+    "name": "Vero Moda Floral Print Pleated Midi Dress",
+    "category": "clothing",
+    "subcategory": "dresses",
+    "section": "women",
+    "gender": "women"
+  },
+  "https://images.unsplash.com/photo-1539109136881-3be0616acf4b?w=800&q=80": {
+    "id": "gmd-women-dresses-2",
+    "name": "Zara Black Ribbed Knit Bodycon Evening Dress",
+    "category": "clothing",
+    "subcategory": "dresses",
+    "section": "women",
+    "gender": "women"
+  },
+  "https://images.unsplash.com/photo-1496747611176-843222e1e57c?w=800&q=80": {
+    "id": "gmd-women-dresses-3",
+    "name": "MANGO Elegant Tiered Cotton Maxi Summer Dress",
+    "category": "clothing",
+    "subcategory": "dresses",
+    "section": "women",
+    "gender": "women"
+  },
+  "https://images.unsplash.com/photo-1515372039744-b8f02a3ae446?w=800&q=80": {
+    "id": "gmd-women-dresses-4",
+    "name": "ONLY Summer Sleeveless Wrap A-Line Dress",
+    "category": "clothing",
+    "subcategory": "dresses",
+    "section": "women",
+    "gender": "women"
+  },
+  "https://images.unsplash.com/photo-1564257631407-4deb129965a2?w=800&q=80": {
+    "id": "gmd-women-tops-1",
+    "name": "H&M Puff Sleeve Embroidered Peplum Top",
+    "category": "clothing",
+    "subcategory": "tops",
+    "section": "women",
+    "gender": "women"
+  },
+  "https://images.unsplash.com/photo-1598554747436-c9293d6a588f?w=800&q=80": {
+    "id": "gmd-women-tops-2",
+    "name": "Zara Classic Satin Button-Down Office Blouse",
+    "category": "clothing",
+    "subcategory": "tops",
+    "section": "women",
+    "gender": "women"
+  },
+  "https://images.unsplash.com/photo-1509631179647-0177331693ae?w=800&q=80": {
+    "id": "gmd-women-tops-3",
+    "name": "Forever 21 Ribbed Sweetheart Neck Crop Top",
+    "category": "clothing",
+    "subcategory": "tops",
+    "section": "women",
+    "gender": "women"
+  },
+  "https://images.unsplash.com/photo-1551803091-e20673f15770?w=800&q=80": {
+    "id": "gmd-women-tops-4",
+    "name": "AND Floral Georgette Ruffled Office Tunic Top",
+    "category": "clothing",
+    "subcategory": "tops",
+    "section": "women",
+    "gender": "women"
+  },
+  "https://images.unsplash.com/photo-1584370848010-d7fe6bc767ec?w=800&q=80": {
+    "id": "gmd-women-jeans-1",
+    "name": "Levi's 721 High Rise Skinny Stretch Jeans",
+    "category": "clothing",
+    "subcategory": "jeans-jeggings",
+    "section": "women",
+    "gender": "women"
+  },
+  "https://images.unsplash.com/photo-1551854838-212c50b4c184?w=800&q=80": {
+    "id": "gmd-women-jeans-2",
+    "name": "Vero Moda High Waist Wide Leg Denim Jeans",
+    "category": "clothing",
+    "subcategory": "jeans-jeggings",
+    "section": "women",
+    "gender": "women"
+  },
+  "https://images.unsplash.com/photo-1506630448388-4e683c67ddb0?w=800&q=80": {
+    "id": "gmd-women-jeans-3",
+    "name": "Kraus Jeans Super Stretch Pull-On Ankle Jeggings",
+    "category": "clothing",
+    "subcategory": "jeans-jeggings",
+    "section": "women",
+    "gender": "women"
+  },
+  "https://images.unsplash.com/photo-1516762689617-e1cffcef479d?w=800&q=80": {
+    "id": "gmd-women-jeans-4",
+    "name": "ONLY Dark Wash Flared Bootcut Denim Jeans",
+    "category": "clothing",
+    "subcategory": "jeans-jeggings",
+    "section": "women",
+    "gender": "women"
+  },
+  "https://images.unsplash.com/photo-1591047139829-d91aecb6caea?w=800&q=80": {
+    "id": "gmd-women-coords-1",
+    "name": "Urbanic Tailored Blazer & Wide Leg Trouser Co-ord Set",
+    "category": "clothing",
+    "subcategory": "co-ord-sets",
+    "section": "women",
+    "gender": "women"
+  },
+  "https://images.unsplash.com/photo-1529139574466-a303027c1d8b?w=800&q=80": {
+    "id": "gmd-women-coords-2",
+    "name": "Berrylush Floral Crop Top & Flared Skirt 2-Piece Co-ord Set",
+    "category": "clothing",
+    "subcategory": "co-ord-sets",
+    "section": "women",
+    "gender": "women"
+  },
+  "https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?w=800&q=80": {
+    "id": "gmd-women-coords-3",
+    "name": "Street 9 Ribbed Knit Top & Palazzos Lounge Set",
+    "category": "clothing",
+    "subcategory": "co-ord-sets",
+    "section": "women",
+    "gender": "women"
+  },
+  "https://images.unsplash.com/photo-1509967419530-da38b4704bc6?w=800&q=80": {
+    "id": "gmd-women-coords-4",
+    "name": "FabAlley Tropical Print Wrap Top & Shorts Set",
+    "category": "clothing",
+    "subcategory": "co-ord-sets",
+    "section": "women",
+    "gender": "women"
+  },
+  "https://images.unsplash.com/photo-1534126511673-b6899657816a?w=800&q=80": {
+    "id": "gmd-women-jackets-1",
+    "name": "Forever New Tailored Structured Open Front Blazer",
+    "category": "clothing",
+    "subcategory": "jackets",
+    "section": "women",
+    "gender": "women"
+  },
+  "https://images.unsplash.com/photo-1525450824786-227cbef70703?w=800&q=80": {
+    "id": "gmd-women-jackets-2",
+    "name": "ONLY Cropped Washed Denim Trucker Jacket",
+    "category": "clothing",
+    "subcategory": "jackets",
+    "section": "women",
+    "gender": "women"
+  },
+  "https://images.unsplash.com/photo-1434389677669-e08b4cac3105?w=800&q=80": {
+    "id": "gmd-women-jackets-3",
+    "name": "Vero Moda Longline Knitted Winter Cardigan Shrug",
+    "category": "clothing",
+    "subcategory": "jackets",
+    "section": "women",
+    "gender": "women"
+  },
+  "https://images.unsplash.com/photo-1551028719-00167b16eac5?w=800&q=80": {
+    "id": "gmd-women-jackets-4",
+    "name": "MANGO Classic Faux Leather Biker Jacket",
+    "category": "clothing",
+    "subcategory": "jackets",
+    "section": "women",
+    "gender": "women"
+  },
+  "https://images.unsplash.com/photo-1508427953056-b00b8d78ebf5?w=800&q=80": {
+    "id": "gmd-women-trousers-1",
+    "name": "Zara High Waist Pleated Wide Leg Formal Trousers",
+    "category": "clothing",
+    "subcategory": "trousers-pants",
+    "section": "women",
+    "gender": "women"
+  },
+  "https://images.unsplash.com/photo-1485968579580-b6d095142e6e?w=800&q=80": {
+    "id": "gmd-women-trousers-2",
+    "name": "Marks & Spencer 7/8th Slim Cigarette Office Pants",
+    "category": "clothing",
+    "subcategory": "trousers-pants",
+    "section": "women",
+    "gender": "women"
+  },
+  "https://images.unsplash.com/photo-1517445312882-bc9910d016b7?w=800&q=80": {
+    "id": "gmd-women-trousers-3",
+    "name": "Vero Moda Relaxed Fit Cotton Linen Culottes",
+    "category": "clothing",
+    "subcategory": "trousers-pants",
+    "section": "women",
+    "gender": "women"
+  },
+  "https://images.unsplash.com/photo-1554412933-514a83d2f3c8?w=800&q=80": {
+    "id": "gmd-women-trousers-4",
+    "name": "H&M Tailored Ankle Length Pull-On Dress Trousers",
+    "category": "clothing",
+    "subcategory": "trousers-pants",
+    "section": "women",
+    "gender": "women"
+  },
+  "https://images.unsplash.com/photo-1519238263530-99bdd11df2ea?w=800&q=80": {
+    "id": "gmd-kids-boys-1",
+    "name": "Allen Solly Junior Boys Striped Cotton Polo T-Shirt",
+    "category": "clothing",
+    "subcategory": "boys-clothing",
+    "section": "kids",
+    "gender": "kids"
+  },
+  "https://images.unsplash.com/photo-1503944583220-79d8926ad5e2?w=800&q=80": {
+    "id": "gmd-kids-boys-2",
+    "name": "U.S. Polo Assn. Kids Boys Checked Shirt & Shorts Set",
+    "category": "clothing",
+    "subcategory": "boys-clothing",
+    "section": "kids",
+    "gender": "kids"
+  },
+  "https://images.unsplash.com/photo-1471286174890-9c112ffca56a?w=800&q=80": {
+    "id": "gmd-kids-boys-3",
+    "name": "Gini & Jony Boys Stretch Denim Slim Jeans",
+    "category": "clothing",
+    "subcategory": "boys-clothing",
+    "section": "kids",
+    "gender": "kids"
+  },
+  "https://images.unsplash.com/photo-1508873696983-2df5703bc20d?w=800&q=80": {
+    "id": "gmd-kids-boys-4",
+    "name": "Hopscotch Boys 3-Piece Formal Waistcoat Suit Set",
+    "category": "clothing",
+    "subcategory": "boys-clothing",
+    "section": "kids",
+    "gender": "kids"
+  },
+  "https://images.unsplash.com/photo-1518831959646-742c3a14ebf7?w=800&q=80": {
+    "id": "gmd-kids-girls-1",
+    "name": "Mothercare Girls Floral Tulle Party Frock Dress",
+    "category": "clothing",
+    "subcategory": "girls-clothing",
+    "section": "kids",
+    "gender": "kids"
+  },
+  "https://images.unsplash.com/photo-1524504388940-b1c1722653e1?w=800&q=80": {
+    "id": "gmd-kids-girls-2",
+    "name": "Little Kangaroos Girls Cotton Top & Skirt Set",
+    "category": "clothing",
+    "subcategory": "girls-clothing",
+    "section": "kids",
+    "gender": "kids"
+  },
+  "https://images.unsplash.com/photo-1516627145497-ae6968895b74?w=800&q=80": {
+    "id": "gmd-kids-girls-3",
+    "name": "Gini & Jony Girls Pastel Tiered Summer Casual Dress",
+    "category": "clothing",
+    "subcategory": "girls-clothing",
+    "section": "kids",
+    "gender": "kids"
+  },
+  "https://images.unsplash.com/photo-1596870230751-ebdfce98ec42?w=800&q=80": {
+    "id": "gmd-kids-girls-4",
+    "name": "Biba Girls Festive Anarkali Kurta & Dupatta Set",
+    "category": "clothing",
+    "subcategory": "girls-clothing",
+    "section": "kids",
+    "gender": "kids"
+  },
+  "https://images.unsplash.com/photo-1519689680058-324335c77eba?w=800&q=80": {
+    "id": "gmd-kids-baby-1",
+    "name": "Carter's Baby 100% Organic Cotton Bodysuits (Pack of 3)",
+    "category": "clothing",
+    "subcategory": "baby-clothes",
+    "section": "kids",
+    "gender": "kids"
+  },
+  "https://images.unsplash.com/photo-1522771739844-6a9f6d5f14af?w=800&q=80": {
+    "id": "gmd-kids-baby-2",
+    "name": "Mothercare Newborn Full-Zip Cotton Sleepsuit with Mitten Cuffs",
+    "category": "clothing",
+    "subcategory": "baby-clothes",
+    "section": "kids",
+    "gender": "kids"
+  },
+  "https://images.unsplash.com/photo-1544126592-807ade215a0c?w=800&q=80": {
+    "id": "gmd-kids-baby-3",
+    "name": "Mini Klub Infant Knitted Dungaree & Tee 2-Piece Set",
+    "category": "clothing",
+    "subcategory": "baby-clothes",
+    "section": "kids",
+    "gender": "kids"
+  },
+  "https://images.unsplash.com/photo-1515488042361-ee00e0ddd4e4?w=800&q=80": {
+    "id": "gmd-kids-baby-4",
+    "name": "FirstCry Pure Cotton Printed Kimono Baby Romper",
+    "category": "clothing",
+    "subcategory": "baby-clothes",
+    "section": "kids",
+    "gender": "kids"
+  },
+  "https://images.unsplash.com/photo-1503341455253-b2e723bb3dbb?w=800&q=80": {
+    "id": "gmd-unisex-tshirts-1",
+    "name": "Champion Heavyweight Heritage Boxy Unisex Graphic Tee",
+    "category": "clothing",
+    "subcategory": "t-shirts",
+    "section": "unisex",
+    "gender": "unisex"
+  },
+  "https://images.unsplash.com/photo-1562157873-818bc0726f68?w=800&q=80": {
+    "id": "gmd-unisex-tshirts-2",
+    "name": "Bewakoof Oversized Anime Graphic Print Cotton T-Shirt",
+    "category": "clothing",
+    "subcategory": "t-shirts",
+    "section": "unisex",
+    "gender": "unisex"
+  },
+  "https://images.unsplash.com/photo-1529374255404-311a2a4f1fd9?w=800&q=80": {
+    "id": "gmd-unisex-tshirts-3",
+    "name": "Puma Downtown Relaxed Unisex Graphic Street Tee",
+    "category": "clothing",
+    "subcategory": "t-shirts",
+    "section": "unisex",
+    "gender": "unisex"
+  },
+  "https://images.unsplash.com/photo-1523381210434-271e8be1f52b?w=800&q=80": {
+    "id": "gmd-unisex-tshirts-4",
+    "name": "H&M Unisex Relaxed Fit Solid Organic Cotton Crewneck",
+    "category": "clothing",
+    "subcategory": "t-shirts",
+    "section": "unisex",
+    "gender": "unisex"
+  },
+  "https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?w=800&q=80": {
+    "id": "gmd-eth-men-jackets-4",
+    "name": "House of Pataudi Floral Embroidered Silk Waistcoat",
+    "category": "ethnic-wear",
+    "subcategory": "ethnic-jackets",
+    "section": "men",
+    "gender": "men"
+  },
+  "https://images.unsplash.com/photo-1578587018452-892bacefd3f2?w=800&q=80": {
+    "id": "gmd-unisex-coords-2",
+    "name": "Adidas Originals Unisex 3-Stripes French Terry Loungewear Set",
+    "category": "clothing",
+    "subcategory": "co-ord-sets",
+    "section": "unisex",
+    "gender": "unisex"
+  },
+  "https://images.unsplash.com/photo-1518458028785-8fbcd101ebb9?w=800&q=80": {
+    "id": "gmd-unisex-coords-3",
+    "name": "Under Armour Rival Fleece Unisex Workout Tracksuit",
+    "category": "clothing",
+    "subcategory": "co-ord-sets",
+    "section": "unisex",
+    "gender": "unisex"
+  },
+  "https://images.unsplash.com/photo-1552374196-1ab2a1c593e8?w=800&q=80": {
+    "id": "gmd-unisex-coords-4",
+    "name": "Domyos Minimalist Unisex Organic Cotton Lounge Set",
+    "category": "clothing",
+    "subcategory": "co-ord-sets",
+    "section": "unisex",
+    "gender": "unisex"
+  },
+  "https://images.unsplash.com/photo-1578932750294-f5075e85f44a?w=800&q=80": {
+    "id": "gmd-unisex-jackets-1",
+    "name": "Levi's Unisex Oversized Vintage Wash Denim Jacket",
+    "category": "clothing",
+    "subcategory": "jackets",
+    "section": "unisex",
+    "gender": "unisex"
+  },
+  "https://images.unsplash.com/photo-1559582798-678dfc71ccd8?w=800&q=80": {
+    "id": "gmd-unisex-jackets-2",
+    "name": "The North Face Thermoball Unisex Lightweight Puffer Jacket",
+    "category": "clothing",
+    "subcategory": "jackets",
+    "section": "unisex",
+    "gender": "unisex"
+  },
+  "https://images.unsplash.com/photo-1509764743898-ea2ce6c703b0?w=800&q=80": {
+    "id": "gmd-unisex-jackets-3",
+    "name": "Columbia Unisex Waterproof Trail Windbreaker Jacket",
+    "category": "clothing",
+    "subcategory": "jackets",
+    "section": "unisex",
+    "gender": "unisex"
+  },
+  "https://images.unsplash.com/photo-1544022613-e87ca75a784a?w=800&q=80": {
+    "id": "gmd-unisex-jackets-4",
+    "name": "Adidas Unisex Classic Trefoil Track Top Zip Jacket",
+    "category": "clothing",
+    "subcategory": "jackets",
+    "section": "unisex",
+    "gender": "unisex"
+  },
+  "https://images.unsplash.com/photo-1617137984095-74e4e5e3613f?w=800&q=80": {
+    "id": "gmd-eth-men-kurtas-1",
+    "name": "Manyavar Royal Blue Embroidered Raw Silk Kurta Set",
+    "category": "ethnic-wear",
+    "subcategory": "kurtas",
+    "section": "men",
+    "gender": "men"
+  },
+  "https://images.unsplash.com/photo-1597983073493-88cd35cf93b0?w=800&q=80": {
+    "id": "gmd-eth-men-kurtas-2",
+    "name": "Fabindia Maroon Handloom Tussar Silk Kurta",
+    "category": "ethnic-wear",
+    "subcategory": "kurtas",
+    "section": "men",
+    "gender": "men"
+  },
+  "https://images.unsplash.com/photo-1621335829175-95f437344321?w=800&q=80": {
+    "id": "gmd-eth-men-kurtas-3",
+    "name": "House of Pataudi Gold Jacquard Straight Festive Kurta",
+    "category": "ethnic-wear",
+    "subcategory": "kurtas",
+    "section": "men",
+    "gender": "men"
+  },
+  "https://images.unsplash.com/photo-1507679799987-c73779587ccf?w=800&q=80": {
+    "id": "gmd-eth-men-kurtas-4",
+    "name": "Sojanya Ivory Textured Cotton Linen Kurta Pyjama Set",
+    "category": "ethnic-wear",
+    "subcategory": "kurtas",
+    "section": "men",
+    "gender": "men"
+  },
+  "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=800&q=80": {
+    "id": "gmd-eth-men-jackets-1",
+    "name": "Manyavar Brocade Silk Bandhgala Nehru Jacket",
+    "category": "ethnic-wear",
+    "subcategory": "ethnic-jackets",
+    "section": "men",
+    "gender": "men"
+  },
+  "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=800&q=80": {
+    "id": "gmd-eth-men-jackets-2",
+    "name": "Fabindia Handwoven Tussar Silk Nehru Waistcoat",
+    "category": "ethnic-wear",
+    "subcategory": "ethnic-jackets",
+    "section": "men",
+    "gender": "men"
+  },
+  "https://images.unsplash.com/photo-1492562080023-ab3db95bfbce?w=800&q=80": {
+    "id": "gmd-eth-men-jackets-3",
+    "name": "Raymond Khadi Textured Sleeveless Modi Jacket",
+    "category": "ethnic-wear",
+    "subcategory": "ethnic-jackets",
+    "section": "men",
+    "gender": "men"
+  },
+  "https://images.unsplash.com/photo-1609357605129-26f69add5d6e?w=800&q=80": {
+    "id": "gmd-eth-men-sherwani-1",
+    "name": "Manyavar Regal Cream Embroidered Wedding Sherwani Set",
+    "category": "ethnic-wear",
+    "subcategory": "sherwani-sets",
+    "section": "men",
+    "gender": "men"
+  },
+  "https://images.unsplash.com/photo-1590076241940-02a8b29e64e5?w=800&q=80": {
+    "id": "gmd-eth-men-sherwani-2",
+    "name": "Kora by NM Handcrafted Velvet Royal Indo-Western Sherwani",
+    "category": "ethnic-wear",
+    "subcategory": "sherwani-sets",
+    "section": "men",
+    "gender": "men"
+  },
+  "https://images.unsplash.com/photo-1610030469668-932d0b674488?w=800&q=80": {
+    "id": "gmd-eth-men-sherwani-3",
+    "name": "Sabyasachi Inspired Royal Jodhpuri Achkan Sherwani Suit",
+    "category": "ethnic-wear",
+    "subcategory": "sherwani-sets",
+    "section": "men",
+    "gender": "men"
+  },
+  "https://images.unsplash.com/photo-1583863788434-e58a36330cf0?w=800&q=80": {
+    "id": "gmd-eth-men-sherwani-4",
+    "name": "Manyavar Gold Zari Woven Festive Achkan Sherwani Set",
+    "category": "ethnic-wear",
+    "subcategory": "sherwani-sets",
+    "section": "men",
+    "gender": "men"
+  },
+  "https://images.unsplash.com/photo-1610030469983-98e550d6193c?w=800&q=80": {
+    "id": "gmd-eth-women-sarees-1",
+    "name": "Kalanjali Pure Kanchipuram Silk Bridal Saree with Gold Zari",
+    "category": "ethnic-wear",
+    "subcategory": "sarees",
+    "section": "women",
+    "gender": "women"
+  },
+  "https://images.unsplash.com/photo-1617627143750-d86bc21e42bb?w=800&q=80": {
+    "id": "gmd-eth-women-sarees-2",
+    "name": "Meena Bazaar Banarasi Katan Silk Brocade Saree",
+    "category": "ethnic-wear",
+    "subcategory": "sarees",
+    "section": "women",
+    "gender": "women"
+  },
+  "https://images.unsplash.com/photo-1607345366928-199ea26cfe3e?w=800&q=80": {
+    "id": "gmd-eth-women-sarees-3",
+    "name": "Sabyasachi Style Organza Floral Digital Printed Saree",
+    "category": "ethnic-wear",
+    "subcategory": "sarees",
+    "section": "women",
+    "gender": "women"
+  },
+  "https://images.unsplash.com/photo-1614613535308-eb5fbd3d2c17?w=800&q=80": {
+    "id": "gmd-eth-women-sarees-4",
+    "name": "Fabindia Chanderi Silk Handblock Print Heritage Saree",
+    "category": "ethnic-wear",
+    "subcategory": "sarees",
+    "section": "women",
+    "gender": "women"
+  },
+  "https://images.unsplash.com/photo-1583391733956-3750e0ff4e8b?w=800&q=80": {
+    "id": "gmd-eth-women-kurtas-1",
+    "name": "Biba Mirror Work Rayon Anarkali Festive Kurti",
+    "category": "ethnic-wear",
+    "subcategory": "kurtas",
+    "section": "women",
+    "gender": "women"
+  },
+  "https://images.unsplash.com/photo-1596755094514-f87e34085b2c?w=800&q=80": {
+    "id": "gmd-eth-women-kurtas-2",
+    "name": "Libas Embroidered Straight Velvet Winter Kurta",
+    "category": "ethnic-wear",
+    "subcategory": "kurtas",
+    "section": "women",
+    "gender": "women"
+  },
+  "https://images.unsplash.com/photo-1516257984-b1b4d707412e?w=800&q=80": {
+    "id": "gmd-eth-women-kurtas-3",
+    "name": "W for Woman Golden Foil Print Flared Kalidar Kurta",
+    "category": "ethnic-wear",
+    "subcategory": "kurtas",
+    "section": "women",
+    "gender": "women"
+  },
+  "https://images.unsplash.com/photo-1618244972963-dbee1a7edc95?w=800&q=80": {
+    "id": "gmd-eth-women-suits-1",
+    "name": "Biba 3-Piece Silk Blend Kurta Pant & Organza Dupatta Set",
+    "category": "ethnic-wear",
+    "subcategory": "kurta-suit-sets",
+    "section": "women",
+    "gender": "women"
+  },
+  "https://images.unsplash.com/photo-1585829365295-ab7cd400c167?w=800&q=80": {
+    "id": "gmd-eth-women-suits-2",
+    "name": "Libas Floral Printed Anarkali Suit Set with Chiffon Dupatta",
+    "category": "ethnic-wear",
+    "subcategory": "kurta-suit-sets",
+    "section": "women",
+    "gender": "women"
+  },
+  "https://images.unsplash.com/photo-1579586337278-3befd40fd17a?w=800&q=80": {
+    "id": "gmd-eth-women-suits-3",
+    "name": "Aurelia Peach Embroidered Straight Kurta Palazzo Suit Set",
+    "category": "ethnic-wear",
+    "subcategory": "kurta-suit-sets",
+    "section": "women",
+    "gender": "women"
+  },
+  "https://images.unsplash.com/photo-1510017803434-a899398421b3?w=800&q=80": {
+    "id": "gmd-eth-women-suits-4",
+    "name": "W for Woman Georgette Sharara Suit Set with Gota Patti",
+    "category": "ethnic-wear",
+    "subcategory": "kurta-suit-sets",
+    "section": "women",
+    "gender": "women"
+  },
+  "https://images.unsplash.com/photo-1585487000160-6ebcfceb0d03?w=800&q=80": {
+    "id": "gmd-eth-women-lehenga-1",
+    "name": "Kalki Fashion Royal Velvet Embroidered Bridal Lehenga Choli",
+    "category": "ethnic-wear",
+    "subcategory": "lehenga-choli-sets",
+    "section": "women",
+    "gender": "women"
+  },
+  "https://images.unsplash.com/photo-1558769132-cb1aea458c5e?w=800&q=80": {
+    "id": "gmd-eth-women-lehenga-2",
+    "name": "Biba Semi-Stitched Net Sequinned Party Lehenga Set",
+    "category": "ethnic-wear",
+    "subcategory": "lehenga-choli-sets",
+    "section": "women",
+    "gender": "women"
+  },
+  "https://images.unsplash.com/photo-1584100936595-c0654b55a2e2?w=800&q=80": {
+    "id": "gmd-eth-women-lehenga-3",
+    "name": "Meena Bazaar Georgette Floral Printed Festive Lehenga Set",
+    "category": "ethnic-wear",
+    "subcategory": "lehenga-choli-sets",
+    "section": "women",
+    "gender": "women"
+  },
+  "https://images.unsplash.com/photo-1518895949257-7621c3c786d7?w=800&q=80": {
+    "id": "gmd-eth-women-lehenga-4",
+    "name": "Mohey Golden Zari Tissue Silk Wedding Lehenga Set",
+    "category": "ethnic-wear",
+    "subcategory": "lehenga-choli-sets",
+    "section": "women",
+    "gender": "women"
+  },
+  "https://images.unsplash.com/photo-1566174053879-31528523f8ae?w=800&q=80": {
+    "id": "gmd-eth-women-gowns-1",
+    "name": "Libas Embroidered Georgette Floor Length Ethnic Gown",
+    "category": "ethnic-wear",
+    "subcategory": "dresses-gowns",
+    "section": "women",
+    "gender": "women"
+  },
+  "https://images.unsplash.com/photo-1540555700478-4be289fbecef?w=800&q=80": {
+    "id": "gmd-eth-women-gowns-3",
+    "name": "Aurelia Brocade Yoke Festive Floor Length Gown",
+    "category": "ethnic-wear",
+    "subcategory": "dresses-gowns",
+    "section": "women",
+    "gender": "women"
+  },
+  "https://images.unsplash.com/photo-1490481651871-ab68de25d43d?w=800&q=80": {
+    "id": "gmd-eth-women-gowns-4",
+    "name": "Meena Bazaar Hand-Embroidered Chiffon Party Gown",
+    "category": "ethnic-wear",
+    "subcategory": "dresses-gowns",
+    "section": "women",
+    "gender": "women"
+  },
+  "https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=800&q=80": {
+    "id": "gmd-men-footwear-snk-1",
+    "name": "Nike Air Max SC Men's Running & Walking Sneakers",
+    "category": "footwear",
+    "subcategory": "sneakers",
+    "section": "men",
+    "gender": "men"
+  },
+  "https://images.unsplash.com/photo-1518002171953-a080ee817e1f?w=800&q=80": {
+    "id": "gmd-men-footwear-snk-2",
+    "name": "Adidas Originals Superstar Classic Leather Sneakers",
+    "category": "footwear",
+    "subcategory": "sneakers",
+    "section": "men",
+    "gender": "men"
+  },
+  "https://images.unsplash.com/photo-1600185365483-26d7a4cc7519?w=800&q=80": {
+    "id": "gmd-men-footwear-snk-3",
+    "name": "Puma Smash V2 L White Everyday Casual Sneakers",
+    "category": "footwear",
+    "subcategory": "sneakers",
+    "section": "men",
+    "gender": "men"
+  },
+  "https://images.unsplash.com/photo-1460353581641-37baddab0fa2?w=800&q=80": {
+    "id": "gmd-men-footwear-snk-4",
+    "name": "Skechers Men's Go Walk Arch Fit Sport Walking Shoes",
+    "category": "footwear",
+    "subcategory": "sneakers",
+    "section": "men",
+    "gender": "men"
+  },
+  "https://images.unsplash.com/photo-1549298916-b41d501d3772?w=800&q=80": {
+    "id": "gmd-men-footwear-cas-1",
+    "name": "Woodland Men Khaki Leather Rugged Casual Outdoor Shoes",
+    "category": "footwear",
+    "subcategory": "casual-shoes",
+    "section": "men",
+    "gender": "men"
+  },
+  "https://images.unsplash.com/photo-1533867617858-e7b97e060509?w=800&q=80": {
+    "id": "gmd-men-footwear-cas-2",
+    "name": "Clarks Ashmont Leather Penny Loafers for Men",
+    "category": "footwear",
+    "subcategory": "casual-shoes",
+    "section": "men",
+    "gender": "men"
+  },
+  "https://images.unsplash.com/photo-1582588678413-dbf45f4823e9?w=800&q=80": {
+    "id": "gmd-men-footwear-cas-3",
+    "name": "Red Tape Slip-On Memory Foam Driving Moccasins",
+    "category": "footwear",
+    "subcategory": "casual-shoes",
+    "section": "men",
+    "gender": "men"
+  },
+  "https://images.unsplash.com/photo-1525966222134-fcfa99b8ae77?w=800&q=80": {
+    "id": "gmd-men-footwear-cas-4",
+    "name": "Bata Men Classic Suede Boat Casual Shoes",
+    "category": "footwear",
+    "subcategory": "casual-shoes",
+    "section": "men",
+    "gender": "men"
+  },
+  "https://images.unsplash.com/photo-1614252235316-8c857d38b5f4?w=800&q=80": {
+    "id": "gmd-men-footwear-form-1",
+    "name": "Clarks Tilden Cap Black Genuine Leather Oxford Shoes",
+    "category": "footwear",
+    "subcategory": "formal-shoes",
+    "section": "men",
+    "gender": "men"
+  },
+  "https://images.unsplash.com/photo-1531310197839-ccf54634509e?w=800&q=80": {
+    "id": "gmd-men-footwear-form-2",
+    "name": "Red Tape Derby Lace-Up Formal Tan Leather Shoes",
+    "category": "footwear",
+    "subcategory": "formal-shoes",
+    "section": "men",
+    "gender": "men"
+  },
+  "https://images.unsplash.com/photo-1595341888016-a392ef81b7de?w=800&q=80": {
+    "id": "gmd-men-footwear-form-3",
+    "name": "Louis Philippe Handcrafted Italian Leather Monk Strap Shoes",
+    "category": "footwear",
+    "subcategory": "formal-shoes",
+    "section": "men",
+    "gender": "men"
+  },
+  "https://images.unsplash.com/photo-1638247025967-b4e38f787b76?w=800&q=80": {
+    "id": "gmd-men-footwear-form-4",
+    "name": "Woodland Classic Rugged Chelsea Leather Boots for Men",
+    "category": "footwear",
+    "subcategory": "formal-shoes",
+    "section": "men",
+    "gender": "men"
+  },
+  "https://images.unsplash.com/photo-1603808033192-082d6919d3e1?w=800&q=80": {
+    "id": "gmd-men-footwear-san-1",
+    "name": "Woodland Camel Outdoor Hiking Sandal Floaters",
+    "category": "footwear",
+    "subcategory": "sandals",
+    "section": "men",
+    "gender": "men"
+  },
+  "https://images.unsplash.com/photo-1560769629-975ec94e6a86?w=800&q=80": {
+    "id": "gmd-men-footwear-san-2",
+    "name": "Red Tape Athletic Dual Strap Men's Sports Sandals",
+    "category": "footwear",
+    "subcategory": "sandals",
+    "section": "men",
+    "gender": "men"
+  },
+  "https://images.unsplash.com/photo-1597045566677-8cf032ed6634?w=800&q=80": {
+    "id": "gmd-men-footwear-san-3",
+    "name": "Bata Comfit Cushioned PU Strap Men Slippers Sandals",
+    "category": "footwear",
+    "subcategory": "sandals",
+    "section": "men",
+    "gender": "men"
+  },
+  "https://images.unsplash.com/photo-1575537302964-96cd47c06b1b?w=800&q=80": {
+    "id": "gmd-men-footwear-san-4",
+    "name": "Crocs Classic Lightweight Water-Resistant Clogs",
+    "category": "footwear",
+    "subcategory": "sandals",
+    "section": "men",
+    "gender": "men"
+  },
+  "https://images.unsplash.com/photo-1543163521-1bf539c55dd2?w=800&q=80": {
+    "id": "gmd-women-footwear-san-1",
+    "name": "Mochi Peep-Toe Block Heel Evening Sandals",
+    "category": "footwear",
+    "subcategory": "sandals",
+    "section": "women",
+    "gender": "women"
+  },
+  "https://images.unsplash.com/photo-1562273138-f46be4ebdf33?w=800&q=80": {
+    "id": "gmd-women-footwear-san-2",
+    "name": "Metro Golden Ankle Strap Stiletto Party Heels",
+    "category": "footwear",
+    "subcategory": "sandals",
+    "section": "women",
+    "gender": "women"
+  },
+  "https://images.unsplash.com/photo-1535043934128-cf0b28d52f95?w=800&q=80": {
+    "id": "gmd-women-footwear-san-3",
+    "name": "Catwalk Studded Chunky Platform Wedge Sandals",
+    "category": "footwear",
+    "subcategory": "sandals",
+    "section": "women",
+    "gender": "women"
+  },
+  "https://images.unsplash.com/photo-1603487742131-4160ec999306?w=800&q=80": {
+    "id": "gmd-women-footwear-san-4",
+    "name": "Bata Comfit Braided Strap Flat Daily Sandals",
+    "category": "footwear",
+    "subcategory": "sandals",
+    "section": "women",
+    "gender": "women"
+  },
+  "https://images.unsplash.com/photo-1595950653106-6c9ebd614d3a?w=800&q=80": {
+    "id": "gmd-women-footwear-snk-1",
+    "name": "Puma Carina 2.0 Women's Retro Leather Court Sneakers",
+    "category": "footwear",
+    "subcategory": "sneakers",
+    "section": "women",
+    "gender": "women"
+  },
+  "https://images.unsplash.com/photo-1552346154-21d32810aba3?w=800&q=80": {
+    "id": "gmd-women-footwear-snk-2",
+    "name": "Nike Court Vision Low Women's Fashion Sneakers",
+    "category": "footwear",
+    "subcategory": "sneakers",
+    "section": "women",
+    "gender": "women"
+  },
+  "https://images.unsplash.com/photo-1607522370275-f14206abe5d3?w=800&q=80": {
+    "id": "gmd-women-footwear-snk-3",
+    "name": "Skechers D'Lites Chunky Fashion Lace-Up Sneakers",
+    "category": "footwear",
+    "subcategory": "sneakers",
+    "section": "women",
+    "gender": "women"
+  },
+  "https://images.unsplash.com/photo-1584735935682-2f2b69dff9d2?w=800&q=80": {
+    "id": "gmd-women-footwear-snk-4",
+    "name": "Adidas Grand Court Cloudfoam Women's Sneakers",
+    "category": "footwear",
+    "subcategory": "sneakers",
+    "section": "women",
+    "gender": "women"
+  },
+  "https://images.unsplash.com/photo-1544441893-675973e31985?w=800&q=80": {
+    "id": "gmd-women-footwear-boot-1",
+    "name": "Woodland Women's Rugged Nubuck Leather Ankle Boots",
+    "category": "footwear",
+    "subcategory": "boots",
+    "section": "women",
+    "gender": "women"
+  },
+  "https://images.unsplash.com/photo-1551107696-a4b0c5a0d9a2?w=800&q=80": {
+    "id": "gmd-women-footwear-boot-2",
+    "name": "Catwalk Faux Leather Heeled Chelsea Ankle Boots",
+    "category": "footwear",
+    "subcategory": "boots",
+    "section": "women",
+    "gender": "women"
+  },
+  "https://images.unsplash.com/photo-1520639888713-7851133b1ed0?w=800&q=80": {
+    "id": "gmd-women-footwear-boot-3",
+    "name": "Clarks Verona Suede Side-Zip Winter Ankle Booties",
+    "category": "footwear",
+    "subcategory": "boots",
+    "section": "women",
+    "gender": "women"
+  },
+  "https://images.unsplash.com/photo-1608256246200-53e635b5b65f?w=800&q=80": {
+    "id": "gmd-women-footwear-boot-4",
+    "name": "Zara Chunky Lug Sole Combat Boots with Lace Hooks",
+    "category": "footwear",
+    "subcategory": "boots",
+    "section": "women",
+    "gender": "women"
+  },
+  "https://images.unsplash.com/photo-1514989940723-e8e51635b782?w=800&q=80": {
+    "id": "gmd-kids-footwear-snk-1",
+    "name": "Nike Kids Revolution 6 Breathable Running Shoes",
+    "category": "footwear",
+    "subcategory": "sneakers",
+    "section": "kids",
+    "gender": "kids"
+  },
+  "https://images.unsplash.com/photo-1515955656352-a1fa3ffcd111?w=800&q=80": {
+    "id": "gmd-kids-footwear-snk-2",
+    "name": "Adidas Tensaur Sport Hook-and-Loop Kids Sneakers",
+    "category": "footwear",
+    "subcategory": "sneakers",
+    "section": "kids",
+    "gender": "kids"
+  },
+  "https://images.unsplash.com/photo-1509198397868-475647b2a1e5?w=800&q=80": {
+    "id": "gmd-kids-footwear-snk-3",
+    "name": "Puma Smash V2 Velcro Strap Toddler Sneakers",
+    "category": "footwear",
+    "subcategory": "sneakers",
+    "section": "kids",
+    "gender": "kids"
+  },
+  "https://images.unsplash.com/photo-1507464098880-e3d0bc6a2a0c?w=800&q=80": {
+    "id": "gmd-kids-footwear-snk-4",
+    "name": "Skechers Kids Lights Illumi-Brights Light-Up Shoes",
+    "category": "footwear",
+    "subcategory": "sneakers",
+    "section": "kids",
+    "gender": "kids"
+  },
+  "https://images.unsplash.com/photo-1560343090-f0409e92791a?w=800&q=80": {
+    "id": "gmd-kids-footwear-san-1",
+    "name": "Crocs Kids Classic Clog Slip-On Waterproof Sandals",
+    "category": "footwear",
+    "subcategory": "sandals",
+    "section": "kids",
+    "gender": "kids"
+  },
+  "https://images.unsplash.com/photo-1519457431-44ccd64a579b?w=800&q=80": {
+    "id": "gmd-kids-footwear-san-2",
+    "name": "Bata Bubblegummers Cushioned Sports Strap Floaters",
+    "category": "footwear",
+    "subcategory": "sandals",
+    "section": "kids",
+    "gender": "kids"
+  },
+  "https://images.unsplash.com/photo-1560807707-8cc77767d783?w=800&q=80": {
+    "id": "gmd-kids-footwear-san-3",
+    "name": "Liberty Kids Cartoon Print Lightweight EVA Slide Sandals",
+    "category": "footwear",
+    "subcategory": "sandals",
+    "section": "kids",
+    "gender": "kids"
+  },
+  "https://images.unsplash.com/photo-1588117305388-c2631a279f82?w=800&q=80": {
+    "id": "gmd-kids-footwear-san-4",
+    "name": "Puma Kids Softride Splash Water-Friendly Sandal Floaters",
+    "category": "footwear",
+    "subcategory": "sandals",
+    "section": "kids",
+    "gender": "kids"
+  },
+  "https://images.unsplash.com/photo-1522335789203-aabd1fc54bc9?w=800&q=80": {
+    "id": "gmd-acc-watches-men-1",
+    "name": "Fossil Grant Chronograph Dark Brown Leather Men's Watch",
+    "category": "accessories",
+    "subcategory": "watches",
+    "section": "men",
+    "gender": "men"
+  },
+  "https://images.unsplash.com/photo-1524805444758-089113d48a6d?w=800&q=80": {
+    "id": "gmd-acc-watches-men-2",
+    "name": "Titan Workwear Black Dial Stainless Steel Men's Watch",
+    "category": "accessories",
+    "subcategory": "watches",
+    "section": "men",
+    "gender": "men"
+  },
+  "https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=800&q=80": {
+    "id": "gmd-acc-watches-men-3",
+    "name": "Casio Edifice Tachymeter Chronograph Silver Stainless Steel Watch",
+    "category": "accessories",
+    "subcategory": "watches",
+    "section": "men",
+    "gender": "men"
+  },
+  "https://images.unsplash.com/photo-1542496658-e33a6d0d50f6?w=800&q=80": {
+    "id": "gmd-acc-watches-men-4",
+    "name": "Tommy Hilfiger Men's Navy Blue Multifunction Silicone Strap Watch",
+    "category": "accessories",
+    "subcategory": "watches",
+    "section": "men",
+    "gender": "men"
+  },
+  "https://images.unsplash.com/photo-1511499767150-a48a237f0083?w=800&q=80": {
+    "id": "gmd-acc-sunglasses-men-1",
+    "name": "Ray-Ban Classic Aviator Green G-15 Gold Metal Sunglasses",
+    "category": "accessories",
+    "subcategory": "sunglasses",
+    "section": "men",
+    "gender": "men"
+  },
+  "https://images.unsplash.com/photo-1572635196237-14b3f281503f?w=800&q=80": {
+    "id": "gmd-acc-sunglasses-men-2",
+    "name": "Fastrack Polarized Square Matte Black Sunglasses for Men",
+    "category": "accessories",
+    "subcategory": "sunglasses",
+    "section": "men",
+    "gender": "men"
+  },
+  "https://images.unsplash.com/photo-1508296695146-257a814070b4?w=800&q=80": {
+    "id": "gmd-acc-sunglasses-men-3",
+    "name": "Oakley Holbrook Prizm Sapphire Matte Black Sunglasses",
+    "category": "accessories",
+    "subcategory": "sunglasses",
+    "section": "men",
+    "gender": "men"
+  },
+  "https://images.unsplash.com/photo-1577803645773-f96470509666?w=800&q=80": {
+    "id": "gmd-acc-sunglasses-men-4",
+    "name": "Vincent Chase Polarized Clubmaster Tortoise Gold Sunglasses",
+    "category": "accessories",
+    "subcategory": "sunglasses",
+    "section": "men",
+    "gender": "men"
+  },
+  "https://images.unsplash.com/photo-1627123424574-724758594e93?w=800&q=80": {
+    "id": "gmd-acc-wallets-men-1",
+    "name": "Wildcraft Genuine Hunter Leather RFID Protected Men Bi-Fold Wallet",
+    "category": "accessories",
+    "subcategory": "wallets",
+    "section": "men",
+    "gender": "men"
+  },
+  "https://images.unsplash.com/photo-1606503825008-909a67e63c22?w=800&q=80": {
+    "id": "gmd-acc-wallets-men-2",
+    "name": "Tommy Hilfiger Men Textured Black Leather Thin Front Pocket Wallet",
+    "category": "accessories",
+    "subcategory": "wallets",
+    "section": "men",
+    "gender": "men"
+  },
+  "https://images.unsplash.com/photo-1607604276583-eef5d076aa5f?w=800&q=80": {
+    "id": "gmd-acc-wallets-men-3",
+    "name": "Woodland Rugged Brown Buffalo Leather Tri-Fold Coin Pocket Wallet",
+    "category": "accessories",
+    "subcategory": "wallets",
+    "section": "men",
+    "gender": "men"
+  },
+  "https://images.unsplash.com/photo-1583321500900-82807e458f3c?w=800&q=80": {
+    "id": "gmd-gift-set-3",
+    "name": "Parker Beta Standard Rollerball Pen and Diary Executive Gift Combo",
+    "category": "gifts",
+    "subcategory": "gift-sets",
+    "section": "gifts",
+    "gender": "unisex"
+  },
+  "https://images.unsplash.com/photo-1553062407-98eeb64c6a62?w=800&q=80": {
+    "id": "gmd-acc-backpacks-1",
+    "name": "Wildcraft Trail 35L Water-Resistant Laptop Backpack",
+    "category": "accessories",
+    "subcategory": "backpacks",
+    "section": "men",
+    "gender": "men"
+  },
+  "https://images.unsplash.com/photo-1581605405669-fcdf81165afa?w=800&q=80": {
+    "id": "gmd-acc-backpacks-2",
+    "name": "American Tourister Urban Groove 32L Casual Daypack",
+    "category": "accessories",
+    "subcategory": "backpacks",
+    "section": "men",
+    "gender": "men"
+  },
+  "https://images.unsplash.com/photo-1546938576-6e6a64f317cc?w=800&q=80": {
+    "id": "gmd-acc-backpacks-3",
+    "name": "Puma Phase Unisex Streetwear Sports Backpack 22L",
+    "category": "accessories",
+    "subcategory": "backpacks",
+    "section": "men",
+    "gender": "men"
+  },
+  "https://images.unsplash.com/photo-1577733966973-d680bffd2e80?w=800&q=80": {
+    "id": "gmd-acc-backpacks-4",
+    "name": "Skybags Drip 28L Water Resistant College Backpack with USB Port",
+    "category": "accessories",
+    "subcategory": "backpacks",
+    "section": "men",
+    "gender": "men"
+  },
+  "https://images.unsplash.com/photo-1508685096489-7aacd43bd3b1?w=800&q=80": {
+    "id": "gmd-acc-watches-women-1",
+    "name": "Michael Kors Parker Rose Gold Glitz Women's Watch",
+    "category": "accessories",
+    "subcategory": "watches",
+    "section": "women",
+    "gender": "women"
+  },
+  "https://images.unsplash.com/photo-1539874701005-4c070c73e045?w=800&q=80": {
+    "id": "gmd-acc-watches-women-2",
+    "name": "Titan Raga Viva Mother of Pearl Rose Gold Jewelry Watch",
+    "category": "accessories",
+    "subcategory": "watches",
+    "section": "women",
+    "gender": "women"
+  },
+  "https://images.unsplash.com/photo-1517463708865-9856a911765a?w=800&q=80": {
+    "id": "gmd-acc-watches-women-3",
+    "name": "Fossil Jacqueline Slim Blush Pink Leather Women's Watch",
+    "category": "accessories",
+    "subcategory": "watches",
+    "section": "women",
+    "gender": "women"
+  },
+  "https://images.unsplash.com/photo-1533139502658-0198f920d8e8?w=800&q=80": {
+    "id": "gmd-acc-watches-women-4",
+    "name": "Daniel Wellington Petite Melrose Rose Gold Mesh Women's Watch",
+    "category": "accessories",
+    "subcategory": "watches",
+    "section": "women",
+    "gender": "women"
+  },
+  "https://images.unsplash.com/photo-1509695507497-903c140c43b0?w=800&q=80": {
+    "id": "gmd-acc-sunglasses-women-1",
+    "name": "Vogue Eyewear Oversized Cat-Eye Tortoise Shell Women Sunglasses",
+    "category": "accessories",
+    "subcategory": "sunglasses",
+    "section": "women",
+    "gender": "women"
+  },
+  "https://images.unsplash.com/photo-1574258495973-f010dfbb5371?w=800&q=80": {
+    "id": "gmd-acc-sunglasses-women-2",
+    "name": "Ray-Ban Round Metal Rose Gold Mirror Women Sunglasses",
+    "category": "accessories",
+    "subcategory": "sunglasses",
+    "section": "women",
+    "gender": "women"
+  },
+  "https://images.unsplash.com/photo-1473496169904-658ba7c44d8a?w=800&q=80": {
+    "id": "gmd-acc-sunglasses-women-3",
+    "name": "Fastrack Butterfly Rimless Pink Gradient Women Sunglasses",
+    "category": "accessories",
+    "subcategory": "sunglasses",
+    "section": "women",
+    "gender": "women"
+  },
+  "https://images.unsplash.com/photo-1589782183683-177b9a5273f0?w=800&q=80": {
+    "id": "gmd-acc-sunglasses-women-4",
+    "name": "Tommy Hilfiger Women's Oval Acetate Black Sunglasses with Gold Detail",
+    "category": "accessories",
+    "subcategory": "sunglasses",
+    "section": "women",
+    "gender": "women"
+  },
+  "https://images.unsplash.com/photo-1584917865442-de89df76afd3?w=800&q=80": {
+    "id": "gmd-acc-handbags-women-1",
+    "name": "Lavie Betula Medium Faux Leather Women Structured Satchel Handbag",
+    "category": "accessories",
+    "subcategory": "backpacks",
+    "section": "women",
+    "gender": "women"
+  },
+  "https://images.unsplash.com/photo-1590874103328-eac38a683ce7?w=800&q=80": {
+    "id": "gmd-acc-handbags-women-2",
+    "name": "Baggit Large Vegan Leather Shoulder Tote Bag with Zipper",
+    "category": "accessories",
+    "subcategory": "backpacks",
+    "section": "women",
+    "gender": "women"
+  },
+  "https://images.unsplash.com/photo-1566150905458-1bf1fc113f0d?w=800&q=80": {
+    "id": "gmd-acc-handbags-women-3",
+    "name": "Caprese Chloe Quilted Chain Sling Crossbody Bag",
+    "category": "accessories",
+    "subcategory": "backpacks",
+    "section": "women",
+    "gender": "women"
+  },
+  "https://images.unsplash.com/photo-1548036328-c9fa89d128fa?w=800&q=80": {
+    "id": "gmd-acc-handbags-women-4",
+    "name": "Michael Kors Jet Set Travel Medium Top-Zip Saffiano Leather Tote",
+    "category": "accessories",
+    "subcategory": "backpacks",
+    "section": "women",
+    "gender": "women"
+  },
+  "https://images.unsplash.com/photo-1563903530908-afdd155d057a?w=800&q=80": {
+    "id": "gmd-acc-wallets-women-1",
+    "name": "Fossil Logan Leather RFID Zip-Around Flap Clutch Wallet for Women",
+    "category": "accessories",
+    "subcategory": "wallets",
+    "section": "women",
+    "gender": "women"
+  },
+  "https://images.unsplash.com/photo-1601924994987-69e26d50dc26?w=800&q=80": {
+    "id": "gmd-acc-wallets-women-2",
+    "name": "Lavie Floral Printed Faux Leather Multi-Slot Bi-Fold Wallet",
+    "category": "accessories",
+    "subcategory": "wallets",
+    "section": "women",
+    "gender": "women"
+  },
+  "https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?w=800&q=80": {
+    "id": "gmd-acc-wallets-women-3",
+    "name": "Baggit Pastel Tri-Fold Coin Pocket Wallet with Snap Button",
+    "category": "accessories",
+    "subcategory": "wallets",
+    "section": "women",
+    "gender": "women"
+  },
+  "https://images.unsplash.com/photo-1598532163257-ae3c6b2524b6?w=800&q=80": {
+    "id": "gmd-acc-wallets-women-4",
+    "name": "Caprese Textured Zip-Around Continental Travel Wallet",
+    "category": "accessories",
+    "subcategory": "wallets",
+    "section": "women",
+    "gender": "women"
+  },
+  "https://images.unsplash.com/photo-1620916566398-39f1143ab7be?w=800&q=80": {
+    "id": "gmd-beauty-skincare-1",
+    "name": "The Ordinary Niacinamide 10% + Zinc 1% Blemish Serum 30ml",
+    "category": "beauty",
+    "subcategory": "skincare",
+    "section": "beauty",
+    "gender": "unisex"
+  },
+  "https://images.unsplash.com/photo-1556228722-d0b719460596?w=800&q=80": {
+    "id": "gmd-beauty-skincare-2",
+    "name": "Kama Ayurveda Pure Rose Water Face Mist 200ml",
+    "category": "beauty",
+    "subcategory": "skincare",
+    "section": "beauty",
+    "gender": "unisex"
+  },
+  "https://images.unsplash.com/photo-1608248597359-57351c3d1d36?w=800&q=80": {
+    "id": "gmd-beauty-skincare-3",
+    "name": "Forest Essentials Kumkumadi Miraculous Night Beauty Oil 12ml",
+    "category": "beauty",
+    "subcategory": "skincare",
+    "section": "beauty",
+    "gender": "unisex"
+  },
+  "https://images.unsplash.com/photo-1598440947619-2c35fc9aa908?w=800&q=80": {
+    "id": "gmd-beauty-skincare-4",
+    "name": "Minimalist 2% Salicylic Acid Face Serum for Blackheads & Acne 30ml",
+    "category": "beauty",
+    "subcategory": "skincare",
+    "section": "beauty",
+    "gender": "unisex"
+  },
+  "https://images.unsplash.com/photo-1586495777744-4413f21062fa?w=800&q=80": {
+    "id": "gmd-beauty-makeup-1",
+    "name": "M.A.C Retro Matte Lipstick in Ruby Woo Iconic Vivid Blue-Red",
+    "category": "beauty",
+    "subcategory": "makeup",
+    "section": "beauty",
+    "gender": "women"
+  },
+  "https://images.unsplash.com/photo-1512496015851-a90fb38ba796?w=800&q=80": {
+    "id": "gmd-beauty-makeup-2",
+    "name": "Maybelline Lash Sensational Sky High Waterproof Mascara",
+    "category": "beauty",
+    "subcategory": "makeup",
+    "section": "beauty",
+    "gender": "women"
+  },
+  "https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?w=800&q=80": {
+    "id": "gmd-beauty-makeup-3",
+    "name": "Lakme Absolute Skin Natural Mousse Foundation SPF 8 25g",
+    "category": "beauty",
+    "subcategory": "makeup",
+    "section": "beauty",
+    "gender": "women"
+  },
+  "https://images.unsplash.com/photo-1631729371254-42c2892f0e6e?w=800&q=80": {
+    "id": "gmd-beauty-makeup-4",
+    "name": "Swiss Beauty Liquid Concealer High Full Coverage 6g",
+    "category": "beauty",
+    "subcategory": "makeup",
+    "section": "beauty",
+    "gender": "women"
+  },
+  "https://images.unsplash.com/photo-1594035910387-fea47794261f?w=800&q=80": {
+    "id": "gmd-beauty-perfumes-1",
+    "name": "Jaguar Classic Black Eau De Toilette for Men 100ml",
+    "category": "beauty",
+    "subcategory": "perfumes",
+    "section": "beauty",
+    "gender": "unisex"
+  },
+  "https://images.unsplash.com/photo-1523293182086-7651a899d37f?w=800&q=80": {
+    "id": "gmd-beauty-perfumes-2",
+    "name": "Skinn by Titan Raw Eau De Parfum for Men 100ml",
+    "category": "beauty",
+    "subcategory": "perfumes",
+    "section": "beauty",
+    "gender": "unisex"
+  },
+  "https://images.unsplash.com/photo-1541643600914-78b084683601?w=800&q=80": {
+    "id": "gmd-beauty-perfumes-3",
+    "name": "Carolina Herrera Good Girl Eau De Parfum 80ml",
+    "category": "beauty",
+    "subcategory": "perfumes",
+    "section": "beauty",
+    "gender": "women"
+  },
+  "https://images.unsplash.com/photo-1592945403244-b3fbafd7f539?w=800&q=80": {
+    "id": "gmd-beauty-perfumes-4",
+    "name": "Zara Red Vanilla Eau De Toilette for Women 90ml",
+    "category": "beauty",
+    "subcategory": "perfumes",
+    "section": "beauty",
+    "gender": "women"
+  },
+  "https://images.unsplash.com/photo-1556228720-195a672e8a03?w=800&q=80": {
+    "id": "gmd-beauty-shower-1",
+    "name": "Nivea Men Active Clean Shower Gel with Natural Active Charcoal 500ml",
+    "category": "beauty",
+    "subcategory": "shower-gels",
+    "section": "beauty",
+    "gender": "unisex"
+  },
+  "https://images.unsplash.com/photo-1585238342024-78d387f4a707?w=800&q=80": {
+    "id": "gmd-beauty-shower-2",
+    "name": "Bath & Body Works Warm Vanilla Sugar Moisturizing Body Wash 295ml",
+    "category": "beauty",
+    "subcategory": "shower-gels",
+    "section": "beauty",
+    "gender": "women"
+  },
+  "https://images.unsplash.com/photo-1535585209827-a15fcdbc4c2d?w=800&q=80": {
+    "id": "gmd-beauty-shower-3",
+    "name": "The Body Shop British Rose Shower Gel 250ml",
+    "category": "beauty",
+    "subcategory": "shower-gels",
+    "section": "beauty",
+    "gender": "women"
+  },
+  "https://images.unsplash.com/photo-1571781926291-c477ebfd024b?w=800&q=80": {
+    "id": "gmd-beauty-shower-4",
+    "name": "Dove Deeply Nourishing Body Wash with NutriumMoisture 800ml",
+    "category": "beauty",
+    "subcategory": "shower-gels",
+    "section": "beauty",
+    "gender": "unisex"
+  },
+  "https://images.unsplash.com/photo-1629949009765-40fc74c9501a?w=800&q=80": {
+    "id": "gmd-home-bedsheet-1",
+    "name": "Bombay Dyeing 300 TC Pure Cotton King Size Bedsheet with 2 Pillow Covers",
+    "category": "home-living",
+    "subcategory": "bedsheets",
+    "section": "home",
+    "gender": "unisex"
+  },
+  "https://images.unsplash.com/photo-1490114538077-0a7f8cb49891?w=800&q=80": {
+    "id": "gmd-home-bedsheet-2",
+    "name": "Spaces Floral Bliss 210 TC Cotton Double Bedsheet Set",
+    "category": "home-living",
+    "subcategory": "bedsheets",
+    "section": "home",
+    "gender": "unisex"
+  },
+  "https://images.unsplash.com/photo-1534447677768-be436bb09401?w=800&q=80": {
+    "id": "gmd-home-bedsheet-3",
+    "name": "D'Decor Luxury Solid Charcoal Grey Fitted Elastic Bedsheet",
+    "category": "home-living",
+    "subcategory": "bedsheets",
+    "section": "home",
+    "gender": "unisex"
+  },
+  "https://images.unsplash.com/photo-1540518614846-7ede433c4ef2?w=800&q=80": {
+    "id": "gmd-home-bedsheet-4",
+    "name": "Trident Soft Touch All-Weather Microfiber AC Quilt & Dohar",
+    "category": "home-living",
+    "subcategory": "bedsheets",
+    "section": "home",
+    "gender": "unisex"
+  },
+  "https://images.unsplash.com/photo-1579783900882-c0d3dad7b119?w=800&q=80": {
+    "id": "gmd-home-decor-1",
+    "name": "IKEA Modern Minimalist Framed Canvas Wall Art Set of 3",
+    "category": "home-living",
+    "subcategory": "wall-decor",
+    "section": "home",
+    "gender": "unisex"
+  },
+  "https://images.unsplash.com/photo-1507473885765-e6ed057f782c?w=800&q=80": {
+    "id": "gmd-home-decor-2",
+    "name": "Philips Hue Smart Ambient LED Table Lamp & Night Light",
+    "category": "home-living",
+    "subcategory": "wall-decor",
+    "section": "home",
+    "gender": "unisex"
+  },
+  "https://images.unsplash.com/photo-1583847268964-b28dc8f51f92?w=800&q=80": {
+    "id": "gmd-home-decor-3",
+    "name": "Home Centre Metallic Sunburst Decorative Wall Mirror Clock",
+    "category": "home-living",
+    "subcategory": "wall-decor",
+    "section": "home",
+    "gender": "unisex"
+  },
+  "https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?w=800&q=80": {
+    "id": "gmd-home-decor-4",
+    "name": "FabIndia Handwoven Macrame Bohemian Wall Hanging Tapestry",
+    "category": "home-living",
+    "subcategory": "wall-decor",
+    "section": "home",
+    "gender": "unisex"
+  },
+  "https://images.unsplash.com/photo-1615865417491-9941019fbc00?w=800&q=80": {
+    "id": "gmd-home-dinner-1",
+    "name": "Borosil Larah Green Flora Opalware Dinner Set 35 Pieces",
+    "category": "home-living",
+    "subcategory": "dinner-sets",
+    "section": "home",
+    "gender": "unisex"
+  },
+  "https://images.unsplash.com/photo-1578749556568-bc2c40e68b61?w=800&q=80": {
+    "id": "gmd-home-dinner-2",
+    "name": "Corelle Livingware White Frosted Porcelain Dinner Plates Set of 6",
+    "category": "home-living",
+    "subcategory": "dinner-sets",
+    "section": "home",
+    "gender": "unisex"
+  },
+  "https://images.unsplash.com/photo-1584269600464-37b1b58a9fe7?w=800&q=80": {
+    "id": "gmd-home-dinner-3",
+    "name": "Prestige Premia Stainless Steel 24-Piece Designer Cutlery Set with Stand",
+    "category": "home-living",
+    "subcategory": "dinner-sets",
+    "section": "home",
+    "gender": "unisex"
+  },
+  "https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?w=800&q=80": {
+    "id": "gmd-home-dinner-4",
+    "name": "Clay Craft Handcrafted Ceramic Stoneware Pasta & Salad Bowls Set of 4",
+    "category": "home-living",
+    "subcategory": "dinner-sets",
+    "section": "home",
+    "gender": "unisex"
+  },
+  "https://images.unsplash.com/photo-1555041469-a586c61ea9bc?w=800&q=80": {
+    "id": "gmd-home-sofa-1",
+    "name": "Urban Ladder Apollo Modern Fabric 3-Seater Living Room Sofa",
+    "category": "home-living",
+    "subcategory": "sofas",
+    "section": "home",
+    "gender": "unisex"
+  },
+  "https://images.unsplash.com/photo-1586023492125-27b2c045efd7?w=800&q=80": {
+    "id": "gmd-home-sofa-2",
+    "name": "Wakefit Napper Ergonomic Single Seater Recliner Chair",
+    "category": "home-living",
+    "subcategory": "sofas",
+    "section": "home",
+    "gender": "unisex"
+  },
+  "https://images.unsplash.com/photo-1567538096630-e0c55bd6374c?w=800&q=80": {
+    "id": "gmd-home-sofa-3",
+    "name": "IKEA POÄNG Scandinavian Bentwood Armchair with Cushion",
+    "category": "home-living",
+    "subcategory": "sofas",
+    "section": "home",
+    "gender": "unisex"
+  },
+  "https://images.unsplash.com/photo-1493663284031-b7e3aefcae8e?w=800&q=80": {
+    "id": "gmd-home-sofa-4",
+    "name": "Pepperfry Woodsworth Sheesham Wood 2-Seater Loveseat Sofa",
+    "category": "home-living",
+    "subcategory": "sofas",
+    "section": "home",
+    "gender": "unisex"
+  },
+  "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=800&q=80": {
+    "id": "gmd-gadget-headphone-1",
+    "name": "Sony WH-1000XM5 Wireless Noise Cancelling Over-Ear Headphones",
+    "category": "gadgets",
+    "subcategory": "headphones",
+    "section": "gadgets",
+    "gender": "unisex"
+  },
+  "https://images.unsplash.com/photo-1583394838336-acd977736f90?w=800&q=80": {
+    "id": "gmd-gadget-headphone-2",
+    "name": "boAt Rockerz 550 Over-Ear Wireless Bluetooth Headphones",
+    "category": "gadgets",
+    "subcategory": "headphones",
+    "section": "gadgets",
+    "gender": "unisex"
+  },
+  "https://images.unsplash.com/photo-1600294037681-c80b4cb5b434?w=800&q=80": {
+    "id": "gmd-gadget-headphone-3",
+    "name": "Apple AirPods Pro (2nd Generation) with MagSafe USB-C Case",
+    "category": "gadgets",
+    "subcategory": "headphones",
+    "section": "gadgets",
+    "gender": "unisex"
+  },
+  "https://images.unsplash.com/photo-1590658268037-6bf12165a8df?w=800&q=80": {
+    "id": "gmd-gadget-headphone-4",
+    "name": "OnePlus Bullets Wireless Z2 Bluetooth Neckband with Fast Charge",
+    "category": "gadgets",
+    "subcategory": "headphones",
+    "section": "gadgets",
+    "gender": "unisex"
+  },
+  "https://images.unsplash.com/photo-1546868871-7041f2a55e12?w=800&q=80": {
+    "id": "gmd-gadget-watch-1",
+    "name": "Apple Watch Series 9 GPS 45mm Midnight Aluminium Case",
+    "category": "gadgets",
+    "subcategory": "wearables",
+    "section": "gadgets",
+    "gender": "unisex"
+  },
+  "https://images.unsplash.com/photo-1502716119720-b23a93e5fe1b?w=800&q=80": {
+    "id": "gmd-gadget-watch-2",
+    "name": "Samsung Galaxy Watch 6 Bluetooth 44mm Super AMOLED Smartwatch",
+    "category": "gadgets",
+    "subcategory": "wearables",
+    "section": "gadgets",
+    "gender": "unisex"
+  },
+  "https://images.unsplash.com/photo-1601056909989-138676646549?w=800&q=80": {
+    "id": "gmd-gadget-watch-3",
+    "name": "Noise ColorFit Pro 5 Max 1.96-inch AMOLED Bluetooth Calling Watch",
+    "category": "gadgets",
+    "subcategory": "wearables",
+    "section": "gadgets",
+    "gender": "unisex"
+  },
+  "https://images.unsplash.com/photo-1576243345690-4e4b79b63288?w=800&q=80": {
+    "id": "gmd-gadget-watch-4",
+    "name": "Fitbit Charge 6 Advanced Fitness Tracker with Built-in GPS",
+    "category": "gadgets",
+    "subcategory": "wearables",
+    "section": "gadgets",
+    "gender": "unisex"
+  },
+  "https://images.unsplash.com/photo-1609592426815-182d334546bf?w=800&q=80": {
+    "id": "gmd-gadget-power-1",
+    "name": "Mi 20000mAh 18W Fast Charging Triple Output Power Bank 3i",
+    "category": "gadgets",
+    "subcategory": "power-banks",
+    "section": "gadgets",
+    "gender": "unisex"
+  },
+  "https://images.unsplash.com/photo-1585338107529-13afc5f02586?w=800&q=80": {
+    "id": "gmd-gadget-power-2",
+    "name": "Anker PowerCore 10000mAh Ultra-Compact High-Speed Power Bank",
+    "category": "gadgets",
+    "subcategory": "power-banks",
+    "section": "gadgets",
+    "gender": "unisex"
+  },
+  "https://images.unsplash.com/photo-1574944985070-8f3ebc6b79d2?w=800&q=80": {
+    "id": "gmd-gadget-power-3",
+    "name": "Ambrane 65W Powerlit Ultra 25000mAh Laptop & Smartphone Power Bank",
+    "category": "gadgets",
+    "subcategory": "power-banks",
+    "section": "gadgets",
+    "gender": "unisex"
+  },
+  "https://images.unsplash.com/photo-1622445268045-802528b184ce?w=800&q=80": {
+    "id": "gmd-gadget-power-4",
+    "name": "Belkin BoostCharge Magnetic Wireless 5000mAh MagSafe Power Bank",
+    "category": "gadgets",
+    "subcategory": "power-banks",
+    "section": "gadgets",
+    "gender": "unisex"
+  },
+  "https://images.unsplash.com/photo-1609803384069-1cac59727508?w=800&q=80": {
+    "id": "gmd-pooja-plate-1",
+    "name": "Pure Brass Embossed Gayatri Mantra Pooja Thali 9-Inch",
+    "category": "pooja-items",
+    "subcategory": "pooja-plates",
+    "section": "pooja-essentials",
+    "gender": "unisex"
+  },
+  "https://images.unsplash.com/photo-1596040033229-a9821ebd058d?w=800&q=80": {
+    "id": "gmd-pooja-plate-2",
+    "name": "German Silver Floral Engraved Round Pooja Thali 10-Inch",
+    "category": "pooja-items",
+    "subcategory": "pooja-plates",
+    "section": "pooja-essentials",
+    "gender": "unisex"
+  },
+  "https://images.unsplash.com/photo-1608755728617-aefab37d2edd?w=800&q=80": {
+    "id": "gmd-pooja-plate-3",
+    "name": "Copper Kalash Embossed Traditional Pooja Plate 8.5-Inch",
+    "category": "pooja-items",
+    "subcategory": "pooja-plates",
+    "section": "pooja-essentials",
+    "gender": "unisex"
+  },
+  "https://images.unsplash.com/photo-1614741118887-7a4ee193a5fa?w=800&q=80": {
+    "id": "gmd-pooja-plate-4",
+    "name": "Pure Brass Peacock Handle Ritual Pooja Thali Set with 5 Accessories",
+    "category": "pooja-items",
+    "subcategory": "pooja-plates",
+    "section": "pooja-essentials",
+    "gender": "unisex"
+  },
+  "https://images.unsplash.com/photo-1544816155-12df9643f363?w=800&q=80": {
+    "id": "gmd-pooja-bowl-1",
+    "name": "Brass Haldi Kumkum Katori Bowls Set of 4 with Tray",
+    "category": "pooja-items",
+    "subcategory": "pooja-bowls",
+    "section": "pooja-essentials",
+    "gender": "unisex"
+  },
+  "https://images.unsplash.com/photo-1544717305-996b815c338c?w=800&q=80": {
+    "id": "gmd-pooja-bowl-2",
+    "name": "Silver Plated Floral Chaman Chandan Prasad Vati Bowl",
+    "category": "pooja-items",
+    "subcategory": "pooja-bowls",
+    "section": "pooja-essentials",
+    "gender": "unisex"
+  },
+  "https://images.unsplash.com/photo-1544717302-de2939b7ef71?w=800&q=80": {
+    "id": "gmd-pooja-bowl-3",
+    "name": "Pure Copper Charanamrit Patra with Ritual Spoon Pali",
+    "category": "pooja-items",
+    "subcategory": "pooja-bowls",
+    "section": "pooja-essentials",
+    "gender": "unisex"
+  },
+  "https://images.unsplash.com/photo-1507652313519-d4e9174996dd?w=800&q=80": {
+    "id": "gmd-pooja-bowl-4",
+    "name": "Handcrafted Marble Stone Urli Bowl for Floating Flowers and Diyas",
+    "category": "pooja-items",
+    "subcategory": "pooja-bowls",
+    "section": "pooja-essentials",
+    "gender": "unisex"
+  },
+  "https://images.unsplash.com/photo-1514517521153-1be72277b32f?w=800&q=80": {
+    "id": "gmd-pooja-aarti-1",
+    "name": "Pure Brass Pancha Aarti 5-Wick Lamp Plate with Wooden Handle",
+    "category": "pooja-items",
+    "subcategory": "aarti-plates",
+    "section": "pooja-essentials",
+    "gender": "unisex"
+  },
+  "https://images.unsplash.com/photo-1533038590840-1cde6e668a91?w=800&q=80": {
+    "id": "gmd-pooja-aarti-2",
+    "name": "Shubhkart Karpoor Brass Aarti Thali with Attached Bell and Diya",
+    "category": "pooja-items",
+    "subcategory": "aarti-plates",
+    "section": "pooja-essentials",
+    "gender": "unisex"
+  },
+  "https://images.unsplash.com/photo-1517841905240-472988babdf9?w=800&q=80": {
+    "id": "gmd-pooja-aarti-3",
+    "name": "Brass Single Aarti Diya Plate with Curved Cobra Hood Handle",
+    "category": "pooja-items",
+    "subcategory": "aarti-plates",
+    "section": "pooja-essentials",
+    "gender": "unisex"
+  },
+  "https://images.unsplash.com/photo-1606787366850-de6330128bfc?w=800&q=80": {
+    "id": "gmd-pooja-aarti-4",
+    "name": "Silver Plated Designer Swastik Aarti Thali with Roli Chawal Katoris",
+    "category": "pooja-items",
+    "subcategory": "aarti-plates",
+    "section": "pooja-essentials",
+    "gender": "unisex"
+  },
+  "https://images.unsplash.com/photo-1607344645866-009c320c5ab8?w=800&q=80": {
+    "id": "gmd-pooja-camphor-1",
+    "name": "Brass Camphor Burner Aarti Dani with Wooden Handle",
+    "category": "pooja-items",
+    "subcategory": "camphor-holders",
+    "section": "pooja-essentials",
+    "gender": "unisex"
+  },
+  "https://images.unsplash.com/photo-1517999144091-3d9dca6d1e43?w=800&q=80": {
+    "id": "gmd-pooja-camphor-2",
+    "name": "Electric Automatic Camphor Diffuser & Kapur Dani Lamp with Night LED",
+    "category": "pooja-items",
+    "subcategory": "camphor-holders",
+    "section": "pooja-essentials",
+    "gender": "unisex"
+  },
+  "https://images.unsplash.com/photo-1518173946687-a4c8892bbd9f?w=800&q=80": {
+    "id": "gmd-pooja-camphor-3",
+    "name": "Solid Brass Traditional Peacock Lid Dhoop & Camphor Burner",
+    "category": "pooja-items",
+    "subcategory": "camphor-holders",
+    "section": "pooja-essentials",
+    "gender": "unisex"
+  },
+  "https://images.unsplash.com/photo-1519681393784-d120267933ba?w=800&q=80": {
+    "id": "gmd-pooja-camphor-4",
+    "name": "Mangalam Pure Bhimseni Camphor Tablets 250g Jar with Stainless Bowl",
+    "category": "pooja-items",
+    "subcategory": "camphor-holders",
+    "section": "pooja-essentials",
+    "gender": "unisex"
+  },
+  "https://images.unsplash.com/photo-1513151233558-d860c5398176?w=800&q=80": {
+    "id": "gmd-pooja-silver-diya-1",
+    "name": "92.5 Sterling Silver Lotus Diya Lamp for Mandir 50g",
+    "category": "pooja-items",
+    "subcategory": "silver-diyas",
+    "section": "pooja-essentials",
+    "gender": "unisex"
+  },
+  "https://images.unsplash.com/photo-1512389142860-9c449e58a543?w=800&q=80": {
+    "id": "gmd-pooja-silver-diya-2",
+    "name": "German Silver Kuber Deepam Diya Pair Set of 2",
+    "category": "pooja-items",
+    "subcategory": "silver-diyas",
+    "section": "pooja-essentials",
+    "gender": "unisex"
+  },
+  "https://images.unsplash.com/photo-1543857778-c4a1a3e0b2eb?w=800&q=80": {
+    "id": "gmd-pooja-silver-diya-3",
+    "name": "92.5 Sterling Silver Kamakshi Deepam Lamp with Goddess Lakshmi Relief",
+    "category": "pooja-items",
+    "subcategory": "silver-diyas",
+    "section": "pooja-essentials",
+    "gender": "unisex"
+  },
+  "https://images.unsplash.com/photo-1514525253161-7a46d19cd819?w=800&q=80": {
+    "id": "gmd-pooja-silver-diya-4",
+    "name": "Silver Plated Peacock Finial Step Diya Stand",
+    "category": "pooja-items",
+    "subcategory": "silver-diyas",
+    "section": "pooja-essentials",
+    "gender": "unisex"
+  },
+  "https://images.unsplash.com/photo-1512436991641-6745cdb1723f?w=800&q=80": {
+    "id": "gmd-pooja-ghee-lamp-1",
+    "name": "Borosil Akhand Brass Diya with Borosilicate Glass Chimney Medium",
+    "category": "pooja-items",
+    "subcategory": "ghee-lamps",
+    "section": "pooja-essentials",
+    "gender": "unisex"
+  },
+  "https://images.unsplash.com/photo-1508746829417-e6f548d8d6ed?w=800&q=80": {
+    "id": "gmd-pooja-ghee-lamp-2",
+    "name": "Shubhkart Pure Cow Ghee Diya Wicks Ready to Burn 100 Pieces",
+    "category": "pooja-items",
+    "subcategory": "ghee-lamps",
+    "section": "pooja-essentials",
+    "gender": "unisex"
+  },
+  "https://images.unsplash.com/photo-1511216335778-7cb8f49fa7a3?w=800&q=80": {
+    "id": "gmd-pooja-ghee-lamp-3",
+    "name": "Traditional Brass Hanging Peacock Ghee Lamp Chain Diya 18-Inch",
+    "category": "pooja-items",
+    "subcategory": "ghee-lamps",
+    "section": "pooja-essentials",
+    "gender": "unisex"
+  },
+  "https://images.unsplash.com/photo-1545239351-ef35f43d514b?w=800&q=80": {
+    "id": "gmd-pooja-ghee-lamp-4",
+    "name": "Pure Brass Tortoise Base Kuber Deepam Ghee Diya",
+    "category": "pooja-items",
+    "subcategory": "ghee-lamps",
+    "section": "pooja-essentials",
+    "gender": "unisex"
+  },
+  "https://images.unsplash.com/photo-1605647540924-852290f6b0d5?w=800&q=80": {
+    "id": "gmd-pooja-diya-set-1",
+    "name": "Handcrafted Terracotta Clay Painted Diwali Diyas Set of 12",
+    "category": "pooja-items",
+    "subcategory": "diya-sets",
+    "section": "pooja-essentials",
+    "gender": "unisex"
+  },
+  "https://images.unsplash.com/photo-1577083552431-6e5fd01aa342?w=800&q=80": {
+    "id": "gmd-pooja-diya-set-2",
+    "name": "Solid Brass Traditional Lotus Diya Set of 6",
+    "category": "pooja-items",
+    "subcategory": "diya-sets",
+    "section": "pooja-essentials",
+    "gender": "unisex"
+  },
+  "https://images.unsplash.com/photo-1509773896068-7fd415d91e2e?w=800&q=80": {
+    "id": "gmd-pooja-diya-set-3",
+    "name": "Multi-Color Floating Candle Diyas Set of 10 with Fragrance",
+    "category": "pooja-items",
+    "subcategory": "diya-sets",
+    "section": "pooja-essentials",
+    "gender": "unisex"
+  },
+  "https://images.unsplash.com/photo-1518609878373-06d740f60d8b?w=800&q=80": {
+    "id": "gmd-pooja-diya-set-4",
+    "name": "Heavy Brass Panchmukhi Diya Tree Stand with 5 Lamps",
+    "category": "pooja-items",
+    "subcategory": "diya-sets",
+    "section": "pooja-essentials",
+    "gender": "unisex"
+  },
+  "https://images.unsplash.com/photo-1506152983158-b4a74a01c721?w=800&q=80": {
+    "id": "gmd-pooja-dhoop-1",
+    "name": "Phool Natural Organic Sandalwood Dhoop Cones Pack of 40",
+    "category": "pooja-items",
+    "subcategory": "dhoop-cones",
+    "section": "pooja-essentials",
+    "gender": "unisex"
+  },
+  "https://images.unsplash.com/photo-1528740561666-dc2479dc08ab?w=800&q=80": {
+    "id": "gmd-pooja-dhoop-2",
+    "name": "Cycle Pure Agarbathies Dasara Jumbo Dhoop Cones Pack of 50",
+    "category": "pooja-items",
+    "subcategory": "dhoop-cones",
+    "section": "pooja-essentials",
+    "gender": "unisex"
+  },
+  "https://images.unsplash.com/photo-1516035069371-29a1b244cc32?w=800&q=80": {
+    "id": "gmd-pooja-dhoop-3",
+    "name": "Zed Black Luxury Rose & Guggal Dhoop Cones Combo 60 Cones",
+    "category": "pooja-items",
+    "subcategory": "dhoop-cones",
+    "section": "pooja-essentials",
+    "gender": "unisex"
+  },
+  "https://images.unsplash.com/photo-1527061011665-3652c757a4d4?w=800&q=80": {
+    "id": "gmd-pooja-dhoop-4",
+    "name": "Phool Backflow Smoke Waterfall Dhoop Cones Lavender & Oudh Pack of 30",
+    "category": "pooja-items",
+    "subcategory": "dhoop-cones",
+    "section": "pooja-essentials",
+    "gender": "unisex"
+  },
+  "https://images.unsplash.com/photo-1508214751196-bcfd4ca60f91?w=800&q=80": {
+    "id": "gmd-pooja-sambrani-1",
+    "name": "Shubhkart Pure Benzoin Resin Sambrani Cups Pack of 24 with Burner",
+    "category": "pooja-items",
+    "subcategory": "sambrani",
+    "section": "pooja-essentials",
+    "gender": "unisex"
+  },
+  "https://images.unsplash.com/photo-1517457373958-b7bdd4587205?w=800&q=80": {
+    "id": "gmd-pooja-sambrani-2",
+    "name": "Patanjali Loban & Guggul Herbal Sambrani Dhoop Cups 20 Pcs",
+    "category": "pooja-items",
+    "subcategory": "sambrani",
+    "section": "pooja-essentials",
+    "gender": "unisex"
+  },
+  "https://images.unsplash.com/photo-1519671482749-fd09be7ccebf?w=800&q=80": {
+    "id": "gmd-pooja-sambrani-3",
+    "name": "Cycle Pure Dasara Raw Crystal Benzoin Sambrani 200g Pouch",
+    "category": "pooja-items",
+    "subcategory": "sambrani",
+    "section": "pooja-essentials",
+    "gender": "unisex"
+  },
+  "https://images.unsplash.com/photo-1526045612212-70caf35c14df?w=800&q=80": {
+    "id": "gmd-pooja-sambrani-4",
+    "name": "Brass Traditional Dhunachi Dhuna Loban Burner with Long Handle",
+    "category": "pooja-items",
+    "subcategory": "sambrani",
+    "section": "pooja-essentials",
+    "gender": "unisex"
+  },
+  "https://images.unsplash.com/photo-1509114397022-ed747cca3f65?w=800&q=80": {
+    "id": "gmd-pooja-havan-cup-1",
+    "name": "Phool Natural Organic Havan Cups Pack of 15 with Samagri",
+    "category": "pooja-items",
+    "subcategory": "havan-cups",
+    "section": "pooja-essentials",
+    "gender": "unisex"
+  },
+  "https://images.unsplash.com/photo-1519751138087-5bf79df62d5b?w=800&q=80": {
+    "id": "gmd-pooja-havan-cup-2",
+    "name": "Shubhkart Vedic Havan Samagri Dhoop Cups Pack of 20 with Fiber Stand",
+    "category": "pooja-items",
+    "subcategory": "havan-cups",
+    "section": "pooja-essentials",
+    "gender": "unisex"
+  },
+  "https://images.unsplash.com/photo-1516542076529-1ea3854896f2?w=800&q=80": {
+    "id": "gmd-pooja-havan-cup-3",
+    "name": "Patanjali Gayatri Havan Dhoop Cups 12 Pcs Box",
+    "category": "pooja-items",
+    "subcategory": "havan-cups",
+    "section": "pooja-essentials",
+    "gender": "unisex"
+  },
+  "https://images.unsplash.com/photo-1506869640319-fe1a24fd76dc?w=800&q=80": {
+    "id": "gmd-pooja-havan-cup-4",
+    "name": "Mangalam Premium Camphor Infused Havan Cups 16 Pcs Pack",
+    "category": "pooja-items",
+    "subcategory": "havan-cups",
+    "section": "pooja-essentials",
+    "gender": "unisex"
+  },
+  "https://images.unsplash.com/photo-1582738411706-bfc8e691d1c2?w=800&q=80": {
+    "id": "gmd-pooja-krishna-1",
+    "name": "Brass Laddu Gopal Idol with Makhan Hand 4-Inch (Bal Gopal)",
+    "category": "pooja-items",
+    "subcategory": "krishna-idols",
+    "section": "pooja-essentials",
+    "gender": "unisex"
+  },
+  "https://images.unsplash.com/photo-1567684014761-b65e2e59b9eb?w=800&q=80": {
+    "id": "gmd-pooja-krishna-2",
+    "name": "Pure White Marble Radha Krishna Idol with Flute 8-Inch",
+    "category": "pooja-items",
+    "subcategory": "krishna-idols",
+    "section": "pooja-essentials",
+    "gender": "unisex"
+  },
+  "https://images.unsplash.com/photo-1561571994-3c61c554181a?w=800&q=80": {
+    "id": "gmd-pooja-krishna-3",
+    "name": "Brass Venugopala Krishna Standing with Kamadhenu Cow 6-Inch",
+    "category": "pooja-items",
+    "subcategory": "krishna-idols",
+    "section": "pooja-essentials",
+    "gender": "unisex"
+  },
+  "https://images.unsplash.com/photo-1533158307587-828f0a76ef46?w=800&q=80": {
+    "id": "gmd-pooja-krishna-4",
+    "name": "Shubhkart German Silver Baby Krishna on Peepal Leaf Idol",
+    "category": "pooja-items",
+    "subcategory": "krishna-idols",
+    "section": "pooja-essentials",
+    "gender": "unisex"
+  },
+  "https://images.unsplash.com/photo-1599818485246-81cfca6d3cb9?w=800&q=80": {
+    "id": "gmd-pooja-shiva-1",
+    "name": "Pure Brass Lord Shiva Nataraja Cosmic Dance Idol 8-Inch",
+    "category": "pooja-items",
+    "subcategory": "shiva-idols",
+    "section": "pooja-essentials",
+    "gender": "unisex"
+  },
+  "https://images.unsplash.com/photo-1532635241-17e820acc59f?w=800&q=80": {
+    "id": "gmd-pooja-shiva-2",
+    "name": "Black Marble Shiva Lingam with Brass Trishul and Snake 6-Inch",
+    "category": "pooja-items",
+    "subcategory": "shiva-idols",
+    "section": "pooja-essentials",
+    "gender": "unisex"
+  },
+  "https://images.unsplash.com/photo-1546768292-fb12f6c92568?w=800&q=80": {
+    "id": "gmd-pooja-shiva-3",
+    "name": "Adiyogi Shiva Bust Sculpture Idol 5-Inch Matte Black",
+    "category": "pooja-items",
+    "subcategory": "shiva-idols",
+    "section": "pooja-essentials",
+    "gender": "unisex"
+  },
+  "https://images.unsplash.com/photo-1541701494587-cb58502866ab?w=800&q=80": {
+    "id": "gmd-pooja-shiva-4",
+    "name": "Brass Meditating Lord Shiva in Dhyana Mudra with Damru 5-Inch",
+    "category": "pooja-items",
+    "subcategory": "shiva-idols",
+    "section": "pooja-essentials",
+    "gender": "unisex"
+  },
+  "https://images.unsplash.com/photo-1512917774080-9991f1c4c750?w=800&q=80": {
+    "id": "gmd-pooja-durga-1",
+    "name": "Brass Goddess Durga Sherawali Riding Lion Idol 7-Inch (Ashtabhuja)",
+    "category": "pooja-items",
+    "subcategory": "durga-idols",
+    "section": "pooja-essentials",
+    "gender": "unisex"
+  },
+  "https://images.unsplash.com/photo-1513836279014-a89f7a76ae86?w=800&q=80": {
+    "id": "gmd-pooja-durga-2",
+    "name": "Mahishasuramardini Durga Brass Murti 6-Inch",
+    "category": "pooja-items",
+    "subcategory": "durga-idols",
+    "section": "pooja-essentials",
+    "gender": "unisex"
+  },
+  "https://images.unsplash.com/photo-1528459801416-a9e53bbf4e17?w=800&q=80": {
+    "id": "gmd-pooja-durga-3",
+    "name": "Marble Powder Hand-Painted Maa Durga Sherawali Statue 6.5-Inch",
+    "category": "pooja-items",
+    "subcategory": "durga-idols",
+    "section": "pooja-essentials",
+    "gender": "unisex"
+  },
+  "https://images.unsplash.com/photo-1563245372-f21724e3856d?w=800&q=80": {
+    "id": "gmd-pooja-durga-4",
+    "name": "Silver Plated Maa Durga Car Dashboard and Mandir Frame Idol",
+    "category": "pooja-items",
+    "subcategory": "durga-idols",
+    "section": "pooja-essentials",
+    "gender": "unisex"
+  },
+  "https://images.unsplash.com/photo-1563245738-9276d3f27807?w=800&q=80": {
+    "id": "gmd-pooja-dec-diya-1",
+    "name": "Handcrafted Brass Peacock Urli Bowl with 5 Attached Hanging Bells",
+    "category": "pooja-items",
+    "subcategory": "decorative-diyas",
+    "section": "pooja-essentials",
+    "gender": "unisex"
+  },
+  "https://images.unsplash.com/photo-1563245372-972f07d396ee?w=800&q=80": {
+    "id": "gmd-pooja-dec-diya-2",
+    "name": "Shadow Ganesha Metal Tea Light Diya Holder for Wall & Table",
+    "category": "pooja-items",
+    "subcategory": "decorative-diyas",
+    "section": "pooja-essentials",
+    "gender": "unisex"
+  },
+  "https://images.unsplash.com/photo-1567427017947-545c5f8d16ad?w=800&q=80": {
+    "id": "gmd-pooja-dec-diya-3",
+    "name": "Mosaic Glass Colorful Crackle Tea Light Candle Holders Set of 4",
+    "category": "pooja-items",
+    "subcategory": "decorative-diyas",
+    "section": "pooja-essentials",
+    "gender": "unisex"
+  },
+  "https://images.unsplash.com/photo-1544967082-d9d25d867d66?w=800&q=80": {
+    "id": "gmd-pooja-dec-diya-4",
+    "name": "Royal Elephant Base Carved Brass Oil Diya Pair 5-Inch",
+    "category": "pooja-items",
+    "subcategory": "decorative-diyas",
+    "section": "pooja-essentials",
+    "gender": "unisex"
+  },
+  "https://images.unsplash.com/photo-1508615039623-a25605d2b022?w=800&q=80": {
+    "id": "gmd-pooja-garland-1",
+    "name": "Artificial Fluffy Marigold Genda Phool Garland Toran 5 Feet Pack of 5",
+    "category": "pooja-items",
+    "subcategory": "flower-garlands",
+    "section": "pooja-essentials",
+    "gender": "unisex"
+  },
+  "https://images.unsplash.com/photo-1506880018603-83d5b814b5a6?w=800&q=80": {
+    "id": "gmd-pooja-garland-2",
+    "name": "Scented Jasmine Mogra and Rose Bud Garland Mala for Idols 18-Inch",
+    "category": "pooja-items",
+    "subcategory": "flower-garlands",
+    "section": "pooja-essentials",
+    "gender": "unisex"
+  },
+  "https://images.unsplash.com/photo-1579783902614-a3fb3927b675?w=800&q=80": {
+    "id": "gmd-pooja-garland-3",
+    "name": "Handcrafted Shola Wood Lotus & Pearl Toran Door Hanging 3.5 Feet",
+    "category": "pooja-items",
+    "subcategory": "flower-garlands",
+    "section": "pooja-essentials",
+    "gender": "unisex"
+  },
+  "https://images.unsplash.com/photo-1520854221256-17451cc331bf?w=800&q=80": {
+    "id": "gmd-pooja-garland-4",
+    "name": "Zari Bordered Velvet Vastra Garland Mala Set for Puja Photos",
+    "category": "pooja-items",
+    "subcategory": "flower-garlands",
+    "section": "pooja-essentials",
+    "gender": "unisex"
+  },
+  "https://images.unsplash.com/photo-1584438784894-089d6a62b8fa?w=800&q=80": {
+    "id": "gmd-pooja-rangoli-1",
+    "name": "Non-Toxic Vivid Rangoli Powder Colors Kit 10 Vibrant Shades 1kg",
+    "category": "pooja-items",
+    "subcategory": "rangoli-items",
+    "section": "pooja-essentials",
+    "gender": "unisex"
+  },
+  "https://images.unsplash.com/photo-1572945550772-24355ec60269?w=800&q=80": {
+    "id": "gmd-pooja-rangoli-2",
+    "name": "Acrylic Reusable Kundan Stone Studded Rangoli Floor Set 7 Pieces",
+    "category": "pooja-items",
+    "subcategory": "rangoli-items",
+    "section": "pooja-essentials",
+    "gender": "unisex"
+  },
+  "https://images.unsplash.com/photo-1534067783941-51c9c23ecefd?w=800&q=80": {
+    "id": "gmd-pooja-rangoli-3",
+    "name": "Precision Rangoli Stencil Templates & Color Roller Squeeze Pen Kit",
+    "category": "pooja-items",
+    "subcategory": "rangoli-items",
+    "section": "pooja-essentials",
+    "gender": "unisex"
+  },
+  "https://images.unsplash.com/photo-1526170375885-4d8ecf77b99f?w=800&q=80": {
+    "id": "gmd-pooja-rangoli-4",
+    "name": "Wooden Floor Kolam Chawk Stencil Stamp for Daily Rice Flour Rangoli",
+    "category": "pooja-items",
+    "subcategory": "rangoli-items",
+    "section": "pooja-essentials",
+    "gender": "unisex"
+  },
+  "https://images.unsplash.com/photo-1585386959984-a4155224a1ad?w=800&q=80": {
+    "id": "gmd-pooja-samagri-kit-1",
+    "name": "Shubhkart Sampoorna Daily Griha Pooja Samagri Kit 32 Items",
+    "category": "pooja-items",
+    "subcategory": "pooja-samagri-kits",
+    "section": "pooja-essentials",
+    "gender": "unisex"
+  },
+  "https://images.unsplash.com/photo-1505751172876-fa1923c5c528?w=800&q=80": {
+    "id": "gmd-pooja-samagri-kit-2",
+    "name": "Patanjali Pure Havan Samagri Herbs Pack 1kg with Cow Ghee 200ml Combo",
+    "category": "pooja-items",
+    "subcategory": "pooja-samagri-kits",
+    "section": "pooja-essentials",
+    "gender": "unisex"
+  },
+  "https://images.unsplash.com/photo-1526738549149-8e07eca6c147?w=800&q=80": {
+    "id": "gmd-pooja-samagri-kit-3",
+    "name": "Vedika Crafts Griha Pravesh Housewarming Vastu Pooja Kit 45 Items",
+    "category": "pooja-items",
+    "subcategory": "pooja-samagri-kits",
+    "section": "pooja-essentials",
+    "gender": "unisex"
+  },
+  "https://images.unsplash.com/photo-1506869640319-fe1a24fd76dc?w=800&q=80&unique=gmd-pooja-samagri-kit-4": {
+    "id": "gmd-pooja-samagri-kit-4",
+    "name": "Pooja Mandir Arts Rudrabhishekam Shiva Pooja Kit with Sphatik Mala",
+    "category": "pooja-items",
+    "subcategory": "pooja-samagri-kits",
+    "section": "pooja-essentials",
+    "gender": "unisex"
+  },
+  "https://images.unsplash.com/photo-1532635241-17e820acc59f?w=800&q=80&unique=gmd-pooja-navagraha-1": {
+    "id": "gmd-pooja-navagraha-1",
+    "name": "Complete Navagraha Shanti Samagri Kit 9 Grains 9 Woods and 9 Clothes",
+    "category": "pooja-items",
+    "subcategory": "navagraha-samagri",
+    "section": "pooja-essentials",
+    "gender": "unisex"
+  },
+  "https://images.unsplash.com/photo-1546768292-fb12f6c92568?w=800&q=80&unique=gmd-pooja-navagraha-2": {
+    "id": "gmd-pooja-navagraha-2",
+    "name": "Pure Brass Navagraha Idols Set of 9 Planetary Deities 3-Inch",
+    "category": "pooja-items",
+    "subcategory": "navagraha-samagri",
+    "section": "pooja-essentials",
+    "gender": "unisex"
+  },
+  "https://images.unsplash.com/photo-1516542076529-1ea3854896f2?w=800&q=80&unique=gmd-pooja-navagraha-3": {
+    "id": "gmd-pooja-navagraha-3",
+    "name": "Shubhkart 24K Gold Plated Navagraha Yantra in Wooden Frame",
+    "category": "pooja-items",
+    "subcategory": "navagraha-samagri",
+    "section": "pooja-essentials",
+    "gender": "unisex"
+  },
+  "https://images.unsplash.com/photo-1514733670139-4d87a1941d55?w=800&q=80&unique=gmd-pooja-navagraha-4": {
+    "id": "gmd-pooja-navagraha-4",
+    "name": "Organic Navadhanya 9 Grains Pack 900g for Puja and Sowing",
+    "category": "pooja-items",
+    "subcategory": "navagraha-samagri",
+    "section": "pooja-essentials",
+    "gender": "unisex"
+  },
+  "https://images.unsplash.com/photo-1512917774080-9991f1c4c750?w=800&q=80&unique=gmd-pooja-diwali-kit-1": {
+    "id": "gmd-pooja-diwali-kit-1",
+    "name": "Shubhkart Grand Diwali Maha Lakshmi Ganesha Pujan Box 36 Items",
+    "category": "pooja-items",
+    "subcategory": "diwali-pooja-kits",
+    "section": "pooja-essentials",
+    "gender": "unisex"
+  },
+  "https://images.unsplash.com/photo-1513836279014-a89f7a76ae86?w=800&q=80&unique=gmd-pooja-diwali-kit-2": {
+    "id": "gmd-pooja-diwali-kit-2",
+    "name": "Terracotta Handpainted Lakshmi Ganesha Idols with 6 Diyas Diwali Set",
+    "category": "pooja-items",
+    "subcategory": "diwali-pooja-kits",
+    "section": "pooja-essentials",
+    "gender": "unisex"
+  },
+  "https://images.unsplash.com/photo-1528459801416-a9e53bbf4e17?w=800&q=80&unique=gmd-pooja-diwali-kit-3": {
+    "id": "gmd-pooja-diwali-kit-3",
+    "name": "Kuber Dhan Varsha Yantra & Gold Coin Wealth Box for Diwali Pujan",
+    "category": "pooja-items",
+    "subcategory": "diwali-pooja-kits",
+    "section": "pooja-essentials",
+    "gender": "unisex"
+  },
+  "https://images.unsplash.com/photo-1527061011665-3652c757a4d4?w=800&q=80&unique=gmd-pooja-diwali-kit-4": {
+    "id": "gmd-pooja-diwali-kit-4",
+    "name": "Phool Organic Diwali Fragrance Hamper with Diyas and Plantable Crackers",
+    "category": "pooja-items",
+    "subcategory": "diwali-pooja-kits",
+    "section": "pooja-essentials",
+    "gender": "unisex"
+  },
+  "https://images.unsplash.com/photo-1563245372-f21724e3856d?w=800&q=80&unique=gmd-pooja-ganesh-kit-1": {
+    "id": "gmd-pooja-ganesh-kit-1",
+    "name": "Eco-Friendly Plantable Clay Ganesha Idol Kit with Seeds & Pot 8-Inch",
+    "category": "pooja-items",
+    "subcategory": "ganesh-chaturthi-kits",
+    "section": "pooja-essentials",
+    "gender": "unisex"
+  },
+  "https://images.unsplash.com/photo-1563245738-9276d3f27807?w=800&q=80&unique=gmd-pooja-ganesh-kit-2": {
+    "id": "gmd-pooja-ganesh-kit-2",
+    "name": "Shubhkart Sampoorna Ganesh Sthapana Pooja Samagri Kit 28 Items",
+    "category": "pooja-items",
+    "subcategory": "ganesh-chaturthi-kits",
+    "section": "pooja-essentials",
+    "gender": "unisex"
+  },
+  "https://images.unsplash.com/photo-1563245372-972f07d396ee?w=800&q=80&unique=gmd-pooja-ganesh-kit-3": {
+    "id": "gmd-pooja-ganesh-kit-3",
+    "name": "Pure Brass Modak Patra & Ganesha Offering Bowls Set of 3",
+    "category": "pooja-items",
+    "subcategory": "ganesh-chaturthi-kits",
+    "section": "pooja-essentials",
+    "gender": "unisex"
+  },
+  "https://images.unsplash.com/photo-1567427017947-545c5f8d16ad?w=800&q=80&unique=gmd-pooja-ganesh-kit-4": {
+    "id": "gmd-pooja-ganesh-kit-4",
+    "name": "Velvet Singhasan Throne with Umbrella Chhatra for Ganesha Idol 8-Inch",
+    "category": "pooja-items",
+    "subcategory": "ganesh-chaturthi-kits",
+    "section": "pooja-essentials",
+    "gender": "unisex"
+  },
+  "https://images.unsplash.com/photo-1549465220-1a8b9238cd48?w=800&q=80&unique=gmd-pooja-satya-kit-1": {
+    "id": "gmd-pooja-satya-kit-1",
+    "name": "Shubhkart Sri Satyanarayan Vrat Katha Complete Puja Samagri Kit 34 Items",
+    "category": "pooja-items",
+    "subcategory": "satyanarayan-pooja-kits",
+    "section": "pooja-essentials",
+    "gender": "unisex"
+  },
+  "https://images.unsplash.com/photo-1544967082-d9d25d867d66?w=800&q=80&unique=gmd-pooja-satya-kit-2": {
+    "id": "gmd-pooja-satya-kit-2",
+    "name": "Pure Brass Satyanarayan Vishnu Lakshmi Idol 6-Inch with Sheshnag",
+    "category": "pooja-items",
+    "subcategory": "satyanarayan-pooja-kits",
+    "section": "pooja-essentials",
+    "gender": "unisex"
+  },
+  "https://images.unsplash.com/photo-1544717302-de2939b7ef71?w=800&q=80&unique=gmd-pooja-satya-kit-3": {
+    "id": "gmd-pooja-satya-kit-3",
+    "name": "Pure Brass Kalash Nariyal Coconut Set for Satyanarayan Mandap",
+    "category": "pooja-items",
+    "subcategory": "satyanarayan-pooja-kits",
+    "section": "pooja-essentials",
+    "gender": "unisex"
+  },
+  "https://images.unsplash.com/photo-1579783902614-a3fb3927b675?w=800&q=80&unique=gmd-pooja-satya-kit-4": {
+    "id": "gmd-pooja-satya-kit-4",
+    "name": "Yellow Silk Mandap Chowki Aasan Cloth with Embroidered Border 1 Meter",
+    "category": "pooja-items",
+    "subcategory": "satyanarayan-pooja-kits",
+    "section": "pooja-essentials",
+    "gender": "unisex"
+  },
+  "https://images.unsplash.com/photo-1578749556568-bc2c40e68b61?w=800&q=80&unique=gmd-pooja-storage-1": {
+    "id": "gmd-pooja-storage-1",
+    "name": "Pure Brass Masala Dabba Style 7-Compartment Pooja Box with Embossed Lid",
+    "category": "pooja-items",
+    "subcategory": "pooja-storage-sets",
+    "section": "pooja-essentials",
+    "gender": "unisex"
+  },
+  "https://images.unsplash.com/photo-1582533561751-ef6f6ab93a2e?w=800&q=80&unique=gmd-pooja-storage-2": {
+    "id": "gmd-pooja-storage-2",
+    "name": "Handcrafted Sheesham Wood Carved Agarbatti & Dhoop Storage Box",
+    "category": "pooja-items",
+    "subcategory": "pooja-storage-sets",
+    "section": "pooja-essentials",
+    "gender": "unisex"
+  },
+  "https://images.unsplash.com/photo-1533090161767-e6ffed986c88?w=800&q=80&unique=gmd-pooja-storage-3": {
+    "id": "gmd-pooja-storage-3",
+    "name": "Silver Plated Airtight Camphor & Chandan Storage Jar Pair",
+    "category": "pooja-items",
+    "subcategory": "pooja-storage-sets",
+    "section": "pooja-essentials",
+    "gender": "unisex"
+  },
+  "https://images.unsplash.com/photo-1544717297-fa95b6ee9643?w=800&q=80": {
+    "id": "gmd-pooja-storage-4",
+    "name": "Meenakari Hand-Painted Wooden Mandir Drawer Organizer Box",
+    "category": "pooja-items",
+    "subcategory": "pooja-storage-sets",
+    "section": "pooja-essentials",
+    "gender": "unisex"
+  },
+  "https://images.unsplash.com/photo-1587049352846-4a222e784d38?w=800&q=80": {
+    "id": "gmd-food-organic-1",
+    "name": "Organic India Certified Organic Raw Wild Forest Honey 500g",
+    "category": "healthy-foods",
+    "subcategory": "organic-foods",
+    "section": "healthy-pantry",
+    "gender": "unisex"
+  },
+  "https://images.unsplash.com/photo-1586201375761-83865001e31c?w=800&q=80": {
+    "id": "gmd-food-organic-2",
+    "name": "24 Mantra Organic Unpolished Brown Basmati Rice 1kg",
+    "category": "healthy-foods",
+    "subcategory": "organic-foods",
+    "section": "healthy-pantry",
+    "gender": "unisex"
+  },
+  "https://images.unsplash.com/photo-1517093707577-9a8435d03823?w=800&q=80": {
+    "id": "gmd-food-organic-3",
+    "name": "True Elements Organic Rolled Oats 1kg Gluten Free",
+    "category": "healthy-foods",
+    "subcategory": "organic-foods",
+    "section": "healthy-pantry",
+    "gender": "unisex"
+  },
+  "https://images.unsplash.com/photo-1576092768241-dec231879fc3?w=800&q=80": {
+    "id": "gmd-food-organic-4",
+    "name": "Organic India Tulsi Green Tea Classic 25 Tea Bags Tin",
+    "category": "healthy-foods",
+    "subcategory": "organic-foods",
+    "section": "healthy-pantry",
+    "gender": "unisex"
+  },
+  "https://images.unsplash.com/photo-1622484216733-4f9e614bc4bd?w=800&q=80": {
+    "id": "gmd-food-snack-1",
+    "name": "Yoga Bar Multigrain Dark Chocolate Energy Bars Pack of 10",
+    "category": "healthy-foods",
+    "subcategory": "healthy-snacks",
+    "section": "healthy-pantry",
+    "gender": "unisex"
+  },
+  "https://images.unsplash.com/photo-1599490659213-e2b9527bd087?w=800&q=80": {
+    "id": "gmd-food-snack-2",
+    "name": "The Whole Truth Roasted Makhana Foxnuts Himalayan Salt 150g",
+    "category": "healthy-foods",
+    "subcategory": "healthy-snacks",
+    "section": "healthy-pantry",
+    "gender": "unisex"
+  },
+  "https://images.unsplash.com/photo-1499636136210-6f4ee915583e?w=800&q=80": {
+    "id": "gmd-food-snack-3",
+    "name": "Open Secret Unjunked Choco Almond Nutty Cookies 12 Biscuits Box",
+    "category": "healthy-foods",
+    "subcategory": "healthy-snacks",
+    "section": "healthy-pantry",
+    "gender": "unisex"
+  },
+  "https://images.unsplash.com/photo-1514733670139-4d87a1941d55?w=800&q=80": {
+    "id": "gmd-food-snack-4",
+    "name": "True Elements 7 in 1 Super Seeds Mix (Chia, Flax, Pumpkin, Sunflower) 250g",
+    "category": "healthy-foods",
+    "subcategory": "healthy-snacks",
+    "section": "healthy-pantry",
+    "gender": "unisex"
+  },
+  "https://images.unsplash.com/photo-1509440159596-0249088772ff?w=800&q=80": {
+    "id": "gmd-food-atta-1",
+    "name": "Aashirvaad Select 100% MP Sharbati Whole Wheat Atta 5kg",
+    "category": "grocery",
+    "subcategory": "atta-flour",
+    "section": "daily-grocery",
+    "gender": "unisex"
+  },
+  "https://images.unsplash.com/photo-1574323347407-f5e1ad6d020b?w=800&q=80": {
+    "id": "gmd-food-atta-2",
+    "name": "Pillsbury Chakki Fresh 100% Whole Wheat Atta 5kg",
+    "category": "grocery",
+    "subcategory": "atta-flour",
+    "section": "daily-grocery",
+    "gender": "unisex"
+  },
+  "https://images.unsplash.com/photo-1542838132-92c53300491e?w=800&q=80": {
+    "id": "gmd-food-atta-3",
+    "name": "Fortune Chakki Fresh Multigrain Atta with 9 Grains 5kg",
+    "category": "grocery",
+    "subcategory": "atta-flour",
+    "section": "daily-grocery",
+    "gender": "unisex"
+  },
+  "https://images.unsplash.com/photo-1607623814075-e51df1bdc82f?w=800&q=80": {
+    "id": "gmd-food-atta-4",
+    "name": "Organic Tattva Gluten Free Multigrain Flour 1kg",
+    "category": "grocery",
+    "subcategory": "atta-flour",
+    "section": "daily-grocery",
+    "gender": "unisex"
+  },
+  "https://images.unsplash.com/photo-1585994192701-f1a505c817ea?w=800&q=80": {
+    "id": "gmd-food-dal-1",
+    "name": "Tata Sampann Unpolished Toor Dal Arhar Dal 1kg",
+    "category": "grocery",
+    "subcategory": "pulses-dals",
+    "section": "daily-grocery",
+    "gender": "unisex"
+  },
+  "https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=800&q=80": {
+    "id": "gmd-food-dal-2",
+    "name": "Tata Sampann Unpolished Moong Dal Yellow Split 1kg",
+    "category": "grocery",
+    "subcategory": "pulses-dals",
+    "section": "daily-grocery",
+    "gender": "unisex"
+  },
+  "https://images.unsplash.com/photo-1512621776951-a57141f2eefd?w=800&q=80": {
+    "id": "gmd-food-dal-3",
+    "name": "Organic Tattva Certified Organic Chana Dal 1kg",
+    "category": "grocery",
+    "subcategory": "pulses-dals",
+    "section": "daily-grocery",
+    "gender": "unisex"
+  },
+  "https://images.unsplash.com/photo-1540420773420-3366772f4999?w=800&q=80": {
+    "id": "gmd-food-dal-4",
+    "name": "Tata Sampann Unpolished Urad Dal Black Split Chilka 1kg",
+    "category": "grocery",
+    "subcategory": "pulses-dals",
+    "section": "daily-grocery",
+    "gender": "unisex"
+  },
+  "https://images.unsplash.com/photo-1563205764-79ea509b5597?w=800&q=80": {
+    "id": "gmd-food-dryfruit-1",
+    "name": "Nutraj Premium Kashmiri Walnut Kernels Akhrot Giri 500g",
+    "category": "grocery",
+    "subcategory": "walnuts-pistachios",
+    "section": "daily-grocery",
+    "gender": "unisex"
+  },
+  "https://images.unsplash.com/photo-1559564484-e48b3e040ff4?w=800&q=80": {
+    "id": "gmd-food-dryfruit-2",
+    "name": "Happilo Premium California Roasted & Salted Pistachios 500g",
+    "category": "grocery",
+    "subcategory": "walnuts-pistachios",
+    "section": "daily-grocery",
+    "gender": "unisex"
+  },
+  "https://images.unsplash.com/photo-1508061252445-5350f3ab0a55?w=800&q=80": {
+    "id": "gmd-food-dryfruit-3",
+    "name": "Nutraj California Raw Whole Almonds Badam Giri 500g",
+    "category": "grocery",
+    "subcategory": "walnuts-pistachios",
+    "section": "daily-grocery",
+    "gender": "unisex"
+  },
+  "https://images.unsplash.com/photo-1536599018102-9f803c140fc1?w=800&q=80": {
+    "id": "gmd-food-dryfruit-4",
+    "name": "Happilo Whole Cashew Nuts Kaju W240 Grade 500g",
+    "category": "grocery",
+    "subcategory": "walnuts-pistachios",
+    "section": "daily-grocery",
+    "gender": "unisex"
+  },
+  "https://images.unsplash.com/photo-1474979266404-7eaacbcd87c5?w=800&q=80": {
+    "id": "gmd-food-oil-1",
+    "name": "Borges Extra Virgin Olive Oil Cold Pressed 1 Litre Glass Bottle",
+    "category": "grocery",
+    "subcategory": "olive-oil",
+    "section": "daily-grocery",
+    "gender": "unisex"
+  },
+  "https://images.unsplash.com/photo-1589301760014-d929f3979dbc?w=800&q=80": {
+    "id": "gmd-food-oil-2",
+    "name": "Figaro Extra Virgin Olive Oil 500ml Tin",
+    "category": "grocery",
+    "subcategory": "olive-oil",
+    "section": "daily-grocery",
+    "gender": "unisex"
+  },
+  "https://images.unsplash.com/photo-1533473359331-0135ef1b58bf?w=800&q=80": {
+    "id": "gmd-food-oil-3",
+    "name": "Del Monte Extra Light Olive Oil 1 Litre Bottle for Indian Cooking",
+    "category": "grocery",
+    "subcategory": "olive-oil",
+    "section": "daily-grocery",
+    "gender": "unisex"
+  },
+  "https://images.unsplash.com/photo-1471193945509-9ad0617afabf?w=800&q=80": {
+    "id": "gmd-food-oil-4",
+    "name": "Oleev Active Olive & Rice Bran Oil Blend 1 Litre Pouch",
+    "category": "grocery",
+    "subcategory": "olive-oil",
+    "section": "daily-grocery",
+    "gender": "unisex"
+  },
+  "https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?w=800&q=80": {
+    "id": "gmd-stat-spiral-1",
+    "name": "Classmate Pulse 6-Subject Spiral Bound Notebook 300 Pages A4",
+    "category": "stationery",
+    "subcategory": "spiral-notebooks",
+    "section": "stationery",
+    "gender": "unisex"
+  },
+  "https://images.unsplash.com/photo-1531346878377-a5be20888e57?w=800&q=80": {
+    "id": "gmd-stat-spiral-2",
+    "name": "Factor Notes Kraft Cover Wirebound Bullet Dotted Journal A5 160 Pages",
+    "category": "stationery",
+    "subcategory": "spiral-notebooks",
+    "section": "stationery",
+    "gender": "unisex"
+  },
+  "https://images.unsplash.com/photo-1517842645767-c639042777db?w=800&q=80": {
+    "id": "gmd-stat-spiral-3",
+    "name": "Paperkraft Green Impression Hardcover Spiral Notebook 240 Pages B5",
+    "category": "stationery",
+    "subcategory": "spiral-notebooks",
+    "section": "stationery",
+    "gender": "unisex"
+  },
+  "https://images.unsplash.com/photo-1585776245991-cf89dd7fc73a?w=800&q=80": {
+    "id": "gmd-stat-spiral-4",
+    "name": "Camlin Kokuyo Spiral Artist Drawing Sketchbook 140 GSM A4 60 Sheets",
+    "category": "stationery",
+    "subcategory": "spiral-notebooks",
+    "section": "stationery",
+    "gender": "unisex"
+  },
+  "https://images.unsplash.com/photo-1506784365847-bbad939e9335?w=800&q=80": {
+    "id": "gmd-stat-planner-1",
+    "name": "Factor Notes Undated Daily Goal Planner & Organizer Hardcover A5",
+    "category": "stationery",
+    "subcategory": "planners",
+    "section": "stationery",
+    "gender": "unisex"
+  },
+  "https://images.unsplash.com/photo-1484480974693-6ca0a78fb36b?w=800&q=80": {
+    "id": "gmd-stat-planner-2",
+    "name": "The Art People Weekly Desk Planner Pad 52 Tear-Off Sheets",
+    "category": "stationery",
+    "subcategory": "planners",
+    "section": "stationery",
+    "gender": "unisex"
+  },
+  "https://images.unsplash.com/photo-1434030216411-0b793f4b4173?w=800&q=80": {
+    "id": "gmd-stat-planner-3",
+    "name": "Paperkraft Leatherette Executive Dated 2026 Yearly Appointment Planner",
+    "category": "stationery",
+    "subcategory": "planners",
+    "section": "stationery",
+    "gender": "unisex"
+  },
+  "https://images.unsplash.com/photo-1455390582262-044cdead277a?w=800&q=80": {
+    "id": "gmd-stat-planner-4",
+    "name": "Doodle Fitness & Wellness Habit Tracker Journal Spiral Bound",
+    "category": "stationery",
+    "subcategory": "planners",
+    "section": "stationery",
+    "gender": "unisex"
+  },
+  "https://images.unsplash.com/photo-1586075010923-2dd4570fb338?w=800&q=80": {
+    "id": "gmd-stat-file-1",
+    "name": "Solo Expanding File Folder 13 Pockets with Rainbow Color Index Tabs A4",
+    "category": "stationery",
+    "subcategory": "files-folders",
+    "section": "stationery",
+    "gender": "unisex"
+  },
+  "https://images.unsplash.com/photo-1544396821-4dd40b938ad3?w=800&q=80": {
+    "id": "gmd-stat-file-2",
+    "name": "Solo Lever Arch Box File Set of 3 with Stainless Steel Clip A4",
+    "category": "stationery",
+    "subcategory": "files-folders",
+    "section": "stationery",
+    "gender": "unisex"
+  },
+  "https://images.unsplash.com/photo-1589829545856-d10d557cf95f?w=800&q=80": {
+    "id": "gmd-stat-file-3",
+    "name": "Solo Clear Display Book Folder 40 Pockets Non-Refillable A4",
+    "category": "stationery",
+    "subcategory": "files-folders",
+    "section": "stationery",
+    "gender": "unisex"
+  },
+  "https://images.unsplash.com/photo-1524758631624-e2822e304c36?w=800&q=80": {
+    "id": "gmd-stat-file-4",
+    "name": "Premium Leatherette Document Certificate Portfolio Folder with Zipper",
+    "category": "stationery",
+    "subcategory": "files-folders",
+    "section": "stationery",
+    "gender": "unisex"
+  },
+  "https://images.unsplash.com/photo-1585336261026-4186687499b9?w=800&q=80": {
+    "id": "gmd-stat-stapler-1",
+    "name": "Kangaro DS-45L Heavy Duty Metal Stapler with 1000 Staples Pin Box",
+    "category": "stationery",
+    "subcategory": "staplers",
+    "section": "stationery",
+    "gender": "unisex"
+  },
+  "https://images.unsplash.com/photo-1568667256549-094345857637?w=800&q=80": {
+    "id": "gmd-stat-stapler-2",
+    "name": "Kangaro 2-Hole Heavy Duty Paper Punch Machine Perforator 20 Sheets",
+    "category": "stationery",
+    "subcategory": "staplers",
+    "section": "stationery",
+    "gender": "unisex"
+  },
+  "https://images.unsplash.com/photo-1583485088034-697b5bc54ccd?w=800&q=80": {
+    "id": "gmd-stat-stapler-3",
+    "name": "Kangaro SR-500 Heavy Duty Staple Remover with Locking Mechanism",
+    "category": "stationery",
+    "subcategory": "staplers",
+    "section": "stationery",
+    "gender": "unisex"
+  },
+  "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=800&q=80": {
+    "id": "gmd-stat-stapler-4",
+    "name": "Maped Ergonomic Less-Effort Soft Grip Compact Desktop Stapler",
+    "category": "stationery",
+    "subcategory": "staplers",
+    "section": "stationery",
+    "gender": "unisex"
+  },
+  "https://images.unsplash.com/photo-1512820790803-83ca734da794?w=800&q=80": {
+    "id": "gmd-stat-journal-1",
+    "name": "Factor Notes Vintage Distressed Leatherette Journal A5 192 Pages",
+    "category": "stationery",
+    "subcategory": "journals",
+    "section": "stationery",
+    "gender": "unisex"
+  },
+  "https://images.unsplash.com/photo-1544717305-2782549b5136?w=800&q=80": {
+    "id": "gmd-stat-journal-2",
+    "name": "Doodle Bohemian Art Hardbound Ruled Journal Notebook B6 200 Pages",
+    "category": "stationery",
+    "subcategory": "journals",
+    "section": "stationery",
+    "gender": "unisex"
+  },
+  "https://images.unsplash.com/photo-1524995997946-a1c2e315a42f?w=800&q=80": {
+    "id": "gmd-stat-journal-3",
+    "name": "Handmade Deckle Edge Antique Vintage Leather Diary with Metal Clasp",
+    "category": "stationery",
+    "subcategory": "journals",
+    "section": "stationery",
+    "gender": "unisex"
+  },
+  "https://images.unsplash.com/photo-1497633762265-9d179a990aa6?w=800&q=80": {
+    "id": "gmd-stat-journal-4",
+    "name": "Paperkraft Classic Cloth Bound Hardcover Ruled Journal 256 Pages",
+    "category": "stationery",
+    "subcategory": "journals",
+    "section": "stationery",
+    "gender": "unisex"
+  },
+  "https://images.unsplash.com/photo-1549465220-1a8b9238cd48?w=800&q=80": {
+    "id": "gmd-gift-festive-1",
+    "name": "Nutraj Festive Royal Dry Fruits Gift Box with Cashew Almond Pistachio 800g",
+    "category": "gifts",
+    "subcategory": "festive-gifts",
+    "section": "gifts",
+    "gender": "unisex"
+  },
+  "https://images.unsplash.com/photo-1549007994-cb92caebd54b?w=800&q=80": {
+    "id": "gmd-gift-festive-2",
+    "name": "Cadbury Celebrations Rich Dry Fruit Chocolate Gift Pack 450g",
+    "category": "gifts",
+    "subcategory": "festive-gifts",
+    "section": "gifts",
+    "gender": "unisex"
+  },
+  "https://images.unsplash.com/photo-1513519245088-0e12902e5a38?w=800&q=80": {
+    "id": "gmd-gift-festive-3",
+    "name": "Vedika Crafts Brass Diya and Scented Wax Candle Festive Gift Hamper",
+    "category": "gifts",
+    "subcategory": "festive-gifts",
+    "section": "gifts",
+    "gender": "unisex"
+  },
+  "https://images.unsplash.com/photo-1594631252845-29fc4cc8cde9?w=800&q=80": {
+    "id": "gmd-gift-festive-4",
+    "name": "Vahdam India Assorted Herbal Tea Gift Set 6 Tin Sampler Box",
+    "category": "gifts",
+    "subcategory": "festive-gifts",
+    "section": "gifts",
+    "gender": "unisex"
+  },
+  "https://images.unsplash.com/photo-1503236823255-94609f598e71?w=800&q=80": {
+    "id": "gmd-gift-set-1",
+    "name": "Park Avenue Luxury Grooming Kit Men's Gift Set 7 Items with Pouch",
+    "category": "gifts",
+    "subcategory": "gift-sets",
+    "section": "gifts",
+    "gender": "unisex"
+  },
+  "https://images.unsplash.com/photo-1582510003544-4d00b7f74220?w=800&q=80": {
+    "id": "gmd-gift-set-2",
+    "name": "The Body Shop British Rose Pampering Bath & Body Care Gift Set",
+    "category": "gifts",
+    "subcategory": "gift-sets",
+    "section": "gifts",
+    "gender": "unisex"
+  },
+  "https://images.unsplash.com/photo-1547887537-6158d64c35b3?w=800&q=80": {
+    "id": "gmd-gift-set-4",
+    "name": "Titan Skinn Perfumes Discovery Set for Men and Women 5 x 20ml",
+    "category": "gifts",
+    "subcategory": "gift-sets",
+    "section": "gifts",
+    "gender": "unisex"
+  },
+  "https://images.unsplash.com/photo-1535632066927-ab7c9ab60908?w=800&q=80": {
+    "id": "gmd-jewel-earring-1",
+    "name": "GIVA 925 Sterling Silver Classic Solitaire Zircon Stud Earrings",
+    "category": "jewellery",
+    "subcategory": "earrings",
+    "section": "jewellery",
+    "gender": "women"
+  },
+  "https://images.unsplash.com/photo-1630019852942-f89202989a59?w=800&q=80": {
+    "id": "gmd-jewel-earring-2",
+    "name": "Zaveri Pearls Gold Plated Traditional Kundan & Pearls Jhumki Earrings",
+    "category": "jewellery",
+    "subcategory": "earrings",
+    "section": "jewellery",
+    "gender": "women"
+  },
+  "https://images.unsplash.com/photo-1596944924616-7b38e7cfac36?w=800&q=80": {
+    "id": "gmd-jewel-earring-3",
+    "name": "GIVA Rose Gold Plated Falling Dewdrop Dangler Earrings 925 Silver",
+    "category": "jewellery",
+    "subcategory": "earrings",
+    "section": "jewellery",
+    "gender": "women"
+  },
+  "https://images.unsplash.com/photo-1617038260897-41a1f14a8ca0?w=800&q=80": {
+    "id": "gmd-jewel-earring-4",
+    "name": "Sukkhi Austrian Crystal Gold Plated Floral Hoop Bali Earrings",
+    "category": "jewellery",
+    "subcategory": "earrings",
+    "section": "jewellery",
+    "gender": "women"
+  },
+  "https://images.unsplash.com/photo-1599643478518-a784e5dc4c8f?w=800&q=80": {
+    "id": "gmd-jewel-necklace-1",
+    "name": "GIVA 925 Sterling Silver Anushka Sharma Heart of Ocean Pendant Chain",
+    "category": "jewellery",
+    "subcategory": "necklaces-pendants",
+    "section": "jewellery",
+    "gender": "women"
+  },
+  "https://images.unsplash.com/photo-1515562141207-7a88fb7ce338?w=800&q=80": {
+    "id": "gmd-jewel-necklace-2",
+    "name": "Zaveri Pearls 22K Gold Plated Austrian Diamond Choker Necklace Set with Earrings",
+    "category": "jewellery",
+    "subcategory": "necklaces-pendants",
+    "section": "jewellery",
+    "gender": "women"
+  },
+  "https://images.unsplash.com/photo-1611591475878-a51eb8c1569d?w=800&q=80": {
+    "id": "gmd-jewel-necklace-3",
+    "name": "GIVA Rose Gold Solitaire Evil Eye Protective Pendant with Chain",
+    "category": "jewellery",
+    "subcategory": "necklaces-pendants",
+    "section": "jewellery",
+    "gender": "women"
+  },
+  "https://images.unsplash.com/photo-1600003014755-ba31aa59c4b6?w=800&q=80": {
+    "id": "gmd-jewel-necklace-4",
+    "name": "Sukkhi Traditional Gold Plated Pearl Mala Long Haar Necklace 28-Inch",
+    "category": "jewellery",
+    "subcategory": "necklaces-pendants",
+    "section": "jewellery",
+    "gender": "women"
+  },
+  "https://images.unsplash.com/photo-1605100804763-247f67b3557e?w=800&q=80": {
+    "id": "gmd-jewel-ring-1",
+    "name": "GIVA 925 Sterling Silver Princess Crown Adjustable Solitaire Ring",
+    "category": "jewellery",
+    "subcategory": "rings",
+    "section": "jewellery",
+    "gender": "women"
+  },
+  "https://images.unsplash.com/photo-1603561591411-07134e71a2a9?w=800&q=80": {
+    "id": "gmd-jewel-ring-2",
+    "name": "GIVA 925 Sterling Silver Minimalist Zircon Eternity Band Ring",
+    "category": "jewellery",
+    "subcategory": "rings",
+    "section": "jewellery",
+    "gender": "women"
+  },
+  "https://images.unsplash.com/photo-1600003014608-c2b740df0d65?w=800&q=80": {
+    "id": "gmd-jewel-ring-3",
+    "name": "Zaveri Pearls 22K Gold Plated Traditional Floral Statement Cocktail Ring",
+    "category": "jewellery",
+    "subcategory": "rings",
+    "section": "jewellery",
+    "gender": "women"
+  },
+  "https://images.unsplash.com/photo-1602751584552-8ba73aad10e1?w=800&q=80": {
+    "id": "gmd-jewel-ring-4",
+    "name": "Voylla Men's Stainless Steel Signet Ring with Black Onyx Stone",
+    "category": "jewellery",
+    "subcategory": "rings",
+    "section": "jewellery",
+    "gender": "unisex"
+  }
+}

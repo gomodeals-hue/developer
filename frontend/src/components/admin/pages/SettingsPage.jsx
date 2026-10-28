@@ -3,7 +3,7 @@ import {
   Bell, Shield, Store, Lock, Eye, EyeOff,
   ShoppingBag, Check, ChevronRight, RotateCcw
 } from "lucide-react";
-import { useAuth } from "../../../context/AuthContext.jsx";
+import { useAdminAuth } from "../../../context/AdminAuthContext.jsx";
 import { useToast } from "../../../hooks/use-toast";
 import { cn } from "../../../lib/utils";
 import { api } from "../../../services/api";
@@ -88,7 +88,7 @@ const inputClass = "w-full h-11 px-4 rounded-xl border border-orange-200 focus:b
 const labelClass = "text-[9px] font-black text-stone-600 uppercase tracking-widest mb-1.5 block ml-1";
 
 export default function SettingsPage() {
-  const { user } = useAuth();
+  const { user } = useAdminAuth();
   const { toast } = useToast();
 
   const [toggles, setToggles] = useState(buildDefaults());

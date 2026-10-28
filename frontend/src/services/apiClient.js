@@ -21,7 +21,10 @@ export const apiClient = axios.create({
 apiClient.interceptors.request.use(
   async (config) => {
     try {
-      const token = localStorage.getItem('token') || localStorage.getItem('auth_token');
+      const isAdminEndpoint = config.url?.startsWith('/admin');
+      const token = isAdminEndpoint
+        ? (localStorage.getItem('admin_token') || localStorage.getItem('token') || localStorage.getItem('auth_token'))
+        : (localStorage.getItem('token') || localStorage.getItem('auth_token'));
       if (token) {
         config.headers.Authorization = `Bearer ${token}`;
       }

@@ -3,6 +3,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { X, Heart, ShoppingBag, Eye, Trash2 } from 'lucide-react';
 import { useNavigate, Link } from 'react-router-dom';
 import { useShop } from '../../../context/ShopContext';
+import { getProductImage } from '../../../utils/productImages';
 
 const WishlistDrawer = () => {
   const { 
@@ -51,7 +52,7 @@ const WishlistDrawer = () => {
             initial={{ opacity: 0 }}
             animate={{ opacity: 0.6 }}
             exit={{ opacity: 0 }}
-            transition={{ duration: 0.3 }}
+            transition={{ duration: 0.12 }}
             onClick={() => setWishlistDrawerOpen(false)}
             className="fixed inset-0 bg-black/60 backdrop-blur-sm z-[150] cursor-pointer"
           />
@@ -61,8 +62,8 @@ const WishlistDrawer = () => {
             initial={{ x: "100%" }}
             animate={{ x: 0 }}
             exit={{ x: "100%" }}
-            transition={{ type: "tween", duration: 0.35, ease: "easeOut" }}
-            className="fixed top-0 right-0 bottom-0 w-full sm:w-[440px] bg-[#fdfbf9] h-full shadow-2xl flex flex-col z-[160] overflow-hidden border-l border-orange-100"
+            transition={{ duration: 0.14, ease: [0.16, 1, 0.3, 1] }}
+            className="fixed top-0 right-0 bottom-0 w-full sm:w-[440px] bg-[#fdfbf9] h-full shadow-2xl flex flex-col z-[160] overflow-hidden border-l border-orange-100 gpu-accelerate"
           >
             {/* Drawer Header */}
             <div className="bg-gradient-to-br from-orange-950 to-orange-900 text-white px-6 py-6 flex items-center justify-between border-b border-orange-900/20 relative">
@@ -108,7 +109,7 @@ const WishlistDrawer = () => {
                 <div className="space-y-6 flex-grow">
                   {wishlist.map((item) => {
                     const productId = item.product_id || item.id;
-                    const image = item.thumbnail || item.image || '/fallback-product.png';
+                    const image = getProductImage(item);
                     return (
                       <motion.div
                         layout
@@ -124,7 +125,7 @@ const WishlistDrawer = () => {
                             alt={item.name}
                             onError={(e) => {
                               e.target.onerror = null;
-                              e.target.src = 'https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=300&q=80';
+                              e.target.src = getProductImage(item);
                             }}
                             className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-103"
                           />

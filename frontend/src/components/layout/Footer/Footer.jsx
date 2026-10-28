@@ -1,5 +1,4 @@
-import React from 'react';
-import { MessageCircle, ArrowRight } from 'lucide-react';
+import { MessageCircle, ArrowRight, Lock, Truck, RefreshCw, ShieldCheck, Store } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { useShop } from '../../../context/ShopContext';
 import gmdLogo from '../../../assets/GMD_Logo.png';
@@ -43,140 +42,161 @@ const Twitter = ({ size = 24, ...props }) => (
 const Footer = () => {
   const { t } = useShop();
 
+  const collectionLinks = [
+    ['Men', '/collection/clothing?section=men'],
+    ['Women', '/collection/clothing?section=women'],
+    ['Kids', '/collection/kids'],
+    ['Pooja Essentials', '/collection/pooja-items'],
+    ['Electronics', '/collection/electronics'],
+    ['Home & Living', '/collection/home-living']
+  ];
+
+  const supportLinks = [
+    ['About Us', '/about'],
+    ['Contact & Help', '/contact'],
+    ['Database Security (100% Secure)', '/legal/database-security'],
+    ['Track Order', '/my-orders'],
+    ['Returns & Refunds (7-Day)', '/legal/return-policy'],
+    ['Shipping Policy', '/legal/shipping-policy'],
+    ['FAQs', '/legal/faqs'],
+    ['Terms & Conditions', '/terms'],
+    ['Privacy Policy', '/legal/privacy-policy'],
+    ['Cookie Policy', '/legal/cookies']
+  ];
+
   return (
-    <footer className="bg-orange-950 border-t border-orange-900/40 text-orange-100 pt-24 pb-12 transition-colors">
-      <div className="max-w-[1800px] mx-auto px-6 sm:px-12">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-16 mb-20">
-          {/* Brand Info */}
-          <div className="space-y-6">
-            <Link to="/" className="inline-block group focus:outline-none">
-              <div className="bg-white/95 hover:bg-white px-3.5 py-1.5 rounded-2xl shadow-md border border-white/20 transition-all duration-200 group-hover:scale-105 inline-flex items-center">
-                <img 
-                  src={gmdLogo} 
-                  alt="GoMo Deals" 
-                  className="h-9 sm:h-10 w-auto object-contain filter drop-shadow-sm" 
-                />
+    <footer 
+      className="border-t border-stone-200 bg-[#f7f2ec] text-stone-950 pt-10 pb-6 transition-colors"
+    >
+      <div className="max-w-[1500px] mx-auto px-6 sm:px-10">
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-3 mb-9">
+          {[
+            ['Fast Dispatch', 'Packed by verified sellers within 24 business hours.', Truck],
+            ['7-Day Returns', 'Simple returns on eligible products with issue ticket support.', RefreshCw],
+            ['Authentic Catalog', 'Curated listings, inspected images, and seller accountability.', ShieldCheck],
+            ['Seller Friendly', 'Low-fee merchant hub built for local Indian businesses.', Store]
+          ].map(([title, body, Icon]) => (
+            <div key={title} className="bg-white border border-stone-200 rounded-lg p-4 flex items-start gap-3">
+              <span className="w-9 h-9 rounded-full bg-orange-50 text-orange-600 flex items-center justify-center shrink-0">
+                <Icon size={17} />
+              </span>
+              <div>
+                <h3 className="text-xs font-black uppercase tracking-wider">{t(title)}</h3>
+                <p className="text-xs text-stone-500 leading-relaxed mt-1">{t(body)}</p>
               </div>
+            </div>
+          ))}
+        </div>
+
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-12 mb-8">
+          {/* Brand Info */}
+          <div className="space-y-3">
+            <Link to="/" className="inline-block group focus:outline-none">
+              <img 
+                src={gmdLogo} 
+                alt="GoMo Deals" 
+                className="h-11 sm:h-12 w-auto object-contain transition-transform duration-150 group-hover:scale-105 filter drop-shadow-sm" 
+              />
             </Link>
-            <p className="text-orange-200/80 text-sm font-normal leading-relaxed max-w-xs">
-              {t("footer_brand_desc")}
+            <p className="text-stone-600 text-xs font-normal leading-relaxed max-w-xs">
+              {t("footer_brand_desc", "Verified deals, local sellers, festive essentials, fashion, gadgets, and everyday finds curated for quick confident shopping.")}
             </p>
-            <div className="flex gap-5 pt-4">
-              <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" className="text-orange-300 hover:text-white transition-colors">
-                <Instagram size={18} strokeWidth={1.5} />
+            <div className="flex items-center gap-4 pt-1">
+              <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" className="text-stone-600 hover:text-[#f76e28] transition-colors" aria-label="Instagram">
+                <Instagram size={17} strokeWidth={1.75} />
               </a>
-              <a href="https://x.com" target="_blank" rel="noopener noreferrer" className="text-orange-300 hover:text-white transition-colors">
-                <Twitter size={18} strokeWidth={1.5} />
+              <a href="https://x.com" target="_blank" rel="noopener noreferrer" className="text-stone-600 hover:text-[#f76e28] transition-colors" aria-label="Twitter">
+                <Twitter size={17} strokeWidth={1.75} />
               </a>
-              <a href="https://whatsapp.com" target="_blank" rel="noopener noreferrer" className="text-orange-300 hover:text-white transition-colors">
-                <MessageCircle size={18} strokeWidth={1.5} />
+              <a href="https://whatsapp.com" target="_blank" rel="noopener noreferrer" className="text-stone-600 hover:text-[#f76e28] transition-colors" aria-label="WhatsApp">
+                <MessageCircle size={17} strokeWidth={1.75} />
               </a>
             </div>
           </div>
 
           {/* Quick Links */}
-          <div className="space-y-6">
-            <h4 className="text-[10px] font-bold uppercase tracking-[0.25em] text-white">{t("collections_title")}</h4>
-            <ul className="space-y-4 text-xs font-bold uppercase tracking-widest text-orange-300/80">
-              <li>
-                <Link to="/collection/electronics" className="group flex items-center gap-1.5 hover:text-white transition-all duration-300 hover:translate-x-2">
-                  <span className="w-0 group-hover:w-2 h-[1.5px] bg-orange-400 transition-all duration-300 opacity-0 group-hover:opacity-100"></span>
-                  {t("electronics")}
-                </Link>
-              </li>
-              <li>
-                <Link to="/collection/fashion" className="group flex items-center gap-1.5 hover:text-white transition-all duration-300 hover:translate-x-2">
-                  <span className="w-0 group-hover:w-2 h-[1.5px] bg-orange-400 transition-all duration-300 opacity-0 group-hover:opacity-100"></span>
-                  {t("fashion")}
-                </Link>
-              </li>
-              <li>
-                <Link to="/collection/home-living" className="group flex items-center gap-1.5 hover:text-white transition-all duration-300 hover:translate-x-2">
-                  <span className="w-0 group-hover:w-2 h-[1.5px] bg-orange-400 transition-all duration-300 opacity-0 group-hover:opacity-100"></span>
-                  {t("home_living")}
-                </Link>
-              </li>
-              <li>
-                <Link to="/collection/pooja-items" className="group flex items-center gap-1.5 hover:text-white transition-all duration-300 hover:translate-x-2">
-                  <span className="w-0 group-hover:w-2 h-[1.5px] bg-orange-400 transition-all duration-300 opacity-0 group-hover:opacity-100"></span>
-                  Pooja Items
-                </Link>
-              </li>
-              <li>
-                <Link to="/collection/beauty" className="group flex items-center gap-1.5 hover:text-white transition-all duration-300 hover:translate-x-2">
-                  <span className="w-0 group-hover:w-2 h-[1.5px] bg-orange-400 transition-all duration-300 opacity-0 group-hover:opacity-100"></span>
-                  {t("beauty_grooming")}
-                </Link>
-              </li>
-              <li>
-                <Link to="/collection/grocery" className="group flex items-center gap-1.5 hover:text-white transition-all duration-300 hover:translate-x-2">
-                  <span className="w-0 group-hover:w-2 h-[1.5px] bg-orange-400 transition-all duration-300 opacity-0 group-hover:opacity-100"></span>
-                  Grocery Items
-                </Link>
-              </li>
+          <div>
+            <h4 className="text-xs font-black uppercase tracking-wider text-stone-900 mb-3">{t("collections_title")}</h4>
+            <ul className="space-y-2 text-xs font-medium text-stone-600">
+              {collectionLinks.map(([label, path]) => (
+                <li key={path}>
+                  <Link to={path} className="hover:text-[#f76e28] transition-colors">
+                    {t(label)}
+                  </Link>
+                </li>
+              ))}
             </ul>
           </div>
 
-          {/* Support */}
-          <div className="space-y-6">
-            <div className="flex items-center gap-2">
-              <h4 className="text-[10px] font-bold uppercase tracking-[0.25em] text-white">{t("support_title")}</h4>
-            </div>
-            <ul className="space-y-4 text-xs font-bold uppercase tracking-widest text-orange-300/80">
+          {/* Customer Support & Policies */}
+          <div>
+            <h4 className="text-xs font-black uppercase tracking-wider text-stone-900 mb-3">{t("support_title")}</h4>
+            <ul className="space-y-2 text-xs font-medium text-stone-600">
+              {supportLinks.map(([label, path]) => (
+                <li key={path}>
+                  <Link to={path} className="hover:text-[#f76e28] transition-colors">
+                    {label}
+                  </Link>
+                </li>
+              ))}
               <li>
-                <Link to="/legal/shipping-policy" className="group flex items-center gap-1.5 hover:text-white transition-all duration-300 hover:translate-x-2">
-                  <span className="w-0 group-hover:w-2 h-[1.5px] bg-orange-400 transition-all duration-300 opacity-0 group-hover:opacity-100"></span>
-                  {t("shipping_policy")}
-                </Link>
-              </li>
-              <li>
-                <Link to="/legal/return-policy" className="group flex items-center gap-1.5 hover:text-white transition-all duration-300 hover:translate-x-2">
-                  <span className="w-0 group-hover:w-2 h-[1.5px] bg-orange-400 transition-all duration-300 opacity-0 group-hover:opacity-100"></span>
-                  {t("return_refunds")}
-                </Link>
-              </li>
-              <li>
-                <Link to="/legal/privacy-policy" className="group flex items-center gap-1.5 hover:text-white transition-all duration-300 hover:translate-x-2">
-                  <span className="w-0 group-hover:w-2 h-[1.5px] bg-orange-400 transition-all duration-300 opacity-0 group-hover:opacity-100"></span>
-                  {t("privacy_policy")}
-                </Link>
-              </li>
-              <li>
-                <Link to="/legal/faqs" className="group flex items-center gap-1.5 hover:text-white transition-all duration-300 hover:translate-x-2">
-                  <span className="w-0 group-hover:w-2 h-[1.5px] bg-orange-400 transition-all duration-300 opacity-0 group-hover:opacity-100"></span>
-                  {t("faqs")}
+                <Link to="/seller" className="hover:text-[#f76e28] transition-colors text-[#f76e28] font-bold flex items-center gap-1">
+                  <span>{t("Sell on GMD (Merchant Hub)")}</span>
+                  <ArrowRight size={12} />
                 </Link>
               </li>
             </ul>
           </div>
 
           {/* Newsletter */}
-          <div className="space-y-6">
-            <h4 className="text-[10px] font-bold uppercase tracking-[0.25em] text-white">{t("newsletter_title")}</h4>
-            <p className="text-orange-200/80 text-sm font-normal">
+          <div className="space-y-3">
+            <h4 className="text-xs font-black uppercase tracking-wider text-stone-900">{t("newsletter_title")}</h4>
+            <p className="text-stone-600 text-xs font-normal leading-relaxed">
               {t("newsletter_desc")}
             </p>
-            <div className="relative border-b border-orange-800 pb-2 flex items-center">
+            <div className="flex items-center bg-white border border-stone-200 rounded-lg p-1 shadow-xs focus-within:border-[#f76e28] max-w-xs">
               <input 
                 type="email" 
                 placeholder={t("email_address")} 
-                className="bg-transparent border-none text-sm font-light w-full focus:outline-none placeholder:text-orange-700 text-white"
+                className="bg-transparent border-none text-xs font-medium px-2.5 py-1 w-full focus:outline-none placeholder:text-stone-400 text-stone-900"
               />
-              <button className="text-orange-400 hover:text-white transition-colors">
-                <ArrowRight size={18} />
+              <button className="bg-[#f76e28] hover:bg-[#de5713] text-white p-1.5 rounded-md transition-colors cursor-pointer shrink-0" aria-label="Subscribe to newsletter">
+                <ArrowRight size={14} />
               </button>
             </div>
           </div>
         </div>
 
-        {/* Bottom Bar */}
-        <div className="pt-12 border-t border-orange-900/60 flex flex-col md:flex-row justify-between items-center gap-6">
-          <p className="text-[9px] uppercase tracking-widest text-orange-400">
-            &copy; {new Date().getFullYear()} GoMo Deals. {t("all_rights_reserved")}
-          </p>
-          <div className="flex gap-8 text-[9px] uppercase tracking-widest text-orange-400 font-bold">
-            <Link to="/legal/terms" className="hover:text-white transition-colors">{t("terms_of_service")}</Link>
-            <Link to="/legal/cookies" className="hover:text-white transition-colors">{t("cookies")}</Link>
+        {/* Compact Integrated Bottom Strip */}
+        <div className="pt-5 border-t border-stone-200 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-stone-500">
+          <div className="flex flex-wrap items-center gap-3 text-[11px] text-stone-600 font-medium">
+            <span>&copy; {new Date().getFullYear()} GoMo Deals. {t("all_rights_reserved")}</span>
+            <span className="hidden sm:inline text-stone-300">•</span>
+            <Link to="/terms" className="hover:text-[#f76e28] transition-colors">{t("Terms & Conditions")}</Link>
+            <span className="text-stone-300">•</span>
+            <Link to="/legal/return-policy" className="hover:text-[#f76e28] transition-colors">{t("Return Policy")}</Link>
+            <span className="text-stone-300">•</span>
+            <Link to="/legal/database-security" className="hover:text-[#f76e28] text-emerald-700 font-bold transition-colors">{t("100% Data Security")}</Link>
+            <span className="text-stone-300">•</span>
+            <Link to="/legal/faqs" className="hover:text-[#f76e28] transition-colors">{t("FAQ")}</Link>
+            <span className="text-stone-300">•</span>
+            <Link to="/legal/privacy-policy" className="hover:text-[#f76e28] transition-colors">{t("Privacy Policy")}</Link>
+            <span className="text-stone-300">•</span>
+            <Link to="/legal/cookies" className="hover:text-[#f76e28] transition-colors">{t("cookies")}</Link>
+          </div>
+
+          {/* Compact Payment Badges & SSL */}
+          <div className="flex items-center gap-2 flex-wrap">
+            <div className="flex items-center gap-1.5 text-[9px] font-bold text-stone-700">
+              <span className="px-1.5 py-0.5 bg-white rounded border border-[#ebdcc2] shadow-2xs">UPI</span>
+              <span className="px-1.5 py-0.5 bg-white rounded border border-[#ebdcc2] shadow-2xs">RuPay</span>
+              <span className="px-1.5 py-0.5 bg-white rounded border border-[#ebdcc2] shadow-2xs">VISA</span>
+              <span className="px-1.5 py-0.5 bg-white rounded border border-[#ebdcc2] shadow-2xs">MasterCard</span>
+            </div>
+            <div className="flex items-center gap-1 text-emerald-800 font-bold text-[9px] uppercase tracking-wider pl-1">
+              <Lock size={10} />
+              <span>{t("SSL Secure")}</span>
+            </div>
           </div>
         </div>
       </div>

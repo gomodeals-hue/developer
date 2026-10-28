@@ -1,0 +1,32 @@
+[
+  {
+    "code": "GOMO50",
+    "discount": 50,
+    "min_spend": 499,
+    "description": "Flat ₹50 Off on orders above ₹499",
+    "is_active": true
+  },
+  {
+    "code": "FIRSTBUY",
+    "discount_percent": 15,
+    "max_discount": 300,
+    "min_spend": 599,
+    "description": "15% Off on your first boutique purchase",
+    "is_active": true
+  },
+  {
+    "code": "FESTIVE20",
+    "discount_percent": 20,
+    "max_discount": 500,
+    "min_spend": 999,
+    "description": "Festive Season 20% Special Discount",
+    "is_active": true
+  },
+  {
+    "code": "FREESHIP",
+    "free_shipping": true,
+    "min_spend": 299,
+    "description": "Zero Shipping Fee on any order above ₹299",
+    "is_active": true
+  }
+]

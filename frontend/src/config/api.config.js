@@ -3,11 +3,11 @@
  * Prepares endpoints and base URL for future Spring Boot REST API + PostgreSQL
  */
 export const API_CONFIG = {
-  // Configurable base URL reading from environment variables with fallback
-  BASE_URL: import.meta.env.VITE_API_URL || 'http://localhost:3000/api/v1',
+  // Configurable base URL reading from environment variables with fallback to proxy
+  BASE_URL: import.meta.env.VITE_API_URL || '/api/v1',
   TIMEOUT: 15000,
   // Flag to toggle between frontend mock services and real backend REST API
-  USE_MOCK: import.meta.env.VITE_USE_MOCK !== 'false',
+  USE_MOCK: import.meta.env.VITE_USE_MOCK === 'true',
 
   // Centralized REST Endpoints definition
   ENDPOINTS: {
@@ -39,13 +39,16 @@ export const API_CONFIG = {
       ADD: '/cart/add',
       UPDATE: (itemId) => `/cart/items/${itemId}`,
       REMOVE: (itemId) => `/cart/items/${itemId}`,
-      CLEAR: (userId) => `/cart/clear/${userId}`
+      CLEAR: (userId) => `/cart/clear/${userId}`,
+      MERGE: '/cart/merge'
     },
     WISHLIST: {
       GET: (userId) => `/wishlist/${userId}`,
       ADD: '/wishlist/add',
       REMOVE: (userId, productId) => `/wishlist/${userId}/${productId}`,
-      SHARE: '/wishlist/share'
+      CLEAR: (userId) => `/wishlist/clear/${userId}`,
+      SHARE: '/wishlist/share',
+      SHARED: (token) => `/wishlist/share/${token}`
     },
     ORDERS: {
       LIST: (userId) => `/orders/user/${userId}`,

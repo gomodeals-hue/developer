@@ -1,0 +1,204 @@
+1. [gmd-men-shirts-1] Subcat: shirts
+   Name: "Raymond Slim Fit Pure Cotton White Formal Shirt"
+   Image: https://images.unsplash.com/photo-1602810318383-e386cc2a3ccf?w=800&q=80
+2. [gmd-men-shirts-2] Subcat: shirts
+   Name: "Levi's Classic Western Denim Long Sleeve Casual Shirt"
+   Image: https://images.unsplash.com/photo-1589310243389-96a5483213a8?w=800&q=80
+3. [gmd-men-shirts-3] Subcat: shirts
+   Name: "Zara Breathable Pure Linen Camp Collar Casual Shirt"
+   Image: https://images.unsplash.com/photo-1598033129183-c4f50c736f10?w=800&q=80
+4. [gmd-men-shirts-4] Subcat: shirts
+   Name: "Peter England Navy Blue Gingham Checked Casual Shirt"
+   Image: https://images.unsplash.com/photo-1603252109303-2751441dd157?w=800&q=80
+5. [gmd-men-tshirts-1] Subcat: t-shirts
+   Name: "H&M Classic Crewneck Organic Cotton T-Shirt"
+   Image: https://images.unsplash.com/photo-1521572267360-ee0c2909d518?w=800&q=80
+6. [gmd-men-tshirts-2] Subcat: t-shirts
+   Name: "Nike Dri-FIT Athletic Training Performance T-Shirt"
+   Image: https://images.unsplash.com/photo-1581655353564-df123a1eb820?w=800&q=80
+7. [gmd-men-tshirts-3] Subcat: t-shirts
+   Name: "Tommy Hilfiger Pique Cotton Solid Polo T-Shirt"
+   Image: https://images.unsplash.com/photo-1586363104862-3a5e2ab60d99?w=800&q=80
+8. [gmd-men-tshirts-4] Subcat: t-shirts
+   Name: "Roadster Vintage Graphic Print Streetwear T-Shirt"
+   Image: https://images.unsplash.com/photo-1576566588028-4147f3842f27?w=800&q=80
+9. [gmd-men-jeans-1] Subcat: jeans-jeggings
+   Name: "Levi's 511 Slim Fit Stretch Denim Jeans"
+   Image: https://images.unsplash.com/photo-1542272604-780c96856592?w=800&q=80
+10. [gmd-men-jeans-2] Subcat: jeans-jeggings
+   Name: "Wrangler Rugged Wear Regular Straight Leg Jeans"
+   Image: https://images.unsplash.com/photo-1541099649105-f69ad21f3246?w=800&q=80
+11. [gmd-men-jeans-3] Subcat: jeans-jeggings
+   Name: "Spykar Distressed Washed Tapered Denim Jeans"
+   Image: https://images.unsplash.com/photo-1560243563-062bfc001d68?w=800&q=80
+12. [gmd-men-jeans-4] Subcat: jeans-jeggings
+   Name: "Pepe Jeans Clean Dark Indigo Slim Jeans"
+   Image: https://images.unsplash.com/photo-1582552938357-32b906df40cb?w=800&q=80
+13. [gmd-men-trousers-1] Subcat: trousers-pants
+   Name: "Dockers Slim Tapered Stretch Khaki Chinos"
+   Image: https://images.unsplash.com/photo-1624378439575-d8705ad7ae80?w=800&q=80
+14. [gmd-men-trousers-2] Subcat: trousers-pants
+   Name: "Blackberrys Flat Front Charcoal Grey Formal Trousers"
+   Image: https://images.unsplash.com/photo-1594938298603-c8148c4dae35?w=800&q=80
+15. [gmd-men-trousers-3] Subcat: trousers-pants
+   Name: "Arrow Smart Executive Navy Formal Dress Pants"
+   Image: https://images.unsplash.com/photo-1479064555552-3ef4979f8908?w=800&q=80
+16. [gmd-men-trousers-4] Subcat: trousers-pants
+   Name: "Allen Solly Casual Slim Fit Olive Cotton Chino Trousers"
+   Image: https://images.unsplash.com/photo-1473966968600-fa801b869a1a?w=800&q=80
+17. [gmd-men-trackpants-1] Subcat: track-pants
+   Name: "Puma Heather Grey Moisture-Wicking Jogger Track Pants"
+   Image: https://images.unsplash.com/photo-1552902865-b72c031ac5ea?w=800&q=80
+18. [gmd-men-trackpants-2] Subcat: track-pants
+   Name: "Adidas Tiro Essential Cuffed Athletic Sweatpants"
+   Image: https://images.unsplash.com/photo-1517438476312-10d79c077509?w=800&q=80
+19. [gmd-men-trackpants-3] Subcat: track-pants
+   Name: "Under Armour Fleece Sport Gym Track Pants"
+   Image: https://images.unsplash.com/photo-1550684848-fac1c5b4e853?w=800&q=80
+20. [gmd-men-trackpants-4] Subcat: track-pants
+   Name: "Decathlon Domyos Breathable Cotton Training Joggers"
+   Image: https://images.unsplash.com/photo-1556905055-8f358a7a47b2?w=800&q=80
+21. [gmd-men-jackets-1] Subcat: jackets
+   Name: "Levi's Trucker Blue Denim Jacket with Metal Buttons"
+   Image: https://images.unsplash.com/photo-1576995853123-5a10305d93c0?w=800&q=80
+22. [gmd-men-jackets-2] Subcat: jackets
+   Name: "Raymond Tailored Navy Blue Formal Single-Breasted Blazer"
+   Image: https://images.unsplash.com/photo-1593030761757-71fae45fa0e7?w=800&q=80
+23. [gmd-men-jackets-3] Subcat: jackets
+   Name: "Zara Faux Suede Minimalist Biker Jacket"
+   Image: https://images.unsplash.com/photo-1521223890158-f9f7c3d5d504?w=800&q=80
+24. [gmd-men-jackets-4] Subcat: jackets
+   Name: "Woodland Full-Zip Outdoor Windbreaker Bomber Jacket"
+   Image: https://images.unsplash.com/photo-1548883354-7622d03aca27?w=800&q=80
+25. [gmd-eth-men-kurtas-1] Subcat: kurtas
+   Name: "Manyavar Royal Blue Embroidered Raw Silk Kurta Set"
+   Image: https://images.unsplash.com/photo-1617137984095-74e4e5e3613f?w=800&q=80
+26. [gmd-eth-men-kurtas-2] Subcat: kurtas
+   Name: "Fabindia Maroon Handloom Tussar Silk Kurta"
+   Image: https://images.unsplash.com/photo-1597983073493-88cd35cf93b0?w=800&q=80
+27. [gmd-eth-men-kurtas-3] Subcat: kurtas
+   Name: "House of Pataudi Gold Jacquard Straight Festive Kurta"
+   Image: https://images.unsplash.com/photo-1621335829175-95f437344321?w=800&q=80
+28. [gmd-eth-men-kurtas-4] Subcat: kurtas
+   Name: "Sojanya Ivory Textured Cotton Linen Kurta Pyjama Set"
+   Image: https://images.unsplash.com/photo-1507679799987-c73779587ccf?w=800&q=80
+29. [gmd-eth-men-jackets-1] Subcat: ethnic-jackets
+   Name: "Manyavar Brocade Silk Bandhgala Nehru Jacket"
+   Image: https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=800&q=80
+30. [gmd-eth-men-jackets-2] Subcat: ethnic-jackets
+   Name: "Fabindia Handwoven Tussar Silk Nehru Waistcoat"
+   Image: https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=800&q=80
+31. [gmd-eth-men-jackets-3] Subcat: ethnic-jackets
+   Name: "Raymond Khadi Textured Sleeveless Modi Jacket"
+   Image: https://images.unsplash.com/photo-1492562080023-ab3db95bfbce?w=800&q=80
+32. [gmd-eth-men-jackets-4] Subcat: ethnic-jackets
+   Name: "House of Pataudi Floral Embroidered Silk Waistcoat"
+   Image: https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?w=800&q=80
+33. [gmd-eth-men-sherwani-1] Subcat: sherwani-sets
+   Name: "Manyavar Regal Cream Embroidered Wedding Sherwani Set"
+   Image: https://images.unsplash.com/photo-1609357605129-26f69add5d6e?w=800&q=80
+34. [gmd-eth-men-sherwani-2] Subcat: sherwani-sets
+   Name: "Kora by NM Handcrafted Velvet Royal Indo-Western Sherwani"
+   Image: https://images.unsplash.com/photo-1590076241940-02a8b29e64e5?w=800&q=80
+35. [gmd-eth-men-sherwani-3] Subcat: sherwani-sets
+   Name: "Sabyasachi Inspired Royal Jodhpuri Achkan Sherwani Suit"
+   Image: https://images.unsplash.com/photo-1610030469668-932d0b674488?w=800&q=80
+36. [gmd-eth-men-sherwani-4] Subcat: sherwani-sets
+   Name: "Manyavar Gold Zari Woven Festive Achkan Sherwani Set"
+   Image: https://images.unsplash.com/photo-1583863788434-e58a36330cf0?w=800&q=80
+37. [gmd-men-footwear-snk-1] Subcat: sneakers
+   Name: "Nike Air Max SC Men's Running & Walking Sneakers"
+   Image: https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=800&q=80
+38. [gmd-men-footwear-snk-2] Subcat: sneakers
+   Name: "Adidas Originals Superstar Classic Leather Sneakers"
+   Image: https://images.unsplash.com/photo-1518002171953-a080ee817e1f?w=800&q=80
+39. [gmd-men-footwear-snk-3] Subcat: sneakers
+   Name: "Puma Smash V2 L White Everyday Casual Sneakers"
+   Image: https://images.unsplash.com/photo-1600185365483-26d7a4cc7519?w=800&q=80
+40. [gmd-men-footwear-snk-4] Subcat: sneakers
+   Name: "Skechers Men's Go Walk Arch Fit Sport Walking Shoes"
+   Image: https://images.unsplash.com/photo-1460353581641-37baddab0fa2?w=800&q=80
+41. [gmd-men-footwear-cas-1] Subcat: casual-shoes
+   Name: "Woodland Men Khaki Leather Rugged Casual Outdoor Shoes"
+   Image: https://images.unsplash.com/photo-1549298916-b41d501d3772?w=800&q=80
+42. [gmd-men-footwear-cas-2] Subcat: casual-shoes
+   Name: "Clarks Ashmont Leather Penny Loafers for Men"
+   Image: https://images.unsplash.com/photo-1533867617858-e7b97e060509?w=800&q=80
+43. [gmd-men-footwear-cas-3] Subcat: casual-shoes
+   Name: "Red Tape Slip-On Memory Foam Driving Moccasins"
+   Image: https://images.unsplash.com/photo-1582588678413-dbf45f4823e9?w=800&q=80
+44. [gmd-men-footwear-cas-4] Subcat: casual-shoes
+   Name: "Bata Men Classic Suede Boat Casual Shoes"
+   Image: https://images.unsplash.com/photo-1525966222134-fcfa99b8ae77?w=800&q=80
+45. [gmd-men-footwear-form-1] Subcat: formal-shoes
+   Name: "Clarks Tilden Cap Black Genuine Leather Oxford Shoes"
+   Image: https://images.unsplash.com/photo-1614252235316-8c857d38b5f4?w=800&q=80
+46. [gmd-men-footwear-form-2] Subcat: formal-shoes
+   Name: "Red Tape Derby Lace-Up Formal Tan Leather Shoes"
+   Image: https://images.unsplash.com/photo-1531310197839-ccf54634509e?w=800&q=80
+47. [gmd-men-footwear-form-3] Subcat: formal-shoes
+   Name: "Louis Philippe Handcrafted Italian Leather Monk Strap Shoes"
+   Image: https://images.unsplash.com/photo-1595341888016-a392ef81b7de?w=800&q=80
+48. [gmd-men-footwear-form-4] Subcat: formal-shoes
+   Name: "Woodland Classic Rugged Chelsea Leather Boots for Men"
+   Image: https://images.unsplash.com/photo-1638247025967-b4e38f787b76?w=800&q=80
+49. [gmd-men-footwear-san-1] Subcat: sandals
+   Name: "Woodland Camel Outdoor Hiking Sandal Floaters"
+   Image: https://images.unsplash.com/photo-1603808033192-082d6919d3e1?w=800&q=80
+50. [gmd-men-footwear-san-2] Subcat: sandals
+   Name: "Red Tape Athletic Dual Strap Men's Sports Sandals"
+   Image: https://images.unsplash.com/photo-1560769629-975ec94e6a86?w=800&q=80
+51. [gmd-men-footwear-san-3] Subcat: sandals
+   Name: "Bata Comfit Cushioned PU Strap Men Slippers Sandals"
+   Image: https://images.unsplash.com/photo-1597045566677-8cf032ed6634?w=800&q=80
+52. [gmd-men-footwear-san-4] Subcat: sandals
+   Name: "Crocs Classic Lightweight Water-Resistant Clogs"
+   Image: https://images.unsplash.com/photo-1575537302964-96cd47c06b1b?w=800&q=80
+53. [gmd-acc-watches-men-1] Subcat: watches
+   Name: "Fossil Grant Chronograph Dark Brown Leather Men's Watch"
+   Image: https://images.unsplash.com/photo-1522335789203-aabd1fc54bc9?w=800&q=80
+54. [gmd-acc-watches-men-2] Subcat: watches
+   Name: "Titan Workwear Black Dial Stainless Steel Men's Watch"
+   Image: https://images.unsplash.com/photo-1524805444758-089113d48a6d?w=800&q=80
+55. [gmd-acc-watches-men-3] Subcat: watches
+   Name: "Casio Edifice Tachymeter Chronograph Silver Stainless Steel Watch"
+   Image: https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=800&q=80
+56. [gmd-acc-watches-men-4] Subcat: watches
+   Name: "Tommy Hilfiger Men's Navy Blue Multifunction Silicone Strap Watch"
+   Image: https://images.unsplash.com/photo-1542496658-e33a6d0d50f6?w=800&q=80
+57. [gmd-acc-sunglasses-men-1] Subcat: sunglasses
+   Name: "Ray-Ban Classic Aviator Green G-15 Gold Metal Sunglasses"
+   Image: https://images.unsplash.com/photo-1511499767150-a48a237f0083?w=800&q=80
+58. [gmd-acc-sunglasses-men-2] Subcat: sunglasses
+   Name: "Fastrack Polarized Square Matte Black Sunglasses for Men"
+   Image: https://images.unsplash.com/photo-1572635196237-14b3f281503f?w=800&q=80
+59. [gmd-acc-sunglasses-men-3] Subcat: sunglasses
+   Name: "Oakley Holbrook Prizm Sapphire Matte Black Sunglasses"
+   Image: https://images.unsplash.com/photo-1508296695146-257a814070b4?w=800&q=80
+60. [gmd-acc-sunglasses-men-4] Subcat: sunglasses
+   Name: "Vincent Chase Polarized Clubmaster Tortoise Gold Sunglasses"
+   Image: https://images.unsplash.com/photo-1577803645773-f96470509666?w=800&q=80
+61. [gmd-acc-wallets-men-1] Subcat: wallets
+   Name: "Wildcraft Genuine Hunter Leather RFID Protected Men Bi-Fold Wallet"
+   Image: https://images.unsplash.com/photo-1627123424574-724758594e93?w=800&q=80
+62. [gmd-acc-wallets-men-2] Subcat: wallets
+   Name: "Tommy Hilfiger Men Textured Black Leather Thin Front Pocket Wallet"
+   Image: https://images.unsplash.com/photo-1606503825008-909a67e63c22?w=800&q=80
+63. [gmd-acc-wallets-men-3] Subcat: wallets
+   Name: "Woodland Rugged Brown Buffalo Leather Tri-Fold Coin Pocket Wallet"
+   Image: https://images.unsplash.com/photo-1607604276583-eef5d076aa5f?w=800&q=80
+64. [gmd-acc-wallets-men-4] Subcat: wallets
+   Name: "Titan Men Formal Black Leather Wallet & Reversible Belt Combo Gift Box"
+   Image: https://images.unsplash.com/photo-1583321500900-82807e458f3c?w=800&q=80
+65. [gmd-acc-backpacks-1] Subcat: backpacks
+   Name: "Wildcraft Trail 35L Water-Resistant Laptop Backpack"
+   Image: https://images.unsplash.com/photo-1553062407-98eeb64c6a62?w=800&q=80
+66. [gmd-acc-backpacks-2] Subcat: backpacks
+   Name: "American Tourister Urban Groove 32L Casual Daypack"
+   Image: https://images.unsplash.com/photo-1581605405669-fcdf81165afa?w=800&q=80
+67. [gmd-acc-backpacks-3] Subcat: backpacks
+   Name: "Puma Phase Unisex Streetwear Sports Backpack 22L"
+   Image: https://images.unsplash.com/photo-1546938576-6e6a64f317cc?w=800&q=80
+68. [gmd-acc-backpacks-4] Subcat: backpacks
+   Name: "Skybags Drip 28L Water Resistant College Backpack with USB Port"
+   Image: https://images.unsplash.com/photo-1577733966973-d680bffd2e80?w=800&q=80

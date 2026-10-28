@@ -1,0 +1,15 @@
+{
+  "name": "gomodeals-fullstack",
+  "version": "1.0.0",
+  "private": true,
+  "description": "GoMo Deals Fullstack E-Commerce Application",
+  "scripts": {
+    "start": "node backend/server.js",
+    "dev": "npm --prefix frontend run dev",
+    "server": "node backend/server.js",
+    "backend": "node backend/server.js",
+    "frontend": "npm --prefix frontend run dev",
+    "build": "npm --prefix frontend run build",
+    "db:setup": "node backend/database/setupPostgres.js"
+  }
+}

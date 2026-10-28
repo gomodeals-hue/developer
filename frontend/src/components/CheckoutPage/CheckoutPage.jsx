@@ -2,7 +2,8 @@ import React, { useState, useEffect, useMemo } from "react";
 import { useLocation, useNavigate, Link } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import { 
-  ArrowLeft, 
+  ArrowLeft,
+  ArrowRight,
   CheckCircle2, 
   CreditCard, 
   MapPin, 
@@ -76,7 +77,17 @@ const CheckoutPage = () => {
 
   const [items, setItems] = useState(() => {
     if (buyNowProduct) return [buyNowProduct];
-    if (checkoutItems && checkoutItems.length > 0) return checkoutItems;
+    if (checkoutItems && checkoutItems.length > 0) {
+      if (cart && cart.length > 0) {
+        const activeIds = new Set(cart.map(c => String(c.cart_item_id || c.product_id || c.id)));
+        const filtered = checkoutItems.filter(it => 
+          activeIds.has(String(it.cart_item_id || it.product_id || it.id)) ||
+          activeIds.has(String(it.product_id || it.id))
+        );
+        return filtered;
+      }
+      return checkoutItems;
+    }
     return cart || [];
   });
 
@@ -84,7 +95,17 @@ const CheckoutPage = () => {
     if (buyNowProduct) {
       setItems([buyNowProduct]);
     } else if (checkoutItems && checkoutItems.length > 0) {
-      setItems(checkoutItems);
+      // Validate against current cart so any product deleted from buying is never shown!
+      if (cart && cart.length > 0) {
+        const activeIds = new Set(cart.map(c => String(c.cart_item_id || c.product_id || c.id)));
+        const filtered = checkoutItems.filter(it => 
+          activeIds.has(String(it.cart_item_id || it.product_id || it.id)) ||
+          activeIds.has(String(it.product_id || it.id))
+        );
+        setItems(filtered);
+      } else {
+        setItems([]);
+      }
     } else {
       setItems(cart || []);
     }
@@ -174,6 +195,11 @@ const CheckoutPage = () => {
   const [isPolicyModalOpen, setIsPolicyModalOpen] = useState(false);
   const [isHelpModalOpen, setIsHelpModalOpen] = useState(false);
 
+  // Booking & Buying Instant Animation States
+  const [isBookingOrder, setIsBookingOrder] = useState(false);
+  const [bookingStatusText, setBookingStatusText] = useState("Securing Best Deal...");
+  const [bookingProgress, setBookingProgress] = useState(30);
+
   // Floating Toast Notification
   const [toastMessage, setToastMessage] = useState(null);
 
@@ -200,18 +226,33 @@ const CheckoutPage = () => {
     refreshCaptcha();
   }, []);
 
+  // Remove item from checkout queue and cart
+  const handleRemoveCheckoutItem = (index) => {
+    const itemToRemove = items[index];
+    if (!itemToRemove) return;
+    setItems((prev) => prev.filter((_, idx) => idx !== index));
+    if (!buyNowProduct) {
+      removeFromCart(itemToRemove.product_id || itemToRemove.id, itemToRemove.selectedColor, itemToRemove.cart_item_id);
+    }
+    showToast(`Removed "${itemToRemove.name || itemToRemove.title || 'item'}" from checkout`);
+  };
+
   // Update item quantity
   const handleUpdateQty = (index, delta) => {
+    const currentItem = items[index];
+    if (!currentItem) return;
+    const newQty = (currentItem.quantity || 1) + delta;
+    if (newQty <= 0) {
+      handleRemoveCheckoutItem(index);
+      return;
+    }
     setItems((prev) =>
-      prev
-        .map((item, idx) => {
-          if (idx === index) {
-            const newQty = Math.max(1, (item.quantity || 1) + delta);
-            return { ...item, quantity: newQty };
-          }
-          return item;
-        })
-        .filter((item) => item.quantity > 0)
+      prev.map((item, idx) => {
+        if (idx === index) {
+          return { ...item, quantity: newQty };
+        }
+        return item;
+      })
     );
   };
 
@@ -256,7 +297,7 @@ const CheckoutPage = () => {
       return;
     }
     setIsUpiVerified(true);
-    showToast(`UPI ID "${upiId}" verified successfully! ✓`);
+    showToast(`UPI ID "${upiId}" verified successfully!`);
   };
 
   // Apply promo code handler
@@ -371,8 +412,21 @@ const CheckoutPage = () => {
       gift_note: giftNote
     };
 
+    setIsBookingOrder(true);
+    setBookingStatusText("Securing Deal & Reserving Stock...");
+    setBookingProgress(35);
+
     try {
+      const stepTimer = setTimeout(() => {
+        setBookingStatusText("Authorizing Payment & Booking Slot...");
+        setBookingProgress(75);
+      }, 300);
+
       const createdOrder = await orderService.createOrder(orderPayload);
+      clearTimeout(stepTimer);
+
+      setBookingStatusText("Booking Confirmed & Secured!");
+      setBookingProgress(100);
 
       // If bought from regular cart, clean up checked out items
       if (!buyNowProduct) {
@@ -390,9 +444,10 @@ const CheckoutPage = () => {
             orderNumber: createdOrder.order_number
           }
         });
-      }, 700);
+      }, 500);
     } catch (err) {
       console.error("Failed to place order:", err);
+      setIsBookingOrder(false);
       showToast("There was an error processing your order. Please try again.");
     }
   };
@@ -440,14 +495,14 @@ const CheckoutPage = () => {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
           {/* Brand Logo */}
           <Link to="/" className="flex items-center gap-3 group">
-            <div className="w-9 h-9 rounded-xl bg-gradient-to-tr from-orange-600 to-amber-500 flex items-center justify-center text-white font-extrabold text-lg shadow-sm group-hover:scale-105 transition-transform">
+            <div className="w-9 h-9 rounded-xl bg-[#f76e28] flex items-center justify-center text-white font-black text-lg shadow-sm shadow-[#f76e28]/30 group-hover:scale-105 transition-transform">
               G
             </div>
             <div>
               <strong className="block text-stone-900 text-sm sm:text-base font-bold tracking-tight">
                 GoMo Deals
               </strong>
-              <span className="block text-[10px] text-orange-600 font-semibold uppercase tracking-wider">
+              <span className="block text-[10px] text-[#f76e28] font-semibold uppercase tracking-wider">
                 Instant Checkout
               </span>
             </div>
@@ -459,8 +514,8 @@ const CheckoutPage = () => {
               to="/cart"
               className="flex items-center text-xs font-semibold text-emerald-600 gap-1.5 hover:underline"
             >
-              <span className="w-5 h-5 rounded-full bg-emerald-100 flex items-center justify-center text-[11px] font-bold">
-                ✓
+              <span className="w-5 h-5 rounded-full bg-emerald-100 text-emerald-700 flex items-center justify-center text-[11px] font-bold">
+                <Check size={12} strokeWidth={3} />
               </span>
               <span>Cart</span>
             </Link>
@@ -609,6 +664,17 @@ const CheckoutPage = () => {
                                 +
                               </button>
                             </div>
+
+                            {/* Quick Remove Item Button */}
+                            <button
+                              type="button"
+                              onClick={() => handleRemoveCheckoutItem(idx)}
+                              className="p-1 text-stone-400 hover:text-rose-600 hover:bg-rose-50 rounded-md transition-colors cursor-pointer"
+                              title="Remove product"
+                            >
+                              <Trash2 size={13} />
+                            </button>
+
                             <span className="text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded border border-emerald-200 text-[10px] font-bold">
                               In Stock · Dispatches Today
                             </span>
@@ -863,7 +929,7 @@ const CheckoutPage = () => {
                             : "bg-stone-900 hover:bg-stone-800 text-white"
                         }`}
                       >
-                        {isUpiVerified ? "Verified ✓" : "Verify VPA"}
+                        {isUpiVerified ? "Verified" : "Verify VPA"}
                       </button>
                     </div>
                     {isUpiVerified && (
@@ -1292,6 +1358,18 @@ const CheckoutPage = () => {
                   <span>BUY NOW — PLACE ORDER ({formatPrice(finalTotal)})</span>
                 </button>
 
+                {/* Terms Agreement Note */}
+                <p className="text-[10.5px] text-stone-500 text-center pt-1 font-medium">
+                  By placing your order, you agree to our{' '}
+                  <Link to="/terms" target="_blank" className="underline hover:text-orange-600 font-semibold">
+                    Terms &amp; Conditions
+                  </Link>{' '}
+                  and{' '}
+                  <Link to="/legal/privacy-policy" target="_blank" className="underline hover:text-orange-600 font-semibold">
+                    Privacy Policy
+                  </Link>.
+                </p>
+
                 {/* Buy Later Button (Secondary / Save for Later) */}
                 <button
                   type="button"
@@ -1322,6 +1400,10 @@ const CheckoutPage = () => {
 
             {/* Help & Cancellation Policy Links */}
             <div className="text-center text-xs text-stone-400 space-x-2">
+              <Link to="/terms" target="_blank" className="hover:underline hover:text-stone-700">
+                Terms &amp; Conditions
+              </Link>
+              <span>•</span>
               <button
                 type="button"
                 onClick={() => setIsPolicyModalOpen(true)}
@@ -1352,7 +1434,7 @@ const CheckoutPage = () => {
             className="fixed bottom-6 right-6 z-50 bg-stone-900 text-white px-4 py-3 rounded-xl shadow-2xl flex items-center gap-3 border border-stone-700 max-w-sm text-xs"
           >
             <div className="w-5 h-5 rounded-full bg-orange-500 flex items-center justify-center shrink-0 text-white font-bold">
-              ✓
+              <Check size={12} strokeWidth={3} />
             </div>
             <div className="font-semibold flex-grow">{toastMessage}</div>
           </motion.div>
@@ -1589,6 +1671,144 @@ const CheckoutPage = () => {
               </button>
             </motion.div>
           </div>
+        )}
+      </AnimatePresence>
+
+      {/* State-of-the-Art Instant Booking / Buying Animation Overlay */}
+      <AnimatePresence>
+        {isBookingOrder && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.18 }}
+            className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-stone-950/75 backdrop-blur-md"
+          >
+            <motion.div
+              initial={{ scale: 0.88, opacity: 0, y: 12 }}
+              animate={{ scale: 1, opacity: 1, y: 0 }}
+              exit={{ scale: 0.92, opacity: 0 }}
+              transition={{ type: "spring", damping: 25, stiffness: 350 }}
+              className="relative w-full max-w-sm rounded-3xl bg-gradient-to-b from-stone-900 via-stone-900 to-stone-950 text-white p-7 shadow-[0_25px_60px_-15px_rgba(234,88,12,0.4)] border border-orange-500/30 overflow-hidden text-center"
+            >
+              {/* Glowing Background Radial Highlights */}
+              <div className="absolute -top-16 left-1/2 -translate-x-1/2 w-48 h-48 bg-orange-600/20 rounded-full blur-3xl pointer-events-none" />
+              <div className="absolute -bottom-10 right-0 w-36 h-36 bg-amber-500/10 rounded-full blur-2xl pointer-events-none" />
+
+              {/* Animated GoMo Express Cart & Dropping Package */}
+              <div className="relative h-28 flex items-center justify-center mb-4">
+                {/* Speed Streaks */}
+                <div className="absolute left-6 top-1/2 -translate-y-1/2 flex flex-col gap-1.5 opacity-60">
+                  <motion.div
+                    animate={{ x: [-8, 4, -8], opacity: [0.3, 0.9, 0.3] }}
+                    transition={{ repeat: Infinity, duration: 0.45, ease: "easeInOut" }}
+                    className="w-8 h-1 bg-gradient-to-r from-transparent to-orange-400 rounded-full"
+                  />
+                  <motion.div
+                    animate={{ x: [-12, 2, -12], opacity: [0.2, 0.8, 0.2] }}
+                    transition={{ repeat: Infinity, duration: 0.4, ease: "easeInOut", delay: 0.08 }}
+                    className="w-12 h-1 bg-gradient-to-r from-transparent to-[#f76e28] rounded-full"
+                  />
+                  <motion.div
+                    animate={{ x: [-6, 6, -6], opacity: [0.4, 1, 0.4] }}
+                    transition={{ repeat: Infinity, duration: 0.42, ease: "easeInOut", delay: 0.12 }}
+                    className="w-6 h-1 bg-gradient-to-r from-transparent to-[#f76e28] rounded-full"
+                  />
+                </div>
+
+                {/* Animated Speed Cart */}
+                <motion.div
+                  animate={{ y: [0, -3, 0] }}
+                  transition={{ repeat: Infinity, duration: 0.4, ease: "easeInOut" }}
+                  className="relative z-10"
+                >
+                  <svg width="84" height="84" viewBox="0 0 100 100" fill="none" className="drop-shadow-[0_10px_20px_rgba(247,110,40,0.45)]">
+                    <defs>
+                      <linearGradient id="gmdCartGrad" x1="0" y1="0" x2="100" y2="100" gradientUnits="userSpaceOnUse">
+                        <stop offset="0%" stopColor="#f76e28" />
+                        <stop offset="100%" stopColor="#de5713" />
+                      </linearGradient>
+                      <linearGradient id="gmdBoxGrad" x1="0" y1="0" x2="1" y2="1">
+                        <stop offset="0%" stopColor="#fff8f3" />
+                        <stop offset="100%" stopColor="#fdd8c0" />
+                      </linearGradient>
+                    </defs>
+
+                    {/* Animated Dropping Parcel */}
+                    <motion.g
+                      initial={{ y: -22, opacity: 0 }}
+                      animate={{ y: 0, opacity: 1 }}
+                      transition={{ type: "spring", damping: 14, stiffness: 280, delay: 0.1 }}
+                    >
+                      <rect x="36" y="24" width="30" height="24" rx="4" fill="url(#gmdBoxGrad)" stroke="#f76e28" strokeWidth="1.5" />
+                      <path d="M 51 24 L 51 48" stroke="#f76e28" strokeWidth="1.5" strokeDasharray="2 1" />
+                      <path d="M 36 34 L 66 34" stroke="#f76e28" strokeWidth="1.5" />
+                    </motion.g>
+
+                    {/* Cart Basket Structure */}
+                    <path
+                      d="M 16 28 L 26 28 L 38 62 L 78 62 L 86 36 L 31 36"
+                      stroke="url(#gmdCartGrad)"
+                      strokeWidth="5"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    />
+
+                    {/* Wheel 1 (Seamless solid circle) */}
+                    <g transform="translate(42, 75)">
+                      <circle cx="0" cy="0" r="7" fill="#f76e28" stroke="#fdd8c0" strokeWidth="2.5" />
+                      <circle cx="0" cy="0" r="2.5" fill="#ffffff" />
+                    </g>
+
+                    {/* Wheel 2 (Seamless solid circle) */}
+                    <g transform="translate(74, 75)">
+                      <circle cx="0" cy="0" r="7" fill="#f76e28" stroke="#fdd8c0" strokeWidth="2.5" />
+                      <circle cx="0" cy="0" r="2.5" fill="#ffffff" />
+                    </g>
+                  </svg>
+                </motion.div>
+              </div>
+
+              {/* Status Badge */}
+              <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-orange-500/15 border border-orange-500/30 text-orange-400 text-[10px] font-black uppercase tracking-widest mb-3">
+                {bookingProgress === 100 ? (
+                  <>
+                    <CheckCircle2 size={13} className="text-emerald-400" />
+                    <span className="text-emerald-300">Order Confirmed</span>
+                  </>
+                ) : (
+                  <>
+                    <span className="w-2 h-2 rounded-full bg-orange-500 animate-ping" />
+                    <span>Booking in Progress</span>
+                  </>
+                )}
+              </div>
+
+              {/* Title & Live Status */}
+              <h3 className="text-lg font-bold text-white mb-1.5">
+                {bookingProgress === 100 ? "Secured & Booked!" : "Reserving Your Order"}
+              </h3>
+              <p className="text-xs text-stone-300 font-medium h-5 transition-all">
+                {bookingStatusText}
+              </p>
+
+              {/* Snappy Energetic Progress Bar */}
+              <div className="w-full bg-stone-800/80 rounded-full h-2 mt-5 mb-4 overflow-hidden p-0.5 border border-white/5">
+                <motion.div
+                  className="h-full rounded-full bg-[#f76e28] shadow-[0_0_12px_rgba(247,110,40,0.8)]"
+                  initial={{ width: "20%" }}
+                  animate={{ width: `${bookingProgress}%` }}
+                  transition={{ duration: 0.25, ease: "easeOut" }}
+                />
+              </div>
+
+              {/* Order Quick Summary Pill */}
+              <div className="flex items-center justify-between text-[11px] text-stone-400 pt-3 border-t border-stone-800">
+                <span>{items.length} {items.length === 1 ? 'item' : 'items'} in order</span>
+                <span className="font-mono font-bold text-orange-400">Total: {formatPrice(finalTotal)}</span>
+              </div>
+            </motion.div>
+          </motion.div>
         )}
       </AnimatePresence>
     </div>

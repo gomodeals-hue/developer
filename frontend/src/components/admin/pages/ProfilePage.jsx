@@ -4,13 +4,13 @@ import {
   Users, Package, ShoppingCart, TrendingUp, Camera,
   CheckCircle, Clock, Star, BarChart2
 } from "lucide-react";
-import { useAuth } from "../../../context/AuthContext.jsx";
+import { useAdminAuth } from "../../../context/AdminAuthContext.jsx";
 import { useToast } from "../../../hooks/use-toast";
 import { cn } from "../../../lib/utils";
 import { api } from "../../../services/api";
 
 export default function ProfilePage() {
-  const { user, login } = useAuth();
+  const { user, updateAdminUser } = useAdminAuth();
   const { toast } = useToast();
   const [isEditing, setIsEditing] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -63,7 +63,7 @@ export default function ProfilePage() {
       const resp = await api.put(`/admin/profile/${user?.id}`, formData);
       const data = resp.data;
       if (resp.status === 200) {
-        login(data.user);
+        if (updateAdminUser) updateAdminUser(data.user);
         toast({ title: "Profile Updated", description: "Your details have been saved." });
         setIsEditing(false);
       } else {

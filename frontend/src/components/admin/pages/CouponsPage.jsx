@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import { getAllCoupons, createCoupon, updateCoupon, deleteCoupon } from '../../../services/couponService';
-import { useAuth } from '../../../context/AuthContext.jsx';
+import { useAdminAuth } from '../../../context/AdminAuthContext.jsx';
 import { useToast } from '../../../hooks/use-toast';
 import { 
     Ticket, Plus, Search, Filter, MoreVertical, Edit2, 
@@ -17,7 +17,7 @@ const inputClass = "w-full h-11 px-4 rounded-xl border border-orange-200 focus:b
 const labelClass = "text-[9px] font-black text-stone-600 uppercase tracking-widest mb-1.5 block ml-1";
 
 export default function CouponsPage() {
-    const { user } = useAuth();
+    const { user } = useAdminAuth();
     const { toast } = useToast();
     const [coupons, setCoupons] = useState([]);
     const [loading, setLoading] = useState(true);

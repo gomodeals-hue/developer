@@ -1,8 +1,8 @@
 /* Checkout Page Styling - GoMo Deals Luxury Theme */
 
 .gomo-checkout-page {
-  --gomo-orange: #ea580c;
-  --gomo-orange-dark: #c2410c;
+  --gomo-orange: #f76e28;
+  --gomo-orange-dark: #de5713;
   --gomo-orange-soft: #fff7ed;
   --gomo-stone-900: #1c1917;
   --gomo-stone-600: #57534e;
@@ -13,8 +13,8 @@
 
 /* Custom Radio Appearance with GoMo Orange */
 .gomo-checkout-page .gomo-custom-radio:checked {
-  border-color: #ea580c;
-  background-color: #ea580c;
+  border-color: #f76e28;
+  background-color: #f76e28;
   box-shadow: inset 0 0 0 3px #ffffff;
 }
 

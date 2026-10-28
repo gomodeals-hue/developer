@@ -3,11 +3,13 @@ import { createPortal } from 'react-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { 
   X, User, ChevronRight, ChevronDown, Tag, Flame, Sparkles, 
-  Package, Heart, ShieldCheck, HelpCircle, LogOut, ArrowRight 
+  Package, Heart, ShieldCheck, HelpCircle, LogOut, ArrowRight, Store 
 } from 'lucide-react';
 import { Link, useNavigate } from 'react-router-dom';
+import { useShop } from '../../../context/ShopContext';
 
 const AllDepartmentsDrawer = ({ isOpen, onClose, departments, user, onLogout }) => {
+  const { t } = useShop();
   const navigate = useNavigate();
   const [expandedDept, setExpandedDept] = useState(null);
 
@@ -49,7 +51,7 @@ const AllDepartmentsDrawer = ({ isOpen, onClose, departments, user, onLogout }) 
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            transition={{ duration: 0.25 }}
+            transition={{ duration: 0.12 }}
             onClick={onClose}
             className="fixed inset-0 bg-stone-900/60 backdrop-blur-xs cursor-pointer"
           />
@@ -59,8 +61,8 @@ const AllDepartmentsDrawer = ({ isOpen, onClose, departments, user, onLogout }) 
             initial={{ x: '-100%' }}
             animate={{ x: 0 }}
             exit={{ x: '-100%' }}
-            transition={{ type: 'spring', damping: 28, stiffness: 280 }}
-            className="relative w-80 sm:w-96 max-w-[85vw] bg-white text-stone-900 h-full shadow-2xl flex flex-col z-[10000] overflow-hidden"
+            transition={{ type: 'spring', damping: 32, stiffness: 480 }}
+            className="relative w-80 sm:w-96 max-w-[85vw] bg-white text-stone-900 h-full shadow-2xl flex flex-col z-[10000] overflow-hidden gpu-accelerate"
           >
             {/* Header: User Profile Greeting */}
             <div className="bg-stone-950 text-white p-4 sm:p-5 flex items-center justify-between shrink-0 border-b border-stone-800">
@@ -70,10 +72,10 @@ const AllDepartmentsDrawer = ({ isOpen, onClose, departments, user, onLogout }) 
                 </div>
                 <div className="min-w-0">
                   <p className="text-[10px] uppercase font-bold tracking-widest text-stone-400">
-                    {user ? 'Welcome Back' : 'Hello, Guest'}
+                    {user ? t('welcome_back', 'Welcome Back') : t('hello_guest', 'Hello, Guest')}
                   </p>
                   <p className="text-sm font-bold text-white truncate">
-                    {user ? (user.name || user.email?.split('@')[0]) : 'Sign In / Register'}
+                    {user ? (user.name || user.email?.split('@')[0]) : t('sign_in_register', 'Sign In / Register')}
                   </p>
                 </div>
               </div>
@@ -92,18 +94,18 @@ const AllDepartmentsDrawer = ({ isOpen, onClose, departments, user, onLogout }) 
               
               {/* 1. Trending & Highlights */}
               <div className="p-4 space-y-1">
-                <h4 className="text-[10.5px] font-black uppercase tracking-wider text-stone-400 px-3 pb-1">
-                  Trending &amp; Offers
+                <h4 className="text-xs font-black uppercase tracking-wider text-stone-900 px-3 pb-1.5 border-b border-stone-100 mb-1">
+                  {t('trending_and_offers', 'Trending & Offers')}
                 </h4>
 
                 <button
                   type="button"
-                  onClick={() => handleLinkClick('/collection/clothing?deal=clearance')}
+                  onClick={() => handleLinkClick('/deals')}
                   className="w-full flex items-center justify-between px-3 py-2.5 rounded-xl font-bold text-rose-600 bg-rose-50/60 hover:bg-rose-100/70 transition-colors cursor-pointer text-left"
                 >
                   <span className="flex items-center gap-2">
                     <Flame size={15} className="text-rose-600 shrink-0" />
-                    <span>Today's Deals (Up to 80% Off)</span>
+                    <span>{t('todays_deals_discount', "Today's Deals (Up to 80% Off)")}</span>
                   </span>
                   <ChevronRight size={14} className="text-rose-400" />
                 </button>
@@ -115,7 +117,7 @@ const AllDepartmentsDrawer = ({ isOpen, onClose, departments, user, onLogout }) 
                 >
                   <span className="flex items-center gap-2">
                     <Sparkles size={14} className="text-amber-500 shrink-0" />
-                    <span>Best Sellers</span>
+                    <span>{t('best_sellers', 'Best Sellers')}</span>
                   </span>
                   <ChevronRight size={14} className="text-stone-300" />
                 </button>
@@ -127,19 +129,7 @@ const AllDepartmentsDrawer = ({ isOpen, onClose, departments, user, onLogout }) 
                 >
                   <span className="flex items-center gap-2">
                     <Tag size={14} className="text-orange-500 shrink-0" />
-                    <span>New Arrivals</span>
-                  </span>
-                  <ChevronRight size={14} className="text-stone-300" />
-                </button>
-
-                <button
-                  type="button"
-                  onClick={() => handleLinkClick('/products?price=under_500')}
-                  className="w-full flex items-center justify-between px-3 py-2 rounded-xl font-semibold text-stone-800 hover:bg-stone-50 hover:text-orange-600 transition-colors cursor-pointer text-left"
-                >
-                  <span className="flex items-center gap-2">
-                    <span className="w-4 text-center font-black text-emerald-600 text-xs">₹</span>
-                    <span>Under ₹499 Store</span>
+                    <span>{t('new_arrivals', 'New Arrivals')}</span>
                   </span>
                   <ChevronRight size={14} className="text-stone-300" />
                 </button>
@@ -147,8 +137,8 @@ const AllDepartmentsDrawer = ({ isOpen, onClose, departments, user, onLogout }) 
 
               {/* 2. Shop By Department */}
               <div className="p-4 space-y-1">
-                <h4 className="text-[10.5px] font-black uppercase tracking-wider text-stone-400 px-3 pb-1">
-                  Shop By Category
+                <h4 className="text-xs font-black uppercase tracking-wider text-stone-900 px-3 pb-1.5 border-b border-stone-100 mb-1">
+                  {t('shop_by_category', 'Shop By Category')}
                 </h4>
 
                 {departments.map((dept) => {
@@ -159,9 +149,9 @@ const AllDepartmentsDrawer = ({ isOpen, onClose, departments, user, onLogout }) 
                         <button
                           type="button"
                           onClick={() => handleLinkClick(dept.path)}
-                          className="font-bold text-stone-900 hover:text-orange-600 cursor-pointer text-left flex-1 text-xs"
+                          className="font-extrabold text-stone-900 hover:text-orange-600 cursor-pointer text-left flex-1 text-[13px] tracking-tight"
                         >
-                          {dept.label}
+                          {t(dept.key.replace(/-/g, '_'), dept.label)}
                         </button>
                         {dept.columns && dept.columns.length > 0 && (
                           <button
@@ -190,7 +180,7 @@ const AllDepartmentsDrawer = ({ isOpen, onClose, departments, user, onLogout }) 
                           >
                             {dept.columns.map((col, colIdx) => (
                               <div key={colIdx} className="space-y-1">
-                                <span className="text-[10px] font-black uppercase tracking-wider text-stone-400 block px-2 pt-1">
+                                <span className="text-[11px] font-black uppercase tracking-wider text-stone-900 block px-2 pt-1.5 border-b border-stone-200/50 pb-0.5 mb-1">
                                   {col.title}
                                 </span>
                                 {col.items.map((sub, sIdx) => (
@@ -221,9 +211,27 @@ const AllDepartmentsDrawer = ({ isOpen, onClose, departments, user, onLogout }) 
                 })}
               </div>
 
-              {/* 3. Account & Help */}
+              {/* 3. Sell on GoMo Deals (Become a Seller) */}
+              <div className="p-4 space-y-1 bg-gradient-to-r from-orange-50/60 to-amber-50/40 border-y border-orange-100/60">
+                <h4 className="text-xs font-black uppercase tracking-wider text-orange-950 px-3 pb-1.5 border-b border-orange-200/50 mb-1">
+                  Sell on GoMo Deals
+                </h4>
+                <button
+                  type="button"
+                  onClick={() => handleLinkClick('/seller')}
+                  className="w-full flex items-center justify-between px-3 py-2.5 rounded-xl font-bold text-[#f76e28] bg-white border border-orange-200/90 hover:bg-orange-50 transition-all cursor-pointer text-left shadow-2xs"
+                >
+                  <span className="flex items-center gap-2.5">
+                    <Store size={15} className="text-[#f76e28]" />
+                    <span>Become a Seller (Merchant Hub)</span>
+                  </span>
+                  <ChevronRight size={14} className="text-[#f76e28]" />
+                </button>
+              </div>
+
+              {/* 4. Account & Help */}
               <div className="p-4 space-y-1">
-                <h4 className="text-[10.5px] font-black uppercase tracking-wider text-stone-400 px-3 pb-1">
+                <h4 className="text-xs font-black uppercase tracking-wider text-stone-900 px-3 pb-1.5 border-b border-stone-100 mb-1">
                   Help &amp; Settings
                 </h4>
 
@@ -255,6 +263,18 @@ const AllDepartmentsDrawer = ({ isOpen, onClose, departments, user, onLogout }) 
 
                     <button
                       type="button"
+                      onClick={() => handleLinkClick('/wishlist')}
+                      className="w-full flex items-center justify-between px-3 py-2 rounded-xl text-stone-700 hover:bg-stone-50 font-medium transition-colors cursor-pointer text-left"
+                    >
+                      <span className="flex items-center gap-2.5">
+                        <Heart size={14} className="text-rose-500" />
+                        <span>My Wishlist</span>
+                      </span>
+                      <ChevronRight size={13} className="text-stone-300" />
+                    </button>
+
+                    <button
+                      type="button"
                       onClick={() => {
                         onClose();
                         onLogout();
@@ -272,7 +292,7 @@ const AllDepartmentsDrawer = ({ isOpen, onClose, departments, user, onLogout }) 
                       onClick={() => handleLinkClick('/login')}
                       className="w-full flex items-center justify-between px-3 py-2.5 rounded-xl font-bold text-orange-600 bg-orange-50/60 hover:bg-orange-100/70 transition-colors cursor-pointer text-left"
                     >
-                      <span>Sign In / Customer Login</span>
+                      <span>Sign In to Account</span>
                       <ChevronRight size={14} className="text-orange-400" />
                     </button>
                     <button

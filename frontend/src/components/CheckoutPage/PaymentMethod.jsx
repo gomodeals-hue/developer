@@ -217,7 +217,7 @@ const PaymentMethod = ({
               onClick={fillDemoCard}
               className="text-[9px] uppercase tracking-widest font-black text-orange-600 hover:text-orange-955 transition-colors underline cursor-pointer"
             >
-              ✨ {t("Fill Demo Card")}
+              {t("Fill Demo Card")}
             </button>
           </div>
 

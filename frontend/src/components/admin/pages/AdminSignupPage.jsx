@@ -1,22 +1,20 @@
 import { useState, useRef } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { ArrowLeft, ShieldCheck, Mail, Lock, User, Eye, EyeOff, RefreshCw } from "lucide-react";
-import { useAuth } from "../../../context/AuthContext.jsx";
 import { useToast } from "../../../hooks/use-toast";
 import { adminRegister, sendAdminRegisterOTP } from "../../../services/authService";
 
 const G = {
-  primary: "#f97316", // glowing orange
+  primary: "#f76e28", // glowing orange
   bg: "#09090b", // zinc-950
   text: "#f4f4f5", // zinc-100
   muted: "#a1a1aa", // zinc-400
   border: "rgba(63, 63, 70, 0.4)", // zinc-800 glass
-  superPrimary: "#f97316"
+  superPrimary: "#f76e28"
 };
 
 export default function AdminSignupPage() {
   const navigate = useNavigate();
-  const { login } = useAuth();
   const { toast } = useToast();
   const [loading, setLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
@@ -53,14 +51,14 @@ export default function AdminSignupPage() {
   const dynamicCss = `@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
 :root {
   --font-sans: 'Inter', sans-serif;
-  --primary: #f97316; /* Glowing neon orange */
-  --primary-hover: #ea580c;
-  --accent: #ffedd5;
-  --bg: #09090b; /* Zinc-950 dark */
-  --card-bg: rgba(24, 24, 27, 0.7); /* Zinc-900 glass */
-  --text: #f4f4f5; /* Zinc-100 */
-  --muted: #a1a1aa; /* Zinc-400 */
-  --border: rgba(63, 63, 70, 0.4); /* Zinc-800 glass */
+  --primary: #0284c7; /* Copper Sulphate Blue */
+  --primary-hover: #0369a1;
+  --accent: #e0f2fe;
+  --bg: #02172e; /* Deep copper crystalline navy */
+  --card-bg: rgba(6, 30, 60, 0.78); /* Copper blue glass */
+  --text: #f0f9ff; /* Ice sky */
+  --muted: #93c5fd; /* Soft sky blue */
+  --border: rgba(56, 189, 248, 0.28); /* Crystalline border */
 }
 
 /* Typography */
@@ -82,7 +80,7 @@ p {
 .toggle-auth-btn {
   background: none;
   border: none;
-  color: var(--primary);
+  color: #38bdf8;
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.1em;
@@ -91,14 +89,15 @@ p {
   transition: all 0.3s ease;
 }
 .toggle-auth-btn:hover {
-  color: var(--primary-hover);
+  color: #ffffff;
+  text-shadow: 0 0 10px rgba(56, 189, 248, 0.6);
   transform: translateY(-1px);
 }
 .hover-primary-text {
   transition: color 0.3s ease;
 }
 .hover-primary-text:hover {
-  color: var(--primary) !important;
+  color: #38bdf8 !important;
 }
 
 /* Page container */
@@ -112,20 +111,20 @@ p {
   background: var(--bg);
 }
 
-/* Stunning glowing micro orbs dark backdrop */
+/* Stunning glowing micro orbs Copper Sulphate Blue backdrop */
 .admin-bg {
   min-height: 100vh;
   width: 100%;
   display: flex;
   align-items: center;
   justify-content: center;
-  background: #09090b;
+  background: radial-gradient(circle at 50% 20%, #053b6d 0%, #032448 45%, #02172e 100%);
   position: relative;
   overflow: hidden;
   z-index: 1;
 }
 
-/* Ambient glowing orbs */
+/* Ambient glowing orbs in copper sulphate crystalline colors */
 .admin-bg::before, .admin-bg::after {
   content: "";
   position: absolute;
@@ -133,35 +132,35 @@ p {
   filter: blur(140px);
   pointer-events: none;
   z-index: -1;
-  opacity: 0.25;
+  opacity: 0.35;
 }
 .admin-bg::before {
-  width: 500px;
-  height: 500px;
-  background: radial-gradient(circle, rgba(249,115,22,0.4) 0%, rgba(249,115,22,0) 70%);
+  width: 600px;
+  height: 600px;
+  background: radial-gradient(circle, rgba(0, 150, 240, 0.45) 0%, rgba(2, 132, 199, 0) 70%);
   top: -10%;
   left: -10%;
 }
 .admin-bg::after {
-  width: 600px;
-  height: 600px;
-  background: radial-gradient(circle, rgba(234,88,12,0.35) 0%, rgba(234,88,12,0) 70%);
+  width: 700px;
+  height: 700px;
+  background: radial-gradient(circle, rgba(14, 165, 233, 0.4) 0%, rgba(3, 105, 161, 0) 70%);
   bottom: -10%;
   right: -10%;
 }
 
 .admin-left-hero { display: none; }
 
-/* Premium Dark Glassmorphic card - responsive side-by-side or stacked */
+/* Premium Copper Sulphate Blue Glassmorphic card */
 .admin-right-form {
   width: 100%;
   max-width: 720px;
-  background: rgba(15, 15, 18, 0.75);
-  border: 1px solid rgba(249, 115, 22, 0.15);
-  backdrop-filter: blur(20px);
+  background: rgba(6, 30, 60, 0.78);
+  border: 1px solid rgba(56, 189, 248, 0.3);
+  backdrop-filter: blur(24px);
   border-radius: 24px;
   padding: 3.5rem 3rem;
-  box-shadow: 0 30px 60px -15px rgba(0, 0, 0, 0.8), 0 0 50px -10px rgba(249, 115, 22, 0.05);
+  box-shadow: 0 30px 70px -15px rgba(1, 15, 35, 0.9), 0 0 50px -10px rgba(2, 132, 199, 0.25);
   position: relative;
   z-index: 2;
   transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.4s ease, border-color 0.4s ease;
@@ -169,8 +168,8 @@ p {
 
 .admin-right-form:hover {
   transform: translateY(-4px);
-  border-color: rgba(249, 115, 22, 0.35);
-  box-shadow: 0 35px 70px -10px rgba(0, 0, 0, 0.9), 0 0 60px -5px rgba(249, 115, 22, 0.1);
+  border-color: rgba(56, 189, 248, 0.55);
+  box-shadow: 0 35px 80px -10px rgba(1, 15, 35, 0.95), 0 0 60px -5px rgba(2, 132, 199, 0.35);
 }
 
 /* Premium Settings-Pane Horizontal Layout */
@@ -183,7 +182,7 @@ p {
   display: flex;
   flex-direction: column;
   padding: 1.5rem 0;
-  border-bottom: 1px solid rgba(63, 63, 70, 0.3);
+  border-bottom: 1px solid rgba(56, 189, 248, 0.15);
   gap: 0.75rem;
 }
 
@@ -212,14 +211,14 @@ p {
 .admin-row-label {
   font-size: 0.7rem;
   font-weight: 800;
-  color: #f97316; /* Neon Orange */
+  color: #38bdf8; /* Luminous Copper Sulphate Sky */
   text-transform: uppercase;
   letter-spacing: 0.2em;
 }
 
 .admin-row-sublabel {
   font-size: 0.65rem;
-  color: #a1a1aa;
+  color: #93c5fd;
   font-weight: 400;
   letter-spacing: 0.02em;
   line-height: 1.4;
@@ -249,24 +248,24 @@ p {
   letter-spacing: 0.15em;
   text-transform: uppercase;
   border-radius: 12px;
-  border: 1px solid rgba(63, 63, 70, 0.6);
-  background: transparent;
-  color: #a1a1aa;
+  border: 1px solid rgba(56, 189, 248, 0.25);
+  background: rgba(3, 22, 45, 0.6);
+  color: #93c5fd;
   cursor: pointer;
   transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .admin-role-btn:hover {
-  border-color: #f97316;
-  color: #f4f4f5;
-  background: rgba(249, 115, 22, 0.05);
+  border-color: #38bdf8;
+  color: #ffffff;
+  background: rgba(2, 132, 199, 0.15);
 }
 
 .admin-role-btn.active {
-  background: #f97316;
-  border-color: #f97316;
+  background: linear-gradient(135deg, #0284c7 0%, #0077c8 100%);
+  border-color: #38bdf8;
   color: #ffffff;
-  box-shadow: 0 4px 20px rgba(249, 115, 22, 0.3);
+  box-shadow: 0 4px 20px rgba(2, 132, 199, 0.45);
 }
 
 .admin-input-box {
@@ -278,20 +277,20 @@ p {
 .admin-input-box input {
   width: 100%;
   padding: 0.85rem 2.75rem 0.85rem 2.75rem;
-  border: 1px solid rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(56, 189, 248, 0.22);
   border-radius: 12px;
   font-size: 0.9rem;
-  background: rgba(9, 9, 11, 0.8);
-  color: #f4f4f5;
+  background: rgba(2, 20, 42, 0.85);
+  color: #f0f9ff;
   font-family: var(--font-sans);
   transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .admin-input-box input:focus {
   outline: none;
-  background: #09090b;
-  border-color: #f97316;
-  box-shadow: 0 0 0 4px rgba(249, 115, 22, 0.15);
+  background: rgba(3, 27, 56, 0.95);
+  border-color: #38bdf8;
+  box-shadow: 0 0 0 4px rgba(2, 132, 199, 0.25);
 }
 
 .admin-input-box > svg {
@@ -299,7 +298,7 @@ p {
   left: 1rem;
   top: 50%;
   transform: translateY(-50%);
-  color: #71717a;
+  color: #60a5fa;
   pointer-events: none;
   transition: color 0.3s ease;
   width: 16px;
@@ -307,7 +306,7 @@ p {
 }
 
 .admin-input-box:focus-within > svg {
-  color: #f97316;
+  color: #38bdf8;
 }
 
 .admin-input-box .eye-toggle {
@@ -317,7 +316,7 @@ p {
   transform: translateY(-50%);
   background: none;
   border: none;
-  color: #71717a;
+  color: #60a5fa;
   cursor: pointer;
   display: flex;
   align-items: center;
@@ -328,14 +327,14 @@ p {
 }
 
 .admin-input-box .eye-toggle:hover {
-  color: #f97316;
+  color: #38bdf8;
 }
 
-/* Elegant neon orange gradient button */
+/* Elegant Copper Sulphate Blue gradient button */
 .admin-submit-btn {
   width: 100%;
   padding: 1.1rem;
-  background: linear-gradient(135deg, #f97316 0%, #ea580c 100%);
+  background: linear-gradient(135deg, #0284c7 0%, #0077c8 50%, #0369a1 100%);
   color: #ffffff;
   border: none;
   border-radius: 12px;
@@ -346,13 +345,13 @@ p {
   cursor: pointer;
   transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
   margin-top: 2rem;
-  box-shadow: 0 4px 20px rgba(249, 115, 22, 0.3);
+  box-shadow: 0 4px 25px rgba(0, 119, 200, 0.45);
 }
 
 .admin-submit-btn:hover {
-  background: linear-gradient(135deg, #fb923c 0%, #ea580c 100%);
+  background: linear-gradient(135deg, #38bdf8 0%, #0284c7 50%, #0077c8 100%);
   transform: translateY(-2px);
-  box-shadow: 0 8px 30px rgba(249, 115, 22, 0.5);
+  box-shadow: 0 8px 35px rgba(0, 119, 200, 0.65);
 }
 
 .admin-submit-btn:disabled {
@@ -369,9 +368,9 @@ p {
   }
   .admin-right-form {
     padding: 2.5rem 1.5rem;
-    box-shadow: 0 20px 45px rgba(0, 0, 0, 0.5);
+    box-shadow: 0 20px 45px rgba(1, 15, 35, 0.6);
     border-radius: 20px;
-    background: rgba(20, 20, 23, 0.9);
+    background: rgba(4, 25, 52, 0.92);
   }
   .admin-submit-btn {
     padding: 1rem;
@@ -414,7 +413,7 @@ p {
       const resData = await adminRegister({ ...formData, otp: registerOtp });
       if (resData.success) {
         toast({ title: "Account Initialized", description: "Your administrative identity is confirmed. Please log in." });
-        navigate("/admin-login");
+        navigate("/admin/login");
       } else {
         toast({ variant: "destructive", title: "Verification Failed", description: resData.message || "Invalid or expired code." });
       }
@@ -433,9 +432,9 @@ p {
       <div className="admin-right-form register-mode">
         <div className="animate-fade w-full">
           <div style={{ marginBottom: "2.5rem" }}>
-            <Link to="/" style={{ display: "inline-flex", alignItems: "center", gap: "8px", textDecoration: "none", color: G.muted, fontSize: "0.75rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.15em", marginBottom: "1.5rem" }} className="hover-primary-text">
-              <ArrowLeft size={14} /> Back to Store
-            </Link>
+            <div style={{ display: "inline-flex", alignItems: "center", gap: "8px", color: "#38bdf8", fontSize: "0.75rem", fontWeight: 800, textTransform: "uppercase", letterSpacing: "0.18em", marginBottom: "1.5rem" }}>
+              <ShieldCheck size={16} /> GoMo Enterprise Operations Portal
+            </div>
             <h2 style={{ fontSize: "2.5rem", fontFamily: "var(--font-sans)", fontWeight: 800, color: G.text, marginBottom: "1rem" }}>
               {registerStep === 1 ? "Initialize" : "Verify Email"}
             </h2>
@@ -628,7 +627,7 @@ p {
             <span style={{ color: G.muted }}>
               Already registered?
             </span>{" "}
-            <Link to="/admin-login" style={{ textDecoration: "none", color: G.primary, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.1em" }} className="hover-primary-text">
+            <Link to="/admin/login" style={{ textDecoration: "none", color: G.primary, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.1em" }} className="hover-primary-text">
               Sign In
             </Link>
           </div>

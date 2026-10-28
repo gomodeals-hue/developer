@@ -1,0 +1,16 @@
+{
+  "name": "gomodeals-backend",
+  "version": "1.0.0",
+  "description": "GoMo Deals Lightweight High-Performance Backend API",
+  "main": "server.js",
+  "type": "module",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node --watch server.js",
+    "db:setup": "node database/setupPostgres.js"
+  },
+  "dependencies": {
+    "dotenv": "^18.0.8",
+    "pg": "^8.23.1"
+  }
+}

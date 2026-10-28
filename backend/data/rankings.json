@@ -1,0 +1,55 @@
+{
+  "showcase": [
+    {
+      "id": "rnk-1",
+      "brand": "Raymond",
+      "category": "Men Apparel",
+      "score": 98,
+      "votes": 1420,
+      "badge": "#1 Best Rated Brand",
+      "image": "https://images.unsplash.com/photo-1602810318383-e386cc2a3ccf?w=400&q=80"
+    },
+    {
+      "id": "rnk-2",
+      "brand": "Fabindia",
+      "category": "Ethnic Silk",
+      "score": 96,
+      "votes": 1290,
+      "badge": "Heritage Choice",
+      "image": "https://images.unsplash.com/photo-1610030469983-98e550d6193c?w=400&q=80"
+    },
+    {
+      "id": "rnk-3",
+      "brand": "Levi's",
+      "category": "Denims",
+      "score": 94,
+      "votes": 1150,
+      "badge": "Popular Choice",
+      "image": "https://images.unsplash.com/photo-1541099649105-f69ad21f3246?w=400&q=80"
+    }
+  ],
+  "open": [
+    {
+      "id": "comp-1",
+      "title": "Best Ethnic Wear Brand 2026",
+      "brands": [
+        {
+          "id": "b1",
+          "name": "Fabindia",
+          "votes": 540
+        },
+        {
+          "id": "b2",
+          "name": "Biba",
+          "votes": 480
+        },
+        {
+          "id": "b3",
+          "name": "Manyavar",
+          "votes": 390
+        }
+      ]
+    }
+  ],
+  "admin": []
+}

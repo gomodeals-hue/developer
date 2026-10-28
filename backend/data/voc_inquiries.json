@@ -1,0 +1,119 @@
+[
+  {
+    "id": "voc-1791179164050",
+    "inquiry_id": "voc-1791179164050",
+    "order_id": "GMD-ORD-10025",
+    "order_number": "GOMO-2026-10025",
+    "product_id": "pooja-101",
+    "product_name": "Royal Heritage Peacock Diya",
+    "product_thumbnail": "https://images.unsplash.com/photo-1608889825205-eebdb9fc5806?w=600&q=80",
+    "seller_id": "seller-1",
+    "seller_name": "Divine Brass & Temple Arts",
+    "customer_id": "usr-1",
+    "customer_name": "Priya Sharma",
+    "customer_email": "priya.sharma@example.com",
+    "customer_phone": "+91 98450 12345",
+    "category": "Item Quality / Finish",
+    "subject": "Request for traditional peacock wick placement instructions",
+    "message": "Hello Divine Brass team, how should the 5 oil wicks be placed in the peacock tail reservoir?",
+    "priority": "normal",
+    "status": "seller_replied",
+    "created_at": "2026-10-05T05:46:04.050Z",
+    "updated_at": "2026-10-05T05:46:04.058Z",
+    "conversation": [
+      {
+        "id": "msg-1791179164050",
+        "sender": "customer",
+        "sender_name": "Priya Sharma",
+        "message": "Hello Divine Brass team, how should the 5 oil wicks be placed in the peacock tail reservoir?",
+        "timestamp": "2026-10-05T05:46:04.050Z"
+      },
+      {
+        "id": "msg-1791179164058",
+        "sender": "seller",
+        "sender_name": "Divine Brass & Temple Arts",
+        "message": "Namaste Priya! Gently fan the 5 cotton wicks outward along the scalloped edge of the peacock tail. Pour pure sesame or mustard oil up to 3/4 level. It burns steadily for over 6 hours!",
+        "timestamp": "2026-10-05T05:46:04.058Z"
+      }
+    ],
+    "resolution_notes": ""
+  },
+  {
+    "id": "voc-101",
+    "inquiry_id": "voc-101",
+    "order_id": "GMD-ORD-10025",
+    "order_number": "GOMO-2026-10025",
+    "product_id": "pooja-101",
+    "product_name": "Pure Brass Lotus Diya with Bell (Set of 2)",
+    "product_thumbnail": "https://images.unsplash.com/photo-1608889825205-eebdb9fc5806?w=600&q=80",
+    "seller_id": "seller-1",
+    "seller_name": "Divine Brass & Temple Arts",
+    "customer_id": "usr-1",
+    "customer_name": "Priya Sharma",
+    "customer_email": "priya.sharma@example.com",
+    "customer_phone": "+91 98450 12345",
+    "category": "Item Quality / Finish",
+    "subject": "Brass polish care instructions and small smudge",
+    "message": "Hello Rajesh ji, received the lotus diya set yesterday. One diya has a slight tarnish on the outer petal. Could you advise the best cleaning pitambari mixture or send a replacement petal?",
+    "priority": "medium",
+    "status": "seller_replied",
+    "created_at": "2026-10-04T19:33:39.585Z",
+    "updated_at": "2026-10-05T00:33:39.585Z",
+    "conversation": [
+      {
+        "id": "msg-1",
+        "sender": "customer",
+        "sender_name": "Priya Sharma",
+        "message": "Hello Rajesh ji, received the lotus diya set yesterday. One diya has a slight tarnish on the outer petal. Could you advise the best cleaning pitambari mixture or send a replacement petal?",
+        "timestamp": "2026-10-04T19:33:39.585Z"
+      },
+      {
+        "id": "msg-2",
+        "sender": "seller",
+        "sender_name": "Divine Brass & Temple Arts",
+        "message": "Namaste Priya ji! Thank you for choosing Divine Brass. Pure solid brass naturally reacts with humid air. We have dispatched a complimentary bottle of natural brass polishing organic lotion (AWB: BLU9182371) to your address today. Please wipe gently with a soft cotton cloth and it will shine like pure gold!",
+        "timestamp": "2026-10-05T00:33:39.585Z"
+      }
+    ],
+    "resolution_notes": "Complimentary organic brass polishing kit dispatched via BlueDart"
+  },
+  {
+    "id": "voc-102",
+    "inquiry_id": "voc-102",
+    "order_id": "GMD-ORD-10023",
+    "order_number": "GOMO-2026-10023",
+    "product_id": "women-201",
+    "product_name": "Handwoven Pure Kanjeevaram Silk Saree with Gold Zari",
+    "product_thumbnail": "https://images.unsplash.com/photo-1610030469983-98e550d6193c?w=600&q=80",
+    "seller_id": "seller-2",
+    "seller_name": "Heritage Weaves & Silks",
+    "customer_id": "usr-1",
+    "customer_name": "Priya Sharma",
+    "customer_email": "priya.sharma@example.com",
+    "customer_phone": "+91 98450 12345",
+    "category": "Care & Maintenance",
+    "subject": "Dry clean recommendation & Silk Mark verification",
+    "message": "Could you confirm if the saree can be ironed directly or if only steam press is recommended?",
+    "priority": "low",
+    "status": "resolved",
+    "created_at": "2026-10-04T05:33:39.585Z",
+    "updated_at": "2026-10-04T17:33:39.585Z",
+    "conversation": [
+      {
+        "id": "msg-3",
+        "sender": "customer",
+        "sender_name": "Priya Sharma",
+        "message": "Could you confirm if the saree can be ironed directly or if only steam press is recommended?",
+        "timestamp": "2026-10-04T05:33:39.585Z"
+      },
+      {
+        "id": "msg-4",
+        "sender": "seller",
+        "sender_name": "Heritage Weaves & Silks",
+        "message": "Hello Priya, we strongly recommend delicate dry clean only and gentle steam ironing on reverse side with a thin cotton cloth placed over the zari to protect the gold luster.",
+        "timestamp": "2026-10-04T17:33:39.585Z"
+      }
+    ],
+    "resolution_notes": "Care instructions provided to customer satisfaction"
+  }
+]

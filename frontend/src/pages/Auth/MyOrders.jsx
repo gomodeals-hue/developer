@@ -17,7 +17,9 @@ import {
   SlidersHorizontal,
   ArrowUpDown,
   ShieldCheck,
-  CheckCircle2
+  CheckCircle2,
+  MessageSquareQuote,
+  Ticket
 } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
 import { useShop } from '../../context/ShopContext';
@@ -28,10 +30,14 @@ import {
   updateOrderStatus 
 } from '../../services/orderService';
 import { toast } from 'react-hot-toast';
+import { realtimeService } from '../../services/realtimeService';
+import apiClient from '../../services/apiClient';
 
 import OrderTimeline from '../../components/Orders/OrderTimeline';
 import OrderDetailsModal from '../../components/Orders/OrderDetailsModal';
 import OrderInvoiceModal from '../../components/Orders/OrderInvoiceModal';
+import VoiceOfCustomerModal from '../../components/Orders/VoiceOfCustomerModal';
+import RaiseTicketModal from '../../components/common/RaiseTicketModal';
 
 const MyOrders = () => {
   const { user } = useAuth();
@@ -52,6 +58,18 @@ const MyOrders = () => {
   const [isInvoiceOpen, setIsInvoiceOpen] = useState(false);
   const [isCancelOpen, setIsCancelOpen] = useState(false);
   const [isReturnOpen, setIsReturnOpen] = useState(false);
+  const [isVocOpen, setIsVocOpen] = useState(false);
+  const [vocOrder, setVocOrder] = useState(null);
+  const [vocProduct, setVocProduct] = useState(null);
+  const [isTicketOpen, setIsTicketOpen] = useState(false);
+  const [ticketOrder, setTicketOrder] = useState(null);
+  const [orderPage, setOrderPage] = useState(1);
+  const ordersPerPage = 6;
+
+  const handleOpenTicket = (order) => {
+    setTicketOrder(order);
+    setIsTicketOpen(true);
+  };
 
   // Cancellation & Return inputs
   const [cancelReason, setCancelReason] = useState('Found a better price');
@@ -79,6 +97,39 @@ const MyOrders = () => {
     fetchOrders();
   }, [user]);
 
+  // Real-Time SSE Listener for Order Updates
+  useEffect(() => {
+    const unsub = realtimeService.on('order_update', (data) => {
+      setOrders(prev => prev.map(o => {
+        if ((o.id === data.orderId || o.order_id === data.orderId) && data.status) {
+          return {
+            ...o,
+            status: data.status,
+            order_status: data.status,
+            tracking: data.tracking || o.tracking
+          };
+        }
+        return o;
+      }));
+
+      setSelectedOrder(prev => {
+        if (prev && (prev.id === data.orderId || prev.order_id === data.orderId) && data.status) {
+          return {
+            ...prev,
+            status: data.status,
+            order_status: data.status,
+            tracking: data.tracking || prev.tracking
+          };
+        }
+        return prev;
+      });
+
+      toast.success(`Order #${data.orderNumber || data.orderId} is now ${data.status}!`);
+    });
+
+    return unsub;
+  }, []);
+
   // Open Modals Handlers
   const handleViewDetails = (order) => {
     setSelectedOrder(order);
@@ -105,24 +156,23 @@ const MyOrders = () => {
     setIsReturnOpen(true);
   };
 
+  const handleOpenVoc = (order, product = null) => {
+    setVocOrder(order);
+    setVocProduct(product);
+    setIsVocOpen(true);
+  };
+
   // Lifecycle Progression simulator (for testing all status states)
   const handleAdvanceStatus = async (order) => {
-    const current = order.order_status || 'Confirmed';
-    const sequence = ['Confirmed', 'Processing', 'Shipped', 'Out for Delivery', 'Delivered'];
-    const curIdx = sequence.indexOf(current);
-
-    if (curIdx !== -1 && curIdx < sequence.length - 1) {
-      const nextStatus = sequence[curIdx + 1];
-      const res = await updateOrderStatus(order.order_id, nextStatus);
-      if (res.success) {
-        toast.success(`Order advanced to: ${nextStatus}`);
-        setOrders(prev => prev.map(o => o.order_id === order.order_id ? res.data : o));
-        if (selectedOrder?.order_id === order.order_id) {
-          setSelectedOrder(res.data);
-        }
+    const targetId = order.id || order.order_id;
+    try {
+      const res = await apiClient.post(`/orders/${targetId}/advance-step`);
+      if (res.data?.success) {
+        toast.success(res.data.message || 'Order status progressed');
+        fetchOrders();
       }
-    } else {
-      toast('Order has reached final fulfillment stage.');
+    } catch (err) {
+      toast.error(err.message || 'Failed to advance status');
     }
   };
 
@@ -223,6 +273,13 @@ const MyOrders = () => {
     if (sortBy === 'price_asc') return totalA - totalB;
     return 0;
   });
+
+  useEffect(() => {
+    setOrderPage(1);
+  }, [filterStatus, searchTerm, sortBy]);
+
+  const totalOrderPages = Math.max(1, Math.ceil(sortedOrders.length / ordersPerPage));
+  const paginatedOrders = sortedOrders.slice((orderPage - 1) * ordersPerPage, orderPage * ordersPerPage);
 
   const getStatusBadge = (status) => {
     switch (status) {
@@ -362,7 +419,7 @@ const MyOrders = () => {
           /* Order Cards List */
           <div className="space-y-6">
             <AnimatePresence>
-              {sortedOrders.map((order) => {
+              {paginatedOrders.map((order) => {
                 const items = order.items || [];
                 const status = order.order_status || 'Confirmed';
                 const total = order.prices?.total || order.total_amount || order.total || 0;
@@ -442,6 +499,15 @@ const MyOrders = () => {
                                 <p className="text-[9px] font-mono text-orange-500">
                                   Qty: {item.quantity || 1} • {formatPrice(Number(item.price || 0))}
                                 </p>
+                                <button
+                                  type="button"
+                                  onClick={(e) => { e.stopPropagation(); handleOpenVoc(order, item); }}
+                                  className="mt-1 text-[9px] font-bold text-amber-700 hover:text-amber-900 inline-flex items-center gap-1 transition-colors cursor-pointer"
+                                  title="Voice of Customer: Contact Seller regarding this item"
+                                >
+                                  <MessageSquareQuote size={11} />
+                                  <span>Ask Seller</span>
+                                </button>
                               </div>
                             </div>
                           ))}
@@ -470,6 +536,26 @@ const MyOrders = () => {
                           className="flex-1 md:w-full h-11 bg-white border border-orange-300 text-orange-950 text-[10px] uppercase tracking-widest font-black hover:bg-orange-50 transition-colors flex items-center justify-center gap-2 cursor-pointer"
                         >
                           <Printer size={13} /> {t("Tax Invoice")}
+                        </button>
+
+                        <button
+                          type="button"
+                          onClick={() => handleOpenVoc(order)}
+                          className="flex-1 md:w-full h-11 bg-amber-50 hover:bg-amber-100 border border-amber-300 text-amber-950 text-[10px] uppercase tracking-widest font-black transition-colors flex items-center justify-center gap-1.5 cursor-pointer shadow-sm"
+                          title="Contact Seller directly for any inquiries, defects, or questions"
+                        >
+                          <MessageSquareQuote size={14} className="text-amber-700" />
+                          <span>Voice of Customer</span>
+                        </button>
+
+                        <button
+                          type="button"
+                          onClick={() => handleOpenTicket(order)}
+                          className="flex-1 md:w-full h-11 bg-stone-900 hover:bg-stone-800 text-white text-[10px] uppercase tracking-widest font-black transition-colors flex items-center justify-center gap-1.5 cursor-pointer shadow-sm"
+                          title="Note: you need to raise a ticket after any issue with delivery or defects"
+                        >
+                          <Ticket size={13} className="text-orange-400" />
+                          <span>Raise Ticket</span>
                         </button>
 
                         {/* Lifecycle Simulator demo button */}
@@ -521,6 +607,63 @@ const MyOrders = () => {
                 );
               })}
             </AnimatePresence>
+
+            {/* Orders Pagination Controls */}
+            {totalOrderPages > 1 && (
+              <div className="pt-6 border-t border-orange-100 flex flex-col sm:flex-row items-center justify-between gap-4">
+                <span className="text-xs text-stone-500 font-medium">
+                  Showing <strong className="text-stone-900 font-bold">{(orderPage - 1) * ordersPerPage + 1}</strong>–<strong className="text-stone-900 font-bold">{Math.min(orderPage * ordersPerPage, sortedOrders.length)}</strong> of <strong className="text-stone-900 font-bold">{sortedOrders.length}</strong> orders
+                </span>
+
+                <div className="flex items-center gap-1.5">
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setOrderPage(p => Math.max(1, p - 1));
+                      window.scrollTo({ top: 200, behavior: 'smooth' });
+                    }}
+                    disabled={orderPage === 1}
+                    className="px-3 py-1.5 rounded-lg border border-stone-200 bg-white text-stone-700 disabled:opacity-40 disabled:cursor-not-allowed hover:bg-stone-50 text-xs font-bold transition-all cursor-pointer shadow-2xs flex items-center gap-1"
+                  >
+                    <span>Prev</span>
+                  </button>
+
+                  {[...Array(totalOrderPages)].map((_, idx) => {
+                    const p = idx + 1;
+                    const isActive = orderPage === p;
+                    return (
+                      <button
+                        key={p}
+                        type="button"
+                        onClick={() => {
+                          setOrderPage(p);
+                          window.scrollTo({ top: 200, behavior: 'smooth' });
+                        }}
+                        className={`w-8 h-8 rounded-lg text-xs font-black transition-all cursor-pointer ${
+                          isActive
+                            ? 'bg-[#f76e28] text-white shadow-md shadow-[#f76e28]/25 scale-105'
+                            : 'bg-white border border-stone-200 text-stone-700 hover:border-[#f76e28]'
+                        }`}
+                      >
+                        {p}
+                      </button>
+                    );
+                  })}
+
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setOrderPage(p => Math.min(totalOrderPages, p + 1));
+                      window.scrollTo({ top: 200, behavior: 'smooth' });
+                    }}
+                    disabled={orderPage === totalOrderPages}
+                    className="px-3 py-1.5 rounded-lg border border-stone-200 bg-white text-stone-700 disabled:opacity-40 disabled:cursor-not-allowed hover:bg-stone-50 text-xs font-bold transition-all cursor-pointer shadow-2xs flex items-center gap-1"
+                  >
+                    <span>Next</span>
+                  </button>
+                </div>
+              </div>
+            )}
           </div>
         )}
       </div>
@@ -546,6 +689,10 @@ const MyOrders = () => {
           handleViewInvoice(ord);
         }}
         onAdvanceStatus={handleAdvanceStatus}
+        onVocClick={(ord, prod) => {
+          setIsDetailsOpen(false);
+          handleOpenVoc(ord, prod);
+        }}
       />
 
       {/* Tax Invoice Modal */}
@@ -729,6 +876,41 @@ const MyOrders = () => {
           </div>
         )}
       </AnimatePresence>
+
+      {/* Voice of Customer Modal */}
+      <VoiceOfCustomerModal
+        isOpen={isVocOpen}
+        onClose={() => {
+          setIsVocOpen(false);
+          setVocOrder(null);
+          setVocProduct(null);
+        }}
+        order={vocOrder}
+        product={vocProduct}
+      />
+
+      {/* Raise Support Ticket Modal */}
+      <RaiseTicketModal
+        isOpen={isTicketOpen}
+        onClose={() => {
+          setIsTicketOpen(false);
+          setTicketOrder(null);
+        }}
+        initialData={{
+          order_id: ticketOrder?.id || ticketOrder?.order_id,
+          order_number: ticketOrder?.order_number || ticketOrder?.id,
+          product_name: ticketOrder?.items?.[0]?.name,
+          author_id: user?.id || 'usr-1',
+          author_name: user?.name || ticketOrder?.customer_name || 'Customer',
+          author_email: user?.email || ticketOrder?.customer_email,
+          seller_id: ticketOrder?.items?.[0]?.seller_id || ticketOrder?.seller_id,
+          category: 'shipping_delay'
+        }}
+        userType="customer"
+        onSuccess={(ticket) => {
+          toast.success(`Support Ticket #${ticket.id} raised successfully.`);
+        }}
+      />
     </div>
   );
 };

@@ -15,10 +15,11 @@ const ChatbotWidget = () => {
     const [inputValue, setInputValue] = useState('');
     const [isLoading, setIsLoading] = useState(false);
     const [suggestedReplies, setSuggestedReplies] = useState([
-        "Featured deals",
+        "Shipping performance & SLA",
+        "Raise a support ticket",
+        "0% commission policy",
         "Track my order",
-        "Return & Refund policy",
-        "Explore fashion deals"
+        "Featured deals"
     ]);
     const [showScrollTop, setShowScrollTop] = useState(false);
     const [isSellerChatActive, setIsSellerChatActive] = useState(false);
@@ -81,7 +82,7 @@ const ChatbotWidget = () => {
                 // Initial welcoming message
                 const welcomeMsg = {
                     role: 'model',
-                    text: "Hi there! 👋 I'm **GoMo Deals Assistant**, your smart personal shopping partner. I can help you find hot discount deals, search items in Electronics, Fashion, or Home & Living, track active orders, or explain our shipping and return policies. How can I help you save today?",
+                    text: "Welcome to GoMo Deals! I am your shopping assistant. I can help you find discount deals, search items across Electronics, Fashion, or Home & Living, track active orders, or explain our shipping and return policies. How can I help you today?",
                     timestamp: new Date().toISOString()
                 };
                 setMessages([welcomeMsg]);
@@ -91,7 +92,7 @@ const ChatbotWidget = () => {
             // Guest user: start with a clean welcoming message on mount/refresh (never saved to localStorage)
             const welcomeMsg = {
                 role: 'model',
-                text: "Hi there! 👋 I'm **GoMo Deals Assistant**, your smart personal shopping partner. I can help you find hot discount deals, search items in Electronics, Fashion, or Home & Living, track active orders, or explain our shipping and return policies. How can I help you save today?",
+                text: "Welcome to GoMo Deals! I am your shopping assistant. I can help you find discount deals, search items across Electronics, Fashion, or Home & Living, track active orders, or explain our shipping and return policies. How can I help you today?",
                 timestamp: new Date().toISOString()
             };
             setMessages([welcomeMsg]);
@@ -152,7 +153,7 @@ const ChatbotWidget = () => {
                 if (response.suggestedReplies && response.suggestedReplies.length > 0) {
                     setSuggestedReplies(response.suggestedReplies);
                 } else {
-                    setSuggestedReplies(["🔥 More hot deals", "📦 Track Order", "🔙 Main Menu"]);
+                    setSuggestedReplies(["More hot deals", "Track Order", "Main Menu"]);
                 }
             } else {
                 const fallbackReply = response?.reply || "Here are some of our top deals and services you might like!";
@@ -163,7 +164,7 @@ const ChatbotWidget = () => {
                     timestamp: new Date().toISOString()
                 };
                 saveMessages([...updatedMessages, botMsg]);
-                setSuggestedReplies(["🔥 Show hot deals", "📦 Track my order", "💬 Return & Refund policy"]);
+                setSuggestedReplies(["Show hot deals", "Track my order", "Return & Refund policy"]);
             }
         } catch (error) {
             console.error("Chatbot response error:", error);
@@ -187,15 +188,16 @@ const ChatbotWidget = () => {
     const handleClearChat = () => {
         const welcomeMsg = {
             role: 'model',
-            text: "Welcome back! How can I help you find the best deals today? 🔥",
+            text: "Welcome back! How can I assist you with today's deals or orders?",
             timestamp: new Date().toISOString()
         };
         saveMessages([welcomeMsg]);
         setSuggestedReplies([
-            "🔥 Show hot deals",
-            "📦 Track my order",
-            "💬 Return & Refund policy",
-            "👗 Explore fashion deals"
+            "Shipping performance & SLA",
+            "Raise a support ticket",
+            "0% commission policy",
+            "Track my order",
+            "Featured deals"
         ]);
     };
 
@@ -216,10 +218,10 @@ const ChatbotWidget = () => {
         const parts = text.split(/(\*\*[^*]+\*\*|~~[^~]+~~)/g);
         return parts.map((part, index) => {
             if (part.startsWith('**') && part.endsWith('**')) {
-                return <strong key={index} className="font-extrabold text-orange-950">{part.slice(2, -2)}</strong>;
+                return <strong key={index} className="font-extrabold text-sky-950">{part.slice(2, -2)}</strong>;
             }
             if (part.startsWith('~~') && part.endsWith('~~')) {
-                return <span key={index} className="line-through text-orange-950/50 mr-1">{part.slice(2, -2)}</span>;
+                return <span key={index} className="line-through text-slate-400 mr-1">{part.slice(2, -2)}</span>;
             }
             return part;
         });
@@ -239,7 +241,7 @@ const ChatbotWidget = () => {
                         exit={{ opacity: 0, y: 10, scale: 0.9 }}
                         whileHover={{ scale: 1.08 }}
                         whileTap={{ scale: 0.95 }}
-                        className="flex items-center justify-center w-12 h-12 bg-orange-950 border border-orange-500/20 text-orange-400 hover:border-orange-500 hover:bg-orange-900 hover:text-white shadow-lg cursor-pointer focus:outline-none rounded-full transition-all duration-300"
+                        className="flex items-center justify-center w-12 h-12 bg-gradient-to-tr from-[#0284c7] to-[#38bdf8] border border-sky-300/40 text-white hover:border-white shadow-[0_4px_20px_rgba(2,132,199,0.3)] cursor-pointer focus:outline-none rounded-full transition-all duration-300"
                         aria-label="Scroll to top"
                     >
                         <ArrowUp className="w-5 h-5" />
@@ -272,7 +274,7 @@ const ChatbotWidget = () => {
                                     duration: 0.3
                                 }
                             }}
-                            className="relative flex items-center justify-center w-14 h-14 bg-orange-950 border border-orange-500/40 text-white hover:bg-orange-900 hover:border-orange-500 rounded-full shadow-[0_8px_30px_rgba(67,23,5,0.3)] cursor-pointer focus:outline-none z-10 overflow-hidden transition-all duration-300"
+                            className="relative flex items-center justify-center w-14 h-14 bg-gradient-to-tr from-[#0284c7] via-[#00a8e8] to-[#38bdf8] border border-sky-300 text-white hover:border-white rounded-full shadow-[0_8px_30px_rgba(2,132,199,0.45)] cursor-pointer focus:outline-none z-10 overflow-hidden transition-all duration-300 group"
                             aria-label="Open GoMo Deals AI Assistant"
                         >
                             {/* Ambient gradient shine */}
@@ -286,12 +288,12 @@ const ChatbotWidget = () => {
                                     repeatDelay: 2,
                                     ease: "easeInOut"
                                 }}
-                                className="absolute inset-0 bg-gradient-to-r from-transparent via-orange-400/35 to-transparent w-full h-full -skew-x-[25deg] pointer-events-none z-[1]"
+                                className="absolute inset-0 bg-gradient-to-r from-transparent via-sky-300/40 to-transparent w-full h-full -skew-x-[25deg] pointer-events-none z-[1]"
                             />
 
-                            <MessageSquare className="w-6 h-6 text-orange-400 relative z-[2] animate-pulse" />
+                            <MessageSquare className="w-6 h-6 text-white relative z-[2] drop-shadow-xs animate-pulse" />
                             {/* Live Active status dot */}
-                            <span className="absolute top-1.5 right-1.5 w-3 h-3 bg-emerald-500 border-2 border-orange-950 rounded-full z-[2]"></span>
+                            <span className="absolute top-1.5 right-1.5 w-3 h-3 bg-emerald-400 border-2 border-white rounded-full z-[2] shadow-sm"></span>
                         </motion.button>
                     </div>
                 )}
@@ -306,23 +308,23 @@ const ChatbotWidget = () => {
                         exit={{ opacity: 0, scale: 0.94, y: 20 }}
                         transition={{ duration: 0.28, cubicBezier: [0.34, 1.56, 0.64, 1] }}
                         style={{ transformOrigin: "bottom right" }}
-                        className="flex flex-col w-[385px] h-[600px] bg-white/98 backdrop-blur-xl border border-orange-100 rounded-3xl shadow-[0_20px_50px_rgba(31,15,7,0.15)] overflow-hidden"
+                        className="flex flex-col w-[385px] h-[600px] bg-white/98 backdrop-blur-xl border border-sky-200 rounded-3xl shadow-[0_20px_50px_rgba(2,132,199,0.22)] overflow-hidden"
                     >
                         
                         {/* A. CONCIERGE HEADER */}
-                        <div className="flex items-center justify-between px-6 py-4 bg-orange-950 border-b border-orange-900/10 text-white shadow-md">
+                        <div className="flex items-center justify-between px-6 py-4 bg-gradient-to-r from-[#0284c7] via-[#00a8e8] to-[#38bdf8] border-b border-sky-300/40 text-white shadow-md">
                             <div className="flex items-center space-x-3">
-                                {/* Elegant Espresso Bot Avatar */}
-                                <div className="relative w-10 h-10 rounded-full bg-orange-900 border border-orange-500/30 flex items-center justify-center shadow-inner">
-                                    <Bot className="w-5 h-5 text-orange-400" />
-                                    <span className="absolute bottom-0 right-0 w-2.5 h-2.5 bg-emerald-500 border-2 border-orange-950 rounded-full"></span>
+                                {/* Elegant Bot Avatar */}
+                                <div className="relative w-10 h-10 rounded-full bg-white/20 backdrop-blur-xs border border-white/40 flex items-center justify-center shadow-inner">
+                                    <Bot className="w-5 h-5 text-white" />
+                                    <span className="absolute bottom-0 right-0 w-2.5 h-2.5 bg-emerald-400 border-2 border-white rounded-full shadow-xs"></span>
                                 </div>
                                 <div className="flex flex-col">
-                                    <h3 className="font-serif italic text-sm tracking-wide text-white font-bold flex items-center gap-1.5">
+                                    <h3 className="font-serif italic text-sm tracking-wide text-white font-bold flex items-center gap-1.5 drop-shadow-xs">
                                         GoMo Deals Assistant
                                     </h3>
-                                    <span className="text-[7.5px] uppercase tracking-[0.25em] text-orange-400/90 font-black flex items-center gap-1">
-                                        <span className="inline-block w-1.5 h-1.5 bg-emerald-500 rounded-full animate-pulse"></span>
+                                    <span className="text-[8px] uppercase tracking-[0.22em] text-white/95 font-black flex items-center gap-1">
+                                        <span className="inline-block w-1.5 h-1.5 bg-emerald-300 rounded-full animate-pulse"></span>
                                         ONLINE ASSISTANCE
                                     </span>
                                 </div>
@@ -332,9 +334,9 @@ const ChatbotWidget = () => {
                                 {/* Clear History Button */}
                                 <motion.button 
                                     onClick={handleClearChat}
-                                    whileHover={{ scale: 1.08, backgroundColor: 'rgba(249,115,22,0.1)' }}
+                                    whileHover={{ scale: 1.08, backgroundColor: 'rgba(255,255,255,0.2)' }}
                                     whileTap={{ scale: 0.95 }}
-                                    className="p-2 rounded-full transition-colors duration-150 focus:outline-none cursor-pointer text-orange-200 hover:text-white"
+                                    className="p-2 rounded-full transition-colors duration-150 focus:outline-none cursor-pointer text-white/85 hover:text-white"
                                     title="Clear Conversation"
                                 >
                                     <Trash2 className="w-3.5 h-3.5" />
@@ -342,9 +344,9 @@ const ChatbotWidget = () => {
                                 {/* Close Panel Button */}
                                 <motion.button
                                     onClick={() => setIsOpen(false)}
-                                    whileHover={{ scale: 1.08, backgroundColor: 'rgba(249,115,22,0.1)' }}
+                                    whileHover={{ scale: 1.08, backgroundColor: 'rgba(255,255,255,0.2)' }}
                                     whileTap={{ scale: 0.95 }}
-                                    className="p-2 rounded-full transition-colors duration-150 focus:outline-none cursor-pointer text-orange-200 hover:text-white"
+                                    className="p-2 rounded-full transition-colors duration-150 focus:outline-none cursor-pointer text-white/85 hover:text-white"
                                     title="Close Chat"
                                 >
                                     <X className="w-4 h-4" />
@@ -353,17 +355,17 @@ const ChatbotWidget = () => {
                         </div>
 
                         {/* B. MESSAGE CONTAINER */}
-                        <div className="flex-grow p-5 overflow-y-auto space-y-4 bg-gradient-to-b from-[#ffffff] to-[#faf8f6] no-scrollbar">
+                        <div className="flex-grow p-5 overflow-y-auto space-y-4 bg-gradient-to-b from-[#f8fbff] to-[#f0f7ff] no-scrollbar">
                             {/* Empty Welcome Card */}
                             {messages.length === 0 && (
                                 <div className="py-16 text-center flex flex-col items-center justify-center px-4">
-                                    <div className="w-14 h-14 bg-white border border-orange-100 rounded-2xl flex items-center justify-center text-orange-950 shadow-sm mb-5">
-                                        <Bot className="w-6 h-6 text-orange-500" />
+                                    <div className="w-14 h-14 bg-gradient-to-tr from-sky-50 to-white border border-sky-200 rounded-2xl flex items-center justify-center text-[#0284c7] shadow-sm mb-5">
+                                        <Bot className="w-6 h-6 text-[#0284c7]" />
                                     </div>
-                                    <h4 className="font-serif italic text-lg text-orange-955 mb-2">
+                                    <h4 className="font-serif italic text-lg text-sky-950 mb-2 font-bold">
                                         Smart Shopping Assistant
                                     </h4>
-                                    <p className="text-[9px] text-orange-955/70 leading-relaxed font-sans max-w-[240px] uppercase tracking-[0.15em] font-extrabold">
+                                    <p className="text-[10px] text-sky-800/80 leading-relaxed font-sans max-w-[250px] uppercase tracking-[0.15em] font-extrabold">
                                         How can I help you find the best deals and track your orders today?
                                     </p>
                                 </div>
@@ -380,47 +382,47 @@ const ChatbotWidget = () => {
                                     >
                                         <div className={`flex flex-col max-w-[85%] ${msg.role === 'user' ? 'items-end' : 'items-start'}`}>
                                             <div
-                                                className={`px-4.5 py-3 text-[12px] leading-relaxed whitespace-pre-wrap break-words transition-all shadow-[0_2px_10px_rgba(31,15,7,0.02)] ${
+                                                className={`px-4.5 py-3 text-[12px] leading-relaxed whitespace-pre-wrap break-words transition-all shadow-sm ${
                                                     msg.role === 'user'
-                                                        ? 'bg-orange-50 text-orange-950 border border-orange-100 rounded-2xl rounded-tr-none'
-                                                        : 'bg-white text-orange-950 border border-orange-100 rounded-2xl rounded-tl-none border-l-4 border-l-orange-500 shadow-sm'
+                                                        ? 'bg-gradient-to-r from-[#0284c7] via-[#00a8e8] to-[#38bdf8] text-white border border-sky-300/40 rounded-2xl rounded-tr-none shadow-[0_4px_14px_rgba(2,132,199,0.25)]'
+                                                        : 'bg-white text-slate-800 border border-sky-100 rounded-2xl rounded-tl-none border-l-4 border-l-[#0284c7] shadow-sm'
                                                 }`}
                                             >
                                                 {renderMessageText(msg.text || "Here is the information you requested:")}
 
                                                 {/* Interactive product preview cards for deals/recommendations */}
                                                 {msg.role !== 'user' && msg.products && msg.products.length > 0 && (
-                                                    <div className="mt-3 pt-2.5 border-t border-orange-100/80 flex flex-col gap-2">
+                                                    <div className="mt-3 pt-2.5 border-t border-sky-100 flex flex-col gap-2">
                                                         {msg.products.map((prod) => (
-                                                            <div 
+                                                             <div 
                                                                 key={prod.id || prod.product_id}
                                                                 onClick={() => {
                                                                     navigate(`/product/${prod.product_id || prod.id}`);
                                                                 }}
-                                                                className="flex items-center gap-2.5 p-2 bg-orange-50/60 hover:bg-orange-100/70 border border-orange-200/70 rounded-xl transition-all cursor-pointer group shadow-xs"
+                                                                className="flex items-center gap-2.5 p-2 bg-sky-50/70 hover:bg-sky-100/80 border border-sky-200/80 rounded-xl transition-all cursor-pointer group shadow-xs"
                                                             >
                                                                 <img 
                                                                     src={prod.thumbnail || prod.images?.[0] || 'https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=200&q=80'} 
                                                                     alt={prod.name || prod.title} 
-                                                                    className="w-10 h-10 rounded-lg object-cover bg-white border border-orange-200/50 flex-shrink-0"
+                                                                    className="w-10 h-10 rounded-lg object-cover bg-white border border-sky-200/60 flex-shrink-0"
                                                                 />
                                                                 <div className="flex-1 min-w-0">
                                                                     <div className="flex items-center justify-between gap-1">
-                                                                        <h5 className="text-[11px] font-bold text-orange-950 truncate group-hover:text-orange-600 transition-colors">
+                                                                        <h5 className="text-[11px] font-bold text-slate-900 truncate group-hover:text-[#0284c7] transition-colors">
                                                                             {prod.name || prod.title}
                                                                         </h5>
                                                                         {prod.discount_percentage ? (
-                                                                            <span className="text-[8px] font-black text-white bg-orange-600 px-1.5 py-0.5 rounded-full flex-shrink-0">
+                                                                            <span className="text-[8px] font-black text-white bg-[#0284c7] px-1.5 py-0.5 rounded-full flex-shrink-0">
                                                                                 {prod.discount_percentage}% OFF
                                                                             </span>
                                                                         ) : null}
                                                                     </div>
                                                                     <div className="flex items-center gap-1.5 mt-0.5 text-[10px]">
-                                                                        <span className="font-extrabold text-orange-950">
+                                                                        <span className="font-extrabold text-[#0284c7]">
                                                                             ₹{Number(prod.price || 0).toLocaleString('en-IN')}
                                                                         </span>
                                                                         {prod.mrp && prod.mrp > prod.price ? (
-                                                                            <span className="line-through text-orange-950/40 text-[9px]">
+                                                                            <span className="line-through text-slate-400 text-[9px]">
                                                                                 ₹{Number(prod.mrp).toLocaleString('en-IN')}
                                                                             </span>
                                                                         ) : null}
@@ -436,8 +438,8 @@ const ChatbotWidget = () => {
                                                     </div>
                                                 )}
                                             </div>
-                                            <span className="text-[8px] text-orange-950/40 mt-1.5 px-2 flex items-center gap-1 font-bold tracking-widest uppercase">
-                                                <Clock className="w-2.5 h-2.5 text-orange-950/30" />
+                                            <span className="text-[8px] text-slate-400 mt-1.5 px-2 flex items-center gap-1 font-bold tracking-widest uppercase">
+                                                <Clock className="w-2.5 h-2.5 text-slate-400" />
                                                 <span>{formatTime(msg.timestamp)}</span>
                                             </span>
                                         </div>
@@ -453,10 +455,10 @@ const ChatbotWidget = () => {
                                     className="flex justify-start"
                                 >
                                     <div className="flex flex-col items-start max-w-[80%]">
-                                        <div className="px-4.5 py-2.5 bg-white text-orange-400 border border-orange-100 rounded-2xl rounded-tl-none border-l-4 border-l-orange-500 flex items-center space-x-1 shadow-sm">
-                                            <span className="w-1.5 h-1.5 bg-orange-950 rounded-full animate-bounce" style={{ animationDelay: '0ms' }}></span>
-                                            <span className="w-1.5 h-1.5 bg-orange-950/70 rounded-full animate-bounce" style={{ animationDelay: '150ms' }}></span>
-                                            <span className="w-1.5 h-1.5 bg-orange-950/40 rounded-full animate-bounce" style={{ animationDelay: '300ms' }}></span>
+                                        <div className="px-4.5 py-2.5 bg-white text-[#0284c7] border border-sky-100 rounded-2xl rounded-tl-none border-l-4 border-l-[#0284c7] flex items-center space-x-1.5 shadow-sm">
+                                            <span className="w-1.5 h-1.5 bg-[#0284c7] rounded-full animate-bounce" style={{ animationDelay: '0ms' }}></span>
+                                            <span className="w-1.5 h-1.5 bg-[#00a8e8] rounded-full animate-bounce" style={{ animationDelay: '150ms' }}></span>
+                                            <span className="w-1.5 h-1.5 bg-[#38bdf8] rounded-full animate-bounce" style={{ animationDelay: '300ms' }}></span>
                                         </div>
                                     </div>
                                 </motion.div>
@@ -465,7 +467,7 @@ const ChatbotWidget = () => {
                         </div>
 
                         {/* C. FOOTER WITH SUGGESTED REPLIES & INPUT */}
-                        <div className="p-4 border-t border-orange-100/30 bg-[#faf8f5]/60">
+                        <div className="p-4 border-t border-sky-100/80 bg-white/90">
                             
                             {/* Interactive Suggestion Chips */}
                             {suggestedReplies.length > 0 && (
@@ -473,10 +475,10 @@ const ChatbotWidget = () => {
                                     {suggestedReplies.map((reply, index) => (
                                         <motion.button
                                             key={index}
-                                            onClick={() => handleSendMessage(reply.replace(/^[🎁📦💬🔍🔙🔥👗📱💻🎧🏡💄⚡🧸🪔🏷️✨]\s*/u, "").trim())}
-                                            whileHover={{ scale: 1.03, backgroundColor: '#1f0f07', color: '#ffffff', borderColor: '#1f0f07' }}
+                                            onClick={() => handleSendMessage(reply.replace(/^\p{Extended_Pictographic}\s*/u, "").trim())}
+                                            whileHover={{ scale: 1.03, backgroundColor: '#0284c7', color: '#ffffff', borderColor: '#0284c7' }}
                                             whileTap={{ scale: 0.97 }}
-                                            className="px-3.5 py-2 text-[8px] uppercase tracking-widest font-black text-orange-950 bg-white border border-orange-200 rounded-full transition-all duration-300 cursor-pointer flex items-center gap-1.5 focus:outline-none shadow-sm"
+                                            className="px-3.5 py-2 text-[8px] uppercase tracking-widest font-black text-sky-900 bg-sky-50/70 border border-sky-200 rounded-full transition-all duration-300 cursor-pointer flex items-center gap-1.5 focus:outline-none shadow-xs hover:shadow-sm"
                                             disabled={isLoading}
                                         >
                                             <span>{reply}</span>
@@ -486,14 +488,14 @@ const ChatbotWidget = () => {
                             )}
 
                             {/* Input Box */}
-                            <div className="flex items-center bg-white border border-orange-200 focus-within:border-orange-500 p-1 pl-4.5 transition-all duration-300 rounded-full shadow-sm">
+                            <div className="flex items-center bg-white border border-sky-200 focus-within:border-[#0284c7] focus-within:ring-2 focus-within:ring-sky-100 p-1 pl-4.5 transition-all duration-300 rounded-full shadow-xs">
                                 <input
                                     type="text"
                                     placeholder="Ask GoMo Assistant..."
                                     value={inputValue}
                                     onChange={(e) => setInputValue(e.target.value)}
                                     onKeyDown={handleKeyPress}
-                                    className="flex-grow bg-transparent border-none text-[12px] text-orange-955 focus:outline-none focus:ring-0 placeholder-orange-955/40 py-2.5"
+                                    className="flex-grow bg-transparent border-none text-[12px] text-slate-800 focus:outline-none focus:ring-0 placeholder-slate-400 py-2.5"
                                     disabled={isLoading}
                                 />
                                 <motion.button
@@ -503,8 +505,8 @@ const ChatbotWidget = () => {
                                     whileTap={inputValue.trim() && !isLoading ? { scale: 0.97 } : {}}
                                     className={`w-9 h-9 flex items-center justify-center rounded-full transition-all duration-200 border ${
                                         inputValue.trim() && !isLoading
-                                            ? 'bg-orange-600 text-white border-orange-600 cursor-pointer shadow-md'
-                                            : 'bg-orange-50 text-orange-200 border-orange-100 cursor-not-allowed'
+                                            ? 'bg-gradient-to-r from-[#0284c7] to-[#00a8e8] hover:from-[#0369a1] hover:to-[#0284c7] text-white border-transparent cursor-pointer shadow-md shadow-sky-500/25'
+                                            : 'bg-sky-50 text-sky-300 border-sky-100 cursor-not-allowed'
                                     }`}
                                     aria-label="Send Message"
                                 >

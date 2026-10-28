@@ -2,13 +2,13 @@ import { useState, useEffect } from "react";
 import { Users, Shield, Trash2, CheckCircle, XCircle, AlertCircle, Loader2, Key, Lock } from "lucide-react";
 import { api } from "../../../services/api";
 import { useToast } from "../../../hooks/use-toast";
-import { useAuth } from "../../../context/AuthContext";
+import { useAdminAuth } from "../../../context/AdminAuthContext.jsx";
 import { useNavigate } from "react-router-dom";
 import { cn } from "../../../lib/utils";
 import ConfirmModal from '../../common/ConfirmModal';
 
 export default function AdministratorsPage() {
-  const { user } = useAuth();
+  const { user } = useAdminAuth();
   const navigate = useNavigate();
   const [admins, setAdmins] = useState([]);
   const [loading, setLoading] = useState(true);

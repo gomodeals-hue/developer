@@ -1,5 +1,6 @@
 import React from 'react';
 import { Star, CheckCircle2, Quote } from 'lucide-react';
+import { useShop } from '../../../../context/ShopContext';
 
 const REVIEWS = [
   {
@@ -32,14 +33,15 @@ const REVIEWS = [
 ];
 
 export default function CustomerReviews() {
+  const { t } = useShop();
   return (
     <section className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
       <div className="text-center max-w-xl mx-auto mb-8">
         <span className="text-[11px] font-extrabold uppercase tracking-widest text-orange-600 block mb-1">
-          Customer Stories
+          {t("customer_stories", "Customer Stories")}
         </span>
         <h2 className="text-xl sm:text-2xl md:text-3xl font-extrabold text-stone-900 tracking-tight">
-          Verified Buyer Experiences
+          {t("verified_buyer_experiences", "Verified Buyer Experiences")}
         </h2>
       </div>
 
@@ -59,7 +61,7 @@ export default function CustomerReviews() {
 
               {/* Review Headline & Body */}
               <h3 className="text-sm font-bold text-stone-900 mb-2">
-                "{rev.title}"
+                "{t(rev.title)}"
               </h3>
               <p className="text-xs text-stone-600 leading-relaxed mb-4">
                 {rev.review}
@@ -74,7 +76,7 @@ export default function CustomerReviews() {
               </div>
               <div className="flex items-center gap-1 bg-emerald-50 text-emerald-700 text-[10px] font-bold px-2 py-0.5 rounded-full border border-emerald-200/60">
                 <CheckCircle2 size={12} className="text-emerald-600" />
-                <span>Verified Buyer</span>
+                <span>{t("verified_buyer", "Verified Buyer")}</span>
               </div>
             </div>
           </div>

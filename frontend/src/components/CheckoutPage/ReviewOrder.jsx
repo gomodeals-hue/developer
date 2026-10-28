@@ -197,8 +197,8 @@ const ReviewOrder = ({
           <p className="text-xs text-orange-800 font-light">{userDetails?.street || userDetails?.address}</p>
           <p className="text-xs text-orange-800 font-light">{userDetails?.city}, {userDetails?.state} — {userDetails?.postal_code || userDetails?.pincode}</p>
           <div className="flex flex-wrap gap-4 pt-1 text-[11px] font-mono text-orange-600">
-            <span>📞 {userDetails?.phone}</span>
-            {userDetails?.email && <span>✉ {userDetails?.email}</span>}
+            <span>Phone: {userDetails?.phone}</span>
+            {userDetails?.email && <span>Email: {userDetails?.email}</span>}
           </div>
         </div>
       </div>
@@ -275,7 +275,7 @@ const ReviewOrder = ({
                     </span>
                   )}
                   <span className="text-[8px] uppercase tracking-wider px-1.5 py-0.5 bg-emerald-50 text-emerald-700 font-bold border border-emerald-200/50">
-                    ✓ In Stock
+                    In Stock
                   </span>
                 </div>
               </div>
@@ -306,7 +306,7 @@ const ReviewOrder = ({
 
       {isAdmin && (
         <div className="p-4 bg-orange-50 border border-orange-100 rounded-sm">
-          <p className="text-[10px] font-black uppercase tracking-widest text-orange-600">⚠ {t("Administrator accounts cannot place customer orders.")}</p>
+          <p className="text-[10px] font-black uppercase tracking-widest text-orange-600">{t("Administrator accounts cannot place customer orders.")}</p>
         </div>
       )}
 
@@ -335,7 +335,7 @@ const ReviewOrder = ({
           ) : isAdmin ? (
             t('Restricted')
           ) : (
-            `✓ ${t("proceed_to_checkout")}`
+            t("proceed_to_checkout")
           )}
         </button>
       </div>

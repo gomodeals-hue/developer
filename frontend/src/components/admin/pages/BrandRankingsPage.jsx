@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Trophy, Plus, Users, Award, Calendar, DollarSign, CheckCircle2, ChevronDown, ChevronUp, Star, ThumbsUp, ArrowUpDown, Edit, Trash2, AlertTriangle, ShieldCheck } from 'lucide-react';
+import { Trophy, Plus, Users, Award, Calendar, DollarSign, CheckCircle2, ChevronDown, ChevronUp, Star, ThumbsUp, ArrowUpDown, Edit, Trash2, AlertTriangle, ShieldCheck, X } from 'lucide-react';
 import { useToast } from '../../../context/ToastContext';
 import { api } from '../../../services/api';
 
@@ -181,7 +181,7 @@ export default function BrandRankingsPage() {
         </div>
         <button
           onClick={handleOpenModal}
-          className="flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-orange-600 to-amber-600 hover:from-orange-700 hover:to-amber-700 text-white text-sm font-bold rounded-xl shadow-md hover:shadow-lg hover:scale-105 active:scale-95 transition-all cursor-pointer"
+          className="flex items-center gap-2 px-6 py-3 bg-[#f76e28] hover:bg-[#de5713] active:bg-[#c44908] text-white text-sm font-bold rounded-xl shadow-md shadow-[#f76e28]/25 hover:shadow-lg hover:shadow-[#f76e28]/35 hover:scale-105 active:scale-95 transition-all cursor-pointer"
         >
           <Plus size={18} />
           New Competition
@@ -339,7 +339,7 @@ export default function BrandRankingsPage() {
                                   key={app.application_id} 
                                   className={`bg-white p-5 rounded-2xl border transition-all duration-300 hover:-translate-y-1 hover:shadow-xl ${
                                     isThisWinner 
-                                      ? 'border-amber-400/90 ring-2 ring-amber-400/20 shadow-md bg-gradient-to-br from-amber-50/50 via-white to-white hover:border-amber-500' 
+                                      ? 'border-orange-400/90 ring-2 ring-orange-400/20 shadow-md bg-gradient-to-br from-orange-50/50 via-white to-white hover:border-orange-500' 
                                       : 'border-gray-200/80 hover:border-orange-500/50 shadow-sm hover:bg-gradient-to-br hover:from-orange-50/20 hover:to-white'
                                   }`}
                                 >
@@ -362,7 +362,7 @@ export default function BrandRankingsPage() {
                                     </div>
 
                                     {isThisWinner && (
-                                      <span className="bg-gradient-to-r from-amber-500 to-orange-500 text-white p-1.5 rounded-full shadow-sm flex-shrink-0 animate-pulse" title="Current Live Winner">
+                                      <span className="bg-[#f76e28] text-white p-1.5 rounded-full shadow-sm flex-shrink-0 animate-pulse" title="Current Live Winner">
                                         <Trophy size={14} />
                                       </span>
                                     )}
@@ -385,7 +385,7 @@ export default function BrandRankingsPage() {
                                     {!isThisWinner && (
                                       <button
                                         onClick={() => handleOpenDeclareModal(comp.competition_id, app.seller_id, app.store_name || app.full_name)}
-                                        className="px-3 py-1.5 bg-gray-900 hover:bg-gradient-to-r hover:from-orange-600 hover:to-amber-600 text-white text-xs font-extrabold rounded-xl transition-all shadow-sm hover:shadow flex items-center gap-1.5 cursor-pointer hover:scale-105 active:scale-95"
+                                        className="px-3 py-1.5 bg-gray-900 hover:bg-[#f76e28] text-white text-xs font-extrabold rounded-xl transition-all shadow-sm hover:shadow flex items-center gap-1.5 cursor-pointer hover:scale-105 active:scale-95"
                                       >
                                         <Trophy size={12} /> Declare Winner
                                       </button>
@@ -429,8 +429,8 @@ export default function BrandRankingsPage() {
                   </div>
                   {editingComp ? 'Edit Brand Ranking Competition' : 'Create Brand Ranking Competition'}
                 </h3>
-                <button onClick={() => { setIsModalOpen(false); setEditingComp(null); }} className="text-gray-400 hover:text-gray-600 p-1 rounded-lg hover:bg-gray-100 transition-colors">
-                  ✕
+                <button onClick={() => { setIsModalOpen(false); setEditingComp(null); }} className="text-gray-400 hover:text-gray-600 p-1.5 rounded-lg hover:bg-gray-100 transition-colors cursor-pointer">
+                  <X size={18} />
                 </button>
               </div>
 
@@ -513,7 +513,7 @@ export default function BrandRankingsPage() {
                   </button>
                   <button
                     type="submit"
-                    className="px-6 py-2.5 bg-gradient-to-r from-orange-600 to-amber-600 hover:from-orange-700 hover:to-amber-700 text-white rounded-xl text-sm font-bold shadow-md hover:shadow-lg transition-all flex items-center gap-2 cursor-pointer hover:scale-105 active:scale-95"
+                    className="px-6 py-2.5 bg-[#f76e28] hover:bg-[#de5713] active:bg-[#c44908] text-white rounded-xl text-sm font-bold shadow-md shadow-[#f76e28]/25 hover:shadow-lg hover:shadow-[#f76e28]/35 transition-all flex items-center gap-2 cursor-pointer hover:scale-105 active:scale-95"
                   >
                     {editingComp ? <Edit size={16} /> : <Trophy size={16} />} 
                     <span>{editingComp ? 'Save Changes' : 'Launch Competition'}</span>
@@ -548,14 +548,14 @@ export default function BrandRankingsPage() {
                 Are you ready to crown <strong className="text-gray-900">"{selectedWinnerModal.storeName}"</strong> as the winner? This will immediately publish their store and top products to the live public Homepage Showcase.
               </p>
 
-              <div className="bg-gradient-to-br from-amber-50 to-orange-50 p-4 rounded-2xl border border-amber-100 mb-6 text-left space-y-2">
+              <div className="bg-gradient-to-br from-orange-50/80 to-white p-4 rounded-2xl border border-orange-100 mb-6 text-left space-y-2">
                 <div className="flex justify-between text-xs font-semibold text-gray-600">
                   <span>Selected Brand:</span>
                   <span className="font-bold text-gray-900 truncate max-w-[180px]">{selectedWinnerModal.storeName}</span>
                 </div>
                 <div className="flex justify-between text-xs font-semibold text-gray-600">
                   <span>New Status:</span>
-                  <span className="text-amber-800 font-bold bg-amber-100 px-2 py-0.5 rounded text-[10px] uppercase tracking-wider">Live Showcase Winner</span>
+                  <span className="text-orange-800 font-bold bg-orange-100 px-2 py-0.5 rounded text-[10px] uppercase tracking-wider">Live Showcase Winner</span>
                 </div>
               </div>
 
@@ -572,7 +572,7 @@ export default function BrandRankingsPage() {
                   type="button"
                   onClick={confirmDeclareWinner}
                   disabled={declaringWinner}
-                  className="flex-1 py-3 px-4 bg-gradient-to-r from-amber-500 to-orange-600 hover:from-amber-600 hover:to-orange-700 text-white font-bold text-sm rounded-xl shadow-lg hover:shadow-xl transition-all flex items-center justify-center gap-2 disabled:opacity-50 cursor-pointer"
+                  className="flex-1 py-3 px-4 bg-[#f76e28] hover:bg-[#de5713] active:bg-[#c44908] text-white font-bold text-sm rounded-xl shadow-lg shadow-[#f76e28]/25 hover:shadow-xl hover:shadow-[#f76e28]/35 transition-all flex items-center justify-center gap-2 disabled:opacity-50 cursor-pointer"
                 >
                   {declaringWinner ? (
                     <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-white"></div>

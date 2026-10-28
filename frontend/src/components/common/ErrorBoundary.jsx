@@ -40,7 +40,7 @@ class ErrorBoundary extends React.Component {
             position: 'absolute',
             width: '350px',
             height: '350px',
-            background: 'rgba(234, 88, 12, 0.08)',
+            background: 'rgba(247, 110, 40, 0.08)',
             filter: 'blur(90px)',
             borderRadius: '50%',
             top: '20%',
@@ -51,7 +51,7 @@ class ErrorBoundary extends React.Component {
             background: 'rgba(30, 15, 8, 0.45)', // Premium dark glassmorphism
             backdropFilter: 'blur(20px)',
             borderRadius: '28px',
-            border: '1px solid rgba(234, 88, 12, 0.16)', // Rich orange border
+            border: '1px solid rgba(247, 110, 40, 0.16)', // Brand orange border
             padding: '54px 36px',
             maxWidth: '500px',
             boxShadow: '0 25px 60px rgba(0, 0, 0, 0.6)',
@@ -59,7 +59,6 @@ class ErrorBoundary extends React.Component {
             zIndex: 1
           }}>
             {/* Deals Theme Icon */}
-            {/* <div style={{ fontSize: '72px', marginBottom: '20px', filter: 'drop-shadow(0 8px 16px rgba(234,88,12,0.25))' }}>🎪</div> */}
             
             <h1 style={{
               fontSize: '26px',
@@ -67,7 +66,7 @@ class ErrorBoundary extends React.Component {
               textTransform: 'uppercase',
               letterSpacing: '1px',
               margin: '0 0 16px 0',
-              background: 'linear-gradient(135deg, #ea580c 0%, #f59e0b 100%)', // Orange to Amber gradient
+              background: 'linear-gradient(135deg, #f76e28 0%, #f59e0b 100%)', // Orange to Amber gradient
               WebkitBackgroundClip: 'text',
               WebkitTextFillColor: 'transparent',
             }}>
@@ -88,7 +87,7 @@ class ErrorBoundary extends React.Component {
             <button
               onClick={this.handleReset}
               style={{
-                background: 'linear-gradient(135deg, #7c2d12 0%, #ea580c 100%)', // Luxury espresso-orange button
+                background: '#f76e28',
                 color: '#ffffff',
                 border: 'none',
                 borderRadius: '9999px', // Capsule styling
@@ -98,16 +97,16 @@ class ErrorBoundary extends React.Component {
                 textTransform: 'uppercase',
                 letterSpacing: '2px',
                 cursor: 'pointer',
-                transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
-                boxShadow: '0 10px 20px rgba(234, 88, 12, 0.2)'
+                transition: 'all 0.2s cubic-bezier(0.16, 1, 0.3, 1)',
+                boxShadow: '0 10px 20px rgba(247, 110, 40, 0.25)'
               }}
               onMouseEnter={(e) => {
                 e.target.style.transform = 'scale(1.04) translateY(-1px)';
-                e.target.style.boxShadow = '0 12px 24px rgba(234, 88, 12, 0.3)';
+                e.target.style.boxShadow = '0 12px 24px rgba(247, 110, 40, 0.35)';
               }}
               onMouseLeave={(e) => {
                 e.target.style.transform = 'scale(1) translateY(0)';
-                e.target.style.boxShadow = '0 10px 20px rgba(234, 88, 12, 0.2)';
+                e.target.style.boxShadow = '0 10px 20px rgba(247, 110, 40, 0.25)';
               }}
             >
               Return to GoMo Deals

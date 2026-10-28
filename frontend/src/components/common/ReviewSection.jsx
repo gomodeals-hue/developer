@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Star, MessageSquare, CheckCircle, User, Loader2, Send } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import * as reviewService from '../../services/reviewService';
@@ -6,6 +7,7 @@ import { useAuth } from '../../context/AuthContext';
 import { cn } from '../../lib/utils';
 
 const ReviewSection = ({ productId, selectedVariant }) => {
+    const navigate = useNavigate();
     const { user } = useAuth();
     const [reviews, setReviews] = useState([]);
     const [loading, setLoading] = useState(true);

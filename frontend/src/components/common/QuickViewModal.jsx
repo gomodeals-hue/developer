@@ -4,6 +4,7 @@ import { X, ShoppingBag, Heart, Star, ShieldCheck, Truck, ChevronLeft, ChevronRi
 import { useNavigate } from 'react-router-dom';
 import { useShop } from '../../context/ShopContext';
 import { useAuth } from '../../context/AuthContext';
+import { getProductImage } from '../../utils/productImages';
 
 const QuickViewModal = ({ product, isOpen, onClose }) => {
   const { addToCart, removeFromCart, toggleWishlist, isInWishlist, isInCart, formatPrice, t, translateRecipient } = useShop();
@@ -36,8 +37,8 @@ const QuickViewModal = ({ product, isOpen, onClose }) => {
       }
     }
     
-    // 3. Fallback to thumbnail or image
-    return [product.thumbnail || product.image || '/fallback-product.png'];
+    // 3. Fallback to getProductImage
+    return [getProductImage(product)];
   }, [product]);
 
   React.useEffect(() => {
@@ -80,7 +81,7 @@ const QuickViewModal = ({ product, isOpen, onClose }) => {
                 alt={product.name} 
                 onError={(e) => {
                   e.target.onerror = null;
-                  e.target.src = 'https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=600&q=80';
+                  e.target.src = getProductImage(product);
                 }}
                 className="max-h-[350px] max-w-full object-contain transition-transform duration-500 hover:scale-[1.02]"
               />
@@ -123,7 +124,7 @@ const QuickViewModal = ({ product, isOpen, onClose }) => {
                       alt="" 
                       onError={(e) => {
                         e.target.onerror = null;
-                        e.target.src = 'https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=100&q=80';
+                        e.target.src = getProductImage(product);
                       }}
                       className="w-full h-full object-contain" 
                     />
@@ -162,11 +163,6 @@ const QuickViewModal = ({ product, isOpen, onClose }) => {
                 <div className="flex flex-col sm:flex-row gap-3">
                   <button 
                     onClick={() => { 
-                      if (!user) {
-                        onClose();
-                        navigate('/login');
-                        return;
-                      }
                       if (isInCart(productId)) {
                         removeFromCart(productId);
                       } else {

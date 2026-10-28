@@ -13,7 +13,7 @@ import {
   PieChart, Pie, Cell, LineChart, Line 
 } from 'recharts';
 
-const CHART_COLORS = ['#f97316', '#ea580c', '#c2410c', '#9a3412', '#7c2d12', '#fdba74'];
+const CHART_COLORS = ['#f76e28', '#de5713', '#c2410c', '#9a3412', '#7c2d12', '#fdba74'];
 
 export default function ReportsPage() {
   const [reports, setReports] = useState(null);
@@ -263,7 +263,7 @@ export default function ReportsPage() {
               <XAxis dataKey="category" tick={{ fill: '#7c2d12', fontSize: 10, fontWeight: 700 }} />
               <YAxis tick={{ fill: '#7c2d12', fontSize: 10, fontWeight: 700 }} />
               <Tooltip formatter={(val) => `₹${Number(val).toLocaleString('en-IN')}`} />
-              <Bar dataKey="value" fill="#ea580c" radius={[8, 8, 0, 0]} />
+              <Bar dataKey="value" fill="#f76e28" radius={[8, 8, 0, 0]} />
             </BarChart>
           </ResponsiveContainer>
         </div>

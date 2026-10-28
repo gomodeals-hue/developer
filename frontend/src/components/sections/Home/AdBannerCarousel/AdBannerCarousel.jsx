@@ -98,7 +98,7 @@ export default function AdBannerCarousel() {
 
                   {/* CTA Icon Button */}
                   {banner.target_url && (
-                    <div className="shrink-0 flex items-center gap-1.5 px-4 py-2.5 rounded-2xl bg-gradient-to-r from-orange-500 to-amber-500 hover:from-orange-600 hover:to-amber-600 text-white text-xs font-bold shadow-md shadow-orange-500/20 group-hover:translate-x-1 group-hover:shadow-lg group-hover:shadow-orange-500/30 transition-all duration-300">
+                    <div className="shrink-0 flex items-center gap-1.5 px-4 py-2.5 rounded-2xl bg-[#f76e28] hover:bg-[#de5713] active:bg-[#c44908] text-white text-xs font-bold shadow-md shadow-[#f76e28]/25 group-hover:translate-x-1 group-hover:shadow-lg group-hover:shadow-[#f76e28]/35 transition-all duration-300">
                       <span>Explore</span>
                       <ArrowRight className="w-3.5 h-3.5" />
                     </div>

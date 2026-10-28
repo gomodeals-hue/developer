@@ -390,7 +390,7 @@ const PersonalDetails = ({ onNext, selectedAddress, onSelectAddress }) => {
                       {addr.city}, {addr.state} — {addr.postal_code || addr.pincode}
                     </p>
                     <p className="text-[11px] text-orange-600 font-mono pt-1">
-                      📞 {addr.phone}
+                      Phone: {addr.phone}
                     </p>
                   </div>
                 </div>

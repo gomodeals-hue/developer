@@ -419,15 +419,29 @@ export const logoutUser = customerLogout;
 // ADMIN AUTHENTICATION METHODS
 // ==========================================
 
-export const adminLogin = async (email, password, role = 'admin', otp = null) => {
+export const adminLogin = async (emailOrData, password, role = 'admin', otp = null) => {
+  let email = emailOrData;
+  let pwd = password;
+  let r = role;
+  let o = otp;
+
+  if (emailOrData && typeof emailOrData === 'object') {
+    email = emailOrData.email;
+    pwd = emailOrData.password;
+    r = emailOrData.type || emailOrData.role || 'admin';
+    o = emailOrData.otp || null;
+  }
+
   const normEmail = normalizeEmail(email);
 
   if (!API_CONFIG.USE_MOCK) {
     try {
-      const res = await apiClient.post('/admin/login', { email: normEmail, password, role, otp });
+      const res = await apiClient.post('/admin/login', { email: normEmail, password: pwd, role: r, otp: o });
       if (res.data?.token) {
-        localStorage.setItem('token', res.data.token);
-        localStorage.setItem('auth_token', res.data.token);
+        localStorage.setItem('admin_token', res.data.token);
+        if (res.data.data) {
+          localStorage.setItem('gomo_admin_session', JSON.stringify(res.data.data));
+        }
       }
       return res.data;
     } catch (err) {
@@ -442,17 +456,16 @@ export const adminLogin = async (email, password, role = 'admin', otp = null) =>
     throw { response: { status: 404, data: { message: 'No administrator account found with this email.' } } };
   }
 
-  if (user.password !== password) {
+  if (user.password !== pwd) {
     throw { response: { status: 401, data: { message: 'Incorrect admin credentials.' } } };
   }
 
   const mockToken = `mock-jwt-admin-${user.id}-${Date.now()}`;
-  localStorage.setItem('token', mockToken);
-  localStorage.setItem('auth_token', mockToken);
+  localStorage.setItem('admin_token', mockToken);
 
   const sanitizedUser = { ...user };
   delete sanitizedUser.password;
-  localStorage.setItem(ACTIVE_SESSION_KEY, JSON.stringify(sanitizedUser));
+  localStorage.setItem('gomo_admin_session', JSON.stringify(sanitizedUser));
 
   return {
     success: true,
@@ -495,7 +508,19 @@ export const adminRegister = async (registerData) => {
 };
 
 export const registerAdmin = adminRegister;
-export const adminLogout = customerLogout;
+
+export const adminLogout = async () => {
+  if (!API_CONFIG.USE_MOCK) {
+    try {
+      await apiClient.post('/admin/logout');
+    } catch {
+      // Ignore network errors on logout
+    }
+  }
+  localStorage.removeItem('admin_token');
+  localStorage.removeItem('gomo_admin_session');
+  return { success: true };
+};
 
 export const sendAdminRegisterOTP = (data) => sendOtp(data.email, 'admin_register');
 export const requestAdminPasswordReset = (email) => requestPasswordReset(email);

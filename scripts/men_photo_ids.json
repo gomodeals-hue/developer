@@ -1,0 +1,478 @@
+[
+  {
+    "id": "gmd-men-shirts-1",
+    "name": "Raymond Slim Fit Pure Cotton White Formal Shirt",
+    "sub": "shirts",
+    "photoId": "1602810318383-e386cc2a3ccf",
+    "url": "https://images.unsplash.com/photo-1602810318383-e386cc2a3ccf?w=800&q=80"
+  },
+  {
+    "id": "gmd-men-shirts-2",
+    "name": "Levi's Classic Western Denim Long Sleeve Casual Shirt",
+    "sub": "shirts",
+    "photoId": "1589310243389-96a5483213a8",
+    "url": "https://images.unsplash.com/photo-1589310243389-96a5483213a8?w=800&q=80"
+  },
+  {
+    "id": "gmd-men-shirts-3",
+    "name": "Zara Breathable Pure Linen Camp Collar Casual Shirt",
+    "sub": "shirts",
+    "photoId": "1598033129183-c4f50c736f10",
+    "url": "https://images.unsplash.com/photo-1598033129183-c4f50c736f10?w=800&q=80"
+  },
+  {
+    "id": "gmd-men-shirts-4",
+    "name": "Peter England Navy Blue Gingham Checked Casual Shirt",
+    "sub": "shirts",
+    "photoId": "1603252109303-2751441dd157",
+    "url": "https://images.unsplash.com/photo-1603252109303-2751441dd157?w=800&q=80"
+  },
+  {
+    "id": "gmd-men-tshirts-1",
+    "name": "H&M Classic Crewneck Organic Cotton T-Shirt",
+    "sub": "t-shirts",
+    "photoId": "1521572267360-ee0c2909d518",
+    "url": "https://images.unsplash.com/photo-1521572267360-ee0c2909d518?w=800&q=80"
+  },
+  {
+    "id": "gmd-men-tshirts-2",
+    "name": "Nike Dri-FIT Athletic Training Performance T-Shirt",
+    "sub": "t-shirts",
+    "photoId": "1581655353564-df123a1eb820",
+    "url": "https://images.unsplash.com/photo-1581655353564-df123a1eb820?w=800&q=80"
+  },
+  {
+    "id": "gmd-men-tshirts-3",
+    "name": "Tommy Hilfiger Pique Cotton Solid Polo T-Shirt",
+    "sub": "t-shirts",
+    "photoId": "1586363104862-3a5e2ab60d99",
+    "url": "https://images.unsplash.com/photo-1586363104862-3a5e2ab60d99?w=800&q=80"
+  },
+  {
+    "id": "gmd-men-tshirts-4",
+    "name": "Roadster Vintage Graphic Print Streetwear T-Shirt",
+    "sub": "t-shirts",
+    "photoId": "1576566588028-4147f3842f27",
+    "url": "https://images.unsplash.com/photo-1576566588028-4147f3842f27?w=800&q=80"
+  },
+  {
+    "id": "gmd-men-jeans-1",
+    "name": "Levi's 511 Slim Fit Stretch Denim Jeans",
+    "sub": "jeans-jeggings",
+    "photoId": "1542272604-780c96856592",
+    "url": "https://images.unsplash.com/photo-1542272604-780c96856592?w=800&q=80"
+  },
+  {
+    "id": "gmd-men-jeans-2",
+    "name": "Wrangler Rugged Wear Regular Straight Leg Jeans",
+    "sub": "jeans-jeggings",
+    "photoId": "1541099649105-f69ad21f3246",
+    "url": "https://images.unsplash.com/photo-1541099649105-f69ad21f3246?w=800&q=80"
+  },
+  {
+    "id": "gmd-men-jeans-3",
+    "name": "Spykar Distressed Washed Tapered Denim Jeans",
+    "sub": "jeans-jeggings",
+    "photoId": "1560243563-062bfc001d68",
+    "url": "https://images.unsplash.com/photo-1560243563-062bfc001d68?w=800&q=80"
+  },
+  {
+    "id": "gmd-men-jeans-4",
+    "name": "Pepe Jeans Clean Dark Indigo Slim Jeans",
+    "sub": "jeans-jeggings",
+    "photoId": "1582552938357-32b906df40cb",
+    "url": "https://images.unsplash.com/photo-1582552938357-32b906df40cb?w=800&q=80"
+  },
+  {
+    "id": "gmd-men-trousers-1",
+    "name": "Dockers Slim Tapered Stretch Khaki Chinos",
+    "sub": "trousers-pants",
+    "photoId": "1624378439575-d8705ad7ae80",
+    "url": "https://images.unsplash.com/photo-1624378439575-d8705ad7ae80?w=800&q=80"
+  },
+  {
+    "id": "gmd-men-trousers-2",
+    "name": "Blackberrys Flat Front Charcoal Grey Formal Trousers",
+    "sub": "trousers-pants",
+    "photoId": "1594938298603-c8148c4dae35",
+    "url": "https://images.unsplash.com/photo-1594938298603-c8148c4dae35?w=800&q=80"
+  },
+  {
+    "id": "gmd-men-trousers-3",
+    "name": "Arrow Smart Executive Navy Formal Dress Pants",
+    "sub": "trousers-pants",
+    "photoId": "1479064555552-3ef4979f8908",
+    "url": "https://images.unsplash.com/photo-1479064555552-3ef4979f8908?w=800&q=80"
+  },
+  {
+    "id": "gmd-men-trousers-4",
+    "name": "Allen Solly Casual Slim Fit Olive Cotton Chino Trousers",
+    "sub": "trousers-pants",
+    "photoId": "1473966968600-fa801b869a1a",
+    "url": "https://images.unsplash.com/photo-1473966968600-fa801b869a1a?w=800&q=80"
+  },
+  {
+    "id": "gmd-men-trackpants-1",
+    "name": "Puma Heather Grey Moisture-Wicking Jogger Track Pants",
+    "sub": "track-pants",
+    "photoId": "1552902865-b72c031ac5ea",
+    "url": "https://images.unsplash.com/photo-1552902865-b72c031ac5ea?w=800&q=80"
+  },
+  {
+    "id": "gmd-men-trackpants-2",
+    "name": "Adidas Tiro Essential Cuffed Athletic Sweatpants",
+    "sub": "track-pants",
+    "photoId": "1517438476312-10d79c077509",
+    "url": "https://images.unsplash.com/photo-1517438476312-10d79c077509?w=800&q=80"
+  },
+  {
+    "id": "gmd-men-trackpants-3",
+    "name": "Under Armour Fleece Sport Gym Track Pants",
+    "sub": "track-pants",
+    "photoId": "1550684848-fac1c5b4e853",
+    "url": "https://images.unsplash.com/photo-1550684848-fac1c5b4e853?w=800&q=80"
+  },
+  {
+    "id": "gmd-men-trackpants-4",
+    "name": "Decathlon Domyos Breathable Cotton Training Joggers",
+    "sub": "track-pants",
+    "photoId": "1556905055-8f358a7a47b2",
+    "url": "https://images.unsplash.com/photo-1556905055-8f358a7a47b2?w=800&q=80"
+  },
+  {
+    "id": "gmd-men-jackets-1",
+    "name": "Levi's Trucker Blue Denim Jacket with Metal Buttons",
+    "sub": "jackets",
+    "photoId": "1576995853123-5a10305d93c0",
+    "url": "https://images.unsplash.com/photo-1576995853123-5a10305d93c0?w=800&q=80"
+  },
+  {
+    "id": "gmd-men-jackets-2",
+    "name": "Raymond Tailored Navy Blue Formal Single-Breasted Blazer",
+    "sub": "jackets",
+    "photoId": "1593030761757-71fae45fa0e7",
+    "url": "https://images.unsplash.com/photo-1593030761757-71fae45fa0e7?w=800&q=80"
+  },
+  {
+    "id": "gmd-men-jackets-3",
+    "name": "Zara Faux Suede Minimalist Biker Jacket",
+    "sub": "jackets",
+    "photoId": "1521223890158-f9f7c3d5d504",
+    "url": "https://images.unsplash.com/photo-1521223890158-f9f7c3d5d504?w=800&q=80"
+  },
+  {
+    "id": "gmd-men-jackets-4",
+    "name": "Woodland Full-Zip Outdoor Windbreaker Bomber Jacket",
+    "sub": "jackets",
+    "photoId": "1548883354-7622d03aca27",
+    "url": "https://images.unsplash.com/photo-1548883354-7622d03aca27?w=800&q=80"
+  },
+  {
+    "id": "gmd-eth-men-kurtas-1",
+    "name": "Manyavar Royal Blue Embroidered Raw Silk Kurta Set",
+    "sub": "kurtas",
+    "photoId": "1617137984095-74e4e5e3613f",
+    "url": "https://images.unsplash.com/photo-1617137984095-74e4e5e3613f?w=800&q=80"
+  },
+  {
+    "id": "gmd-eth-men-kurtas-2",
+    "name": "Fabindia Maroon Handloom Tussar Silk Kurta",
+    "sub": "kurtas",
+    "photoId": "1597983073493-88cd35cf93b0",
+    "url": "https://images.unsplash.com/photo-1597983073493-88cd35cf93b0?w=800&q=80"
+  },
+  {
+    "id": "gmd-eth-men-kurtas-3",
+    "name": "House of Pataudi Gold Jacquard Straight Festive Kurta",
+    "sub": "kurtas",
+    "photoId": "1621335829175-95f437344321",
+    "url": "https://images.unsplash.com/photo-1621335829175-95f437344321?w=800&q=80"
+  },
+  {
+    "id": "gmd-eth-men-kurtas-4",
+    "name": "Sojanya Ivory Textured Cotton Linen Kurta Pyjama Set",
+    "sub": "kurtas",
+    "photoId": "1507679799987-c73779587ccf",
+    "url": "https://images.unsplash.com/photo-1507679799987-c73779587ccf?w=800&q=80"
+  },
+  {
+    "id": "gmd-eth-men-jackets-1",
+    "name": "Manyavar Brocade Silk Bandhgala Nehru Jacket",
+    "sub": "ethnic-jackets",
+    "photoId": "1506794778202-cad84cf45f1d",
+    "url": "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=800&q=80"
+  },
+  {
+    "id": "gmd-eth-men-jackets-2",
+    "name": "Fabindia Handwoven Tussar Silk Nehru Waistcoat",
+    "sub": "ethnic-jackets",
+    "photoId": "1500648767791-00dcc994a43e",
+    "url": "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=800&q=80"
+  },
+  {
+    "id": "gmd-eth-men-jackets-3",
+    "name": "Raymond Khadi Textured Sleeveless Modi Jacket",
+    "sub": "ethnic-jackets",
+    "photoId": "1492562080023-ab3db95bfbce",
+    "url": "https://images.unsplash.com/photo-1492562080023-ab3db95bfbce?w=800&q=80"
+  },
+  {
+    "id": "gmd-eth-men-jackets-4",
+    "name": "House of Pataudi Floral Embroidered Silk Waistcoat",
+    "sub": "ethnic-jackets",
+    "photoId": "1539571696357-5a69c17a67c6",
+    "url": "https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?w=800&q=80"
+  },
+  {
+    "id": "gmd-eth-men-sherwani-1",
+    "name": "Manyavar Regal Cream Embroidered Wedding Sherwani Set",
+    "sub": "sherwani-sets",
+    "photoId": "1609357605129-26f69add5d6e",
+    "url": "https://images.unsplash.com/photo-1609357605129-26f69add5d6e?w=800&q=80"
+  },
+  {
+    "id": "gmd-eth-men-sherwani-2",
+    "name": "Kora by NM Handcrafted Velvet Royal Indo-Western Sherwani",
+    "sub": "sherwani-sets",
+    "photoId": "1590076241940-02a8b29e64e5",
+    "url": "https://images.unsplash.com/photo-1590076241940-02a8b29e64e5?w=800&q=80"
+  },
+  {
+    "id": "gmd-eth-men-sherwani-3",
+    "name": "Sabyasachi Inspired Royal Jodhpuri Achkan Sherwani Suit",
+    "sub": "sherwani-sets",
+    "photoId": "1610030469668-932d0b674488",
+    "url": "https://images.unsplash.com/photo-1610030469668-932d0b674488?w=800&q=80"
+  },
+  {
+    "id": "gmd-eth-men-sherwani-4",
+    "name": "Manyavar Gold Zari Woven Festive Achkan Sherwani Set",
+    "sub": "sherwani-sets",
+    "photoId": "1583863788434-e58a36330cf0",
+    "url": "https://images.unsplash.com/photo-1583863788434-e58a36330cf0?w=800&q=80"
+  },
+  {
+    "id": "gmd-men-footwear-snk-1",
+    "name": "Nike Air Max SC Men's Running & Walking Sneakers",
+    "sub": "sneakers",
+    "photoId": "1542291026-7eec264c27ff",
+    "url": "https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=800&q=80"
+  },
+  {
+    "id": "gmd-men-footwear-snk-2",
+    "name": "Adidas Originals Superstar Classic Leather Sneakers",
+    "sub": "sneakers",
+    "photoId": "1518002171953-a080ee817e1f",
+    "url": "https://images.unsplash.com/photo-1518002171953-a080ee817e1f?w=800&q=80"
+  },
+  {
+    "id": "gmd-men-footwear-snk-3",
+    "name": "Puma Smash V2 L White Everyday Casual Sneakers",
+    "sub": "sneakers",
+    "photoId": "1600185365483-26d7a4cc7519",
+    "url": "https://images.unsplash.com/photo-1600185365483-26d7a4cc7519?w=800&q=80"
+  },
+  {
+    "id": "gmd-men-footwear-snk-4",
+    "name": "Skechers Men's Go Walk Arch Fit Sport Walking Shoes",
+    "sub": "sneakers",
+    "photoId": "1460353581641-37baddab0fa2",
+    "url": "https://images.unsplash.com/photo-1460353581641-37baddab0fa2?w=800&q=80"
+  },
+  {
+    "id": "gmd-men-footwear-cas-1",
+    "name": "Woodland Men Khaki Leather Rugged Casual Outdoor Shoes",
+    "sub": "casual-shoes",
+    "photoId": "1549298916-b41d501d3772",
+    "url": "https://images.unsplash.com/photo-1549298916-b41d501d3772?w=800&q=80"
+  },
+  {
+    "id": "gmd-men-footwear-cas-2",
+    "name": "Clarks Ashmont Leather Penny Loafers for Men",
+    "sub": "casual-shoes",
+    "photoId": "1533867617858-e7b97e060509",
+    "url": "https://images.unsplash.com/photo-1533867617858-e7b97e060509?w=800&q=80"
+  },
+  {
+    "id": "gmd-men-footwear-cas-3",
+    "name": "Red Tape Slip-On Memory Foam Driving Moccasins",
+    "sub": "casual-shoes",
+    "photoId": "1582588678413-dbf45f4823e9",
+    "url": "https://images.unsplash.com/photo-1582588678413-dbf45f4823e9?w=800&q=80"
+  },
+  {
+    "id": "gmd-men-footwear-cas-4",
+    "name": "Bata Men Classic Suede Boat Casual Shoes",
+    "sub": "casual-shoes",
+    "photoId": "1525966222134-fcfa99b8ae77",
+    "url": "https://images.unsplash.com/photo-1525966222134-fcfa99b8ae77?w=800&q=80"
+  },
+  {
+    "id": "gmd-men-footwear-form-1",
+    "name": "Clarks Tilden Cap Black Genuine Leather Oxford Shoes",
+    "sub": "formal-shoes",
+    "photoId": "1614252235316-8c857d38b5f4",
+    "url": "https://images.unsplash.com/photo-1614252235316-8c857d38b5f4?w=800&q=80"
+  },
+  {
+    "id": "gmd-men-footwear-form-2",
+    "name": "Red Tape Derby Lace-Up Formal Tan Leather Shoes",
+    "sub": "formal-shoes",
+    "photoId": "1531310197839-ccf54634509e",
+    "url": "https://images.unsplash.com/photo-1531310197839-ccf54634509e?w=800&q=80"
+  },
+  {
+    "id": "gmd-men-footwear-form-3",
+    "name": "Louis Philippe Handcrafted Italian Leather Monk Strap Shoes",
+    "sub": "formal-shoes",
+    "photoId": "1595341888016-a392ef81b7de",
+    "url": "https://images.unsplash.com/photo-1595341888016-a392ef81b7de?w=800&q=80"
+  },
+  {
+    "id": "gmd-men-footwear-form-4",
+    "name": "Woodland Classic Rugged Chelsea Leather Boots for Men",
+    "sub": "formal-shoes",
+    "photoId": "1638247025967-b4e38f787b76",
+    "url": "https://images.unsplash.com/photo-1638247025967-b4e38f787b76?w=800&q=80"
+  },
+  {
+    "id": "gmd-men-footwear-san-1",
+    "name": "Woodland Camel Outdoor Hiking Sandal Floaters",
+    "sub": "sandals",
+    "photoId": "1603808033192-082d6919d3e1",
+    "url": "https://images.unsplash.com/photo-1603808033192-082d6919d3e1?w=800&q=80"
+  },
+  {
+    "id": "gmd-men-footwear-san-2",
+    "name": "Red Tape Athletic Dual Strap Men's Sports Sandals",
+    "sub": "sandals",
+    "photoId": "1560769629-975ec94e6a86",
+    "url": "https://images.unsplash.com/photo-1560769629-975ec94e6a86?w=800&q=80"
+  },
+  {
+    "id": "gmd-men-footwear-san-3",
+    "name": "Bata Comfit Cushioned PU Strap Men Slippers Sandals",
+    "sub": "sandals",
+    "photoId": "1597045566677-8cf032ed6634",
+    "url": "https://images.unsplash.com/photo-1597045566677-8cf032ed6634?w=800&q=80"
+  },
+  {
+    "id": "gmd-men-footwear-san-4",
+    "name": "Crocs Classic Lightweight Water-Resistant Clogs",
+    "sub": "sandals",
+    "photoId": "1575537302964-96cd47c06b1b",
+    "url": "https://images.unsplash.com/photo-1575537302964-96cd47c06b1b?w=800&q=80"
+  },
+  {
+    "id": "gmd-acc-watches-men-1",
+    "name": "Fossil Grant Chronograph Dark Brown Leather Men's Watch",
+    "sub": "watches",
+    "photoId": "1522335789203-aabd1fc54bc9",
+    "url": "https://images.unsplash.com/photo-1522335789203-aabd1fc54bc9?w=800&q=80"
+  },
+  {
+    "id": "gmd-acc-watches-men-2",
+    "name": "Titan Workwear Black Dial Stainless Steel Men's Watch",
+    "sub": "watches",
+    "photoId": "1524805444758-089113d48a6d",
+    "url": "https://images.unsplash.com/photo-1524805444758-089113d48a6d?w=800&q=80"
+  },
+  {
+    "id": "gmd-acc-watches-men-3",
+    "name": "Casio Edifice Tachymeter Chronograph Silver Stainless Steel Watch",
+    "sub": "watches",
+    "photoId": "1523275335684-37898b6baf30",
+    "url": "https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=800&q=80"
+  },
+  {
+    "id": "gmd-acc-watches-men-4",
+    "name": "Tommy Hilfiger Men's Navy Blue Multifunction Silicone Strap Watch",
+    "sub": "watches",
+    "photoId": "1542496658-e33a6d0d50f6",
+    "url": "https://images.unsplash.com/photo-1542496658-e33a6d0d50f6?w=800&q=80"
+  },
+  {
+    "id": "gmd-acc-sunglasses-men-1",
+    "name": "Ray-Ban Classic Aviator Green G-15 Gold Metal Sunglasses",
+    "sub": "sunglasses",
+    "photoId": "1511499767150-a48a237f0083",
+    "url": "https://images.unsplash.com/photo-1511499767150-a48a237f0083?w=800&q=80"
+  },
+  {
+    "id": "gmd-acc-sunglasses-men-2",
+    "name": "Fastrack Polarized Square Matte Black Sunglasses for Men",
+    "sub": "sunglasses",
+    "photoId": "1572635196237-14b3f281503f",
+    "url": "https://images.unsplash.com/photo-1572635196237-14b3f281503f?w=800&q=80"
+  },
+  {
+    "id": "gmd-acc-sunglasses-men-3",
+    "name": "Oakley Holbrook Prizm Sapphire Matte Black Sunglasses",
+    "sub": "sunglasses",
+    "photoId": "1508296695146-257a814070b4",
+    "url": "https://images.unsplash.com/photo-1508296695146-257a814070b4?w=800&q=80"
+  },
+  {
+    "id": "gmd-acc-sunglasses-men-4",
+    "name": "Vincent Chase Polarized Clubmaster Tortoise Gold Sunglasses",
+    "sub": "sunglasses",
+    "photoId": "1577803645773-f96470509666",
+    "url": "https://images.unsplash.com/photo-1577803645773-f96470509666?w=800&q=80"
+  },
+  {
+    "id": "gmd-acc-wallets-men-1",
+    "name": "Wildcraft Genuine Hunter Leather RFID Protected Men Bi-Fold Wallet",
+    "sub": "wallets",
+    "photoId": "1627123424574-724758594e93",
+    "url": "https://images.unsplash.com/photo-1627123424574-724758594e93?w=800&q=80"
+  },
+  {
+    "id": "gmd-acc-wallets-men-2",
+    "name": "Tommy Hilfiger Men Textured Black Leather Thin Front Pocket Wallet",
+    "sub": "wallets",
+    "photoId": "1606503825008-909a67e63c22",
+    "url": "https://images.unsplash.com/photo-1606503825008-909a67e63c22?w=800&q=80"
+  },
+  {
+    "id": "gmd-acc-wallets-men-3",
+    "name": "Woodland Rugged Brown Buffalo Leather Tri-Fold Coin Pocket Wallet",
+    "sub": "wallets",
+    "photoId": "1607604276583-eef5d076aa5f",
+    "url": "https://images.unsplash.com/photo-1607604276583-eef5d076aa5f?w=800&q=80"
+  },
+  {
+    "id": "gmd-acc-wallets-men-4",
+    "name": "Titan Men Formal Black Leather Wallet & Reversible Belt Combo Gift Box",
+    "sub": "wallets",
+    "photoId": "1583321500900-82807e458f3c",
+    "url": "https://images.unsplash.com/photo-1583321500900-82807e458f3c?w=800&q=80"
+  },
+  {
+    "id": "gmd-acc-backpacks-1",
+    "name": "Wildcraft Trail 35L Water-Resistant Laptop Backpack",
+    "sub": "backpacks",
+    "photoId": "1553062407-98eeb64c6a62",
+    "url": "https://images.unsplash.com/photo-1553062407-98eeb64c6a62?w=800&q=80"
+  },
+  {
+    "id": "gmd-acc-backpacks-2",
+    "name": "American Tourister Urban Groove 32L Casual Daypack",
+    "sub": "backpacks",
+    "photoId": "1581605405669-fcdf81165afa",
+    "url": "https://images.unsplash.com/photo-1581605405669-fcdf81165afa?w=800&q=80"
+  },
+  {
+    "id": "gmd-acc-backpacks-3",
+    "name": "Puma Phase Unisex Streetwear Sports Backpack 22L",
+    "sub": "backpacks",
+    "photoId": "1546938576-6e6a64f317cc",
+    "url": "https://images.unsplash.com/photo-1546938576-6e6a64f317cc?w=800&q=80"
+  },
+  {
+    "id": "gmd-acc-backpacks-4",
+    "name": "Skybags Drip 28L Water Resistant College Backpack with USB Port",
+    "sub": "backpacks",
+    "photoId": "1577733966973-d680bffd2e80",
+    "url": "https://images.unsplash.com/photo-1577733966973-d680bffd2e80?w=800&q=80"
+  }
+]

@@ -1,27 +1,43 @@
-@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Plus+Jakarta+Sans:ital,wght@0,200..800;1,200..800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800;900&display=swap');
 @import "tailwindcss";
 
 @theme {
-  --color-orange-50: #fffaf0;
-  --color-orange-100: #ffedd5;
-  --color-orange-200: #fed7aa;
-  --color-orange-300: #fdba74;
-  --color-orange-400: #fb923c;
-  --color-orange-500: #f97316;
-  --color-orange-600: #ea580c;
-  --color-orange-700: #c2410c;
-  --color-orange-800: #9a3412;
-  --color-orange-850: #7c2d12;
-  --color-orange-900: #0c0a09;
-  --color-orange-950: #030712;
-  --color-orange-955: #000000;
-  
-  --font-sans: "Plus Jakarta Sans", sans-serif;
-  --font-serif: "Playfair Display", serif;
+  --color-orange-50: #fff8f3;
+  --color-orange-100: #feeee3;
+  --color-orange-200: #fdd8c0;
+  --color-orange-300: #fbbd97;
+  --color-orange-400: #f9975b;
+  --color-orange-500: #f76e28; /* GMD Brand Logo Exact Orange */
+  --color-orange-600: #f76e28; /* GMD Brand Logo Primary Buttons & Highlights */
+  --color-orange-700: #de5713; /* GMD Brand Logo Hover State */
+  --color-orange-800: #b84209; /* GMD Brand Logo Active State */
+  --color-orange-850: #8c3207;
+  --color-orange-900: #652304;
+  --color-orange-950: #381202;
+  --color-copper-50: #f0f9ff;
+  --color-copper-100: #e0f2fe;
+  --color-copper-200: #bae6fd;
+  --color-copper-300: #7dd3fc;
+  --color-copper-400: #38bdf8;
+  --color-copper-500: #0284c7;
+  --color-copper-600: #0077c8;
+  --color-copper-700: #0369a1;
+  --color-copper-800: #075985;
+  --color-copper-900: #0c4a6e;
+  --color-copper-950: #032b4d;
+
+  --font-sans: "Calibri", "Inter", "Segoe UI", system-ui, -apple-system, BlinkMacSystemFont, "Roboto", sans-serif;
+  --font-serif: "Calibri", "Inter", "Segoe UI", system-ui, -apple-system, BlinkMacSystemFont, "Roboto", sans-serif;
 }
 
 :root {
-  --color-primary: #f97316; /* orange accent */
+  --color-copper-sulphate: #0077c8;
+  --color-copper-sulphate-light: #e0f2fe;
+  --color-copper-sulphate-border: #7dd3fc;
+  --color-copper-sulphate-dark: #034f84;
+  --color-primary: #f76e28; /* GMD Brand Logo Exact Orange */
+  --color-gmd-orange: #f76e28;
+  --color-gmd-orange-hover: #de5713;
   --color-bg-dark: #111827; /* deep slate */
   --color-bg-light: #f9fafb; /* gray-50 */
   --color-text-primary: #f1f5f9; /* slate-100 */
@@ -30,31 +46,79 @@
 }
 
 @layer base {
+  * {
+    font-family: "Calibri", "Inter", "Segoe UI", system-ui, -apple-system, BlinkMacSystemFont, "Roboto", sans-serif;
+  }
+
   body {
-    @apply antialiased text-orange-900 bg-[#fdfbf9] font-sans;
+    @apply antialiased text-stone-900 bg-[#fdfbf9];
+    font-family: "Calibri", "Inter", "Segoe UI", system-ui, -apple-system, BlinkMacSystemFont, "Roboto", sans-serif;
     font-feature-settings: "ss01", "ss02", "cv01", "cv02";
   }
 
   h1, h2, h3, h4, h5, h6 {
-    @apply tracking-tighter;
+    font-family: "Calibri", "Inter", "Segoe UI", system-ui, -apple-system, BlinkMacSystemFont, "Roboto", sans-serif;
+    @apply tracking-tight;
   }
   
-  /* Modern Button Global Defaults */
+  /* Ultra-Fast Responsive Button & Link Global Defaults */
   button, a {
-    @apply transition-all duration-300 active:scale-[0.98];
+    transition: all 140ms cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  
+  button:active, a:active {
+    transform: scale(0.97);
   }
 
   input, select, textarea, button {
-    font-family: inherit;
+    font-family: "Calibri", "Inter", "Segoe UI", system-ui, -apple-system, BlinkMacSystemFont, "Roboto", sans-serif;
   }
 
   html, body, p, span, div, li, ul, ol, td, th, a, button, input, select, textarea {
-    font-family: "Plus Jakarta Sans", sans-serif;
+    font-family: "Calibri", "Inter", "Segoe UI", system-ui, -apple-system, BlinkMacSystemFont, "Roboto", sans-serif;
   }
 
   .font-serif, .font-serif *, h1.font-serif, h2.font-serif, h3.font-serif, h4.font-serif {
-    font-family: "Playfair Display", Georgia, serif !important;
+    font-family: "Calibri", "Inter", "Segoe UI", system-ui, -apple-system, BlinkMacSystemFont, "Roboto", sans-serif !important;
   }
+}
+
+/* Lightning-Fast Keyframes & Transitions */
+@keyframes fastFadeIn {
+  from { opacity: 0; transform: translateY(6px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes fastPop {
+  0% { transform: scale(0.94); opacity: 0; }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+@keyframes fastSlideIn {
+  from { transform: translateX(-100%); }
+  to { transform: translateX(0); }
+}
+
+@keyframes fastShimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+.animate-fast-fade {
+  animation: fastFadeIn 140ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.animate-fast-pop {
+  animation: fastPop 140ms cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+}
+
+.animate-fast-slide {
+  animation: fastSlideIn 150ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.gpu-accelerate {
+  transform: translateZ(0);
+  will-change: transform, opacity;
 }
 
 @layer utilities {
@@ -79,7 +143,7 @@
   }
   
   .text-glow-orange {
-    text-shadow: 0 0 15px rgba(249, 115, 22, 0.5);
+    text-shadow: 0 0 15px rgba(247, 110, 40, 0.5);
   }
 
   .glass-card {
@@ -87,19 +151,83 @@
   }
 
   .glass-dark {
-    @apply bg-orange-950/40 backdrop-blur-2xl border border-white/10 shadow-[0_8px_32px_rgba(249,115,22,0.15)];
+    @apply bg-orange-950/40 backdrop-blur-2xl border border-white/10 shadow-[0_8px_32px_rgba(247,110,40,0.15)];
   }
 
   .premium-gradient {
-    background: linear-gradient(135deg, #f97316 0%, #ea580c 100%);
+    background: linear-gradient(135deg, #f76e28 0%, #de5713 100%);
   }
 
   .gold-gradient {
-    background: linear-gradient(135deg, #ea580c 0%, #fdba74 50%, #ea580c 100%);
+    background: linear-gradient(135deg, #f76e28 0%, #f99464 50%, #f76e28 100%);
   }
 
   .shadow-orange-glow {
-    box-shadow: 0 10px 40px -10px rgba(249, 115, 22, 0.4);
+    box-shadow: 0 10px 40px -10px rgba(247, 110, 40, 0.4);
+  }
+
+  /* Copper Sulphate Blue Themes & Utilities */
+  .copper-blue-gradient {
+    background: linear-gradient(135deg, #0284c7 0%, #0077c8 50%, #0369a1 100%);
+  }
+
+  .copper-blue-gradient-subtle {
+    background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
+  }
+
+  .copper-blue-border {
+    border-color: #bae6fd;
+  }
+
+  .shadow-copper-blue {
+    box-shadow: 0 8px 30px -4px rgba(0, 119, 200, 0.25);
+  }
+
+  .shadow-copper-glow {
+    box-shadow: 0 0 25px rgba(2, 132, 199, 0.35);
+  }
+
+  .text-glow-copper {
+    text-shadow: 0 0 15px rgba(2, 132, 199, 0.5);
+  }
+
+  /* Subtle E-Commerce Micro-Animations */
+  @keyframes subtlePulse {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.025); }
+  }
+
+  @keyframes softFloat {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-3.5px); }
+  }
+
+  @keyframes shimmerSwipe {
+    0% { background-position: -200% 0; }
+    100% { background-position: 200% 0; }
+  }
+
+  .animate-subtle-pulse {
+    animation: subtlePulse 3s ease-in-out infinite;
+  }
+
+  .animate-soft-float {
+    animation: softFloat 4s ease-in-out infinite;
+  }
+
+  .animate-shimmer-sweep {
+    background: linear-gradient(90deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0.4) 50%, rgba(255,255,255,0) 100%);
+    background-size: 200% 100%;
+    animation: shimmerSwipe 2.5s infinite;
+  }
+
+  .card-subtle-hover {
+    transition: transform 240ms cubic-bezier(0.16, 1, 0.3, 1), box-shadow 240ms cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .card-subtle-hover:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 14px 30px -8px rgba(0, 0, 0, 0.08);
   }
   
   .shadow-soft {
@@ -175,16 +303,16 @@
     -webkit-backdrop-filter: none !important;
     border: 1px solid #ffedd5 !important; /* orange-100 */
     color: #0c0a09 !important; /* dark chocolate */
-    box-shadow: 0 4px 20px rgba(234, 88, 12, 0.02), 0 1px 3px rgba(0, 0, 0, 0.01) !important;
+    box-shadow: 0 4px 20px rgba(247, 110, 40, 0.03), 0 1px 3px rgba(0, 0, 0, 0.01) !important;
     border-radius: 1.5rem !important;
-    transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1) !important;
+    transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1) !important;
   }
 
   .admin-dashboard .glass-card:hover {
     transform: translateY(-3px) !important;
     background: #ffffff !important;
     border-color: #fb923c !important; /* warm orange hover border */
-    box-shadow: 0 20px 40px rgba(12, 10, 9, 0.05), 0 0 30px rgba(234, 88, 12, 0.03) !important;
+    box-shadow: 0 20px 40px rgba(12, 10, 9, 0.05), 0 0 30px rgba(247, 110, 40, 0.05) !important;
   }
 
   /* Card Headings */
@@ -201,7 +329,7 @@
 
   /* Tables inside Dashboard */
   .admin-dashboard th {
-    color: #ea580c !important; /* orange-600 */
+    color: #f76e28 !important; /* GMD logo orange */
     font-weight: 800 !important;
     text-transform: uppercase !important;
     letter-spacing: 0.1em !important;
@@ -234,15 +362,15 @@
   .admin-dashboard textarea:focus,
   .admin-dashboard select:focus {
     background-color: #ffffff !important;
-    border-color: #ea580c !important; /* orange-600 */
-    box-shadow: 0 0 15px rgba(234, 88, 12, 0.15) !important;
+    border-color: #f76e28 !important; /* GMD logo orange */
+    box-shadow: 0 0 15px rgba(247, 110, 40, 0.15) !important;
     outline: none !important;
   }
 
   .admin-dashboard input:hover,
   .admin-dashboard textarea:hover,
   .admin-dashboard select:hover {
-    border-color: #fb923c !important; /* orange-400 */
+    border-color: #f76e28 !important;
     background-color: #ffffff !important;
   }
 
@@ -272,7 +400,7 @@
     color: #7c2d12 !important; /* orange-850 */
   }
   .admin-dashboard nav button:hover {
-    color: #ea580c !important;
+    color: #f76e28 !important;
     background-color: #fffaf0 !important;
   }
 
@@ -283,7 +411,7 @@
   }
   
   .admin-dashboard aside p {
-    color: #f97316 !important; /* orange-500 */
+    color: #f76e28 !important; /* GMD logo orange */
     font-weight: 800 !important;
   }
   
@@ -326,11 +454,11 @@
 
 /* Manual class overrides for backup compatibility */
 .font-serif {
-  font-family: "Playfair Display", serif;
+  font-family: "Calibri", "Inter", "Segoe UI", system-ui, -apple-system, BlinkMacSystemFont, "Roboto", sans-serif !important;
 }
 
 .font-sans {
-  font-family: "Plus Jakarta Sans", sans-serif;
+  font-family: "Calibri", "Inter", "Segoe UI", system-ui, -apple-system, BlinkMacSystemFont, "Roboto", sans-serif !important;
 }
 
 @keyframes fadeIn {
@@ -391,7 +519,7 @@
   left: 0;
   width: 0;
   height: 2px;
-  background: linear-gradient(to right, #f97316, #f59e0b);
+  background: #f76e28;
   transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
@@ -405,43 +533,178 @@
 }
 
 .custom-scrollbar::-webkit-scrollbar-track {
-  background: rgba(249, 115, 22, 0.02);
+  background: rgba(247, 110, 40, 0.02);
   border-radius: 99px;
 }
 
 .custom-scrollbar::-webkit-scrollbar-thumb {
-  background: rgba(249, 115, 22, 0.15);
+  background: rgba(247, 110, 40, 0.2);
   border-radius: 99px;
   transition: background 0.2s;
 }
 
 .custom-scrollbar::-webkit-scrollbar-thumb:hover {
-  background: rgba(249, 115, 22, 0.3);
+  background: rgba(247, 110, 40, 0.4);
 }
 
 @keyframes bell-shake {
   0%, 100% { transform: rotate(0); }
-  15% { transform: rotate(12deg); }
-  30% { transform: rotate(-12deg); }
-  45% { transform: rotate(7deg); }
-  60% { transform: rotate(-7deg); }
-  75% { transform: rotate(3deg); }
-  90% { transform: rotate(-3deg); }
+  15% { transform: rotate(14deg); }
+  30% { transform: rotate(-14deg); }
+  45% { transform: rotate(9deg); }
+  60% { transform: rotate(-9deg); }
+  75% { transform: rotate(4deg); }
+  90% { transform: rotate(-4deg); }
 }
 
 .hover-bell-shake:hover svg {
-  animation: bell-shake 0.6s ease-in-out;
+  animation: bell-shake 0.65s cubic-bezier(0.36, 0.07, 0.19, 0.97) both;
+  transform-origin: top center;
 }
 
 @keyframes heart-beat {
   0%, 100% { transform: scale(1); }
-  25% { transform: scale(1.18); }
-  45% { transform: scale(0.93); }
-  70% { transform: scale(1.12); }
+  20% { transform: scale(1.28); }
+  40% { transform: scale(0.96); }
+  60% { transform: scale(1.18); }
+  80% { transform: scale(0.98); }
 }
 
 .hover-heart-beat:hover svg {
-  animation: heart-beat 0.65s cubic-bezier(0.25, 0.8, 0.25, 1);
+  animation: heart-beat 0.65s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+@keyframes heart-pop {
+  0% { transform: scale(0.85); }
+  45% { transform: scale(1.35); }
+  75% { transform: scale(0.95); }
+  100% { transform: scale(1); }
+}
+
+.animate-heart-pop {
+  animation: heart-pop 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+}
+
+/* Department Name-Specific Micro-Animations on Hover (Subtle & Minimal) */
+@keyframes man-wave {
+  0%, 100% { transform: translateY(0) rotate(0deg); }
+  50% { transform: translateY(-1px) rotate(4deg); }
+}
+
+@keyframes woman-sway {
+  0%, 100% { transform: translateY(0) rotate(0deg); }
+  50% { transform: translateY(-1px) rotate(-4deg); }
+}
+
+@keyframes kid-bounce {
+  0%, 100% { transform: translateY(0) scale(1); }
+  50% { transform: translateY(-1.5px) scale(1.06); }
+}
+
+@keyframes home-pop {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.08) translateY(-1px); }
+}
+
+@keyframes beauty-sparkle {
+  0%, 100% { transform: scale(1) rotate(0deg); }
+  50% { transform: scale(1.08) rotate(8deg); }
+}
+
+@keyframes diya-flicker {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.06, 1.1); }
+}
+
+@keyframes tech-pulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.08) rotate(-4deg); }
+}
+
+@keyframes grocery-wobble {
+  0%, 100% { transform: rotate(0); }
+  50% { transform: rotate(-5deg) scale(1.05); }
+}
+
+@keyframes paw-tap {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-1.5px) rotate(-4deg); }
+}
+
+.anim-man { animation: man-wave 0.8s ease-in-out infinite; }
+.anim-woman { animation: woman-sway 0.8s ease-in-out infinite; }
+.anim-kid { animation: kid-bounce 0.75s ease-in-out infinite; }
+.anim-home { animation: home-pop 0.8s ease-in-out infinite; }
+.anim-beauty { animation: beauty-sparkle 0.8s ease-in-out infinite; }
+.anim-diya { animation: diya-flicker 0.75s ease-in-out infinite; }
+.anim-tech { animation: tech-pulse 0.75s ease-in-out infinite; }
+.anim-grocery { animation: grocery-wobble 0.75s ease-in-out infinite; }
+.anim-paw { animation: paw-tap 0.75s ease-in-out infinite; }
+
+@keyframes deals-flame {
+  0%, 100% { transform: translateY(0) scale(1); }
+  50% { transform: translateY(-1.5px) scale(1.08); }
+}
+.anim-deals { animation: deals-flame 0.75s ease-in-out infinite; }
+
+/* Disintegration Particle & Crumble Animation for Cart Removal */
+@keyframes card-disintegrate {
+  0% {
+    filter: blur(0px) contrast(100%) brightness(1);
+    transform: scale(1) translate(0, 0);
+    opacity: 1;
+  }
+  20% {
+    filter: blur(1px) contrast(140%) brightness(1.25) saturate(70%);
+    transform: scale(0.99) translate(-1px, 1px);
+    opacity: 0.95;
+  }
+  45% {
+    filter: blur(2.5px) contrast(180%) brightness(1.4) saturate(30%);
+    transform: scale(0.97) translate(2px, -2px);
+    opacity: 0.7;
+    mask-image: radial-gradient(circle at 50% 50%, transparent 35%, black 100%);
+    -webkit-mask-image: radial-gradient(circle at 50% 50%, transparent 35%, black 100%);
+  }
+  75% {
+    filter: blur(4px) contrast(220%) brightness(1.6) saturate(0%);
+    transform: scale(0.94) translate(-2px, -4px);
+    opacity: 0.3;
+    mask-image: radial-gradient(circle at 50% 50%, transparent 65%, black 100%);
+    -webkit-mask-image: radial-gradient(circle at 50% 50%, transparent 65%, black 100%);
+  }
+  100% {
+    filter: blur(6px) brightness(2.2) saturate(0%);
+    transform: scale(0.9) translate(0, -8px);
+    opacity: 0;
+  }
+}
+
+@keyframes particle-drift {
+  0% {
+    transform: translate(0, 0) scale(1) rotate(0deg);
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.85;
+    transform: translate(calc(var(--tx) * 0.55), calc(var(--ty) * 0.55)) scale(1.3) rotate(180deg);
+  }
+  100% {
+    transform: translate(var(--tx), var(--ty)) scale(0) rotate(360deg);
+    opacity: 0;
+  }
+}
+
+.animate-card-disintegrate {
+  animation: card-disintegrate 0.5s cubic-bezier(0.25, 1, 0.5, 1) forwards !important;
+}
+
+.disintegration-particle {
+  position: absolute;
+  border-radius: 9999px;
+  pointer-events: none;
+  animation: particle-drift 0.5s cubic-bezier(0.1, 0.8, 0.3, 1) forwards;
+  will-change: transform, opacity;
 }
 
 
@@ -449,7 +712,7 @@
 /* Admin Dashboard Premium Theme */
 .admin-dashboard {
   background-color: #fffaf0 !important; /* luxury soft cream */
-  background-image: radial-gradient(rgba(234, 88, 12, 0.03) 1.2px, transparent 0) !important; /* boutique warm pattern */
+  background-image: radial-gradient(rgba(247, 110, 40, 0.04) 1.2px, transparent 0) !important; /* boutique warm pattern */
   background-size: 24px 24px !important;
   color: #0c0a09 !important; /* dark chocolate text */
   min-height: 100vh;
@@ -544,13 +807,10 @@
 .admin-dashboard .text-orange-450,
 .admin-dashboard .text-orange-400,
 .admin-dashboard .text-orange-350,
-.admin-dashboard .text-orange-300 {
-  color: #ea580c !important; /* elegant boutique orange */
-}
-
+.admin-dashboard .text-orange-300,
 .admin-dashboard .text-orange-200,
 .admin-dashboard .text-orange-100 {
-  color: #f97316 !important;
+  color: #f76e28 !important; /* GMD brand logo orange */
 }
 
 .admin-dashboard .badge {
@@ -600,7 +860,7 @@
   transform: translateY(-3px) !important;
   background: #ffffff !important;
   border-color: #fb923c !important; /* warm orange hover border */
-  box-shadow: 0 20px 40px rgba(12, 10, 9, 0.05), 0 0 30px rgba(234, 88, 12, 0.03) !important;
+  box-shadow: 0 20px 40px rgba(12, 10, 9, 0.05), 0 0 30px rgba(247, 110, 40, 0.05) !important;
 }
 
 /* List stripes & Table row backgrounds */
@@ -641,7 +901,7 @@
 .admin-dashboard div[class*="bg-gradient-to-br"][class*="from-zinc-900"],
 .admin-dashboard div[class*="bg-gradient-to-br"][class*="from-black"] {
   background: linear-gradient(135deg, #160c07 0%, #030712 100%) !important; 
-  border: 1px solid rgba(234, 88, 12, 0.25) !important;
+  border: 1px solid rgba(247, 110, 40, 0.25) !important;
   border-radius: 1.5rem !important;
 }
 
@@ -682,7 +942,7 @@
 .admin-dashboard .bg-orange-500\/10[class*="h-"],
 .admin-dashboard .bg-orange-600\/10[class*="h-"] {
   background: #fffaf0 !important; /* orange-50 */
-  color: #ea580c !important; /* orange-600 */
+  color: #f76e28 !important; /* GMD brand logo orange */
   border: 1px solid #ffedd5 !important; /* orange-100 */
 }
 
@@ -691,7 +951,7 @@
 .admin-dashboard span[class*="bg-orange-200"] *,
 .admin-dashboard div[class*="bg-orange-50"][class*="h-"] *,
 .admin-dashboard div[class*="bg-orange-100"][class*="h-"] * {
-  color: #ea580c !important;
+  color: #f76e28 !important;
 }
 
 /* Modern Primary Button Redesign */
@@ -699,10 +959,10 @@
 .admin-dashboard button.bg-orange-600,
 .admin-dashboard .bg-orange-950,
 .admin-dashboard button.bg-zinc-950 {
-  background: linear-gradient(135deg, #f97316 0%, #ea580c 100%) !important;
+  background: #f76e28 !important;
   color: #ffffff !important;
   border: 1px solid rgba(255, 255, 255, 0.1) !important;
-  box-shadow: 0 4px 12px rgba(234, 88, 12, 0.15) !important;
+  box-shadow: 0 4px 12px rgba(247, 110, 40, 0.25) !important;
   border-radius: 0.75rem !important;
 }
 
@@ -710,8 +970,8 @@
 .admin-dashboard button.bg-orange-600:hover,
 .admin-dashboard .bg-orange-950:hover,
 .admin-dashboard button.bg-zinc-950:hover {
-  box-shadow: 0 6px 20px rgba(234, 88, 12, 0.25) !important;
-  filter: brightness(1.05) !important;
+  background: #de5713 !important;
+  box-shadow: 0 6px 20px rgba(247, 110, 40, 0.35) !important;
   transform: translateY(-1px) !important;
 }
 
@@ -726,7 +986,7 @@
 .admin-dashboard button.bg-white[class*="text-black"],
 .admin-dashboard button.bg-white[class*="text-zinc-800"] {
   background: #ffffff !important;
-  color: #ea580c !important; /* orange-600 */
+  color: #f76e28 !important; /* GMD brand logo orange */
   border: 1px solid #ffedd5 !important; /* orange-100 */
   border-radius: 0.75rem !important;
 }
@@ -734,8 +994,8 @@
 .admin-dashboard button.bg-white:hover,
 .admin-dashboard a.bg-white:hover {
   background: #fffaf0 !important;
-  border-color: #ea580c !important;
-  box-shadow: 0 4px 12px rgba(234, 88, 12, 0.08) !important;
+  border-color: #f76e28 !important;
+  box-shadow: 0 4px 12px rgba(247, 110, 40, 0.12) !important;
 }
 
 /* Selected Filter Pills & Active Tab Buttons */
@@ -743,10 +1003,10 @@
 .admin-dashboard button.bg-orange-950.text-orange-955,
 .admin-dashboard button.bg-orange-950.text-orange-950,
 .admin-dashboard button.bg-white.active {
-  background: #ea580c !important;
+  background: #f76e28 !important;
   color: #ffffff !important;
-  border: 1px solid #ea580c !important;
-  box-shadow: 0 4px 12px rgba(234, 88, 12, 0.15) !important;
+  border: 1px solid #f76e28 !important;
+  box-shadow: 0 4px 12px rgba(247, 110, 40, 0.25) !important;
 }
 
 /* Secondary Buttons & Unselected Tabs */
@@ -758,7 +1018,7 @@
 .admin-dashboard button.bg-orange-50\/20,
 .admin-dashboard button:not([class*="bg-orange-"]):not([class*="bg-zinc-"]):not([class*="bg-black"]):not([class*="bg-white"]):not([class*="bg-rose-"]) {
   background: #ffffff !important;
-  color: #ea580c !important;
+  color: #f76e28 !important;
   border: 1px solid #ffedd5 !important;
   border-radius: 0.75rem !important;
 }
@@ -771,9 +1031,9 @@
 .admin-dashboard button.bg-orange-50\/20:hover,
 .admin-dashboard button:not([class*="bg-orange-"]):not([class*="bg-zinc-"]):not([class*="bg-black"]):not([class*="bg-white"]):not([class*="bg-rose-"]):hover {
   background: #fffaf0 !important;
-  border-color: #ea580c !important;
+  border-color: #f76e28 !important;
   transform: translateY(-1px) !important;
-  box-shadow: 0 4px 12px rgba(234, 88, 12, 0.08) !important;
+  box-shadow: 0 4px 12px rgba(247, 110, 40, 0.12) !important;
 }
 
 /* Action states (Suspend/Activate) */
@@ -793,14 +1053,14 @@
 .admin-dashboard button.bg-orange-50,
 .admin-dashboard a.bg-orange-50 {
   background: #fffaf0 !important;
-  color: #ea580c !important;
+  color: #f76e28 !important;
   border: 1px solid #ffedd5 !important;
 }
 .admin-dashboard button.bg-orange-50:hover,
 .admin-dashboard a.bg-orange-50:hover {
-  background: #ea580c !important;
+  background: #f76e28 !important;
   color: #ffffff !important;
-  border-color: #ea580c !important;
+  border-color: #f76e28 !important;
 }
 
 /* Non-button tags */
@@ -813,7 +1073,7 @@
 .admin-dashboard .bg-orange-50:not(button),
 .admin-dashboard span.bg-orange-50 {
   background: #fffaf0 !important;
-  color: #ea580c !important;
+  color: #f76e28 !important;
   border: 1px solid #ffedd5 !important;
 }
 
@@ -830,3 +1090,155 @@ body.bg-\[\#fdfbf9\],
 body {
   background-color: #faf6f0 !important;
 }
+
+/* Subtle High-Performance Micro-Animations */
+.product-card-hover {
+  transition: transform 180ms cubic-bezier(0.16, 1, 0.3, 1), box-shadow 180ms cubic-bezier(0.16, 1, 0.3, 1), border-color 180ms ease !important;
+  will-change: transform;
+}
+.product-card-hover:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 12px 28px -6px rgba(247, 110, 40, 0.12), 0 4px 12px -2px rgba(0, 0, 0, 0.04);
+}
+
+.legal-policy-page {
+  color: #111827;
+}
+
+.legal-policy-page h1,
+.legal-policy-page h2,
+.legal-policy-page h3,
+.legal-policy-page h4,
+.legal-policy-page h5,
+.legal-policy-page p,
+.legal-policy-page li,
+.legal-policy-page label,
+.legal-policy-page span {
+  color: #111827;
+}
+
+.legal-policy-page .text-orange-400,
+.legal-policy-page .text-orange-500,
+.legal-policy-page .text-orange-600,
+.legal-policy-page .text-orange-700 {
+  color: #f76e28;
+}
+
+.legal-policy-page .text-orange-900,
+.legal-policy-page .text-orange-950,
+.legal-policy-page .text-orange-955,
+.legal-policy-page .text-orange-900\/80,
+.legal-policy-page .text-orange-700\/70 {
+  color: #111827;
+}
+
+.legal-policy-page .bg-orange-955,
+.legal-policy-page .bg-orange-950 {
+  background-color: #f76e28;
+  color: #ffffff;
+}
+
+.legal-policy-page button.bg-stone-900,
+.legal-policy-page a.bg-stone-900 {
+  background-color: #111827;
+  color: #ffffff;
+}
+
+.legal-policy-page h1,
+.legal-policy-page h2,
+.legal-policy-page h3,
+.legal-policy-page h4,
+.legal-policy-page h5,
+.legal-policy-page p,
+.legal-policy-page li,
+.legal-policy-page label {
+  color: #111827 !important;
+}
+
+.legal-policy-page button.bg-orange-950,
+.legal-policy-page button.bg-orange-955,
+.legal-policy-page button.bg-stone-900,
+.legal-policy-page button.bg-stone-900 span {
+  color: #ffffff !important;
+}
+
+.subtle-badge-pulse {
+  animation: badgePulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+@keyframes badgePulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.75; }
+}
+
+/* Subtle & Minimal Global Micro-Animations */
+.anim-hover-lift {
+  transition: transform 0.22s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.22s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.22s ease;
+}
+.anim-hover-lift:hover {
+  transform: translateY(-2.5px);
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.08), 0 4px 10px -2px rgba(247, 110, 40, 0.08);
+}
+
+.anim-click-press {
+  transition: transform 0.12s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.anim-click-press:active {
+  transform: scale(0.97);
+}
+
+.anim-seat-cell {
+  transition: transform 0.18s cubic-bezier(0.34, 1.56, 0.64, 1), background-color 0.15s ease, border-color 0.15s ease, box-shadow 0.15s ease;
+}
+.anim-seat-cell:hover:not(:disabled) {
+  transform: scale(1.1);
+  z-index: 10;
+}
+.anim-seat-cell:active:not(:disabled) {
+  transform: scale(0.92);
+}
+
+.anim-pill {
+  transition: all 0.18s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.anim-pill:hover {
+  transform: translateY(-1px);
+}
+.anim-pill:active {
+  transform: scale(0.96);
+}
+
+@keyframes cinemaScreenGlow {
+  0%, 100% {
+    box-shadow: 0 14px 45px -8px rgba(247, 110, 40, 0.25), 0 6px 20px -5px rgba(255, 255, 255, 0.4);
+    opacity: 0.95;
+  }
+  50% {
+    box-shadow: 0 18px 55px -6px rgba(247, 110, 40, 0.4), 0 8px 26px -4px rgba(255, 255, 255, 0.6);
+    opacity: 1;
+  }
+}
+
+.cinema-screen-glow {
+  animation: cinemaScreenGlow 3.5s ease-in-out infinite;
+}
+
+@keyframes busFreshAirFlow {
+  0% {
+    opacity: 0.3;
+    transform: translateY(0px) scale(0.98);
+  }
+  50% {
+    opacity: 0.8;
+    transform: translateY(-4px) scale(1.02);
+  }
+  100% {
+    opacity: 0.3;
+    transform: translateY(0px) scale(0.98);
+  }
+}
+
+.animate-air-flow {
+  animation: busFreshAirFlow 4s ease-in-out infinite;
+}
+

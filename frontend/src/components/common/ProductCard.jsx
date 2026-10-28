@@ -1,14 +1,19 @@
-import React, { useState } from 'react';
-// Force rebuild watcher trigger for sharp luxury cards
+import React, { useState, useRef, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { ShoppingBag, Heart, Eye, Check, Star, Scale } from 'lucide-react';
+import { ShoppingBag, Heart, Eye, Check, Star, Scale, Zap, Truck, Minus, Plus, Trash2 } from 'lucide-react';
+import lottie from 'lottie-web';
+import addToCartAnimationData from '../../assets/addToCartAnimation.json';
 import { useShop } from '../../context/ShopContext';
 import { useAuth } from '../../context/AuthContext';
+import { useLiveStock } from '../../hooks/useRealtime';
 import QuickViewModal from './QuickViewModal';
+import { getProductImage } from '../../utils/productImages';
 
 const ProductCard = ({ product }) => {
   const { 
+    cart = [],
     addToCart, 
+    updateQuantity,
     removeFromCart, 
     toggleWishlist, 
     isInWishlist, 
@@ -16,6 +21,7 @@ const ProductCard = ({ product }) => {
     addToCompare, 
     compareItems, 
     formatPrice, 
+    setCartDrawerOpen,
     t, 
     translateRecipient, 
     translateOccasion 
@@ -25,21 +31,103 @@ const ProductCard = ({ product }) => {
   const [isQuickViewOpen, setIsQuickViewOpen] = useState(false);
 
   const productId = product.product_id || product.id;
-  const image = product.thumbnail || product.image || '/fallback-product.png';
+  const image = getProductImage(product);
+  const liveStock = useLiveStock(product.stock_quantity !== undefined ? Number(product.stock_quantity) : 25, productId);
+
+  const discountPercent = Number(product.mrp) > Number(product.price)
+    ? Math.round(((Number(product.mrp) - Number(product.price)) / Number(product.mrp)) * 100)
+    : 0;
+
+  // Real-time cart quantity for this product (string-safe ID comparison)
+  const cartItem = cart?.find(item => 
+    (item.id == productId || item.product_id == productId || String(item.id) === String(productId) || String(item.product_id) === String(productId))
+  );
+  const cartQty = cartItem?.quantity || 0;
+
+  // animPhase: 'idle' | 'expanding' | 'playing' | 'settling'
+  const [animPhase, setAnimPhase] = useState('idle');
+  const lottieContainerRef = useRef(null);
+  const animInstanceRef = useRef(null);
+
+  const isAnimating = animPhase !== 'idle';
 
   const handleAddToCart = (e) => {
     e.preventDefault();
     e.stopPropagation();
-    if (!user) {
-      navigate('/login');
-      return;
-    }
-    if (isInCart(productId)) {
+    if (liveStock <= 0 || isAnimating) return;
+    setAnimPhase('expanding');
+    addToCart({ ...product, stock_quantity: liveStock }, 1);
+  };
+
+  const handleIncrement = (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    if (cartQty >= liveStock) return;
+    updateQuantity(productId, cartQty + 1);
+  };
+
+  const handleDecrement = (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    if (cartQty <= 1) {
       removeFromCart(productId);
     } else {
-      addToCart(product, 1);
+      updateQuantity(productId, cartQty - 1);
     }
   };
+
+  useEffect(() => {
+    if (animPhase === 'expanding') {
+      // Step 1: Smooth expand animation of the button pill & price fade out
+      const playTimer = setTimeout(() => {
+        setAnimPhase('playing');
+      }, 300);
+
+      return () => clearTimeout(playTimer);
+    }
+
+    if (animPhase === 'playing') {
+      // Step 2: Play the single-shot added to cart animation inside the expanded button
+      if (lottieContainerRef.current) {
+        lottieContainerRef.current.innerHTML = '';
+        const anim = lottie.loadAnimation({
+          container: lottieContainerRef.current,
+          renderer: 'svg',
+          loop: false,
+          autoplay: true,
+          animationData: addToCartAnimationData,
+          rendererSettings: {
+            preserveAspectRatio: 'xMidYMid meet'
+          }
+        });
+
+        anim.setSpeed(1.25);
+        animInstanceRef.current = anim;
+      }
+
+      // Drive-off completes at ~1350ms
+      const finishAnimTimer = setTimeout(() => {
+        setAnimPhase('settling');
+      }, 1350);
+
+      return () => {
+        clearTimeout(finishAnimTimer);
+        if (animInstanceRef.current) {
+          animInstanceRef.current.destroy();
+          animInstanceRef.current = null;
+        }
+      };
+    }
+
+    if (animPhase === 'settling') {
+      // Step 3: Button morphs into stepper / normal and price smoothly fades in
+      const settleTimer = setTimeout(() => {
+        setAnimPhase('idle');
+      }, 350);
+
+      return () => clearTimeout(settleTimer);
+    }
+  }, [animPhase]);
 
   const handleToggleWishlist = (e) => {
     e.preventDefault();
@@ -61,167 +149,203 @@ const ProductCard = ({ product }) => {
     return compareItems?.some(item => (item.product_id || item.id) === productId);
   }, [compareItems, productId]);
 
-  const isOutOfStock = product.stock_quantity !== undefined && Number(product.stock_quantity) <= 0;
+  const isOutOfStock = liveStock <= 0;
+  const isLowStock = liveStock > 0 && liveStock <= 5;
 
   return (
     <>
-      <div className="group flex flex-col bg-white border border-stone-200 hover:border-orange-500/35 rounded-2xl p-3 sm:p-4 hover:shadow-[0_22px_44px_rgba(240,115,35,0.06)] hover:-translate-y-1.5 transition-all duration-500 ease-out cursor-pointer h-full relative">
+      <div 
+        onClick={() => navigate(`/product/${productId}`)}
+        className="group flex flex-col bg-white border border-stone-200 hover:border-stone-950 rounded-lg p-2.5 hover:shadow-[0_16px_30px_rgba(17,24,39,0.08)] hover:-translate-y-0.5 transition-all duration-300 ease-out cursor-pointer h-full relative gpu-accelerate overflow-hidden"
+      >
         
-        {/* Image & Quick Action Overlay Section */}
-        <div className="relative aspect-[4/5] overflow-hidden bg-stone-50 rounded-xl mb-3 border border-stone-100/60 flex-shrink-0">
-          <Link to={`/product/${productId}`} className="w-full h-full block">
+        {/* Image Container with Top Badges & Actions */}
+        <div className="relative aspect-[3/4] overflow-hidden bg-stone-100 rounded-md mb-3 flex items-center justify-center flex-shrink-0 group-hover:bg-stone-200 transition-colors">
+          <Link to={`/product/${productId}`} className="w-full h-full block overflow-hidden">
             <img
               src={image}
               alt={t(product.name)}
               onError={(e) => {
                 e.target.onerror = null;
-                e.target.src = 'https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=600&q=80';
+                e.target.src = getProductImage(product);
               }}
-              className="w-full h-full object-cover transition-transform duration-1000 ease-out group-hover:scale-105"
+              className="w-full h-full object-cover transition-transform duration-500 ease-out group-hover:scale-105"
             />
-            {/* Subtle warm overlay on card hover */}
-            <div className="absolute inset-0 bg-stone-900/0 group-hover:bg-stone-900/5 transition-colors duration-500" />
           </Link>
 
-          {/* Floating Save discount badge */}
-          {Number(product.mrp) > Number(product.price) && (
-            <div className="absolute top-2.5 left-2.5 bg-gradient-to-r from-orange-600 to-amber-500 text-white font-black text-[7.5px] uppercase tracking-widest px-2 py-0.5 rounded shadow-sm z-10">
-              {t("save_percent", { percent: Math.round(((Number(product.mrp) - Number(product.price)) / Number(product.mrp)) * 100) })}
-            </div>
-          )}
+          {/* Top-Left Minimalist Badge with Live Stock */}
+          <div className="absolute top-2.5 left-2.5 z-10 flex flex-col gap-1 items-start">
+            <span className="bg-white text-stone-950 font-black text-[9px] uppercase tracking-wider px-2.5 py-1 rounded-sm shadow-2xs border border-stone-200">
+              {discountPercent > 0 ? `${discountPercent}% OFF` : '30% OFF'}
+            </span>
+            {isLowStock && (
+              <span className="bg-[#f76e28] text-white font-black text-[8px] uppercase tracking-wider px-2 py-0.5 rounded-sm shadow-xs animate-pulse flex items-center gap-1">
+                <Zap size={9} className="shrink-0" />
+                <span>Only {liveStock} Left</span>
+              </span>
+            )}
+            {isOutOfStock && (
+              <span className="bg-rose-600 text-white font-black text-[8px] uppercase tracking-wider px-2 py-0.5 rounded-sm shadow-xs">
+                Sold Out
+              </span>
+            )}
+          </div>
 
-          {/* Floating Quick Action Overlay Stack */}
-          <div className="absolute top-2.5 right-2.5 flex flex-col gap-1.5 z-20">
-            {/* Wishlist Button */}
+          {/* Top-Right Wishlist Button */}
+          <div className="absolute top-2.5 right-2.5 z-20">
             <button 
               onClick={handleToggleWishlist}
-              className={`w-8.5 h-8.5 rounded-full flex items-center justify-center transition-all duration-300 border shadow-md hover:scale-110 active:scale-90 cursor-pointer ${
+              className={`w-8 h-8 rounded-full flex items-center justify-center transition-all duration-200 border shadow-xs hover:scale-115 active:scale-90 cursor-pointer hover-heart-beat group/wish ${
                 isInWishlist(productId) 
                   ? 'bg-rose-50 text-rose-600 border-rose-200 fill-rose-600' 
-                  : 'bg-white/95 backdrop-blur text-stone-700 border-stone-200/60 hover:text-rose-600 hover:border-rose-200 hover:bg-rose-50'
+                  : 'bg-white/95 text-stone-600 border-stone-200/80 hover:text-rose-600 hover:border-rose-200 hover:bg-rose-50'
               }`}
               title={isInWishlist(productId) ? t("remove_from_wishlist") : t("add_to_wishlist")}
             >
-              <Heart size={14} className={isInWishlist(productId) ? "fill-current" : ""} />
-            </button>
-
-            {/* Quick View Button */}
-            <button 
-              onClick={handleQuickView}
-              className="w-8.5 h-8.5 bg-white/95 backdrop-blur border border-stone-200/60 text-stone-700 hover:text-orange-600 hover:border-orange-200 hover:scale-110 active:scale-90 rounded-full flex items-center justify-center shadow-md transition-all duration-300 md:opacity-0 md:translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 cursor-pointer"
-              title={t("quick_view")}
-            >
-              <Eye size={14} />
-            </button>
-
-            {/* Compare Button */}
-            <button 
-              onClick={(e) => {
-                e.preventDefault();
-                e.stopPropagation();
-                addToCompare(product);
-              }}
-              className={`w-8.5 h-8.5 border rounded-full flex items-center justify-center hover:scale-110 active:scale-90 shadow-md transition-all duration-300 md:opacity-0 md:translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 cursor-pointer ${
-                isInCompare 
-                  ? 'bg-orange-50 text-orange-600 border-orange-200' 
-                  : 'bg-white/95 backdrop-blur text-stone-700 border-stone-200/60 hover:text-orange-600 hover:border-orange-200'
-              }`}
-              title="Compare"
-            >
-              <Scale size={14} />
+              <Heart 
+                size={14} 
+                className={`transition-all duration-200 ${
+                  isInWishlist(productId) 
+                    ? "fill-rose-500 text-rose-500 animate-heart-pop" 
+                    : "group-hover:text-rose-500 group-hover:scale-110"
+                }`} 
+              />
             </button>
           </div>
         </div>
 
-        {/* Info & Footer Container */}
-        <div className="flex flex-col flex-grow">
-          {/* Info Block (takes remaining vertical space except footer) */}
-          <div className="flex-grow space-y-1">
-            {/* Elegant recipient and occasion tags */}
-            {(product.recipient || product.occasion) && (
-              <div className="flex flex-wrap gap-1 mb-1.5">
-                {product.recipient && (
-                  <span className="text-[7.5px] font-black uppercase tracking-wider text-orange-700 bg-orange-50 border border-orange-200/30 px-2 py-0.5 rounded-full">
-                    {translateRecipient(product.recipient)}
-                  </span>
-                )}
-                {product.occasion && (
-                  <span className="text-[7.5px] font-black uppercase tracking-wider text-amber-700 bg-amber-50 border border-amber-200/30 px-2 py-0.5 rounded-full">
-                    {translateOccasion(product.occasion)}
-                  </span>
-                )}
-              </div>
-            )}
+        {/* Product Details Section */}
+        <div className="flex flex-col flex-grow justify-between px-0.5">
+          <div>
+            {/* Category / Department Tag */}
+            <span className="text-[10px] uppercase font-black text-stone-400 tracking-wider block truncate mb-1">
+              {t(product.category || product.brand || 'GoMo Curated')}
+            </span>
 
-            {/* Brand, Ratings & Review Count Row */}
-            <div className="flex items-center justify-between gap-2">
-              {product.brand && (
-                <span className="text-[9px] uppercase tracking-[0.2em] text-stone-400 font-extrabold block truncate">
-                  {t(product.brand)}
-                </span>
-              )}
-              <div className="flex items-center gap-1 text-amber-500 text-[10px] font-black shrink-0">
-                <Star size={9.5} className="fill-current text-amber-500" />
-                <span>{Number(product.rating || 4.5).toFixed(1)}</span>
-                <span className="text-stone-400 font-medium text-[8.5px]">
-                  ({product.reviews_count || 48})
-                </span>
-              </div>
-            </div>
-
-            {/* Product Title */}
-            <h3 className="font-bold text-sm sm:text-[15px] text-stone-850 leading-snug line-clamp-2 group-hover:text-orange-600 transition-colors duration-300">
+            {/* Clean Bold Title */}
+            <h3 className="font-bold text-sm sm:text-[15px] text-stone-950 leading-snug line-clamp-2 min-h-[38px] group-hover:text-orange-600 transition-colors">
               <Link to={`/product/${productId}`}>{t(product.name)}</Link>
             </h3>
 
-            {/* Stock Status Indicator */}
-            <div className="pt-0.5 flex items-center gap-1">
-              {isOutOfStock ? (
-                <span className="text-[7.5px] font-black uppercase tracking-wider text-rose-600 bg-rose-50 border border-rose-200/40 px-1.5 py-0.5 rounded">
-                  Out of Stock
-                </span>
-              ) : Number(product.stock_quantity) <= 5 ? (
-                <span className="text-[7.5px] font-black uppercase tracking-wider text-amber-600 bg-amber-50 border border-amber-200/40 px-1.5 py-0.5 rounded">
-                  Only {product.stock_quantity} left
-                </span>
-              ) : (
-                <span className="text-[7.5px] font-extrabold uppercase tracking-wider text-emerald-600 bg-emerald-50 border border-emerald-200/40 px-1.5 py-0.5 rounded">
-                  In Stock
-                </span>
-              )}
+            {/* Rating & Delivery Row */}
+            <div className="flex items-center gap-2 mt-1.5 text-[11px]">
+              <div className="flex items-center gap-1 text-amber-500 font-bold">
+                <Star size={11} className="fill-amber-400 text-amber-400" />
+                <span className="text-stone-700">{Number(product.rating || 4.5).toFixed(1)}</span>
+              </div>
+              <span className="text-stone-300">•</span>
+              <div className="inline-flex items-center gap-1 text-[9.5px] font-semibold text-emerald-800 bg-emerald-50 px-2 py-0.5 rounded-sm border border-emerald-100">
+                <Zap size={9} className="fill-emerald-600 text-emerald-600" />
+                <span>12-24h</span>
+              </div>
             </div>
           </div>
 
-          {/* Footer Block - Pinned to bottom, perfectly aligned across cards */}
-          <div className="pt-3 mt-3 border-t border-stone-100 flex items-center justify-between gap-3 shrink-0">
-            {/* Price Column */}
-            <div className="flex flex-col text-left">
-              <span className="text-sm sm:text-base font-black text-stone-900 leading-none">
+          {/* Bottom Row: Price & Tactile In-Place Expanding Cart Button */}
+          <div className="pt-3 mt-2.5 border-t border-stone-100 flex items-center justify-between gap-2 shrink-0 relative min-h-[44px]">
+            {/* Price section - smoothly fades out when button expands, and glides back in after animation */}
+            <div 
+              style={{
+                transition: 'opacity 300ms cubic-bezier(0.4, 0, 0.2, 1), transform 300ms cubic-bezier(0.4, 0, 0.2, 1)',
+                opacity: (animPhase === 'expanding' || animPhase === 'playing') ? 0 : 1,
+                transform: (animPhase === 'expanding' || animPhase === 'playing') ? 'translateX(-10px)' : 'translateX(0px)',
+                pointerEvents: (animPhase === 'expanding' || animPhase === 'playing') ? 'none' : 'auto'
+              }}
+              className="flex flex-col text-left shrink-0 select-none"
+            >
+              <span className="text-[10.5px] text-stone-400 line-through leading-none font-medium">
+                {discountPercent > 0 ? formatPrice(product.mrp) : formatPrice(Number(product.price || 0) * 1.25)}
+              </span>
+              <span className="text-base sm:text-lg font-black text-stone-950 leading-tight mt-0.5">
                 {formatPrice(product.price)}
               </span>
-              {Number(product.mrp) > Number(product.price) && (
-                <span className="text-[10px] sm:text-[11px] text-stone-400 line-through font-bold leading-none mt-1">
-                  {formatPrice(product.mrp)}
-                </span>
-              )}
             </div>
-            
-            {/* Primary Action Button */}
-            <div className="flex-shrink-0">
-              <button 
-                onClick={handleAddToCart}
-                disabled={isOutOfStock}
-                className={`w-8.5 h-8.5 rounded-full flex items-center justify-center transition-all duration-300 border cursor-pointer shadow-md ${
-                  isOutOfStock
-                    ? 'bg-stone-100 text-stone-300 border-stone-200 cursor-not-allowed shadow-none'
-                    : isInCart(productId) 
-                      ? 'bg-orange-50 text-orange-600 border-orange-200 hover:bg-orange-100 hover:scale-110 active:scale-90' 
-                      : 'bg-orange-600 text-white border-orange-600 hover:bg-orange-700 hover:border-orange-700 shadow-sm hover:scale-110 active:scale-90'
-                }`}
-                title={isOutOfStock ? "Out of Stock" : isInCart(productId) ? t("added_to_cart") : t("add_to_cart")}
-              >
-                {isInCart(productId) ? <Check size={14} strokeWidth={2.5} /> : <ShoppingBag size={14} />}
-              </button>
+
+            {/* Action Area: Positioned strictly on the right, expands in-place */}
+            <div className="relative flex items-center justify-end shrink-0">
+              {isAnimating ? (
+                /* Expanding Pill Button positioned right at the button location */
+                <div 
+                  style={{
+                    transition: 'width 320ms cubic-bezier(0.34, 1.25, 0.64, 1)',
+                    width: (animPhase === 'expanding' || animPhase === 'playing') ? '155px' : (cartQty > 0 ? '92px' : '40px'),
+                    height: '40px'
+                  }}
+                  className="relative flex items-center justify-center rounded-full bg-stone-950 shadow-md shadow-stone-950/20 overflow-hidden"
+                  onClick={(e) => { e.preventDefault(); e.stopPropagation(); }}
+                >
+                  {/* Smooth fade-in & expand indicator */}
+                  <div 
+                    style={{
+                      transition: 'opacity 200ms ease',
+                      opacity: animPhase === 'expanding' ? 1 : 0
+                    }}
+                    className="absolute inset-0 flex items-center justify-center text-white text-[11px] font-black tracking-wider uppercase pointer-events-none select-none"
+                  >
+                    <span className="animate-pulse">Adding...</span>
+                  </div>
+
+                  {/* Single-shot Lottie Added-to-Cart Animation within button */}
+                  <div 
+                    ref={lottieContainerRef}
+                    style={{
+                      transition: 'opacity 220ms ease',
+                      opacity: animPhase === 'playing' ? 1 : 0
+                    }}
+                    className="w-[155px] h-[40px] flex items-center justify-center select-none overflow-hidden"
+                  />
+                </div>
+              ) : cartQty > 0 ? (
+                /* Stepper: - 1 + to add multiple products (Lighter, Vibrant Logo Orange) */
+                <div 
+                  style={{
+                    background: 'linear-gradient(135deg, #FF8C38 0%, #FF7A26 100%)',
+                    borderColor: '#FFA057',
+                    boxShadow: '0 4px 14px rgba(255, 126, 46, 0.32)'
+                  }}
+                  className="h-9 sm:h-10 rounded-full text-white flex items-center px-1 border transition-all duration-300 animate-in fade-in zoom-in-90"
+                  onClick={(e) => { e.preventDefault(); e.stopPropagation(); }}
+                >
+                  <button
+                    type="button"
+                    onClick={handleDecrement}
+                    className="w-7 h-7 sm:w-8 sm:h-8 rounded-full flex items-center justify-center text-white/90 hover:text-white hover:bg-black/15 active:scale-90 transition-all cursor-pointer"
+                    title={cartQty === 1 ? "Remove from cart" : "Decrease quantity"}
+                  >
+                    {cartQty === 1 ? <Trash2 size={13} /> : <Minus size={13} strokeWidth={2.5} />}
+                  </button>
+                  <span className="px-2 font-black text-xs sm:text-sm text-white min-w-[20px] text-center select-none tabular-nums">
+                    {cartQty}
+                  </span>
+                  <button
+                    type="button"
+                    onClick={handleIncrement}
+                    disabled={cartQty >= liveStock}
+                    className={`w-7 h-7 sm:w-8 sm:h-8 rounded-full flex items-center justify-center transition-all cursor-pointer ${
+                      cartQty >= liveStock 
+                        ? 'opacity-40 cursor-not-allowed text-white/50' 
+                        : 'text-white/90 hover:text-white hover:bg-black/15 active:scale-90'
+                    }`}
+                    title={cartQty >= liveStock ? "Max stock reached" : "Increase quantity"}
+                  >
+                    <Plus size={13} strokeWidth={2.5} />
+                  </button>
+                </div>
+              ) : (
+                /* Circular Add to Cart Button */
+                <button 
+                  onClick={handleAddToCart}
+                  disabled={isOutOfStock}
+                  className={`w-9 h-9 sm:w-10 sm:h-10 rounded-full flex items-center justify-center cursor-pointer shadow-xs active:scale-90 transition-all duration-300 ease-out animate-in fade-in zoom-in-90 ${
+                    isOutOfStock
+                      ? 'bg-stone-100 text-stone-300 border border-stone-200 cursor-not-allowed shadow-none'
+                      : 'bg-stone-950 text-white hover:bg-[#FF8533] hover:shadow-[#FF8533]/30'
+                  }`}
+                  title={isOutOfStock ? "Out of Stock" : "Add to Cart"}
+                >
+                  <ShoppingBag size={15} />
+                </button>
+              )}
             </div>
           </div>
         </div>

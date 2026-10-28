@@ -1,6 +1,6 @@
 import { useState, useEffect, useMemo } from "react";
 import { useNavigate } from "react-router-dom";
-import { useAuth } from "../../../context/AuthContext";
+import { useAdminAuth } from "../../../context/AdminAuthContext.jsx";
 import { useAdminSearch } from "../../admin/contexts/AdminSearchContext";
 import {
   IndianRupee, ShoppingCart, Package, Users, Activity,
@@ -31,7 +31,7 @@ function ProductImage({ src, name, size = 52 }) {
 
 export default function DashboardHome() {
   const { searchQuery: search, setSearchQuery: setSearch } = useAdminSearch();
-  const { user } = useAuth();
+  const { user } = useAdminAuth();
   const [dashboardData, setDashboardData] = useState(null);
   const [loading, setLoading] = useState(true);
   const navigate = useNavigate();

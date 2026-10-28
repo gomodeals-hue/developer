@@ -7,7 +7,7 @@ import {
 } from "lucide-react";
 import { cn } from "../../../lib/utils";
 import { useToast } from "../../../hooks/use-toast";
-import { useAuth } from "../../../context/AuthContext";
+import { useAdminAuth } from "../../../context/AdminAuthContext.jsx";
 import { api } from "../../../services/api";
 import { StatCard } from "../components/StatCard";
 
@@ -17,7 +17,7 @@ export default function ReturnsPage() {
   const [returns, setReturns] = useState([]);
   const [selectedReturn, setSelectedReturn] = useState(null);
   const { toast } = useToast();
-  const { user } = useAuth();
+  const { user } = useAdminAuth();
 
   useEffect(() => {
     fetchReturns();

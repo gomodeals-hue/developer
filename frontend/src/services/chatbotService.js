@@ -28,7 +28,74 @@ const formatPrice = (amount) => {
 export const generateSmartBotResponse = (message = '', history = [], user = null) => {
     const query = message.trim().toLowerCase();
     
-    // 1. HOT DEALS & DISCOUNTS
+    // 1. SUPPORT TICKET & ISSUE RESOLUTION
+    if (
+        query.includes('ticket') || 
+        query.includes('issue') || 
+        query.includes('complaint') || 
+        query.includes('support') || 
+        query.includes('raise') ||
+        query.includes('grievance') ||
+        query.includes('problem')
+    ) {
+        return {
+            success: true,
+            reply: `**GoMo Deals Official Support Desk**\n\n**Note: you need to raise a ticket after any issue.**\n\nEvery reported issue is logged with an official ticket reference (e.g. TKT-XXXX) and routed directly to our priority support desk with a strict 4-hour SLA guarantee.\n\n• To raise a ticket: Go to **My Orders** > select your order > click **Raise Support Ticket**.\n• Or visit our **Help & Support** center to track resolution progress in real time.\n\nOn-time delivery and reliable resolution of your order is important for customer satisfaction.`,
+            suggestedReplies: [
+                "Shipping performance & SLA",
+                "Track my order",
+                "0% commission policy",
+                "Return & Refund policy"
+            ]
+        };
+    }
+
+    // 2. SHIPPING PERFORMANCE, DELIVERY SLA & METRICS
+    if (
+        query.includes('sla') || 
+        query.includes('shipping performance') || 
+        query.includes('on time') || 
+        query.includes('ontime') || 
+        query.includes('metric') || 
+        query.includes('ldr') || 
+        query.includes('late delivery') ||
+        query.includes('cancellation') ||
+        query.includes('pickup rate')
+    ) {
+        return {
+            success: true,
+            reply: `**Shipping Performance & Delivery SLA**\n\n**On-time delivery of your order is important for customer satisfaction.**\n\nOur verified platform delivery benchmarks:\n• **On-Time Delivery Rate**: 97.8%\n• **Value Pickup Rate**: 99.1%\n• **Late Delivery Rate (LDR)**: 3.12%\n• **Pre-fulfilment Cancellation Rate**: 0.45%\n\nAll orders are dispatched via trusted courier networks with live telemetry tracking. In case of any dispatch delay, our team acts immediately.`,
+            suggestedReplies: [
+                "Raise a support ticket",
+                "Track my order",
+                "0% commission policy",
+                "Today's hot deals"
+            ]
+        };
+    }
+
+    // 3. ZERO COMMISSION POLICY FOR SELLERS (< Rs. 1000)
+    if (
+        query.includes('commission') || 
+        query.includes('fee') || 
+        query.includes('charge') || 
+        query.includes('1000') ||
+        query.includes('seller tier') ||
+        query.includes('margin')
+    ) {
+        return {
+            success: true,
+            reply: `**GoMo Deals 0% Commission Policy**\n\n• **0% commission for less than Rs. 1000 for sellers (not customers)**.\n• Verified sellers retain 100% of the sale value on all items priced under ₹1,000.\n• **For Customers**: What you see is what you pay — absolutely no platform surcharges, hidden fees, or commission pass-through at checkout.`,
+            suggestedReplies: [
+                "Featured deals",
+                "Shipping performance & SLA",
+                "Track my order",
+                "Raise a support ticket"
+            ]
+        };
+    }
+
+    // 4. HOT DEALS & DISCOUNTS
     if (
         query.includes('deal') || 
         query.includes('discount') || 
@@ -56,10 +123,10 @@ export const generateSmartBotResponse = (message = '', history = [], user = null
             reply,
             products: sortedDeals,
             suggestedReplies: [
-                "Electronics deals",
-                "Fashion deals",
+                "Shipping performance & SLA",
+                "Raise a support ticket",
                 "Track my order",
-                "Active coupon codes"
+                "0% commission policy"
             ]
         };
     }
@@ -163,10 +230,11 @@ export const generateSmartBotResponse = (message = '', history = [], user = null
 
     const matchedCat = categories.find(c => query.includes(c.key));
     if (matchedCat) {
-        const catProducts = SAMPLE_PRODUCTS.filter(p => 
-            (p.category || '').toLowerCase().includes(matchedCat.filter) ||
-            (p.tags || '').toLowerCase().includes(matchedCat.key)
-        ).slice(0, 3);
+        const catProducts = SAMPLE_PRODUCTS.filter(p => {
+            const pTags = (Array.isArray(p.tags) ? p.tags.join(' ') : (p.tags || '')).toString().toLowerCase();
+            return (p.category || '').toString().toLowerCase().includes(matchedCat.filter) ||
+                   pTags.includes(matchedCat.key);
+        }).slice(0, 3);
 
         const listText = (catProducts.length > 0 ? catProducts : SAMPLE_PRODUCTS.slice(0, 3)).map((p, idx) => {
             const mrp = p.mrp ? ` ~~${formatPrice(p.mrp)}~~` : '';

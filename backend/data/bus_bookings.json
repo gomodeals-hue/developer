@@ -1,0 +1,262 @@
+[
+  {
+    "id": "GMD-BUS-782662",
+    "booking_id": "GMD-BUS-782662",
+    "booking_type": "bus",
+    "pnr": "PNR-SRS-621185",
+    "trip_id": "trip_cbe_maa_03",
+    "operator_name": "SRS Travels",
+    "bus_service_number": "SRS-221-SEAT",
+    "bus_type": "BharatBenz AC Executive Seater (2+2)",
+    "from_city": "Coimbatore",
+    "to_city": "Chennai",
+    "departure_time": "14:00",
+    "arrival_time": "22:30",
+    "duration": "8h 30m",
+    "journey_date": "2026-10-17",
+    "boarding_point": {
+      "id": "bp_cbe_1",
+      "name": "Gandhipuram Omni Bus Stand",
+      "time": "14:00",
+      "landmark": "SRS Counter 8"
+    },
+    "dropping_point": {
+      "id": "dp_maa_2",
+      "name": "Tambaram",
+      "time": "21:50",
+      "landmark": "Tambaram West"
+    },
+    "seats": [
+      "3A"
+    ],
+    "lead_passenger": {
+      "name": "Arun Kumar",
+      "phone": "9876543210",
+      "email": "arun@example.com"
+    },
+    "passengers": [
+      {
+        "seat_number": "3A",
+        "name": "Arun Kumar",
+        "age": "28",
+        "gender": "Male"
+      }
+    ],
+    "total_amount": 680,
+    "discount_amount": 0,
+    "coupon_code": null,
+    "status": "confirmed",
+    "payment_id": "PAY_BUS_A7AC290A-F",
+    "payment_method": "upi",
+    "commission_snapshot": {
+      "supplier_id": "op_srs",
+      "supplier_name": "SRS Travels",
+      "contract_rule": "COMM_RULE_BUS_2026_STD_V1",
+      "commission_percentage": 10,
+      "base_seats_total": 650,
+      "gross_commission": 65,
+      "platform_fee": 30,
+      "gateway_cost": 12,
+      "supplier_payable": 585,
+      "net_gomo_revenue": 83,
+      "currency": "INR"
+    },
+    "cancellation_policy": [
+      {
+        "time_limit": "Before 24h of departure",
+        "refund_percentage": 90,
+        "deduction_percentage": 10
+      },
+      {
+        "time_limit": "12h to 24h before departure",
+        "refund_percentage": 50,
+        "deduction_percentage": 50
+      },
+      {
+        "time_limit": "0h to 12h before departure",
+        "refund_percentage": 0,
+        "deduction_percentage": 100
+      }
+    ],
+    "is_demo_booking": true,
+    "demo_watermark": "DEMO BOOKING — NOT VALID FOR TRAVEL",
+    "checked_in": false,
+    "created_at": "2026-10-17T10:47:43.481Z"
+  },
+  {
+    "id": "GMD-BUS-897057",
+    "booking_id": "GMD-BUS-897057",
+    "booking_type": "bus",
+    "pnr": "PNR-KPN-993723",
+    "trip_id": "trip_cbe_maa_01",
+    "operator_name": "KPN Travels",
+    "bus_service_number": "KPN-702-EXP",
+    "bus_type": "AC Sleeper 2+1",
+    "from_city": "Coimbatore",
+    "to_city": "Chennai",
+    "departure_time": "21:30",
+    "arrival_time": "05:30",
+    "duration": "8h 00m",
+    "journey_date": "2026-10-17",
+    "boarding_point": {
+      "id": "bp_cbe_1",
+      "name": "Gandhipuram Omni Bus Stand",
+      "time": "21:30",
+      "landmark": "Platform 4, Opp Corporation Bank"
+    },
+    "dropping_point": {
+      "id": "dp_maa_1",
+      "name": "Perungalathur",
+      "time": "04:30",
+      "landmark": "Near Bus Stop Bridge"
+    },
+    "seats": [
+      "L6"
+    ],
+    "lead_passenger": {
+      "name": "John Doe",
+      "phone": "9876543210",
+      "email": "john@example.com"
+    },
+    "passengers": [
+      {
+        "seat_number": "L6",
+        "name": "John Doe",
+        "age": "28",
+        "gender": "Male"
+      }
+    ],
+    "total_amount": 920,
+    "discount_amount": 0,
+    "coupon_code": null,
+    "status": "confirmed",
+    "payment_id": "PAY_BUS_6DD7802D-2",
+    "payment_method": "upi",
+    "commission_snapshot": {
+      "supplier_id": "op_kpn",
+      "supplier_name": "KPN Travels",
+      "contract_rule": "COMM_RULE_BUS_2026_STD_V1",
+      "commission_percentage": 10,
+      "base_seats_total": 890,
+      "gross_commission": 89,
+      "platform_fee": 30,
+      "gateway_cost": 17,
+      "supplier_payable": 801,
+      "net_gomo_revenue": 102,
+      "currency": "INR"
+    },
+    "cancellation_policy": [
+      {
+        "time_limit": "Before 24h of departure",
+        "refund_percentage": 90,
+        "deduction_percentage": 10
+      },
+      {
+        "time_limit": "12h to 24h before departure",
+        "refund_percentage": 50,
+        "deduction_percentage": 50
+      },
+      {
+        "time_limit": "0h to 12h before departure",
+        "refund_percentage": 0,
+        "deduction_percentage": 100
+      }
+    ],
+    "is_demo_booking": true,
+    "demo_watermark": "DEMO BOOKING — NOT VALID FOR TRAVEL",
+    "checked_in": false,
+    "created_at": "2026-10-17T10:41:29.496Z"
+  },
+  {
+    "id": "GMD-BUS-978549",
+    "booking_id": "GMD-BUS-978549",
+    "booking_type": "bus",
+    "pnr": "PNR-SRS-282490",
+    "trip_id": "trip_cbe_maa_03",
+    "operator_name": "SRS Travels",
+    "bus_service_number": "SRS-221-SEAT",
+    "bus_type": "BharatBenz AC Executive Seater (2+2)",
+    "from_city": "Coimbatore",
+    "to_city": "Chennai",
+    "departure_time": "14:00",
+    "arrival_time": "22:30",
+    "duration": "8h 30m",
+    "journey_date": "2026-10-20",
+    "boarding_point": {
+      "id": "bp_cbe_1",
+      "name": "Gandhipuram Omni Bus Stand",
+      "time": "14:00",
+      "landmark": "SRS Counter 8"
+    },
+    "dropping_point": {
+      "id": "dp_maa_2",
+      "name": "Tambaram",
+      "time": "21:50",
+      "landmark": "Tambaram West"
+    },
+    "seats": [
+      "L2"
+    ],
+    "lead_passenger": {
+      "name": "Arun Kumar",
+      "phone": "9876543210",
+      "email": "arun@gomodeals.com"
+    },
+    "passengers": [
+      {
+        "seat_number": "L2",
+        "name": "Arun Kumar",
+        "age": "28",
+        "gender": "Male"
+      }
+    ],
+    "total_amount": 920,
+    "discount_amount": 0,
+    "coupon_code": null,
+    "status": "cancelled",
+    "payment_id": "PAY_BUS_CE154F0F-9",
+    "payment_method": "upi",
+    "commission_snapshot": {
+      "supplier_id": "op_srs",
+      "supplier_name": "SRS Travels",
+      "contract_rule": "COMM_RULE_BUS_2026_STD_V1",
+      "commission_percentage": 10,
+      "base_seats_total": 890,
+      "gross_commission": 89,
+      "platform_fee": 30,
+      "gateway_cost": 17,
+      "supplier_payable": 801,
+      "net_gomo_revenue": 102,
+      "currency": "INR"
+    },
+    "cancellation_policy": [
+      {
+        "time_limit": "Before 24h of departure",
+        "refund_percentage": 90,
+        "deduction_percentage": 10
+      },
+      {
+        "time_limit": "12h to 24h before departure",
+        "refund_percentage": 50,
+        "deduction_percentage": 50
+      },
+      {
+        "time_limit": "0h to 12h before departure",
+        "refund_percentage": 0,
+        "deduction_percentage": 100
+      }
+    ],
+    "is_demo_booking": true,
+    "demo_watermark": "DEMO BOOKING — NOT VALID FOR TRAVEL",
+    "checked_in": false,
+    "created_at": "2026-10-17T10:32:26.681Z",
+    "cancellation": {
+      "cancelled_at": "2026-10-17T10:32:26.712Z",
+      "deduction_percentage": 10,
+      "cancellation_fee": 92,
+      "refund_amount": 828,
+      "refund_status": "processed",
+      "refund_reference": "REF-0FC0F0F3"
+    }
+  }
+]
