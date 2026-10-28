@@ -2,13 +2,13 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
 
 html, body {
-  font-family: 'Calibri', 'Inter', 'Segoe UI', system-ui, -apple-system, sans-serif;
+  font-family: 'Plus Jakarta Sans', 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   -webkit-font-smoothing: antialiased;
 }
-/* Background with richer orange gradient */
+/* Background with canonical brand orange gradient */
 .auth-bg {
   min-height: 100vh;
-  background: linear-gradient(135deg, #e65100, #ff8f00);
+  background: linear-gradient(135deg, #de5713 0%, #f76e28 50%, #f9975b 100%);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -19,15 +19,16 @@ html, body {
 .auth-card {
   width: 100%;
   max-width: 720px;
-  background: rgba(255, 255, 255, 0.95);
-  border: 1px solid rgba(255, 165, 0, 0.3);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.96);
+  border: 1px solid rgba(247, 110, 40, 0.2);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-radius: 16px;
   padding: 3rem;
   margin-top: 2rem;
   margin-bottom: 3rem;
-  color: #212121;
+  color: #1c1917;
+  box-shadow: 0 20px 48px -12px rgba(17, 24, 39, 0.15);
 }
 
 .auth-card .space-y-6 {

@@ -54,7 +54,7 @@ export default function FlashDeals() {
   return (
     <section id="deals-section" className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12">
       {/* Big Minimalism Container */}
-      <div className="bg-white rounded-[32px] p-6 sm:p-8 md:p-10 border border-stone-200/80 shadow-xs relative overflow-hidden">
+      <div className="bg-white rounded-3xl p-6 sm:p-8 md:p-10 border border-stone-200/80 shadow-xs relative overflow-hidden">
         
         {/* Top Bar: Title & Countdown */}
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 pb-6 border-b border-stone-100">
@@ -108,10 +108,10 @@ export default function FlashDeals() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.25, delay: idx * 0.05 }}
-                className="group flex flex-col bg-white border border-stone-200/70 hover:border-stone-300 rounded-[26px] p-3 sm:p-3.5 hover:shadow-[0_18px_36px_rgba(0,0,0,0.06)] hover:-translate-y-1 transition-all duration-300 ease-out cursor-pointer relative"
+                className="group flex flex-col bg-white border border-stone-200/90 hover:border-orange-500/50 rounded-2xl p-3 sm:p-3.5 shadow-card hover:shadow-card-hover hover:-translate-y-1 transition-all duration-200 ease-out cursor-pointer relative"
               >
                 {/* Image Container with Badges */}
-                <div className="relative aspect-square overflow-hidden bg-stone-100 rounded-2xl mb-3 flex items-center justify-center flex-shrink-0 group-hover:bg-stone-200 transition-colors">
+                <div className="relative aspect-square overflow-hidden bg-stone-100 rounded-xl mb-3 flex items-center justify-center flex-shrink-0 group-hover:bg-stone-200/80 transition-colors">
                   <Link to={`/product/${productId}`} className="w-full h-full block overflow-hidden">
                     <img
                       src={getProductImage(product)}

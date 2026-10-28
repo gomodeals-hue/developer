@@ -33,7 +33,7 @@ export default function TrustGuarantee() {
         {PERKS.map((perk, idx) => (
           <div 
             key={idx} 
-            className="bg-white p-4 sm:p-4.5 rounded-2xl border border-stone-200/80 shadow-2xs hover:shadow-xs hover:border-orange-500/30 transition-all flex items-center gap-3.5 group cursor-default"
+            className="bg-white p-4 sm:p-5 rounded-2xl border border-stone-200/90 shadow-2xs hover:shadow-xs hover:border-orange-500/40 transition-all duration-200 flex items-center gap-3.5 group cursor-default"
           >
             <div className="w-10 h-10 rounded-xl bg-stone-50 border border-stone-100 flex items-center justify-center shrink-0 group-hover:scale-105 transition-transform">
               {perk.icon}

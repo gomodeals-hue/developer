@@ -2,18 +2,21 @@
 @import "tailwindcss";
 
 @theme {
+  /* Brand Orange Palette */
   --color-orange-50: #fff8f3;
   --color-orange-100: #feeee3;
   --color-orange-200: #fdd8c0;
   --color-orange-300: #fbbd97;
   --color-orange-400: #f9975b;
-  --color-orange-500: #f76e28; /* GMD Brand Logo Exact Orange */
-  --color-orange-600: #f76e28; /* GMD Brand Logo Primary Buttons & Highlights */
-  --color-orange-700: #de5713; /* GMD Brand Logo Hover State */
-  --color-orange-800: #b84209; /* GMD Brand Logo Active State */
+  --color-orange-500: #f76e28; /* Canonical GMD Brand Logo Orange */
+  --color-orange-600: #f76e28; /* Primary Buttons & Highlights */
+  --color-orange-700: #de5713; /* Hover State */
+  --color-orange-800: #b84209; /* Active State */
   --color-orange-850: #8c3207;
   --color-orange-900: #652304;
   --color-orange-950: #381202;
+
+  /* Copper Sulphate Accent Palette */
   --color-copper-50: #f0f9ff;
   --color-copper-100: #e0f2fe;
   --color-copper-200: #bae6fd;
@@ -26,60 +29,149 @@
   --color-copper-900: #0c4a6e;
   --color-copper-950: #032b4d;
 
-  --font-sans: "Calibri", "Inter", "Segoe UI", system-ui, -apple-system, BlinkMacSystemFont, "Roboto", sans-serif;
-  --font-serif: "Calibri", "Inter", "Segoe UI", system-ui, -apple-system, BlinkMacSystemFont, "Roboto", sans-serif;
+  /* Typography Scale */
+  --font-sans: "Plus Jakarta Sans", "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --font-serif: "Plus Jakarta Sans", "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+
+  /* Radius Scale */
+  --radius-xs: 4px;
+  --radius-sm: 6px;
+  --radius-md: 10px;
+  --radius-lg: 14px;
+  --radius-xl: 18px;
+  --radius-2xl: 24px;
+  --radius-3xl: 32px;
+  --radius-full: 9999px;
+
+  /* Shadows Scale */
+  --shadow-2xs: 0 1px 2px rgba(17, 24, 39, 0.04);
+  --shadow-xs: 0 1px 3px rgba(17, 24, 39, 0.06), 0 1px 2px rgba(17, 24, 39, 0.04);
+  --shadow-sm: 0 2px 8px -1px rgba(17, 24, 39, 0.06), 0 1px 3px -1px rgba(17, 24, 39, 0.04);
+  --shadow-md: 0 6px 18px -3px rgba(17, 24, 39, 0.08), 0 2px 6px -2px rgba(17, 24, 39, 0.04);
+  --shadow-lg: 0 14px 30px -6px rgba(17, 24, 39, 0.1), 0 4px 10px -3px rgba(17, 24, 39, 0.05);
+  --shadow-xl: 0 22px 45px -8px rgba(17, 24, 39, 0.14), 0 8px 18px -4px rgba(17, 24, 39, 0.06);
+  --shadow-card: 0 2px 10px rgba(17, 24, 39, 0.04), 0 1px 3px rgba(17, 24, 39, 0.02);
+  --shadow-card-hover: 0 14px 28px -6px rgba(17, 24, 39, 0.09), 0 4px 12px -2px rgba(247, 110, 40, 0.08);
 }
 
 :root {
+  /* Unified Color System Tokens */
+  --color-primary: #f76e28;
+  --color-primary-hover: #de5713;
+  --color-primary-active: #c44908;
+  --color-primary-subtle: #fff8f3;
+  --color-primary-border: #fdd8c0;
+  
+  --color-gmd-orange: #f76e28;
+  --color-gmd-orange-hover: #de5713;
+
   --color-copper-sulphate: #0077c8;
   --color-copper-sulphate-light: #e0f2fe;
   --color-copper-sulphate-border: #7dd3fc;
   --color-copper-sulphate-dark: #034f84;
-  --color-primary: #f76e28; /* GMD Brand Logo Exact Orange */
-  --color-gmd-orange: #f76e28;
-  --color-gmd-orange-hover: #de5713;
-  --color-bg-dark: #111827; /* deep slate */
-  --color-bg-light: #f9fafb; /* gray-50 */
-  --color-text-primary: #f1f5f9; /* slate-100 */
-  --color-text-secondary: #94a3b8; /* slate-400 */
-  --color-heading: #0f172a; /* slate-900 */
+
+  --color-bg-page: #faf6f0;
+  --color-surface: #ffffff;
+  --color-surface-subtle: #fbf7f2;
+  --color-surface-muted: #f4eee5;
+  --color-bg-dark: #111827;
+  --color-bg-light: #f9fafb;
+
+  --color-text-main: #1c1917;
+  --color-text-muted: #6b635b;
+  --color-text-faint: #9c9489;
+  --color-heading: #0f172a;
+
+  --color-border-subtle: #f0eae1;
+  --color-border-default: #e4dcd2;
+  --color-border-strong: #cfc4b6;
+  --color-border-focus: #f76e28;
+
+  --color-success: #16a34a;
+  --color-success-bg: #f0fdf4;
+  --color-success-border: #bbf7d0;
+
+  --color-warning: #d97706;
+  --color-warning-bg: #fffbeb;
+  --color-warning-border: #fef08a;
+
+  --color-danger: #e11d48;
+  --color-danger-bg: #fff1f2;
+  --color-danger-border: #fecdd3;
+
+  /* Spacing Scale (4, 8, 12, 16, 20, 24, 32, 40, 48, 64) */
+  --space-1: 0.25rem; /* 4px */
+  --space-2: 0.5rem;  /* 8px */
+  --space-3: 0.75rem; /* 12px */
+  --space-4: 1rem;    /* 16px */
+  --space-5: 1.25rem; /* 20px */
+  --space-6: 1.5rem;  /* 24px */
+  --space-8: 2rem;    /* 32px */
+  --space-10: 2.5rem; /* 40px */
+  --space-12: 3rem;   /* 48px */
+  --space-16: 4rem;   /* 64px */
+
+  /* Timing & Easing Curves */
+  --duration-fast: 140ms;
+  --duration-normal: 220ms;
+  --duration-slow: 350ms;
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-in-out: cubic-bezier(0.4, 0, 0.2, 1);
+  --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 
 @layer base {
-  * {
-    font-family: "Calibri", "Inter", "Segoe UI", system-ui, -apple-system, BlinkMacSystemFont, "Roboto", sans-serif;
+  *, ::before, ::after {
+    font-family: "Plus Jakarta Sans", "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    box-sizing: border-box;
   }
 
   body {
-    @apply antialiased text-stone-900 bg-[#fdfbf9];
-    font-family: "Calibri", "Inter", "Segoe UI", system-ui, -apple-system, BlinkMacSystemFont, "Roboto", sans-serif;
+    @apply antialiased text-stone-900;
+    background-color: var(--color-bg-page);
+    font-family: "Plus Jakarta Sans", "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
     font-feature-settings: "ss01", "ss02", "cv01", "cv02";
   }
 
   h1, h2, h3, h4, h5, h6 {
-    font-family: "Calibri", "Inter", "Segoe UI", system-ui, -apple-system, BlinkMacSystemFont, "Roboto", sans-serif;
+    font-family: "Plus Jakarta Sans", "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
     @apply tracking-tight;
   }
   
-  /* Ultra-Fast Responsive Button & Link Global Defaults */
-  button, a {
-    transition: all 140ms cubic-bezier(0.16, 1, 0.3, 1);
+  /* Smooth High-Performance Interactive Transitions (avoiding layout thrash) */
+  button {
+    transition-property: color, background-color, border-color, transform, opacity, box-shadow;
+    transition-duration: var(--duration-fast);
+    transition-timing-function: var(--ease-out);
+  }
+
+  button:active {
+    transform: scale(0.97);
   }
   
-  button:active, a:active {
-    transform: scale(0.97);
+  a {
+    transition-property: color, background-color, border-color, opacity;
+    transition-duration: var(--duration-fast);
+    transition-timing-function: var(--ease-out);
+  }
+
+  /* Accessible Uniform Focus Rings */
+  :focus-visible {
+    outline: 2px solid var(--color-primary);
+    outline-offset: 2px;
   }
 
   input, select, textarea, button {
-    font-family: "Calibri", "Inter", "Segoe UI", system-ui, -apple-system, BlinkMacSystemFont, "Roboto", sans-serif;
+    font-family: "Plus Jakarta Sans", "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
   }
 
   html, body, p, span, div, li, ul, ol, td, th, a, button, input, select, textarea {
-    font-family: "Calibri", "Inter", "Segoe UI", system-ui, -apple-system, BlinkMacSystemFont, "Roboto", sans-serif;
+    font-family: "Plus Jakarta Sans", "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
   }
 
   .font-serif, .font-serif *, h1.font-serif, h2.font-serif, h3.font-serif, h4.font-serif {
-    font-family: "Calibri", "Inter", "Segoe UI", system-ui, -apple-system, BlinkMacSystemFont, "Roboto", sans-serif !important;
+    font-family: "Plus Jakarta Sans", "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif !important;
   }
 }
 
@@ -454,11 +546,11 @@
 
 /* Manual class overrides for backup compatibility */
 .font-serif {
-  font-family: "Calibri", "Inter", "Segoe UI", system-ui, -apple-system, BlinkMacSystemFont, "Roboto", sans-serif !important;
+  font-family: "Plus Jakarta Sans", "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif !important;
 }
 
 .font-sans {
-  font-family: "Calibri", "Inter", "Segoe UI", system-ui, -apple-system, BlinkMacSystemFont, "Roboto", sans-serif !important;
+  font-family: "Plus Jakarta Sans", "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif !important;
 }
 
 @keyframes fadeIn {
@@ -1240,5 +1332,15 @@ body {
 
 .animate-air-flow {
   animation: busFreshAirFlow 4s ease-in-out infinite;
+}
+
+/* Accessibility: Respect user's motion preferences */
+@media (prefers-reduced-motion: reduce) {
+  *, ::before, ::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
 }
 

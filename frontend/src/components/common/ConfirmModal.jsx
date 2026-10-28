@@ -12,28 +12,28 @@ const ConfirmModal = ({ isOpen, title, message, onConfirm, onCancel, confirmText
       >
         <div className="p-6">
           <div className="flex gap-4 items-start">
-            <div className={`p-3 rounded-full shrink-0 ${isDestructive ? 'bg-rose-100 text-rose-600' : 'bg-amber-100 text-amber-600'}`}>
+            <div className={`p-3 rounded-full shrink-0 ${isDestructive ? 'bg-rose-100 text-rose-600' : 'bg-orange-100 text-[#f76e28]'}`}>
               <AlertTriangle size={24} />
             </div>
             <div className="flex-1 mt-1">
-              <h3 className="text-lg font-black text-gray-900 leading-tight">{title}</h3>
-              <p className="mt-2 text-sm text-gray-500 leading-relaxed">
+              <h3 className="text-lg font-black text-stone-900 leading-tight">{title}</h3>
+              <p className="mt-2 text-sm text-stone-500 leading-relaxed">
                 {message}
               </p>
             </div>
           </div>
         </div>
-        <div className="px-6 py-4 bg-gray-50 flex justify-end gap-3 border-t border-gray-100">
+        <div className="px-6 py-4 bg-stone-50 flex justify-end gap-3 border-t border-stone-200/80">
           <button 
             onClick={onCancel}
-            className="px-4 py-2 rounded-xl text-sm font-bold text-gray-700 hover:bg-gray-200 transition-colors cursor-pointer"
+            className="px-4 py-2 rounded-xl text-sm font-bold text-stone-700 hover:bg-stone-200/80 transition-colors cursor-pointer"
           >
             {cancelText}
           </button>
           <button 
             onClick={onConfirm}
-            className={`px-4 py-2 rounded-xl text-sm font-bold text-white shadow-sm transition-colors cursor-pointer ${
-              isDestructive ? 'bg-rose-600 hover:bg-rose-700' : 'bg-amber-600 hover:bg-amber-700'
+            className={`px-4 py-2 rounded-xl text-sm font-bold text-white shadow-xs transition-all cursor-pointer active:scale-95 ${
+              isDestructive ? 'bg-rose-600 hover:bg-rose-700' : 'bg-[#f76e28] hover:bg-[#de5713]'
             }`}
           >
             {confirmText}

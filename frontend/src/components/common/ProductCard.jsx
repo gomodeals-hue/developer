@@ -156,7 +156,7 @@ const ProductCard = ({ product }) => {
     <>
       <div 
         onClick={() => navigate(`/product/${productId}`)}
-        className="group flex flex-col bg-white border border-stone-200 hover:border-stone-950 rounded-lg p-2.5 hover:shadow-[0_16px_30px_rgba(17,24,39,0.08)] hover:-translate-y-0.5 transition-all duration-300 ease-out cursor-pointer h-full relative gpu-accelerate overflow-hidden"
+        className="group flex flex-col bg-white border border-stone-200 hover:border-orange-500/60 rounded-xl p-3 shadow-card hover:shadow-card-hover hover:-translate-y-0.5 transition-all duration-200 ease-out cursor-pointer h-full relative gpu-accelerate overflow-hidden"
       >
         
         {/* Image Container with Top Badges & Actions */}
@@ -175,17 +175,17 @@ const ProductCard = ({ product }) => {
 
           {/* Top-Left Minimalist Badge with Live Stock */}
           <div className="absolute top-2.5 left-2.5 z-10 flex flex-col gap-1 items-start">
-            <span className="bg-white text-stone-950 font-black text-[9px] uppercase tracking-wider px-2.5 py-1 rounded-sm shadow-2xs border border-stone-200">
+            <span className="bg-white text-stone-950 font-black text-[9px] uppercase tracking-wider px-2.5 py-1 rounded-md shadow-2xs border border-stone-200/80">
               {discountPercent > 0 ? `${discountPercent}% OFF` : '30% OFF'}
             </span>
             {isLowStock && (
-              <span className="bg-[#f76e28] text-white font-black text-[8px] uppercase tracking-wider px-2 py-0.5 rounded-sm shadow-xs animate-pulse flex items-center gap-1">
+              <span className="bg-[#f76e28] text-white font-black text-[8px] uppercase tracking-wider px-2 py-0.5 rounded-md shadow-xs animate-pulse flex items-center gap-1">
                 <Zap size={9} className="shrink-0" />
                 <span>Only {liveStock} Left</span>
               </span>
             )}
             {isOutOfStock && (
-              <span className="bg-rose-600 text-white font-black text-[8px] uppercase tracking-wider px-2 py-0.5 rounded-sm shadow-xs">
+              <span className="bg-rose-600 text-white font-black text-[8px] uppercase tracking-wider px-2 py-0.5 rounded-md shadow-xs">
                 Sold Out
               </span>
             )}
@@ -299,9 +299,9 @@ const ProductCard = ({ product }) => {
                 /* Stepper: - 1 + to add multiple products (Lighter, Vibrant Logo Orange) */
                 <div 
                   style={{
-                    background: 'linear-gradient(135deg, #FF8C38 0%, #FF7A26 100%)',
-                    borderColor: '#FFA057',
-                    boxShadow: '0 4px 14px rgba(255, 126, 46, 0.32)'
+                    background: 'linear-gradient(135deg, #f76e28 0%, #de5713 100%)',
+                    borderColor: '#f9975b',
+                    boxShadow: '0 4px 14px rgba(247, 110, 40, 0.28)'
                   }}
                   className="h-9 sm:h-10 rounded-full text-white flex items-center px-1 border transition-all duration-300 animate-in fade-in zoom-in-90"
                   onClick={(e) => { e.preventDefault(); e.stopPropagation(); }}
@@ -339,7 +339,7 @@ const ProductCard = ({ product }) => {
                   className={`w-9 h-9 sm:w-10 sm:h-10 rounded-full flex items-center justify-center cursor-pointer shadow-xs active:scale-90 transition-all duration-300 ease-out animate-in fade-in zoom-in-90 ${
                     isOutOfStock
                       ? 'bg-stone-100 text-stone-300 border border-stone-200 cursor-not-allowed shadow-none'
-                      : 'bg-stone-950 text-white hover:bg-[#FF8533] hover:shadow-[#FF8533]/30'
+                      : 'bg-stone-950 text-white hover:bg-[#f76e28] hover:shadow-orange-500/25'
                   }`}
                   title={isOutOfStock ? "Out of Stock" : "Add to Cart"}
                 >

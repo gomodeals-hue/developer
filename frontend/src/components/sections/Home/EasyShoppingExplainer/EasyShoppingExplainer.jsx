@@ -57,7 +57,7 @@ export default function EasyShoppingExplainer() {
   ];
 
   return (
-    <section className="py-10 bg-gradient-to-b from-orange-50/60 via-[#fdfbf9] to-white border-y border-orange-100">
+    <section className="py-10 sm:py-12 bg-gradient-to-b from-orange-50/50 via-[#faf6f0] to-white border-y border-stone-200/80">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
         {/* Section Header */}

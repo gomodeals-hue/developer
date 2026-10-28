@@ -64,7 +64,7 @@ const QuickViewModal = ({ product, isOpen, onClose }) => {
           initial={{ opacity: 0, scale: 0.96, y: 15 }}
           animate={{ opacity: 1, scale: 1, y: 0 }}
           exit={{ opacity: 0, scale: 0.96, y: 15 }}
-          className="relative bg-[#fdfbf9] w-full max-w-4xl h-full max-h-[600px] overflow-hidden rounded-none border border-orange-100/50 flex flex-col md:flex-row shadow-2xl animate-in fade-in zoom-in-95 duration-200"
+          className="relative bg-white w-full max-w-4xl h-full max-h-[600px] overflow-hidden rounded-2xl border border-stone-200/90 flex flex-col md:flex-row shadow-2xl animate-in fade-in zoom-in-95 duration-200"
         >
           <button 
             onClick={onClose}
@@ -170,13 +170,13 @@ const QuickViewModal = ({ product, isOpen, onClose }) => {
                       }
                       onClose(); 
                     }}
-                    className={`flex-grow h-13 text-[10px] uppercase tracking-[0.3em] font-extrabold transition-all duration-300 flex items-center justify-center gap-3 rounded-none border ${
+                    className={`flex-grow h-12 text-xs uppercase tracking-wider font-bold transition-all duration-200 flex items-center justify-center gap-2.5 rounded-xl border cursor-pointer active:scale-[0.98] ${
                       isInCart(productId)
                         ? 'bg-orange-100 text-orange-900 border-orange-200 hover:bg-rose-50 hover:text-rose-600 hover:border-rose-100'
-                        : 'bg-orange-950 text-white hover:bg-orange-600 shadow-md shadow-orange-950/10'
+                        : 'bg-[#f76e28] text-white hover:bg-[#de5713] border-transparent shadow-xs hover:shadow-md hover:shadow-orange-500/25'
                     }`}
                   >
-                    <ShoppingBag size={14} /> 
+                    <ShoppingBag size={15} /> 
                     {isInCart(productId) ? t("remove_from_cart") : t("add_to_cart")}
                   </button>
                   
@@ -189,14 +189,14 @@ const QuickViewModal = ({ product, isOpen, onClose }) => {
                         }
                         toggleWishlist(product);
                     }}
-                    className={`w-13 h-13 border transition-all duration-300 flex items-center justify-center rounded-none bg-white ${
+                    className={`w-12 h-12 border transition-all duration-200 flex items-center justify-center rounded-xl bg-white cursor-pointer active:scale-95 ${
                       isInWishlist(productId) 
-                        ? 'bg-rose-50 border-rose-200 text-rose-500 shadow-sm' 
-                        : 'border-orange-200 text-orange-950 hover:bg-rose-50 hover:border-rose-100 hover:text-rose-500'
+                        ? 'bg-rose-50 border-rose-200 text-rose-500 shadow-2xs' 
+                        : 'border-stone-200 text-stone-700 hover:bg-rose-50 hover:border-rose-200 hover:text-rose-500'
                     }`}
                   >
                     <Heart 
-                      size={15} 
+                      size={16} 
                       className={isInWishlist(productId) ? 'fill-current scale-105' : ''} 
                     />
                   </button>

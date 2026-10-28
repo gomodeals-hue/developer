@@ -18,7 +18,7 @@ const CompareTray = () => {
                 exit={{ y: 100, opacity: 0 }}
                 className="fixed bottom-0 left-0 right-0 z-[100] p-4 pointer-events-none"
             >
-                <div className="max-w-4xl mx-auto bg-white/95 backdrop-blur-md shadow-[0_-10px_40px_rgba(0,0,0,0.1)] border border-orange-100/50 rounded-2xl p-4 flex items-center justify-between gap-4 pointer-events-auto">
+                <div className="max-w-4xl mx-auto bg-white/95 backdrop-blur-md shadow-xl border border-stone-200/90 rounded-2xl p-4 flex items-center justify-between gap-4 pointer-events-auto">
                     
                     <div className="flex items-center gap-4 flex-1 overflow-x-auto no-scrollbar">
                         <div className="flex items-center gap-2 mr-4 shrink-0">
@@ -26,8 +26,8 @@ const CompareTray = () => {
                                 <Scale size={20} />
                             </div>
                             <div>
-                                <p className="text-xs font-black uppercase tracking-widest text-orange-955">Compare Vendors</p>
-                                <p className="text-[10px] text-orange-600/70">{compareItems.length} item(s)</p>
+                                <p className="text-xs font-black uppercase tracking-wider text-stone-900">Compare Vendors</p>
+                                <p className="text-[10px] text-orange-600 font-bold">{compareItems.length} item(s)</p>
                             </div>
                         </div>
 
@@ -39,7 +39,7 @@ const CompareTray = () => {
                                         initial={{ scale: 0.8, opacity: 0 }}
                                         animate={{ scale: 1, opacity: 1 }}
                                         exit={{ scale: 0.8, opacity: 0 }}
-                                        className="relative w-14 h-14 rounded-lg overflow-hidden border border-orange-100 shrink-0 group"
+                                        className="relative w-14 h-14 rounded-lg overflow-hidden border border-stone-200 shrink-0 group"
                                     >
                                         <img src={item.thumbnail || item.image || '/fallback-product.png'} alt={item.name} className="w-full h-full object-cover" />
                                         <button 
@@ -57,14 +57,14 @@ const CompareTray = () => {
                     <div className="flex items-center gap-3 shrink-0">
                         <button 
                             onClick={clearCompare}
-                            className="text-[10px] uppercase tracking-widest font-bold text-stone-400 hover:text-stone-600 px-2"
+                            className="text-[10px] uppercase tracking-wider font-bold text-stone-400 hover:text-stone-600 px-2 cursor-pointer transition-colors"
                         >
                             Clear
                         </button>
                         <button 
                             onClick={() => setIsModalOpen(true)}
                             disabled={compareItems.length < 1}
-                            className="bg-orange-600 disabled:bg-stone-300 disabled:cursor-not-allowed text-white px-6 py-3 rounded-xl text-[11px] font-black uppercase tracking-[0.2em] shadow-lg shadow-orange-500/20 hover:bg-orange-700 transition-all"
+                            className="bg-[#f76e28] hover:bg-[#de5713] disabled:bg-stone-300 disabled:cursor-not-allowed text-white px-6 py-2.5 rounded-xl text-[11px] font-black uppercase tracking-wider shadow-xs hover:shadow-md hover:shadow-orange-500/20 active:scale-95 transition-all cursor-pointer"
                         >
                             Compare Now
                         </button>

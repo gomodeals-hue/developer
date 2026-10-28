@@ -68,20 +68,20 @@ const Footer = () => {
     <footer 
       className="border-t border-stone-200 bg-[#f7f2ec] text-stone-950 pt-10 pb-6 transition-colors"
     >
-      <div className="max-w-[1500px] mx-auto px-6 sm:px-10">
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-3 mb-9">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-3.5 mb-9">
           {[
             ['Fast Dispatch', 'Packed by verified sellers within 24 business hours.', Truck],
             ['7-Day Returns', 'Simple returns on eligible products with issue ticket support.', RefreshCw],
             ['Authentic Catalog', 'Curated listings, inspected images, and seller accountability.', ShieldCheck],
             ['Seller Friendly', 'Low-fee merchant hub built for local Indian businesses.', Store]
           ].map(([title, body, Icon]) => (
-            <div key={title} className="bg-white border border-stone-200 rounded-lg p-4 flex items-start gap-3">
+            <div key={title} className="bg-white border border-stone-200/90 rounded-xl p-4 flex items-start gap-3 shadow-2xs">
               <span className="w-9 h-9 rounded-full bg-orange-50 text-orange-600 flex items-center justify-center shrink-0">
                 <Icon size={17} />
               </span>
               <div>
-                <h3 className="text-xs font-black uppercase tracking-wider">{t(title)}</h3>
+                <h3 className="text-xs font-black uppercase tracking-wider text-stone-900">{t(title)}</h3>
                 <p className="text-xs text-stone-500 leading-relaxed mt-1">{t(body)}</p>
               </div>
             </div>
@@ -154,13 +154,13 @@ const Footer = () => {
             <p className="text-stone-600 text-xs font-normal leading-relaxed">
               {t("newsletter_desc")}
             </p>
-            <div className="flex items-center bg-white border border-stone-200 rounded-lg p-1 shadow-xs focus-within:border-[#f76e28] max-w-xs">
+            <div className="flex items-center bg-white border border-stone-200/90 rounded-xl p-1 shadow-2xs focus-within:border-orange-500 focus-within:ring-2 focus-within:ring-orange-500/15 max-w-xs transition-all">
               <input 
                 type="email" 
                 placeholder={t("email_address")} 
-                className="bg-transparent border-none text-xs font-medium px-2.5 py-1 w-full focus:outline-none placeholder:text-stone-400 text-stone-900"
+                className="bg-transparent border-none text-xs font-medium px-3 py-1.5 w-full focus:outline-none placeholder:text-stone-400 text-stone-900"
               />
-              <button className="bg-[#f76e28] hover:bg-[#de5713] text-white p-1.5 rounded-md transition-colors cursor-pointer shrink-0" aria-label="Subscribe to newsletter">
+              <button className="bg-[#f76e28] hover:bg-[#de5713] active:scale-95 text-white p-1.5 rounded-lg transition-all cursor-pointer shrink-0 shadow-xs" aria-label="Subscribe to newsletter">
                 <ArrowRight size={14} />
               </button>
             </div>
@@ -168,30 +168,30 @@ const Footer = () => {
         </div>
 
         {/* Compact Integrated Bottom Strip */}
-        <div className="pt-5 border-t border-stone-200 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-stone-500">
+        <div className="pt-5 border-t border-stone-200/90 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-stone-500">
           <div className="flex flex-wrap items-center gap-3 text-[11px] text-stone-600 font-medium">
             <span>&copy; {new Date().getFullYear()} GoMo Deals. {t("all_rights_reserved")}</span>
             <span className="hidden sm:inline text-stone-300">•</span>
-            <Link to="/terms" className="hover:text-[#f76e28] transition-colors">{t("Terms & Conditions")}</Link>
+            <Link to="/terms" className="hover:text-orange-600 transition-colors">{t("Terms & Conditions")}</Link>
             <span className="text-stone-300">•</span>
-            <Link to="/legal/return-policy" className="hover:text-[#f76e28] transition-colors">{t("Return Policy")}</Link>
+            <Link to="/legal/return-policy" className="hover:text-orange-600 transition-colors">{t("Return Policy")}</Link>
             <span className="text-stone-300">•</span>
-            <Link to="/legal/database-security" className="hover:text-[#f76e28] text-emerald-700 font-bold transition-colors">{t("100% Data Security")}</Link>
+            <Link to="/legal/database-security" className="hover:text-orange-600 text-emerald-700 font-bold transition-colors">{t("100% Data Security")}</Link>
             <span className="text-stone-300">•</span>
-            <Link to="/legal/faqs" className="hover:text-[#f76e28] transition-colors">{t("FAQ")}</Link>
+            <Link to="/legal/faqs" className="hover:text-orange-600 transition-colors">{t("FAQ")}</Link>
             <span className="text-stone-300">•</span>
-            <Link to="/legal/privacy-policy" className="hover:text-[#f76e28] transition-colors">{t("Privacy Policy")}</Link>
+            <Link to="/legal/privacy-policy" className="hover:text-orange-600 transition-colors">{t("Privacy Policy")}</Link>
             <span className="text-stone-300">•</span>
-            <Link to="/legal/cookies" className="hover:text-[#f76e28] transition-colors">{t("cookies")}</Link>
+            <Link to="/legal/cookies" className="hover:text-orange-600 transition-colors">{t("cookies")}</Link>
           </div>
 
           {/* Compact Payment Badges & SSL */}
           <div className="flex items-center gap-2 flex-wrap">
             <div className="flex items-center gap-1.5 text-[9px] font-bold text-stone-700">
-              <span className="px-1.5 py-0.5 bg-white rounded border border-[#ebdcc2] shadow-2xs">UPI</span>
-              <span className="px-1.5 py-0.5 bg-white rounded border border-[#ebdcc2] shadow-2xs">RuPay</span>
-              <span className="px-1.5 py-0.5 bg-white rounded border border-[#ebdcc2] shadow-2xs">VISA</span>
-              <span className="px-1.5 py-0.5 bg-white rounded border border-[#ebdcc2] shadow-2xs">MasterCard</span>
+              <span className="px-2 py-0.5 bg-white rounded-md border border-stone-200 shadow-2xs">UPI</span>
+              <span className="px-2 py-0.5 bg-white rounded-md border border-stone-200 shadow-2xs">RuPay</span>
+              <span className="px-2 py-0.5 bg-white rounded-md border border-stone-200 shadow-2xs">VISA</span>
+              <span className="px-2 py-0.5 bg-white rounded-md border border-stone-200 shadow-2xs">MasterCard</span>
             </div>
             <div className="flex items-center gap-1 text-emerald-800 font-bold text-[9px] uppercase tracking-wider pl-1">
               <Lock size={10} />

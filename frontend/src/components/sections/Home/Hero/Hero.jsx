@@ -34,7 +34,7 @@ const Hero = () => {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6 }}
-              className="bg-[#f5f1eb] rounded-[28px] sm:rounded-[32px] p-6 sm:p-8 md:p-10 lg:p-11 flex-1 flex flex-col justify-between shadow-xs border border-stone-200/80 min-h-[320px] sm:min-h-[380px]"
+              className="bg-[#f5f1eb] rounded-3xl p-6 sm:p-8 md:p-10 lg:p-11 flex-1 flex flex-col justify-between shadow-xs border border-stone-200/80 min-h-[320px] sm:min-h-[380px]"
             >
               {/* Bold Editorial Headline Matching Reference Design */}
               <div className="space-y-1 sm:space-y-2">
@@ -75,7 +75,7 @@ const Hero = () => {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6, delay: 0.1 }}
                 onClick={() => navigate('/collection/pooja-items')}
-                className="group relative h-[180px] sm:h-[220px] md:h-[240px] rounded-[24px] sm:rounded-[28px] overflow-hidden cursor-pointer shadow-md bg-stone-100 border border-stone-200/80"
+                className="group relative h-[180px] sm:h-[220px] md:h-[240px] rounded-2xl sm:rounded-3xl overflow-hidden cursor-pointer shadow-md bg-stone-100 border border-stone-200/80"
               >
                 <img
                   src="https://images.unsplash.com/photo-1606293926075-69a00dbfde81?w=600&auto=format&fit=crop&q=80"
@@ -99,7 +99,7 @@ const Hero = () => {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6, delay: 0.15 }}
                 onClick={() => navigate('/collection/clothing?section=women')}
-                className="group relative h-[180px] sm:h-[220px] md:h-[240px] rounded-[24px] sm:rounded-[28px] overflow-hidden cursor-pointer shadow-md bg-stone-100 border border-stone-200/80"
+                className="group relative h-[180px] sm:h-[220px] md:h-[240px] rounded-2xl sm:rounded-3xl overflow-hidden cursor-pointer shadow-md bg-stone-100 border border-stone-200/80"
               >
                 <img
                   src="https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?w=600&auto=format&fit=crop&q=80"
@@ -128,7 +128,7 @@ const Hero = () => {
             initial={{ opacity: 0, scale: 0.98 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.7 }}
-            className="lg:col-span-6 relative rounded-[28px] sm:rounded-[32px] overflow-hidden shadow-xl min-h-[420px] sm:min-h-[520px] lg:min-h-full h-full flex flex-col justify-between p-6 sm:p-8 bg-stone-100 border border-stone-200/80 group"
+            className="lg:col-span-6 relative rounded-3xl overflow-hidden shadow-xl min-h-[420px] sm:min-h-[520px] lg:min-h-full h-full flex flex-col justify-between p-6 sm:p-8 bg-stone-100 border border-stone-200/80 group"
           >
             {/* Background Video */}
             <div className="absolute inset-0 w-full h-full overflow-hidden select-none pointer-events-none">

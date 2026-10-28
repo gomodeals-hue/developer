@@ -1,7 +1,7 @@
 /* Product Details Page Styles - GoMo Deals Luxury Theme */
 
 .gomo-product-detail-page {
-  --paper: #fdfbf9;
+  --paper: #faf6f0;
   --surface: #ffffff;
   --surface-2: #fcf8f5;
   --ink: #1c1917;
@@ -20,8 +20,8 @@
   --radius-lg: 18px;
   --shadow-sm: 0 2px 12px rgba(40, 20, 10, 0.05);
   --shadow-md: 0 10px 30px rgba(40, 20, 10, 0.08);
-  --max: 1440px;
-  --font: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --max: 1280px;
+  --font: "Plus Jakarta Sans", "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
 
   background: var(--paper);
   color: var(--ink);
@@ -140,8 +140,8 @@
 }
 
 .gomo-product-detail-page .thumb.active {
-  border: 2px solid var(--accent);
-  box-shadow: 0 0 0 1px var(--accent);
+  border-color: var(--accent);
+  box-shadow: inset 0 0 0 1px var(--accent), 0 0 0 1px var(--accent);
 }
 
 .gomo-product-detail-page .thumb:hover:not(.active) {
@@ -388,8 +388,8 @@
 }
 
 .gomo-product-detail-page .option.active {
-  border: 2px solid var(--accent);
-  padding: 8px 13px;
+  border-color: var(--accent);
+  box-shadow: inset 0 0 0 1px var(--accent);
   color: var(--accent-strong);
   background: var(--accent-soft);
   font-weight: 700;
