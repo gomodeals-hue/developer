@@ -187,12 +187,12 @@ const ProductCard = ({ product }) => {
         className="group flex flex-col bg-white border border-stone-200 hover:border-stone-300 rounded-2xl p-3.5 shadow-xs hover:shadow-md transition-all duration-200 ease-out cursor-pointer h-full relative overflow-hidden"
       >
         
-        {/* Image Container with Top Badges & Actions */}
+        {/* Image Container with Top Badges & Actions - Consistent Uniform Aspect Ratio */}
         <div 
           ref={imgContainerRef}
-          className="relative aspect-[3/4] overflow-hidden bg-stone-50 rounded-xl mb-3 flex items-center justify-center flex-shrink-0 group-hover:bg-stone-100 transition-colors p-2.5"
+          className="relative aspect-square w-full overflow-hidden bg-stone-100 rounded-xl mb-3 flex items-center justify-center flex-shrink-0 group-hover:bg-stone-200 transition-colors"
         >
-          <div className="w-full h-full flex items-center justify-center overflow-hidden">
+          <div className="w-full h-full block overflow-hidden">
             <img
               src={image}
               alt={t(product.name)}
@@ -200,7 +200,7 @@ const ProductCard = ({ product }) => {
                 e.target.onerror = null;
                 e.target.src = getProductImage(product);
               }}
-              className="w-full h-full object-contain transition-transform duration-500 ease-out group-hover:scale-105"
+              className="w-full h-full object-cover transition-transform duration-500 ease-out group-hover:scale-105"
             />
           </div>
 

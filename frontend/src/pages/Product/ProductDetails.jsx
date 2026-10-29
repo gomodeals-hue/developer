@@ -610,7 +610,7 @@ const ProductDetails = () => {
 
   return (
     <div className="gomo-product-detail-page">
-      {/* Shared Element Expanding Card Animation */}
+      {/* Shared Element Expanding Card Animation with Seamless Crossfade */}
       <AnimatePresence>
         {isExpanding && sourceImgRect && targetRect && (
           <motion.div
@@ -636,28 +636,47 @@ const ProductDetails = () => {
               borderRadius: 16,
               boxShadow: '0 4px 14px rgba(40, 20, 10, 0.08)',
             }}
-            exit={{ opacity: 0, transition: { duration: 0.15 } }}
+            exit={{ opacity: 0, transition: { duration: 0.2, ease: 'easeOut' } }}
             transition={{
               type: 'spring',
-              stiffness: 280,
+              stiffness: 260,
               damping: 26,
               mass: 0.85
             }}
             onAnimationComplete={() => {
               setIsExpanding(false);
             }}
-            className="flex items-center justify-center p-3 border border-stone-200"
+            className="relative flex items-center justify-center border border-stone-200"
           >
-            <img
+            {/* Crossfade Layer 1: Starting Card Image (object-cover from the card) */}
+            <motion.img
               src={mainImgSrc}
               alt={product?.name || product?.title || 'Product Image'}
-              className="w-full h-full object-contain"
+              initial={{ opacity: 1 }}
+              animate={{ opacity: 0 }}
+              transition={{ duration: 0.28, ease: 'easeInOut' }}
+              className="absolute inset-0 w-full h-full object-cover"
+            />
+
+            {/* Crossfade Layer 2: Destination Detail Image (object-contain with natural padding) */}
+            <motion.img
+              src={mainImgSrc}
+              alt={product?.name || product?.title || 'Product Image'}
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 0.32, delay: 0.06, ease: 'easeInOut' }}
+              className="w-full h-full object-contain p-3"
             />
           </motion.div>
         )}
       </AnimatePresence>
 
-      <main className="page">
+      <motion.main 
+        className="page"
+        initial={isExpanding ? { opacity: 0.4 } : { opacity: 1 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 0.4, ease: 'easeOut' }}
+      >
         {/* BREADCRUMBS */}
         <motion.nav 
           className="breadcrumbs" 
@@ -690,14 +709,13 @@ const ProductDetails = () => {
           {/* GALLERY - Single photo layout */}
           <div className="gallery single-image">
             <div className="w-full">
-              <div 
+              <motion.div 
                 className="main-image relative" 
                 id="mainImage" 
                 ref={mainImageRef}
-                style={{
-                  opacity: (isExpanding && targetRect) ? 0 : 1,
-                  transition: 'opacity 0.15s ease'
-                }}
+                initial={isExpanding ? { opacity: 0 } : { opacity: 1 }}
+                animate={{ opacity: 1 }}
+                transition={{ duration: 0.35, delay: isExpanding ? 0.22 : 0, ease: 'easeOut' }}
               >
                 <img
                   src={mainImgSrc}
@@ -719,7 +737,7 @@ const ProductDetails = () => {
                     className={isWishlisted ? 'fill-current text-rose-600' : 'text-stone-700'}
                   />
                 </button>
-              </div>
+              </motion.div>
               <div className="gallery-note">
                 100% Original Products · Secure Packaging · Direct Vendor Certified
               </div>
@@ -1271,7 +1289,7 @@ const ProductDetails = () => {
             </div>
           </section>
         </section>
-      </main>
+      </motion.main>
 
       {/* WRITE A REVIEW MODAL */}
       <AnimatePresence>
