@@ -2209,8 +2209,8 @@ const NavMain = ({ isTransparent = false, isHome = false }) => {
                       className={`group relative px-2 xl:px-2.5 py-1.5 rounded-lg text-[10.5px] xl:text-[11px] uppercase tracking-wider transition-all duration-200 flex items-center gap-1 sm:gap-1.5 cursor-pointer font-bold whitespace-nowrap flex-shrink-0 hover:-translate-y-0.5 active:translate-y-0 active:scale-95 ${
                         dept.isHighlight || dept.isHighlighted
                           ? isTransparent
-                            ? "text-white bg-transparent hover:bg-white/10 border-2 border-orange-500 shadow-xs"
-                            : "text-stone-900 hover:text-black bg-white hover:bg-stone-50 border-2 border-orange-500 shadow-xs"
+                            ? "text-white hover:bg-white/15 border border-transparent"
+                            : "text-stone-900 hover:text-orange-600 hover:bg-orange-50/70 border border-transparent hover:shadow-xs"
                           : isCurrentActive
                             ? isTransparent
                               ? "text-white bg-white/20 shadow-2xs"
@@ -2297,11 +2297,7 @@ const NavMain = ({ isTransparent = false, isHome = false }) => {
                 style={{
                   left: `${getDropdownLeft()}px`,
                 }}
-                className={`absolute top-full mt-0.5 bg-white text-stone-900 rounded-2xl shadow-[0_20px_48px_rgba(0,0,0,0.18)] ${
-                  (activeDept === 'flea-market' || activeDept === 'tickets')
-                    ? "border-2 border-orange-500"
-                    : "border border-stone-200/90"
-                } p-5 z-50 before:content-[''] before:absolute before:-top-2 before:left-0 before:right-0 before:h-2 ${
+                className={`absolute top-full mt-0.5 bg-white text-stone-900 rounded-2xl shadow-[0_20px_48px_rgba(0,0,0,0.18)] border border-stone-200/90 p-5 z-50 before:content-[''] before:absolute before:-top-2 before:left-0 before:right-0 before:h-2 ${
                   activeDeptObj.columns.length >= 4
                     ? "w-[680px] max-w-[calc(100vw-2rem)]"
                     : activeDeptObj.columns.length === 3
