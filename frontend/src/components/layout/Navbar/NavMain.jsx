@@ -655,6 +655,14 @@ const DEPARTMENTS = [
         ],
       },
       {
+        title: "Travel & Transit Booking",
+        items: [
+          { label: "🚆 Train Ticket Booking (IRCTC)", path: "/tickets/trains" },
+          { label: "✈️ Flight & Aeroplane Booking", path: "/tickets/flights" },
+          { label: "🚌 Interstate Bus Booking", path: "/tickets/buses" },
+        ],
+      },
+      {
         title: "Passes & Dashboards",
         items: [
           { label: "My Booked Tickets", path: "/tickets/my-tickets" },

@@ -135,8 +135,10 @@ export default function MyTicketBookings() {
   // Filter by category tab
   const displayedBookings = bookings.filter(b => {
     if (activeCategoryTab === 'all') return true;
-    if (activeCategoryTab === 'bus') return b.booking_type === 'bus' || b.pnr;
-    if (activeCategoryTab === 'movie') return b.booking_type !== 'bus' && !b.pnr;
+    if (activeCategoryTab === 'train') return b.booking_type === 'train' || b.type === 'train';
+    if (activeCategoryTab === 'flight') return b.booking_type === 'flight' || b.type === 'flight';
+    if (activeCategoryTab === 'bus') return b.booking_type === 'bus' || (b.pnr && !b.booking_type && b.from_city);
+    if (activeCategoryTab === 'movie') return (!b.booking_type || b.booking_type === 'movie' || b.type === 'movie' || b.type === 'event') && !b.from_station && !b.from_airport && !b.from_city;
     return true;
   });
 
@@ -189,32 +191,46 @@ export default function MyTicketBookings() {
               Export CSV
             </button>
             <Link
-              to="/tickets/buses"
-              className="px-4 py-2 rounded-xl bg-orange-50 text-[#f76e28] hover:bg-orange-100 border border-orange-200 text-xs font-bold transition-all shadow-2xs"
+              to="/tickets/trains"
+              className="px-3.5 py-2 rounded-xl bg-amber-50 text-amber-700 hover:bg-amber-100 border border-amber-200 text-xs font-bold transition-all shadow-2xs"
             >
-              + Book Bus
+              + Train
+            </Link>
+            <Link
+              to="/tickets/flights"
+              className="px-3.5 py-2 rounded-xl bg-sky-50 text-sky-700 hover:bg-sky-100 border border-sky-200 text-xs font-bold transition-all shadow-2xs"
+            >
+              + Flight
+            </Link>
+            <Link
+              to="/tickets/buses"
+              className="px-3.5 py-2 rounded-xl bg-orange-50 text-[#f76e28] hover:bg-orange-100 border border-orange-200 text-xs font-bold transition-all shadow-2xs"
+            >
+              + Bus
             </Link>
             <Link
               to="/tickets/movies"
-              className="px-4 py-2 rounded-xl bg-[#f76e28] hover:bg-[#e05b16] text-white text-xs font-bold transition-all shadow-md"
+              className="px-3.5 py-2 rounded-xl bg-[#f76e28] hover:bg-[#e05b16] text-white text-xs font-bold transition-all shadow-md"
             >
-              + Book Movie
+              + Movie
             </Link>
           </div>
         </div>
 
         {/* Category Filter Tabs */}
-        <div className="flex items-center justify-between pb-4 border-b border-zinc-200 mb-6">
-          <div className="flex items-center gap-2">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between pb-4 border-b border-zinc-200 mb-6 gap-3">
+          <div className="flex flex-wrap items-center gap-2">
             {[
               { id: 'all', label: 'All Bookings', count: bookings.length },
-              { id: 'movie', label: 'Movies & Events', count: bookings.filter(b => b.booking_type !== 'bus' && !b.pnr).length },
-              { id: 'bus', label: 'Bus Tickets', count: bookings.filter(b => b.booking_type === 'bus' || b.pnr).length }
+              { id: 'movie', label: 'Movies & Events', count: bookings.filter(b => (!b.booking_type || b.booking_type === 'movie' || b.type === 'movie' || b.type === 'event') && !b.from_station && !b.from_airport && !b.from_city).length },
+              { id: 'train', label: 'Trains', count: bookings.filter(b => b.booking_type === 'train' || b.type === 'train').length },
+              { id: 'flight', label: 'Flights', count: bookings.filter(b => b.booking_type === 'flight' || b.type === 'flight').length },
+              { id: 'bus', label: 'Buses', count: bookings.filter(b => b.booking_type === 'bus' || (b.pnr && !b.booking_type && b.from_city)).length }
             ].map(tab => (
               <button
                 key={tab.id}
                 onClick={() => setActiveCategoryTab(tab.id)}
-                className={`px-4 py-2 rounded-xl text-xs font-bold transition-all cursor-pointer flex items-center gap-1.5 ${
+                className={`px-3.5 py-2 rounded-xl text-xs font-bold transition-all cursor-pointer flex items-center gap-1.5 ${
                   activeCategoryTab === tab.id
                     ? 'bg-zinc-900 text-white shadow-xs'
                     : 'bg-white border border-zinc-200 text-zinc-600 hover:border-zinc-300'

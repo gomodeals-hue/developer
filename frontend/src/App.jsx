@@ -90,6 +90,10 @@ const BusCheckout = React.lazy(() => import('./pages/Tickets/buses/BusCheckout')
 const BusConfirmation = React.lazy(() => import('./pages/Tickets/buses/BusConfirmation'));
 const BusDetails = React.lazy(() => import('./pages/Tickets/buses/BusDetails'));
 
+// Train & Flight Ticket Booking Platforms
+const TrainSearch = React.lazy(() => import('./pages/Tickets/trains/TrainSearch'));
+const FlightSearch = React.lazy(() => import('./pages/Tickets/flights/FlightSearch'));
+
 
 import { CurrencyProvider } from './context/CurrencyContext';
 
@@ -306,6 +310,8 @@ function App() {
                           <Route path="buses/seat-selection/:tripId" element={<BusSeatSelection />} />
                           <Route path="buses/checkout" element={<BusCheckout />} />
                           <Route path="buses/confirmation" element={<BusConfirmation />} />
+                          <Route path="trains" element={<TrainSearch />} />
+                          <Route path="flights" element={<FlightSearch />} />
                           <Route path="movie/:id" element={<MovieDetails />} />
                           <Route path="event/:id" element={<EventDetails />} />
                           <Route path="booking/:showtimeId" element={<TicketBooking />} />

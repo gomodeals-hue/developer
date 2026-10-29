@@ -141,7 +141,7 @@ export default function TicketsLayout() {
                     navigate('/tickets');
                   }
                 }}
-                placeholder="Search for Movies, Events, Plays, Sports and Activities" 
+                placeholder="Search for Movies, Trains, Flights, Buses and Events" 
                 className="w-full pl-11 pr-10 py-2.5 bg-zinc-50 hover:bg-white focus:bg-white border border-zinc-300 focus:border-[#f76e28] rounded-md focus:outline-none focus:ring-1 focus:ring-[#f76e28]/30 text-xs sm:text-sm font-normal placeholder-zinc-400 transition-all text-zinc-900 shadow-2xs"
               />
               {searchTerm && (
@@ -289,6 +289,38 @@ export default function TicketsLayout() {
                 )}
               </Link>
               <Link 
+                to="/tickets/trains" 
+                className={`transition-colors relative py-0.5 flex items-center gap-1.5 ${
+                  location.pathname.startsWith('/tickets/trains')
+                    ? 'text-zinc-900 font-bold' 
+                    : 'text-zinc-600 hover:text-[#f76e28]'
+                }`}
+              >
+                <span>Trains</span>
+                <span className="px-1.5 py-0.2 rounded-full bg-orange-100 text-[#f76e28] text-[9px] font-black uppercase tracking-wider">
+                  IRCTC
+                </span>
+                {location.pathname.startsWith('/tickets/trains') && (
+                  <span className="absolute bottom-0 left-0 right-0 h-0.5 bg-[#f76e28] rounded-full"></span>
+                )}
+              </Link>
+              <Link 
+                to="/tickets/flights" 
+                className={`transition-colors relative py-0.5 flex items-center gap-1.5 ${
+                  location.pathname.startsWith('/tickets/flights')
+                    ? 'text-zinc-900 font-bold' 
+                    : 'text-zinc-600 hover:text-[#f76e28]'
+                }`}
+              >
+                <span>Flights</span>
+                <span className="px-1.5 py-0.2 rounded-full bg-sky-100 text-sky-700 text-[9px] font-black uppercase tracking-wider">
+                  0% Fee
+                </span>
+                {location.pathname.startsWith('/tickets/flights') && (
+                  <span className="absolute bottom-0 left-0 right-0 h-0.5 bg-[#f76e28] rounded-full"></span>
+                )}
+              </Link>
+              <Link 
                 to="/tickets/buses" 
                 className={`transition-colors relative py-0.5 flex items-center gap-1.5 ${
                   location.pathname.startsWith('/tickets/buses')
@@ -297,9 +329,6 @@ export default function TicketsLayout() {
                 }`}
               >
                 <span>Buses</span>
-                <span className="px-1.5 py-0.2 rounded-full bg-orange-100 text-[#f76e28] text-[9px] font-black uppercase tracking-wider">
-                  New
-                </span>
                 {location.pathname.startsWith('/tickets/buses') && (
                   <span className="absolute bottom-0 left-0 right-0 h-0.5 bg-[#f76e28] rounded-full"></span>
                 )}
@@ -314,45 +343,6 @@ export default function TicketsLayout() {
               >
                 Events
                 {location.pathname === '/tickets/events' && !location.search && (
-                  <span className="absolute bottom-0 left-0 right-0 h-0.5 bg-[#f76e28] rounded-full"></span>
-                )}
-              </Link>
-              <Link 
-                to="/tickets/events?category=theatre" 
-                className={`transition-colors relative py-0.5 ${
-                  location.search.includes('theatre')
-                    ? 'text-zinc-900 font-bold' 
-                    : 'text-zinc-600 hover:text-[#f76e28]'
-                }`}
-              >
-                Plays
-                {location.search.includes('theatre') && (
-                  <span className="absolute bottom-0 left-0 right-0 h-0.5 bg-[#f76e28] rounded-full"></span>
-                )}
-              </Link>
-              <Link 
-                to="/tickets/events?category=sports" 
-                className={`transition-colors relative py-0.5 ${
-                  location.search.includes('sports')
-                    ? 'text-zinc-900 font-bold' 
-                    : 'text-zinc-600 hover:text-[#f76e28]'
-                }`}
-              >
-                Sports
-                {location.search.includes('sports') && (
-                  <span className="absolute bottom-0 left-0 right-0 h-0.5 bg-[#f76e28] rounded-full"></span>
-                )}
-              </Link>
-              <Link 
-                to="/tickets/events?category=activities" 
-                className={`transition-colors relative py-0.5 ${
-                  location.search.includes('activities')
-                    ? 'text-zinc-900 font-bold' 
-                    : 'text-zinc-600 hover:text-[#f76e28]'
-                }`}
-              >
-                Activities
-                {location.search.includes('activities') && (
                   <span className="absolute bottom-0 left-0 right-0 h-0.5 bg-[#f76e28] rounded-full"></span>
                 )}
               </Link>

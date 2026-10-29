@@ -3,13 +3,14 @@ import { Link, useSearchParams, useNavigate, useOutletContext } from 'react-rout
 import { 
   Ticket as TicketIcon, Play, Star, ChevronRight, ChevronLeft, 
   Sparkles, Percent, Clapperboard, MonitorPlay, Calendar, ThumbsUp,
-  Heart, Music, Mic, Trophy, Drama, Palette, Compass, MapPin, Bus
+  Heart, Music, Mic, Trophy, Drama, Palette, Compass, MapPin, Bus,
+  Train, Plane, ArrowRight, Zap, Luggage
 } from 'lucide-react';
 import { useCurrency } from '../../context/CurrencyContext';
 import { useToast } from '../../context/ToastContext';
 import { API } from '../../config/ticketApi';
 import { 
-  MOCK_MOVIES, MOCK_EVENTS, toggleTicketWishlist, isTicketWishlisted 
+  MOCK_MOVIES, MOCK_EVENTS, MOCK_TRAINS, MOCK_FLIGHTS, toggleTicketWishlist, isTicketWishlisted 
 } from '../../data/mockTicketData';
 
 const BILLBOARD_SLIDES = [
@@ -53,12 +54,11 @@ const BILLBOARD_SLIDES = [
 
 const CATEGORIES_NAV = [
   { id: 'movies', label: 'Movies', icon: Clapperboard, path: '/tickets/movies', color: 'text-[#f76e28]' },
-  { id: 'buses', label: 'Bus Tickets', icon: Bus, path: '/tickets/buses', color: 'text-[#f76e28]' },
+  { id: 'trains', label: 'Train Tickets', icon: Train, path: '/tickets/trains', color: 'text-amber-500' },
+  { id: 'flights', label: 'Flight Tickets', icon: Plane, path: '/tickets/flights', color: 'text-sky-500' },
+  { id: 'buses', label: 'Bus Tickets', icon: Bus, path: '/tickets/buses', color: 'text-emerald-500' },
   { id: 'concerts', label: 'Concerts', icon: Music, path: '/tickets/events?category=concerts', color: 'text-purple-600' },
-  { id: 'comedy', label: 'Stand-up Comedy', icon: Mic, path: '/tickets/events?category=stand-up comedy', color: 'text-amber-600' },
-  { id: 'sports', label: 'Sports', icon: Trophy, path: '/tickets/events?category=sports', color: 'text-blue-600' },
-  { id: 'theatre', label: 'Theatre & Plays', icon: Drama, path: '/tickets/events?category=theatre', color: 'text-rose-600' },
-  { id: 'activities', label: 'Activities', icon: Compass, path: '/tickets/events?category=activities', color: 'text-emerald-600' }
+  { id: 'comedy', label: 'Stand-up Comedy', icon: Mic, path: '/tickets/events?category=stand-up comedy', color: 'text-rose-500' }
 ];
 
 export default function TicketsHome() {
@@ -75,7 +75,6 @@ export default function TicketsHome() {
 
   const moviesScrollRef = useRef(null);
   const eventsScrollRef = useRef(null);
-  const sportsScrollRef = useRef(null);
 
   const activeGenre = searchParams.get('genre') || '';
   const activeLang = searchParams.get('lang') || '';
@@ -142,7 +141,6 @@ export default function TicketsHome() {
 
   // Group events for home sections
   const liveConcerts = MOCK_EVENTS.filter(e => e.category === 'Concerts' || e.category === 'Stand-up Comedy');
-  const sportsAndActivities = MOCK_EVENTS.filter(e => e.category === 'Sports' || e.category === 'Activities' || e.category === 'Theatre');
 
   return (
     <div className="bg-[#f5f5f7] min-h-screen text-zinc-900 font-sans pb-24">
@@ -228,19 +226,19 @@ export default function TicketsHome() {
       {/* 2. CATEGORY QUICK DISCOVERY TILES STRIP                  */}
       {/* ======================================================== */}
       <section className="max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-8 pt-8">
-        <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-7 gap-3">
+        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-3 sm:gap-4">
           {CATEGORIES_NAV.map((cat) => {
             const Icon = cat.icon;
             return (
               <Link
                 key={cat.id}
                 to={cat.path}
-                className="flex flex-col items-center justify-center p-3.5 sm:p-4 rounded-xl bg-white border border-zinc-200/90 shadow-2xs hover:shadow-md hover:border-[#f76e28] transition-all group cursor-pointer text-center"
+                className="flex flex-col items-center justify-center p-4 sm:p-5 rounded-2xl bg-white border border-zinc-200/90 shadow-2xs hover:shadow-lg hover:border-[#f76e28] transition-all group cursor-pointer text-center relative overflow-hidden"
               >
-                <div className="w-10 h-10 rounded-full bg-zinc-50 group-hover:bg-orange-50 flex items-center justify-center mb-2 transition-colors">
-                  <Icon size={20} className={`${cat.color} group-hover:scale-110 transition-transform`} />
+                <div className="w-12 h-12 rounded-2xl bg-zinc-50 group-hover:bg-orange-50 flex items-center justify-center mb-2.5 transition-colors">
+                  <Icon size={24} className={`${cat.color} group-hover:scale-110 transition-transform`} />
                 </div>
-                <span className="text-xs font-bold text-zinc-800 group-hover:text-[#f76e28] transition-colors leading-tight">
+                <span className="text-xs sm:text-sm font-black text-zinc-800 group-hover:text-[#f76e28] transition-colors leading-tight">
                   {cat.label}
                 </span>
               </Link>
@@ -248,33 +246,102 @@ export default function TicketsHome() {
           })}
         </div>
 
-        {/* Bus Booking Quick Hub Banner */}
-        <div className="mt-6 bg-gradient-to-r from-[#1f2533] via-zinc-900 to-[#121620] text-white rounded-2xl p-5 sm:p-6 border border-zinc-800 shadow-md flex flex-col md:flex-row md:items-center justify-between gap-4">
-          <div className="flex items-center gap-4">
-            <div className="w-12 h-12 rounded-xl bg-[#f76e28]/20 border border-[#f76e28]/40 text-[#f76e28] flex items-center justify-center flex-shrink-0">
-              <Bus size={26} />
+        {/* Multi-Transit Travel Hub Banner: Trains, Flights & Buses */}
+        <div className="mt-8 grid grid-cols-1 md:grid-cols-3 gap-4">
+          
+          {/* 1. Train Ticket Booking Card */}
+          <div className="bg-gradient-to-br from-[#1a2233] via-[#121724] to-zinc-950 text-white rounded-2xl p-5 border border-zinc-800 shadow-md flex flex-col justify-between relative overflow-hidden group">
+            <div className="absolute -right-4 -bottom-4 text-zinc-800/20 group-hover:text-amber-500/10 transition-colors pointer-events-none">
+              <Train size={110} />
             </div>
             <div>
-              <div className="flex items-center gap-2">
-                <span className="text-[10px] font-black uppercase tracking-wider bg-orange-500/20 text-[#f76e28] px-2 py-0.5 rounded">
-                  NEW SERVICE
+              <div className="flex items-center justify-between mb-3">
+                <span className="text-[10px] font-black uppercase tracking-wider bg-amber-500/20 text-amber-400 border border-amber-500/30 px-2.5 py-0.5 rounded-full">
+                  IRCTC PARTNER
                 </span>
-                <h3 className="text-base sm:text-lg font-black text-white">
-                  Intercity Bus Booking across South India
-                </h3>
+                <span className="text-[11px] text-zinc-400 font-bold">Zero Gateway Fee</span>
               </div>
-              <p className="text-xs text-zinc-300 mt-1">
-                Direct AC Sleepers & Multi-Axle Volvo buses between Coimbatore, Chennai, Bengaluru, Madurai & more with live seat selection.
+              <h3 className="text-base sm:text-lg font-black text-white leading-tight">
+                Train Ticket Booking
+              </h3>
+              <p className="text-xs text-zinc-300 mt-1.5 leading-relaxed">
+                Vande Bharat, Shatabdi & Superfast trains across Indian Railways. Instant PNR confirmation & free cancellation.
               </p>
             </div>
+            <div className="mt-5 pt-3 border-t border-zinc-800/80 flex items-center justify-between">
+              <span className="text-xs font-bold text-amber-400">Fares from ₹185</span>
+              <Link
+                to="/tickets/trains"
+                className="px-4 py-2 rounded-xl bg-[#f76e28] hover:bg-[#e05b16] text-white font-bold text-xs uppercase tracking-wider transition-all flex items-center gap-1.5 shadow-md cursor-pointer"
+              >
+                <span>Book Trains</span>
+                <ChevronRight size={14} />
+              </Link>
+            </div>
           </div>
-          <Link
-            to="/tickets/buses"
-            className="px-5 py-3 rounded-xl bg-[#f76e28] hover:bg-[#e05b16] text-white font-bold text-xs uppercase tracking-wider transition-all shadow-md flex items-center justify-center gap-2 shrink-0 cursor-pointer"
-          >
-            <span>Book Bus Tickets</span>
-            <ChevronRight size={15} />
-          </Link>
+
+          {/* 2. Aeroplane / Flight Ticket Booking Card */}
+          <div className="bg-gradient-to-br from-[#0e1e33] via-[#091524] to-zinc-950 text-white rounded-2xl p-5 border border-zinc-800 shadow-md flex flex-col justify-between relative overflow-hidden group">
+            <div className="absolute -right-4 -bottom-4 text-zinc-800/20 group-hover:text-sky-500/10 transition-colors pointer-events-none">
+              <Plane size={110} />
+            </div>
+            <div>
+              <div className="flex items-center justify-between mb-3">
+                <span className="text-[10px] font-black uppercase tracking-wider bg-sky-500/20 text-sky-400 border border-sky-500/30 px-2.5 py-0.5 rounded-full">
+                  IATA CERTIFIED
+                </span>
+                <span className="text-[11px] text-zinc-400 font-bold">0% Convenience Fee</span>
+              </div>
+              <h3 className="text-base sm:text-lg font-black text-white leading-tight">
+                Aeroplane Ticket Booking
+              </h3>
+              <p className="text-xs text-zinc-300 mt-1.5 leading-relaxed">
+                IndiGo, Air India, Vistara, Akasa Air & international airlines. Web check-in & verified baggage included.
+              </p>
+            </div>
+            <div className="mt-5 pt-3 border-t border-zinc-800/80 flex items-center justify-between">
+              <span className="text-xs font-bold text-sky-400">Nonstop from ₹3,120</span>
+              <Link
+                to="/tickets/flights"
+                className="px-4 py-2 rounded-xl bg-[#f76e28] hover:bg-[#e05b16] text-white font-bold text-xs uppercase tracking-wider transition-all flex items-center gap-1.5 shadow-md cursor-pointer"
+              >
+                <span>Book Flights</span>
+                <ChevronRight size={14} />
+              </Link>
+            </div>
+          </div>
+
+          {/* 3. Bus Ticket Booking Card */}
+          <div className="bg-gradient-to-br from-[#18261e] via-[#101b15] to-zinc-950 text-white rounded-2xl p-5 border border-zinc-800 shadow-md flex flex-col justify-between relative overflow-hidden group">
+            <div className="absolute -right-4 -bottom-4 text-zinc-800/20 group-hover:text-emerald-500/10 transition-colors pointer-events-none">
+              <Bus size={110} />
+            </div>
+            <div>
+              <div className="flex items-center justify-between mb-3">
+                <span className="text-[10px] font-black uppercase tracking-wider bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 px-2.5 py-0.5 rounded-full">
+                  LIVE SEAT MAP
+                </span>
+                <span className="text-[11px] text-zinc-400 font-bold">24x7 Live GPS</span>
+              </div>
+              <h3 className="text-base sm:text-lg font-black text-white leading-tight">
+                Intercity Bus Booking
+              </h3>
+              <p className="text-xs text-zinc-300 mt-1.5 leading-relaxed">
+                Direct AC Sleepers & Multi-Axle Volvo buses between Coimbatore, Chennai, Bengaluru, Madurai & South India.
+              </p>
+            </div>
+            <div className="mt-5 pt-3 border-t border-zinc-800/80 flex items-center justify-between">
+              <span className="text-xs font-bold text-emerald-400">Sleepers from ₹480</span>
+              <Link
+                to="/tickets/buses"
+                className="px-4 py-2 rounded-xl bg-[#f76e28] hover:bg-[#e05b16] text-white font-bold text-xs uppercase tracking-wider transition-all flex items-center gap-1.5 shadow-md cursor-pointer"
+              >
+                <span>Book Buses</span>
+                <ChevronRight size={14} />
+              </Link>
+            </div>
+          </div>
+
         </div>
       </section>
 
@@ -566,100 +633,264 @@ export default function TicketsHome() {
       </section>
 
       {/* ======================================================== */}
-      {/* 5. SPORTS & WEEKEND EXPERIENCES SECTION                  */}
+      {/* 5. FASTEST TRAINS & NON-STOP FLIGHTS SHOWCASE            */}
       {/* ======================================================== */}
       <section className="max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-8 pt-12 sm:pt-16">
-        <div className="flex items-center justify-between mb-6">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
           <div>
-            <h2 className="text-xl sm:text-2xl font-black text-zinc-900 tracking-tight">
-              Sports & Weekend Experiences
-            </h2>
-            <p className="text-xs text-zinc-500 mt-0.5">
-              Stadium matches, artisan pottery workshops, tea plantation trails & stage theatre.
+            <div className="flex items-center gap-2">
+              <span className="text-[10px] font-black uppercase tracking-wider bg-orange-500/10 text-[#f76e28] px-2.5 py-0.5 rounded-full border border-orange-500/20">
+                HIGH SPEED TRAVEL
+              </span>
+              <h2 className="text-xl sm:text-2xl font-black text-zinc-900 tracking-tight">
+                Vande Bharat Trains & Non-Stop Flights
+              </h2>
+            </div>
+            <p className="text-xs text-zinc-500 mt-1">
+              Top routes with verified live tracking, hot meal services, zero cancellation fees and best price guarantee.
             </p>
           </div>
 
-          <Link 
-            to="/tickets/events?category=sports"
-            className="text-xs sm:text-sm font-bold text-[#f76e28] hover:text-[#e05b16] flex items-center gap-1 group"
-          >
-            <span>Explore All</span>
-            <ChevronRight size={15} className="group-hover:translate-x-0.5 transition-transform" />
-          </Link>
+          <div className="flex items-center gap-3">
+            <Link 
+              to="/tickets/trains"
+              className="px-4 py-2 rounded-xl bg-amber-50 hover:bg-amber-100 text-amber-800 border border-amber-200 text-xs font-bold transition-all flex items-center gap-1.5 cursor-pointer shadow-2xs"
+            >
+              <Train size={14} className="text-amber-600" />
+              <span>All Trains</span>
+            </Link>
+            <Link 
+              to="/tickets/flights"
+              className="px-4 py-2 rounded-xl bg-sky-50 hover:bg-sky-100 text-sky-800 border border-sky-200 text-xs font-bold transition-all flex items-center gap-1.5 cursor-pointer shadow-2xs"
+            >
+              <Plane size={14} className="text-sky-600" />
+              <span>All Flights</span>
+            </Link>
+          </div>
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-          {sportsAndActivities.map((evt) => {
-            const isWish = isTicketWishlisted(evt.id);
+        {/* Showcase Grid: 3 Top Trains + 3 Top Flights */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+          
+          {/* Train 1: Vande Bharat */}
+          <div className="bg-white rounded-2xl border border-zinc-200/90 hover:border-zinc-300 hover:shadow-xl transition-all p-5 flex flex-col justify-between group">
+            <div>
+              <div className="flex items-center justify-between mb-3">
+                <span className="text-[10px] font-black uppercase tracking-wider bg-orange-50 text-[#f76e28] px-2.5 py-0.5 rounded-md border border-orange-200">
+                  VANDE BHARAT 130 km/h
+                </span>
+                <span className="text-[11px] font-bold text-emerald-600 flex items-center gap-1">
+                  <Zap size={11} fill="currentColor" />
+                  <span>On-time 98%</span>
+                </span>
+              </div>
+              <h3 className="text-base font-black text-zinc-900 leading-snug group-hover:text-[#f76e28] transition-colors">
+                Coimbatore ➔ Chennai Central Vande Bharat
+              </h3>
+              <p className="text-xs text-zinc-500 mt-1">#20644 • 06:00 AM ➔ 11:50 AM (5h 50m)</p>
+              <div className="mt-3 py-2 px-3 bg-zinc-50 rounded-xl border border-zinc-100 flex items-center justify-between text-xs">
+                <span className="text-zinc-600 font-medium">Hot Breakfast Included</span>
+                <span className="font-bold text-zinc-900">AC Chair Car</span>
+              </div>
+            </div>
 
-            return (
+            <div className="mt-5 pt-3 border-t border-zinc-100 flex items-center justify-between">
+              <div>
+                <span className="text-[10px] font-bold text-zinc-400 block uppercase">Fare from</span>
+                <span className="text-base sm:text-lg font-black text-zinc-900">
+                  {formatLocalPrice(1025)}
+                </span>
+              </div>
               <Link
-                key={evt.id}
-                to={`/tickets/event/${evt.id}`}
-                className="group cursor-pointer bg-white rounded-2xl overflow-hidden border border-zinc-200/80 hover:shadow-xl transition-all duration-300 flex flex-col group-hover:-translate-y-1"
+                to="/tickets/trains?from=Coimbatore&to=Chennai"
+                className="px-4 py-2 rounded-xl bg-[#f76e28] hover:bg-[#e05b16] text-white font-bold text-xs uppercase tracking-wider transition-all shadow-md flex items-center gap-1.5 cursor-pointer"
               >
-                <div className="relative aspect-[16/10] w-full bg-zinc-950 overflow-hidden">
-                  <img 
-                    src={evt.cover_image} 
-                    alt={evt.title}
-                    className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
-                    onError={(e) => {
-                      e.target.onerror = null;
-                      e.target.src = '/images/cinematic_backdrop_1_1780401309164.png';
-                    }}
-                  />
-                  <div className="absolute top-3 left-3 bg-black/75 backdrop-blur-xs text-[#f76e28] text-[9px] font-black uppercase tracking-wider px-2 py-0.5 rounded-md border border-[#f76e28]/30">
-                    {evt.category}
-                  </div>
-
-                  <button
-                    onClick={(e) => handleWishlistToggle(e, evt)}
-                    className="absolute top-3 right-3 w-7 h-7 rounded-full bg-black/60 hover:bg-black/90 text-white flex items-center justify-center transition-transform hover:scale-110 z-10 cursor-pointer"
-                    title="Wishlist"
-                  >
-                    <Heart size={13} className={isWish ? 'fill-rose-500 text-rose-500' : ''} />
-                  </button>
-
-                  <div className="absolute bottom-0 inset-x-0 bg-gradient-to-t from-black via-black/80 to-transparent p-3 pt-6 flex items-center justify-between text-white text-xs font-bold">
-                    <span className="flex items-center gap-1.5 text-amber-400">
-                      <Calendar size={13} />
-                      <span>{evt.date}</span>
-                    </span>
-                    <span className="text-[11px] text-zinc-300 font-medium">
-                      {evt.time}
-                    </span>
-                  </div>
-                </div>
-
-                <div className="p-4 flex-1 flex flex-col justify-between">
-                  <div>
-                    <h3 className="font-bold text-zinc-900 text-base leading-snug group-hover:text-[#f76e28] transition-colors truncate">
-                      {evt.title}
-                    </h3>
-                    <p className="text-xs text-zinc-500 truncate mt-0.5">
-                      {evt.artist}
-                    </p>
-                    <p className="text-xs text-zinc-400 flex items-center gap-1 mt-2 truncate">
-                      <MapPin size={12} className="shrink-0" />
-                      <span className="truncate">{evt.venue}</span>
-                    </p>
-                  </div>
-
-                  <div className="pt-3 mt-3 border-t border-zinc-100 flex items-center justify-between">
-                    <div>
-                      <span className="block text-[9px] text-zinc-400 uppercase font-bold">Starts from</span>
-                      <span className="text-base font-black text-zinc-900">
-                        {formatLocalPrice(evt.price)}
-                      </span>
-                    </div>
-                    <span className="px-3.5 py-1.5 rounded-lg bg-orange-50 text-[#f76e28] font-bold text-xs uppercase tracking-wider group-hover:bg-[#f76e28] group-hover:text-white transition-colors">
-                      Book Now
-                    </span>
-                  </div>
-                </div>
+                <span>Book Train</span>
+                <ChevronRight size={13} />
               </Link>
-            );
-          })}
+            </div>
+          </div>
+
+          {/* Train 2: Bengaluru Vande Bharat */}
+          <div className="bg-white rounded-2xl border border-zinc-200/90 hover:border-zinc-300 hover:shadow-xl transition-all p-5 flex flex-col justify-between group">
+            <div>
+              <div className="flex items-center justify-between mb-3">
+                <span className="text-[10px] font-black uppercase tracking-wider bg-orange-50 text-[#f76e28] px-2.5 py-0.5 rounded-md border border-orange-200">
+                  HIGH SPEED EXPRESS
+                </span>
+                <span className="text-[11px] font-bold text-emerald-600">Daily Service</span>
+              </div>
+              <h3 className="text-base font-black text-zinc-900 leading-snug group-hover:text-[#f76e28] transition-colors">
+                Bengaluru ➔ Coimbatore Vande Bharat
+              </h3>
+              <p className="text-xs text-zinc-500 mt-1">#20641 • 01:40 PM ➔ 08:00 PM (6h 20m)</p>
+              <div className="mt-3 py-2 px-3 bg-zinc-50 rounded-xl border border-zinc-100 flex items-center justify-between text-xs">
+                <span className="text-zinc-600 font-medium">Evening Refreshments</span>
+                <span className="font-bold text-zinc-900">Executive / CC</span>
+              </div>
+            </div>
+
+            <div className="mt-5 pt-3 border-t border-zinc-100 flex items-center justify-between">
+              <div>
+                <span className="text-[10px] font-bold text-zinc-400 block uppercase">Fare from</span>
+                <span className="text-base sm:text-lg font-black text-zinc-900">
+                  {formatLocalPrice(995)}
+                </span>
+              </div>
+              <Link
+                to="/tickets/trains?from=Bengaluru&to=Coimbatore"
+                className="px-4 py-2 rounded-xl bg-[#f76e28] hover:bg-[#e05b16] text-white font-bold text-xs uppercase tracking-wider transition-all shadow-md flex items-center gap-1.5 cursor-pointer"
+              >
+                <span>Book Train</span>
+                <ChevronRight size={13} />
+              </Link>
+            </div>
+          </div>
+
+          {/* Flight 1: IndiGo Nonstop */}
+          <div className="bg-white rounded-2xl border border-zinc-200/90 hover:border-zinc-300 hover:shadow-xl transition-all p-5 flex flex-col justify-between group">
+            <div>
+              <div className="flex items-center justify-between mb-3">
+                <span className="text-[10px] font-black uppercase tracking-wider bg-sky-50 text-sky-700 px-2.5 py-0.5 rounded-md border border-sky-200">
+                  NON-STOP 1h 05m
+                </span>
+                <span className="text-[11px] font-bold text-sky-600">IndiGo 6E 243</span>
+              </div>
+              <h3 className="text-base font-black text-zinc-900 leading-snug group-hover:text-[#f76e28] transition-colors">
+                Coimbatore (CJB) ➔ Chennai (MAA)
+              </h3>
+              <p className="text-xs text-zinc-500 mt-1">08:15 AM ➔ 09:20 AM • Morning Flight</p>
+              <div className="mt-3 py-2 px-3 bg-zinc-50 rounded-xl border border-zinc-100 flex items-center justify-between text-xs">
+                <span className="text-zinc-600 font-medium">7kg Cabin + 15kg Baggage</span>
+                <span className="font-bold text-emerald-600">Instant PNR</span>
+              </div>
+            </div>
+
+            <div className="mt-5 pt-3 border-t border-zinc-100 flex items-center justify-between">
+              <div>
+                <span className="text-[10px] font-bold text-zinc-400 block uppercase">Fare from</span>
+                <span className="text-base sm:text-lg font-black text-zinc-900">
+                  {formatLocalPrice(3490)}
+                </span>
+              </div>
+              <Link
+                to="/tickets/flights?from=CJB&to=MAA"
+                className="px-4 py-2 rounded-xl bg-[#f76e28] hover:bg-[#e05b16] text-white font-bold text-xs uppercase tracking-wider transition-all shadow-md flex items-center gap-1.5 cursor-pointer"
+              >
+                <span>Book Flight</span>
+                <ChevronRight size={13} />
+              </Link>
+            </div>
+          </div>
+
+          {/* Flight 2: Air India Nonstop */}
+          <div className="bg-white rounded-2xl border border-zinc-200/90 hover:border-zinc-300 hover:shadow-xl transition-all p-5 flex flex-col justify-between group">
+            <div>
+              <div className="flex items-center justify-between mb-3">
+                <span className="text-[10px] font-black uppercase tracking-wider bg-rose-50 text-rose-700 px-2.5 py-0.5 rounded-md border border-rose-200">
+                  FREE HOT MEAL
+                </span>
+                <span className="text-[11px] font-bold text-rose-600">Air India AI 582</span>
+              </div>
+              <h3 className="text-base font-black text-zinc-900 leading-snug group-hover:text-[#f76e28] transition-colors">
+                Coimbatore (CJB) ➔ Bengaluru (BLR)
+              </h3>
+              <p className="text-xs text-zinc-500 mt-1">10:45 AM ➔ 11:45 AM • 1h 00m Direct</p>
+              <div className="mt-3 py-2 px-3 bg-zinc-50 rounded-xl border border-zinc-100 flex items-center justify-between text-xs">
+                <span className="text-zinc-600 font-medium">20kg Check-in Baggage</span>
+                <span className="font-bold text-zinc-900">Terminal 2</span>
+              </div>
+            </div>
+
+            <div className="mt-5 pt-3 border-t border-zinc-100 flex items-center justify-between">
+              <div>
+                <span className="text-[10px] font-bold text-zinc-400 block uppercase">Fare from</span>
+                <span className="text-base sm:text-lg font-black text-zinc-900">
+                  {formatLocalPrice(3120)}
+                </span>
+              </div>
+              <Link
+                to="/tickets/flights?from=CJB&to=BLR"
+                className="px-4 py-2 rounded-xl bg-[#f76e28] hover:bg-[#e05b16] text-white font-bold text-xs uppercase tracking-wider transition-all shadow-md flex items-center gap-1.5 cursor-pointer"
+              >
+                <span>Book Flight</span>
+                <ChevronRight size={13} />
+              </Link>
+            </div>
+          </div>
+
+          {/* Train 3: Tejas Rajdhani */}
+          <div className="bg-white rounded-2xl border border-zinc-200/90 hover:border-zinc-300 hover:shadow-xl transition-all p-5 flex flex-col justify-between group">
+            <div>
+              <div className="flex items-center justify-between mb-3">
+                <span className="text-[10px] font-black uppercase tracking-wider bg-red-50 text-red-700 px-2.5 py-0.5 rounded-md border border-red-200">
+                  TEJAS RAJDHANI
+                </span>
+                <span className="text-[11px] font-bold text-red-600">Speed 140 km/h</span>
+              </div>
+              <h3 className="text-base font-black text-zinc-900 leading-snug group-hover:text-[#f76e28] transition-colors">
+                New Delhi ➔ Mumbai Central Rajdhani
+              </h3>
+              <p className="text-xs text-zinc-500 mt-1">#12952 • 04:55 PM ➔ 08:35 AM (15h 40m)</p>
+              <div className="mt-3 py-2 px-3 bg-zinc-50 rounded-xl border border-zinc-100 flex items-center justify-between text-xs">
+                <span className="text-zinc-600 font-medium">All Meals & Bedroll Included</span>
+                <span className="font-bold text-zinc-900">1A / 2A / 3A</span>
+              </div>
+            </div>
+
+            <div className="mt-5 pt-3 border-t border-zinc-100 flex items-center justify-between">
+              <div>
+                <span className="text-[10px] font-bold text-zinc-400 block uppercase">Fare from</span>
+                <span className="text-base sm:text-lg font-black text-zinc-900">
+                  {formatLocalPrice(2190)}
+                </span>
+              </div>
+              <Link
+                to="/tickets/trains?from=Delhi-NCR&to=Mumbai"
+                className="px-4 py-2 rounded-xl bg-[#f76e28] hover:bg-[#e05b16] text-white font-bold text-xs uppercase tracking-wider transition-all shadow-md flex items-center gap-1.5 cursor-pointer"
+              >
+                <span>Book Train</span>
+                <ChevronRight size={13} />
+              </Link>
+            </div>
+          </div>
+
+          {/* Flight 3: Vistara Luxury */}
+          <div className="bg-white rounded-2xl border border-zinc-200/90 hover:border-zinc-300 hover:shadow-xl transition-all p-5 flex flex-col justify-between group">
+            <div>
+              <div className="flex items-center justify-between mb-3">
+                <span className="text-[10px] font-black uppercase tracking-wider bg-purple-50 text-purple-700 px-2.5 py-0.5 rounded-md border border-purple-200">
+                  LUXURY FLYING
+                </span>
+                <span className="text-[11px] font-bold text-purple-600">Vistara UK 835</span>
+              </div>
+              <h3 className="text-base font-black text-zinc-900 leading-snug group-hover:text-[#f76e28] transition-colors">
+                Mumbai (BOM) ➔ Delhi (DEL)
+              </h3>
+              <p className="text-xs text-zinc-500 mt-1">07:30 AM ➔ 09:40 AM • 2h 10m Non-stop</p>
+              <div className="mt-3 py-2 px-3 bg-zinc-50 rounded-xl border border-zinc-100 flex items-center justify-between text-xs">
+                <span className="text-zinc-600 font-medium">Starbucks & Gourmet Dining</span>
+                <span className="font-bold text-zinc-900">Airbus A321LR</span>
+              </div>
+            </div>
+
+            <div className="mt-5 pt-3 border-t border-zinc-100 flex items-center justify-between">
+              <div>
+                <span className="text-[10px] font-bold text-zinc-400 block uppercase">Fare from</span>
+                <span className="text-base sm:text-lg font-black text-zinc-900">
+                  {formatLocalPrice(6420)}
+                </span>
+              </div>
+              <Link
+                to="/tickets/flights?from=BOM&to=DEL"
+                className="px-4 py-2 rounded-xl bg-[#f76e28] hover:bg-[#e05b16] text-white font-bold text-xs uppercase tracking-wider transition-all shadow-md flex items-center gap-1.5 cursor-pointer"
+              >
+                <span>Book Flight</span>
+                <ChevronRight size={13} />
+              </Link>
+            </div>
+          </div>
+
         </div>
       </section>
 
