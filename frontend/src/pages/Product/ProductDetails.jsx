@@ -1,5 +1,5 @@
-import React, { useEffect, useState, useMemo, useRef } from 'react';
-import { useParams, Link, useNavigate } from 'react-router-dom';
+import React, { useEffect, useState, useMemo, useRef, useLayoutEffect } from 'react';
+import { useParams, Link, useNavigate, useLocation } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { 
   Heart, 
@@ -102,8 +102,20 @@ export const isFootwearProduct = (p) => {
 const ProductDetails = () => {
   const { id } = useParams();
   const navigate = useNavigate();
+  const location = useLocation();
   const { toast } = useToast();
   const { user } = useAuth();
+
+  const previewProduct = location.state?.previewProduct;
+  const previewImage = location.state?.previewImage;
+  const sourceImgRect = location.state?.sourceImgRect;
+
+  // Check if preview product ID matches the URL param
+  const isMatchingPreview = useMemo(() => {
+    if (!previewProduct) return false;
+    const pId = previewProduct.product_id || previewProduct.id;
+    return String(pId) === String(id);
+  }, [previewProduct, id]);
 
   const { 
     addToCart, 
@@ -113,9 +125,52 @@ const ProductDetails = () => {
     formatPrice 
   } = useShop();
 
-  const [product, setProduct] = useState(null);
-  const [loading, setLoading] = useState(true);
+  const [product, setProduct] = useState(isMatchingPreview ? previewProduct : null);
+  const [loading, setLoading] = useState(!isMatchingPreview);
   const [notFound, setNotFound] = useState(false);
+
+  // Gallery & Shared Element Expanding Transition State
+  const mainImageRef = useRef(null);
+  const [targetRect, setTargetRect] = useState(null);
+  const [isExpanding, setIsExpanding] = useState(Boolean(sourceImgRect && isMatchingPreview));
+
+  useLayoutEffect(() => {
+    if (!sourceImgRect || !isMatchingPreview) {
+      setIsExpanding(false);
+      return;
+    }
+
+    // Scroll to top instantly so target placeholder is correctly positioned in viewport
+    window.scrollTo(0, 0);
+
+    const measureTarget = () => {
+      if (mainImageRef.current) {
+        const rect = mainImageRef.current.getBoundingClientRect();
+        if (rect.width > 0 && rect.height > 0) {
+          setTargetRect({
+            top: rect.top,
+            left: rect.left,
+            width: rect.width,
+            height: rect.height,
+          });
+        }
+      }
+    };
+
+    measureTarget();
+    const frame = requestAnimationFrame(measureTarget);
+    return () => cancelAnimationFrame(frame);
+  }, [sourceImgRect, isMatchingPreview]);
+
+  // Safety fallback to dismiss expanding overlay after timeout
+  useEffect(() => {
+    if (isExpanding) {
+      const timer = setTimeout(() => {
+        setIsExpanding(false);
+      }, 700);
+      return () => clearTimeout(timer);
+    }
+  }, [isExpanding]);
 
   // Gallery & Variant State
   const [activeImageIndex, setActiveImageIndex] = useState(0);
@@ -187,7 +242,9 @@ const ProductDetails = () => {
   useEffect(() => {
     let isMounted = true;
     const loadProductData = async () => {
-      setLoading(true);
+      if (!isMatchingPreview) {
+        setLoading(true);
+      }
       setNotFound(false);
       try {
         const res = await productService.getProductById(id);
@@ -229,7 +286,9 @@ const ProductDetails = () => {
     };
 
     loadProductData();
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+    if (!sourceImgRect) {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
 
     return () => {
       isMounted = false;
@@ -239,12 +298,13 @@ const ProductDetails = () => {
   // Single photo maintenance per product page (maintain only one photo, not five)
   const imageAssets = useMemo(() => {
     if (!product) return [];
-    const mainPhoto = product.thumbnail || 
+    const mainPhoto = previewImage || 
+      product.thumbnail || 
       (Array.isArray(product.images) && product.images[0]) || 
       (Array.isArray(product.pi_images) && (product.pi_images[0]?.image_url || product.pi_images[0])) || 
       'https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=900&q=80';
     return [mainPhoto];
-  }, [product]);
+  }, [product, previewImage]);
 
   const isClothing = useMemo(() => isClothingProduct(product), [product]);
   const isBottomwear = useMemo(() => isBottomwearProduct(product), [product]);
@@ -550,9 +610,65 @@ const ProductDetails = () => {
 
   return (
     <div className="gomo-product-detail-page">
+      {/* Shared Element Expanding Card Animation */}
+      <AnimatePresence>
+        {isExpanding && sourceImgRect && targetRect && (
+          <motion.div
+            key="product-card-shared-expansion"
+            initial={{
+              position: 'fixed',
+              top: sourceImgRect.top,
+              left: sourceImgRect.left,
+              width: sourceImgRect.width,
+              height: sourceImgRect.height,
+              borderRadius: 14,
+              boxShadow: '0 20px 35px -10px rgba(0, 0, 0, 0.2), 0 10px 15px -5px rgba(0, 0, 0, 0.1)',
+              zIndex: 99999,
+              backgroundColor: '#ffffff',
+              overflow: 'hidden',
+              pointerEvents: 'none',
+            }}
+            animate={{
+              top: targetRect.top,
+              left: targetRect.left,
+              width: targetRect.width,
+              height: targetRect.height,
+              borderRadius: 16,
+              boxShadow: '0 4px 14px rgba(40, 20, 10, 0.08)',
+            }}
+            exit={{ opacity: 0, transition: { duration: 0.15 } }}
+            transition={{
+              type: 'spring',
+              stiffness: 280,
+              damping: 26,
+              mass: 0.85
+            }}
+            onAnimationComplete={() => {
+              setIsExpanding(false);
+            }}
+            className="flex items-center justify-center p-3 border border-stone-200"
+          >
+            <motion.img
+              src={mainImgSrc}
+              alt={product?.name || product?.title || 'Product Image'}
+              className="w-full h-full object-contain"
+              initial={{ scale: 0.95 }}
+              animate={{ scale: 1 }}
+              transition={{ duration: 0.35, ease: 'easeOut' }}
+            />
+          </motion.div>
+        )}
+      </AnimatePresence>
+
       <main className="page">
         {/* BREADCRUMBS */}
-        <nav className="breadcrumbs" aria-label="Breadcrumb">
+        <motion.nav 
+          className="breadcrumbs" 
+          aria-label="Breadcrumb"
+          initial={isExpanding ? { opacity: 0, y: -6 } : false}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.3, ease: 'easeOut' }}
+        >
           <Link to="/">Home</Link>
           <span>/</span>
           <Link to={`/collection/${(product.category || 'clothing').toLowerCase()}`}>
@@ -570,14 +686,22 @@ const ProductDetails = () => {
           <span className="current" title={product.name || product.title}>
             {product.name || product.title}
           </span>
-        </nav>
+        </motion.nav>
 
         {/* MAIN PRODUCT LAYOUT */}
         <section className="product-layout">
           {/* GALLERY - Single photo layout */}
           <div className="gallery single-image">
             <div className="w-full">
-              <div className="main-image" id="mainImage">
+              <div 
+                className="main-image relative" 
+                id="mainImage" 
+                ref={mainImageRef}
+                style={{
+                  opacity: (isExpanding && targetRect) ? 0 : 1,
+                  transition: 'opacity 0.15s ease'
+                }}
+              >
                 <img
                   src={mainImgSrc}
                   alt={product.name || product.title}
@@ -606,7 +730,12 @@ const ProductDetails = () => {
           </div>
 
           {/* PRODUCT INFORMATION */}
-          <article className="product-info">
+          <motion.article 
+            className="product-info"
+            initial={isExpanding ? { opacity: 0, x: 20 } : false}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.4, delay: 0.08, ease: 'easeOut' }}
+          >
             {/* Eyebrow */}
             <div className="eyebrow" id="productCategory">
               {brandName} · {categoryName} {subcategoryName ? `· ${subcategoryName}` : ''}
@@ -876,7 +1005,7 @@ const ProductDetails = () => {
               </div>
               <div className="seller-badge">VERIFIED SELLER</div>
             </div>
-          </article>
+          </motion.article>
         </section>
 
         {/* LOWER DETAILS (ACCORDION SECTIONS) */}

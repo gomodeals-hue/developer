@@ -1,5 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import { motion } from 'framer-motion';
 import { ShoppingBag, Heart, Eye, Check, Star, Scale, Zap, Truck, Minus, Plus, Trash2 } from 'lucide-react';
 import lottie from 'lottie-web';
 import addToCartAnimationData from '../../assets/addToCartAnimation.json';
@@ -151,17 +152,47 @@ const ProductCard = ({ product }) => {
 
   const isOutOfStock = liveStock <= 0;
   const isLowStock = liveStock > 0 && liveStock <= 5;
+  const imgContainerRef = useRef(null);
+
+  const handleCardClick = (e) => {
+    // If the click is inside buttons, interactive steppers or quick-view controls, skip card navigation
+    if (e.target.closest('button') || e.target.closest('.no-card-nav')) {
+      return;
+    }
+
+    // Capture the exact bounding rectangle of the image holder in viewport coordinates
+    const rect = imgContainerRef.current?.getBoundingClientRect();
+    const sourceImgRect = rect ? {
+      top: rect.top,
+      left: rect.left,
+      width: rect.width,
+      height: rect.height,
+    } : null;
+
+    navigate(`/product/${productId}`, {
+      state: {
+        previewProduct: product,
+        previewImage: image,
+        sourceImgRect
+      }
+    });
+  };
 
   return (
     <>
-      <div 
-        onClick={() => navigate(`/product/${productId}`)}
-        className="group flex flex-col bg-white border border-stone-200 hover:border-stone-300 rounded-2xl p-3.5 shadow-xs hover:shadow-sm hover:-translate-y-1 transition-all duration-200 ease-out cursor-pointer h-full relative overflow-hidden"
+      <motion.div 
+        onClick={handleCardClick}
+        whileHover={{ y: -3, transition: { duration: 0.2 } }}
+        whileTap={{ scale: 0.985 }}
+        className="group flex flex-col bg-white border border-stone-200 hover:border-stone-300 rounded-2xl p-3.5 shadow-xs hover:shadow-md transition-all duration-200 ease-out cursor-pointer h-full relative overflow-hidden"
       >
         
         {/* Image Container with Top Badges & Actions */}
-        <div className="relative aspect-[3/4] overflow-hidden bg-stone-100 rounded-xl mb-3 flex items-center justify-center flex-shrink-0 group-hover:bg-stone-200 transition-colors">
-          <Link to={`/product/${productId}`} className="w-full h-full block overflow-hidden">
+        <div 
+          ref={imgContainerRef}
+          className="relative aspect-[3/4] overflow-hidden bg-stone-100 rounded-xl mb-3 flex items-center justify-center flex-shrink-0 group-hover:bg-stone-200 transition-colors"
+        >
+          <div className="w-full h-full block overflow-hidden">
             <img
               src={image}
               alt={t(product.name)}
@@ -169,9 +200,9 @@ const ProductCard = ({ product }) => {
                 e.target.onerror = null;
                 e.target.src = getProductImage(product);
               }}
-              className="w-full h-full object-cover transition-transform duration-500 ease-out group-hover:scale-103"
+              className="w-full h-full object-cover transition-transform duration-500 ease-out group-hover:scale-105"
             />
-          </Link>
+          </div>
 
           {/* Top-Left Minimalist Badge with Live Stock */}
           <div className="absolute top-2.5 left-2.5 z-10 flex flex-col gap-1 items-start">
@@ -224,7 +255,7 @@ const ProductCard = ({ product }) => {
 
             {/* Clean Bold Title clamped to 2 lines */}
             <h3 className="font-bold text-sm sm:text-[15px] text-stone-950 leading-snug line-clamp-2 min-h-[42px] group-hover:text-orange-600 transition-colors">
-              <Link to={`/product/${productId}`}>{t(product.name)}</Link>
+              <span>{t(product.name)}</span>
             </h3>
 
             {/* Rating & Delivery Row */}
@@ -346,7 +377,7 @@ const ProductCard = ({ product }) => {
             </div>
           </div>
         </div>
-      </div>
+      </motion.div>
 
       <QuickViewModal 
         product={product} 

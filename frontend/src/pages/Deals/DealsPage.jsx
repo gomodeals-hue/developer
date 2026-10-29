@@ -303,7 +303,24 @@ const DealsPage = () => {
                       className="group bg-white rounded-2xl border border-stone-200/80 hover:border-orange-500 shadow-sm hover:shadow-[0_12px_30px_rgba(234,88,12,0.12)] transition-all duration-300 flex flex-col overflow-hidden"
                     >
                       {/* Image Container with Badges */}
-                      <div className="relative aspect-square w-full bg-slate-50 overflow-hidden cursor-pointer" onClick={() => navigate(`/product/${pId}`)}>
+                      <div 
+                        className="relative aspect-square w-full bg-slate-50 overflow-hidden cursor-pointer" 
+                        onClick={(e) => {
+                          const rect = e.currentTarget.getBoundingClientRect();
+                          navigate(`/product/${pId}`, {
+                            state: {
+                              previewProduct: product,
+                              previewImage: product.thumbnail || product.images?.[0],
+                              sourceImgRect: rect ? {
+                                top: rect.top,
+                                left: rect.left,
+                                width: rect.width,
+                                height: rect.height,
+                              } : null
+                            }
+                          });
+                        }}
+                      >
                         <img
                           src={product.thumbnail || product.images?.[0] || 'https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=600&q=80'}
                           alt={product.name || product.title}
@@ -338,7 +355,23 @@ const DealsPage = () => {
 
                         {/* Title */}
                         <h3 
-                          onClick={() => navigate(`/product/${pId}`)}
+                          onClick={(e) => {
+                            const card = e.currentTarget.closest('.group');
+                            const imgContainer = card?.querySelector('.relative.aspect-square');
+                            const rect = (imgContainer || e.currentTarget).getBoundingClientRect();
+                            navigate(`/product/${pId}`, {
+                              state: {
+                                previewProduct: product,
+                                previewImage: product.thumbnail || product.images?.[0],
+                                sourceImgRect: rect ? {
+                                  top: rect.top,
+                                  left: rect.left,
+                                  width: rect.width,
+                                  height: rect.height,
+                                } : null
+                              }
+                            });
+                          }}
                           className="font-bold text-sm text-slate-900 group-hover:text-orange-600 transition-colors line-clamp-2 leading-snug cursor-pointer mb-2"
                         >
                           {product.name || product.title}
