@@ -145,17 +145,7 @@ const Hero = () => {
               <div className="absolute inset-0 bg-gradient-to-t from-black/75 via-transparent to-black/25 pointer-events-none" />
             </div>
 
-            {/* Circular Floating "SHOP NOW" Glass Badge (Middle Right) */}
-            <div className="relative z-10 self-end my-auto pr-2 sm:pr-4">
-              <button
-                type="button"
-                onClick={() => scrollTo('deals-section')}
-                className="w-20 h-20 sm:w-24 sm:h-24 rounded-full bg-white/20 hover:bg-orange-600 hover:scale-102 border border-white/40 backdrop-blur-md text-white text-xs sm:text-sm font-black uppercase tracking-wider flex flex-col items-center justify-center transition-all duration-200 shadow-md cursor-pointer group"
-                aria-label="Shop Now"
-              >
-                <span className="leading-tight">{t("hero_shop_now", "SHOP NOW")}</span>
-              </button>
-            </div>
+
 
             {/* Bottom Floating Action Pills (Matching Reference Design) */}
             <div className="relative z-10 mt-auto flex flex-wrap items-center gap-3 pt-6">
