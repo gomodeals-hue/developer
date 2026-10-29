@@ -190,9 +190,9 @@ const ProductCard = ({ product }) => {
         {/* Image Container with Top Badges & Actions */}
         <div 
           ref={imgContainerRef}
-          className="relative aspect-[3/4] overflow-hidden bg-stone-100 rounded-xl mb-3 flex items-center justify-center flex-shrink-0 group-hover:bg-stone-200 transition-colors"
+          className="relative aspect-[3/4] overflow-hidden bg-stone-50 rounded-xl mb-3 flex items-center justify-center flex-shrink-0 group-hover:bg-stone-100 transition-colors p-2.5"
         >
-          <div className="w-full h-full block overflow-hidden">
+          <div className="w-full h-full flex items-center justify-center overflow-hidden">
             <img
               src={image}
               alt={t(product.name)}
@@ -200,7 +200,7 @@ const ProductCard = ({ product }) => {
                 e.target.onerror = null;
                 e.target.src = getProductImage(product);
               }}
-              className="w-full h-full object-cover transition-transform duration-500 ease-out group-hover:scale-105"
+              className="w-full h-full object-contain transition-transform duration-500 ease-out group-hover:scale-105"
             />
           </div>
 

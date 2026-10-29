@@ -324,7 +324,7 @@ const DealsPage = () => {
                         <img
                           src={product.thumbnail || product.images?.[0] || 'https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=600&q=80'}
                           alt={product.name || product.title}
-                          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                          className="w-full h-full object-contain p-2.5 group-hover:scale-105 transition-transform duration-500"
                         />
                         
                         {/* Discount Badge */}

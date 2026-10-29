@@ -87,25 +87,16 @@ export default function EditorialShowcase() {
             />
             <div className="absolute inset-0 bg-gradient-to-t from-stone-950/85 via-stone-950/35 to-transparent" />
 
-            <div className="relative z-10 text-white flex flex-col sm:flex-row sm:items-end justify-between gap-4">
-              <div>
-                <span className="text-[10px] font-bold uppercase tracking-widest text-stone-300 block mb-1">
-                  {t("whats_new", "Fresh Arrivals")}
-                </span>
-                <h3 className="text-xl sm:text-2xl font-extrabold text-white tracking-tight">
-                  {t("contemporary_urban", "Contemporary Urban Chic")}
-                </h3>
-                <p className="text-xs text-stone-200 mt-1 max-w-sm">
-                  {t("smart_casuals_desc", "Smart casuals, tailored shirts & everyday elegance.")}
-                </p>
-              </div>
-              <Link
-                to="/collection/clothing?section=men"
-                className="inline-flex items-center gap-2 h-10 px-5 rounded-xl bg-white text-stone-900 text-xs font-bold hover:bg-[#f76e28] hover:text-white transition-colors shadow-xs shrink-0 w-fit"
-              >
-                <span>{t("explore_looks", "Explore Looks")}</span>
-                <ArrowRight size={13} />
-              </Link>
+            <div className="relative z-10 text-white">
+              <span className="text-[10px] font-bold uppercase tracking-widest text-stone-300 block mb-1">
+                {t("whats_new", "Fresh Arrivals")}
+              </span>
+              <h3 className="text-xl sm:text-2xl font-extrabold text-white tracking-tight">
+                Contemporary Urban Chic
+              </h3>
+              <p className="text-xs text-stone-200 mt-1 max-w-sm">
+                Smart casuals, tailored shirts & everyday elegance.
+              </p>
             </div>
           </motion.div>
 
@@ -133,7 +124,7 @@ export default function EditorialShowcase() {
                   {t("sacred_traditions", "Artisan Sacred")}
                 </span>
                 <h4 className="text-base sm:text-lg font-extrabold text-white tracking-tight">
-                  {t("pooja_essentials_brass", "Pooja Essentials & Brass Idols")}
+                  Pooja Essentials & Brass Idols
                 </h4>
                 <Link
                   to="/collection/pooja-items"

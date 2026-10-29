@@ -260,6 +260,7 @@ export const ShopProvider = ({ children }) => {
 
   const t = (key, params = {}) => {
     if (!key) return '';
+    const fallbackText = typeof params === 'string' ? params : (params?.default || '');
     const lang = (language || 'EN').toUpperCase();
     const langDict = translations[lang] || translations.EN;
     
@@ -276,9 +277,21 @@ export const ShopProvider = ({ children }) => {
       }
     }
     
-    // 3. Fallback to English dictionary or raw key
+    // 3. Fallback to English dictionary, explicit fallbackText, or clean title without underscores
     if (!translation) {
-      translation = translations.EN?.[key] || key;
+      if (translations.EN?.[key]) {
+        translation = translations.EN[key];
+      } else if (fallbackText) {
+        translation = fallbackText;
+      } else if (typeof key === 'string' && key.includes('_')) {
+        translation = key
+          .split('_')
+          .filter(Boolean)
+          .map(w => w.charAt(0).toUpperCase() + w.slice(1).toLowerCase())
+          .join(' ');
+      } else {
+        translation = key;
+      }
     }
     
     // 4. Background dynamic translation if still equal to key and target language is not English
@@ -293,10 +306,19 @@ export const ShopProvider = ({ children }) => {
     }
     
     // 5. Replace placeholder params (e.g., {count}, {price}, {recipient}, {percent}, {query})
-    if (typeof translation === 'string') {
+    if (typeof translation === 'string' && typeof params === 'object' && params !== null) {
       Object.entries(params).forEach(([k, v]) => {
         translation = translation.replace(new RegExp(`\\{${k}\\}`, 'g'), v);
       });
+    }
+
+    // Safety: ensure any remaining underscores in user-facing title keys are removed
+    if (typeof translation === 'string' && translation.includes('_') && !translation.startsWith('http') && !translation.includes('/')) {
+      translation = translation
+        .split('_')
+        .filter(Boolean)
+        .map(w => w.charAt(0).toUpperCase() + w.slice(1))
+        .join(' ');
     }
     
     return translation;

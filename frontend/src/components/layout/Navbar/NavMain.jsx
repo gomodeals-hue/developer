@@ -614,7 +614,7 @@ const DEPARTMENTS = [
   },
   {
     key: "flea-market",
-    label: "🌾 Flea Market",
+    label: "Flea Market",
     path: "/flea-market",
     isHighlighted: true,
     columns: [
@@ -641,7 +641,7 @@ const DEPARTMENTS = [
   },
   {
     key: "tickets",
-    label: "🎟️ Tickets",
+    label: "Tickets",
     path: "/tickets",
     isHighlighted: true,
     columns: [
@@ -685,8 +685,8 @@ const SEARCH_CATEGORIES = [
   { label: "Pooja Items", value: "pooja-items" },
   { label: "Home & Living", value: "home-living" },
   { label: "Beauty", value: "beauty" },
-  { label: "🌾 Flea Market", value: "flea-market" },
-  { label: "🎟️ Tickets", value: "tickets" },
+  { label: "Flea Market", value: "flea-market" },
+  { label: "Tickets", value: "tickets" },
   { label: "Deals & Clearance", value: "deals" },
 ];
 
@@ -718,6 +718,7 @@ const NavMain = ({ isTransparent = false, isHome = false }) => {
   const [wishlistHeartClicked, setWishlistHeartClicked] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
   const [searchSuggestions, setSearchSuggestions] = useState({ products: [] });
+  const [isSearchFocused, setIsSearchFocused] = useState(false);
   const [activeDept, setActiveDept] = useState(null);
   const [showCountryMenu, setShowCountryMenu] = useState(false);
   const [showAccountMenu, setShowAccountMenu] = useState(false);
@@ -753,6 +754,7 @@ const NavMain = ({ isTransparent = false, isHome = false }) => {
     const handleClickOutside = (e) => {
       if (searchRef.current && !searchRef.current.contains(e.target)) {
         setSearchOpen(false);
+        setIsSearchFocused(false);
       }
       if (countryRef.current && !countryRef.current.contains(e.target)) {
         setShowCountryMenu(false);
@@ -1332,7 +1334,11 @@ const NavMain = ({ isTransparent = false, isHome = false }) => {
           {/* 2. Center: Large, Prominent Search Bar (Desktop) */}
           <div
             ref={searchRef}
-            className="hidden md:flex flex-1 max-w-xl lg:max-w-2xl xl:max-w-3xl relative mx-2"
+            className={`hidden md:flex flex-1 relative mx-2 transition-all duration-300 ease-in-out ${
+              isSearchFocused
+                ? "max-w-2xl lg:max-w-3xl xl:max-w-4xl"
+                : "max-w-xl lg:max-w-2xl xl:max-w-3xl"
+            }`}
           >
             <form
               onSubmit={handleSearchSubmit}
@@ -1349,8 +1355,17 @@ const NavMain = ({ isTransparent = false, isHome = false }) => {
                 onChange={(e) => {
                   setSearchQuery(e.target.value);
                   setSearchOpen(true);
+                  setIsSearchFocused(true);
                 }}
-                onFocus={() => setSearchOpen(true)}
+                onFocus={() => {
+                  setSearchOpen(true);
+                  setIsSearchFocused(true);
+                }}
+                onBlur={(e) => {
+                  if (!searchRef.current?.contains(e.relatedTarget) && !searchQuery.trim()) {
+                    setIsSearchFocused(false);
+                  }
+                }}
                 placeholder={t("search_placeholder_full", "Search products, brands, deals & essentials...")}
                 className={`bg-transparent text-sm pl-5 pr-3.5 w-full focus:outline-none font-normal ${
                   isTransparent
@@ -1584,19 +1599,31 @@ const NavMain = ({ isTransparent = false, isHome = false }) => {
 
 
 
-            {/* Become a Seller Action */}
-            <Link
-              to="/seller"
-              className={`hidden xl:flex items-center gap-1.5 px-3 py-1.5 rounded-full border text-xs font-bold transition-all duration-150 cursor-pointer shadow-2xs ${
-                isTransparent
-                  ? "border-white/30 bg-white/10 text-white hover:bg-[#f76e28] hover:border-[#f76e28]"
-                  : "border-orange-200 bg-orange-50/80 text-[#f76e28] hover:bg-[#f76e28] hover:text-white hover:border-[#f76e28]"
-              }`}
-              title="Become a Seller on GoMo Deals"
-            >
-              <Store size={14} />
-              <span>Become a Seller</span>
-            </Link>
+            {/* Become a Seller Action - Fades out when search expands, fades in when search shrinks */}
+            <AnimatePresence>
+              {!isSearchFocused && (
+                <motion.div
+                  initial={{ opacity: 0, width: 0, scale: 0.95 }}
+                  animate={{ opacity: 1, width: 'auto', scale: 1 }}
+                  exit={{ opacity: 0, width: 0, scale: 0.95 }}
+                  transition={{ duration: 0.25, ease: "easeInOut" }}
+                  className="hidden xl:flex overflow-hidden"
+                >
+                  <Link
+                    to="/seller"
+                    className={`flex items-center gap-1.5 px-3 py-1.5 rounded-full border text-xs font-bold transition-all duration-150 cursor-pointer shadow-2xs whitespace-nowrap ${
+                      isTransparent
+                        ? "border-white/30 bg-white/10 text-white hover:bg-[#f76e28] hover:border-[#f76e28]"
+                        : "border-orange-200 bg-orange-50/80 text-[#f76e28] hover:bg-[#f76e28] hover:text-white hover:border-[#f76e28]"
+                    }`}
+                    title="Become a Seller on GoMo Deals"
+                  >
+                    <Store size={14} />
+                    <span>Become a Seller</span>
+                  </Link>
+                </motion.div>
+              )}
+            </AnimatePresence>
 
             {/* Notifications Bell */}
             <div className="relative" ref={notificationsRef}>
@@ -2182,8 +2209,8 @@ const NavMain = ({ isTransparent = false, isHome = false }) => {
                       className={`group relative px-2 xl:px-2.5 py-1.5 rounded-lg text-[10.5px] xl:text-[11px] uppercase tracking-wider transition-all duration-200 flex items-center gap-1 sm:gap-1.5 cursor-pointer font-bold whitespace-nowrap flex-shrink-0 hover:-translate-y-0.5 active:translate-y-0 active:scale-95 ${
                         dept.isHighlight || dept.isHighlighted
                           ? isTransparent
-                            ? "text-white bg-orange-600/90 hover:bg-orange-600 border border-orange-400/60 shadow-xs hover:shadow-orange-500/20"
-                            : "text-orange-600 hover:text-orange-700 bg-orange-50/90 hover:bg-orange-100 border border-orange-200/80 shadow-xs hover:shadow-orange-100"
+                            ? "text-white bg-transparent hover:bg-white/10 border-2 border-orange-500 shadow-xs"
+                            : "text-stone-900 hover:text-black bg-white hover:bg-stone-50 border-2 border-orange-500 shadow-xs"
                           : isCurrentActive
                             ? isTransparent
                               ? "text-white bg-white/20 shadow-2xs"
@@ -2270,7 +2297,11 @@ const NavMain = ({ isTransparent = false, isHome = false }) => {
                 style={{
                   left: `${getDropdownLeft()}px`,
                 }}
-                className={`absolute top-full mt-0.5 bg-white text-stone-900 rounded-2xl shadow-[0_20px_48px_rgba(0,0,0,0.18)] border border-stone-200/90 p-5 z-50 before:content-[''] before:absolute before:-top-2 before:left-0 before:right-0 before:h-2 ${
+                className={`absolute top-full mt-0.5 bg-white text-stone-900 rounded-2xl shadow-[0_20px_48px_rgba(0,0,0,0.18)] ${
+                  (activeDept === 'flea-market' || activeDept === 'tickets')
+                    ? "border-2 border-orange-500"
+                    : "border border-stone-200/90"
+                } p-5 z-50 before:content-[''] before:absolute before:-top-2 before:left-0 before:right-0 before:h-2 ${
                   activeDeptObj.columns.length >= 4
                     ? "w-[680px] max-w-[calc(100vw-2rem)]"
                     : activeDeptObj.columns.length === 3

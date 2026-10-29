@@ -648,13 +648,10 @@ const ProductDetails = () => {
             }}
             className="flex items-center justify-center p-3 border border-stone-200"
           >
-            <motion.img
+            <img
               src={mainImgSrc}
               alt={product?.name || product?.title || 'Product Image'}
               className="w-full h-full object-contain"
-              initial={{ scale: 0.95 }}
-              animate={{ scale: 1 }}
-              transition={{ duration: 0.35, ease: 'easeOut' }}
             />
           </motion.div>
         )}
