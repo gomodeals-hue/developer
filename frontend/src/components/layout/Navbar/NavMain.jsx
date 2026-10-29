@@ -10,6 +10,7 @@ import {
   Bell,
   ChevronDown,
   ChevronRight,
+  ChevronLeft,
   Clock,
   Tag,
   Truck,
@@ -721,6 +722,12 @@ const NavMain = ({ isTransparent = false, isHome = false }) => {
   const accountRef = useRef(null);
   const notificationsRef = useRef(null);
   const deptMenuTimer = useRef(null);
+  const categoryScrollRef = useRef(null);
+  const navLine2Ref = useRef(null);
+
+  const [canScrollLeft, setCanScrollLeft] = useState(false);
+  const [canScrollRight, setCanScrollRight] = useState(false);
+  const [activeDeptPos, setActiveDeptPos] = useState({ left: 0, width: 0 });
 
   // Close overlays on navigation
   useEffect(() => {
@@ -904,8 +911,71 @@ const NavMain = ({ isTransparent = false, isHome = false }) => {
     navigate("/login");
   };
 
-  const handleDeptMouseEnter = (deptKey) => {
+  const updateScrollButtons = () => {
+    const el = categoryScrollRef.current;
+    if (!el) return;
+    const hasOverflow = el.scrollWidth > el.clientWidth + 2;
+    setCanScrollLeft(el.scrollLeft > 6);
+    setCanScrollRight(hasOverflow && el.scrollLeft < el.scrollWidth - el.clientWidth - 6);
+  };
+
+  useEffect(() => {
+    updateScrollButtons();
+    const timer = setTimeout(updateScrollButtons, 200);
+    const handleResize = () => {
+      updateScrollButtons();
+      setActiveDept(null);
+    };
+    window.addEventListener("resize", handleResize);
+    return () => {
+      clearTimeout(timer);
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
+
+  useEffect(() => {
+    const el = categoryScrollRef.current;
+    if (!el) return;
+
+    const onWheel = (e) => {
+      if (e.deltaY !== 0 && Math.abs(e.deltaY) > Math.abs(e.deltaX)) {
+        e.preventDefault();
+        el.scrollLeft += e.deltaY;
+        updateScrollButtons();
+      }
+    };
+
+    el.addEventListener("wheel", onWheel, { passive: false });
+    return () => el.removeEventListener("wheel", onWheel);
+  }, []);
+
+  const handleCategoriesScroll = () => {
+    if (activeDept) {
+      setActiveDept(null);
+    }
+    updateScrollButtons();
+  };
+
+  const scrollCategories = (direction) => {
+    const el = categoryScrollRef.current;
+    if (!el) return;
+    const scrollAmount = 260;
+    el.scrollBy({
+      left: direction === "left" ? -scrollAmount : scrollAmount,
+      behavior: "smooth",
+    });
+  };
+
+  const handleDeptMouseEnter = (deptKey, e) => {
     clearTimeout(deptMenuTimer.current);
+    if (e?.currentTarget && navLine2Ref.current) {
+      const btnRect = e.currentTarget.getBoundingClientRect();
+      const containerRect = navLine2Ref.current.getBoundingClientRect();
+      setActiveDeptPos({
+        left: btnRect.left - containerRect.left,
+        width: btnRect.width,
+      });
+    }
     setActiveDept(deptKey);
   };
 
@@ -914,6 +984,38 @@ const NavMain = ({ isTransparent = false, isHome = false }) => {
     deptMenuTimer.current = setTimeout(() => {
       setActiveDept(null);
     }, 180);
+  };
+
+  const activeDeptObj = DEPARTMENTS.find((d) => d.key === activeDept);
+
+  const getDropdownLeft = () => {
+    if (!activeDept || !navLine2Ref.current) return 16;
+    const containerWidth = navLine2Ref.current.clientWidth || 1200;
+    const colCount = activeDeptObj?.columns?.length || 2;
+    const dropdownWidth = colCount >= 4 ? 680 : colCount === 3 ? 500 : 380;
+
+    const isRightAligned = [
+      "pooja-items",
+      "electronics",
+      "grocery-items",
+      "pet-accessories",
+      "flea-market",
+      "tickets",
+      "deals",
+    ].includes(activeDept);
+
+    let targetLeft = isRightAligned
+      ? activeDeptPos.left + activeDeptPos.width - dropdownWidth
+      : activeDeptPos.left;
+
+    if (targetLeft + dropdownWidth > containerWidth - 16) {
+      targetLeft = containerWidth - dropdownWidth - 16;
+    }
+    if (targetLeft < 16) {
+      targetLeft = 16;
+    }
+
+    return targetLeft;
   };
 
   const POPULAR_SEARCHES = [
@@ -1998,154 +2100,222 @@ const NavMain = ({ isTransparent = false, isHome = false }) => {
             : "bg-white border-b border-stone-200/80 text-stone-800"
         }`}
       >
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 min-h-[46px] flex items-center justify-between gap-3 relative">
-          {/* Left: Department Navigation Links */}
-          <div className="flex items-center gap-1 xl:gap-2 overflow-x-auto lg:overflow-visible no-scrollbar py-2 relative min-w-0 flex-1">
-            {/* All Categories Button */}
-            <button
-              type="button"
-              onClick={() => setMobileMenuOpen(true)}
-              className={`flex items-center gap-1.5 px-2.5 sm:px-3 py-1.5 rounded-lg font-bold uppercase tracking-wider text-[10.5px] xl:text-[11px] cursor-pointer flex-shrink-0 mr-0.5 group transition-all duration-200 hover:-translate-y-0.5 hover:shadow-xs active:translate-y-0 active:scale-95 ${
-                isTransparent
-                  ? "text-white hover:bg-white/20"
-                  : "text-stone-800 hover:bg-orange-50/80 hover:text-orange-600 border border-transparent hover:border-orange-200/60"
-              }`}
-            >
-              <Menu size={13} className="text-orange-500 transition-transform duration-300 ease-out group-hover:rotate-90 group-hover:scale-110" />
-              <span className="transition-colors duration-150">{t("all_departments_btn", "All")}</span>
-            </button>
+        <div
+          ref={navLine2Ref}
+          className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 min-h-[46px] flex items-center justify-between gap-2 sm:gap-3 relative"
+        >
+          {/* All Categories Button */}
+          <button
+            type="button"
+            onClick={() => setMobileMenuOpen(true)}
+            className={`flex items-center gap-1.5 px-2.5 sm:px-3 py-1.5 rounded-lg font-bold uppercase tracking-wider text-[10.5px] xl:text-[11px] cursor-pointer flex-shrink-0 mr-0.5 group transition-all duration-200 hover:-translate-y-0.5 hover:shadow-xs active:translate-y-0 active:scale-95 ${
+              isTransparent
+                ? "text-white hover:bg-white/20"
+                : "text-stone-800 hover:bg-orange-50/80 hover:text-orange-600 border border-transparent hover:border-orange-200/60"
+            }`}
+          >
+            <Menu size={13} className="text-orange-500 transition-transform duration-300 ease-out group-hover:rotate-90 group-hover:scale-110" />
+            <span className="transition-colors duration-150">{t("all_departments_btn", "All")}</span>
+          </button>
 
-            <div
-              className={`w-px h-4 mx-0.5 sm:mx-1 flex-shrink-0 ${isTransparent ? "bg-white/20" : "bg-stone-200"}`}
-            />
+          <div
+            className={`w-px h-4 mx-0.5 sm:mx-1 flex-shrink-0 ${isTransparent ? "bg-white/20" : "bg-stone-200"}`}
+          />
 
-            {/* Men, Women, Kids, Home & Living, Beauty, Pooja Items, Electronics, Deals */}
-            {DEPARTMENTS.map((dept) => {
-              const isCurrentActive = activeDept === dept.key;
-              return (
-                <div
-                  key={dept.key}
-                  className="group relative flex-shrink-0 py-1"
-                  onMouseEnter={() => handleDeptMouseEnter(dept.key)}
-                  onMouseLeave={handleDeptMouseLeave}
+          {/* Scrollable Categories Wrapper */}
+          <div className="relative flex items-center min-w-0 flex-1 overflow-hidden py-1">
+            {/* Left Scroll Button & Fade Overlay */}
+            <AnimatePresence>
+              {canScrollLeft && (
+                <motion.div
+                  initial={{ opacity: 0, scale: 0.8 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  exit={{ opacity: 0, scale: 0.8 }}
+                  transition={{ duration: 0.15 }}
+                  className={`absolute left-0 z-20 flex items-center h-full pr-3 bg-gradient-to-r pointer-events-none ${
+                    isTransparent
+                      ? "from-black/70 via-black/40 to-transparent"
+                      : "from-white via-white/90 to-transparent"
+                  }`}
                 >
-                  <Link
-                    to={dept.path}
-                    className={`group relative px-2 xl:px-2.5 py-1.5 rounded-lg text-[10.5px] xl:text-[11px] uppercase tracking-wider transition-all duration-200 flex items-center gap-1 sm:gap-1.5 cursor-pointer font-bold whitespace-nowrap flex-shrink-0 hover:-translate-y-0.5 active:translate-y-0 active:scale-95 ${
-                      dept.isHighlight || dept.isHighlighted
-                        ? isTransparent
-                          ? "text-white bg-orange-600/90 hover:bg-orange-600 border border-orange-400/60 shadow-xs hover:shadow-orange-500/20"
-                          : "text-orange-600 hover:text-orange-700 bg-orange-50/90 hover:bg-orange-100 border border-orange-200/80 shadow-xs hover:shadow-orange-100"
-                        : isCurrentActive
-                          ? isTransparent
-                            ? "text-white bg-white/20 shadow-2xs"
-                            : "text-orange-600 bg-stone-100 shadow-2xs"
-                          : isTransparent
-                            ? "text-white/90 hover:text-white hover:bg-white/15"
-                            : "text-stone-700 hover:text-orange-600 hover:bg-orange-50/70 hover:border-orange-200/60 border border-transparent hover:shadow-xs"
+                  <button
+                    type="button"
+                    onClick={() => scrollCategories("left")}
+                    className={`pointer-events-auto h-6 w-6 sm:h-7 sm:w-7 rounded-full shadow-md border flex items-center justify-center transition-all duration-150 cursor-pointer active:scale-90 ${
+                      isTransparent
+                        ? "bg-stone-900/90 text-white hover:bg-stone-800 border-white/20"
+                        : "bg-white text-stone-700 hover:text-orange-600 hover:bg-orange-50 border-stone-200/90"
                     }`}
+                    aria-label="Scroll left"
                   >
-                    <span>{t(dept.label) || dept.label}</span>
+                    <ChevronLeft size={14} className="stroke-[2.5]" />
+                  </button>
+                </motion.div>
+              )}
+            </AnimatePresence>
 
-                    {/* Next to the text: drop down arrow turns into that category animation when hovered */}
-                    <span className="relative w-3.5 h-3.5 flex items-center justify-center flex-shrink-0">
-                      {/* Default drop down arrow */}
-                      <ChevronDown
-                        size={10}
-                        className={`transition-all duration-200 ease-out pointer-events-none ${
-                          isCurrentActive
-                            ? "opacity-0 scale-0 rotate-45"
+            {/* Categories List */}
+            <div
+              ref={categoryScrollRef}
+              onScroll={handleCategoriesScroll}
+              className="flex items-center gap-1 xl:gap-2 overflow-x-auto no-scrollbar scroll-smooth py-1 px-1 relative min-w-0 flex-1 select-none"
+            >
+              {DEPARTMENTS.map((dept) => {
+                const isCurrentActive = activeDept === dept.key;
+                return (
+                  <div
+                    key={dept.key}
+                    className="group relative flex-shrink-0"
+                    onMouseEnter={(e) => handleDeptMouseEnter(dept.key, e)}
+                    onMouseLeave={handleDeptMouseLeave}
+                  >
+                    <Link
+                      to={dept.path}
+                      className={`group relative px-2 xl:px-2.5 py-1.5 rounded-lg text-[10.5px] xl:text-[11px] uppercase tracking-wider transition-all duration-200 flex items-center gap-1 sm:gap-1.5 cursor-pointer font-bold whitespace-nowrap flex-shrink-0 hover:-translate-y-0.5 active:translate-y-0 active:scale-95 ${
+                        dept.isHighlight || dept.isHighlighted
+                          ? isTransparent
+                            ? "text-white bg-orange-600/90 hover:bg-orange-600 border border-orange-400/60 shadow-xs hover:shadow-orange-500/20"
+                            : "text-orange-600 hover:text-orange-700 bg-orange-50/90 hover:bg-orange-100 border border-orange-200/80 shadow-xs hover:shadow-orange-100"
+                          : isCurrentActive
+                            ? isTransparent
+                              ? "text-white bg-white/20 shadow-2xs"
+                              : "text-orange-600 bg-stone-100 shadow-2xs"
                             : isTransparent
-                              ? "text-white/70 group-hover:opacity-0 group-hover:scale-0 group-hover:rotate-45"
-                              : "text-stone-400 group-hover:opacity-0 group-hover:scale-0 group-hover:rotate-45"
-                        }`}
-                      />
+                              ? "text-white/90 hover:text-white hover:bg-white/15"
+                              : "text-stone-700 hover:text-orange-600 hover:bg-orange-50/70 hover:border-orange-200/60 border border-transparent hover:shadow-xs"
+                      }`}
+                    >
+                      <span>{t(dept.label) || dept.label}</span>
 
-                      {/* Category animation: replaces the arrow seamlessly on hover or active */}
-                      <span
-                        className={`absolute inset-0 flex items-center justify-center transition-all duration-200 ease-out pointer-events-none ${
-                          isCurrentActive
-                            ? "opacity-100 scale-100 translate-y-0"
-                            : "opacity-0 scale-50 -translate-y-0.5 group-hover:opacity-100 group-hover:scale-100 group-hover:translate-y-0"
-                        }`}
-                      >
-                        {renderDeptHoverIcon(dept.key)}
-                      </span>
-                    </span>
-                  </Link>
+                      {/* Next to the text: drop down arrow turns into that category animation when hovered */}
+                      <span className="relative w-3.5 h-3.5 flex items-center justify-center flex-shrink-0">
+                        {/* Default drop down arrow */}
+                        <ChevronDown
+                          size={10}
+                          className={`transition-all duration-200 ease-out pointer-events-none ${
+                            isCurrentActive
+                              ? "opacity-0 scale-0 rotate-45"
+                              : isTransparent
+                                ? "text-white/70 group-hover:opacity-0 group-hover:scale-0 group-hover:rotate-45"
+                                : "text-stone-400 group-hover:opacity-0 group-hover:scale-0 group-hover:rotate-45"
+                          }`}
+                        />
 
-                  {/* Department Hover Mega-Dropdown */}
-                  <AnimatePresence>
-                    {isCurrentActive && dept.columns && (
-                      <motion.div
-                        initial={{ opacity: 0, y: 6 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        exit={{ opacity: 0, y: 6 }}
-                        transition={{ duration: 0.16 }}
-                        onMouseEnter={() => clearTimeout(deptMenuTimer.current)}
-                        onMouseLeave={handleDeptMouseLeave}
-                        className={`absolute top-full mt-0.5 bg-white text-stone-900 rounded-2xl shadow-[0_20px_48px_rgba(0,0,0,0.18)] border border-stone-200/90 p-5 z-50 ${
-                          ['pooja-items', 'electronics', 'grocery-items', 'pet-accessories', 'flea-market', 'tickets', 'deals'].includes(dept.key)
-                            ? 'right-0 origin-top-right'
-                            : 'left-0 origin-top-left'
-                        } ${
-                          dept.columns.length >= 4 
-                            ? 'w-[680px] max-w-[calc(100vw-2rem)]' 
-                            : dept.columns.length === 3 
-                            ? 'w-[500px] max-w-[calc(100vw-2rem)]' 
-                            : 'w-[380px] max-w-[calc(100vw-2rem)]'
-                        }`}
-                      >
-                        <div
-                          className={`grid gap-6 ${
-                            dept.columns.length >= 4
-                              ? 'grid-cols-4'
-                              : dept.columns.length === 3
-                              ? 'grid-cols-3'
-                              : 'grid-cols-2'
+                        {/* Category animation: replaces the arrow seamlessly on hover or active */}
+                        <span
+                          className={`absolute inset-0 flex items-center justify-center transition-all duration-200 ease-out pointer-events-none ${
+                            isCurrentActive
+                              ? "opacity-100 scale-100 translate-y-0"
+                              : "opacity-0 scale-50 -translate-y-0.5 group-hover:opacity-100 group-hover:scale-100 group-hover:translate-y-0"
                           }`}
                         >
-                          {dept.columns.map((col, idx) => (
-                            <div key={idx} className="space-y-2">
-                              <h5 className="text-[11px] font-black uppercase tracking-wider text-stone-900 border-b border-stone-100 pb-1.5">
-                                {col.title}
-                              </h5>
-                              <ul className="space-y-1.5">
-                                {col.items.map((sub, sIdx) => (
-                                  <li key={sIdx}>
-                                    <Link
-                                      to={sub.path}
-                                      onClick={() => setActiveDept(null)}
-                                      className="text-xs text-stone-600 hover:text-orange-600 transition-colors block py-0.5 leading-snug"
-                                    >
-                                      {sub.label}
-                                    </Link>
-                                  </li>
-                                ))}
-                              </ul>
-                            </div>
-                          ))}
-                        </div>
-                        <div className="mt-3 pt-2.5 border-t border-stone-100 flex items-center justify-end">
-                          <Link
-                            to={dept.path}
-                            onClick={() => setActiveDept(null)}
-                            className="text-xs font-bold text-orange-600 hover:text-orange-700 flex items-center gap-1 group"
-                          >
-                            <span>View All</span>
-                            <ArrowRight
-                              size={12}
-                              className="group-hover:translate-x-0.5 transition-transform"
-                            />
-                          </Link>
-                        </div>
-                      </motion.div>
-                    )}
-                  </AnimatePresence>
-                </div>
-              );
-            })}
+                          {renderDeptHoverIcon(dept.key)}
+                        </span>
+                      </span>
+                    </Link>
+                  </div>
+                );
+              })}
+            </div>
+
+            {/* Right Scroll Button & Fade Overlay */}
+            <AnimatePresence>
+              {canScrollRight && (
+                <motion.div
+                  initial={{ opacity: 0, scale: 0.8 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  exit={{ opacity: 0, scale: 0.8 }}
+                  transition={{ duration: 0.15 }}
+                  className={`absolute right-0 z-20 flex items-center h-full pl-3 bg-gradient-to-l pointer-events-none ${
+                    isTransparent
+                      ? "from-black/70 via-black/40 to-transparent"
+                      : "from-white via-white/90 to-transparent"
+                  }`}
+                >
+                  <button
+                    type="button"
+                    onClick={() => scrollCategories("right")}
+                    className={`pointer-events-auto h-6 w-6 sm:h-7 sm:w-7 rounded-full shadow-md border flex items-center justify-center transition-all duration-150 cursor-pointer active:scale-90 ${
+                      isTransparent
+                        ? "bg-stone-900/90 text-white hover:bg-stone-800 border-white/20"
+                        : "bg-white text-stone-700 hover:text-orange-600 hover:bg-orange-50 border-stone-200/90"
+                    }`}
+                    aria-label="Scroll right"
+                  >
+                    <ChevronRight size={14} className="stroke-[2.5]" />
+                  </button>
+                </motion.div>
+              )}
+            </AnimatePresence>
           </div>
+
+          {/* Department Hover Mega-Dropdown */}
+          <AnimatePresence>
+            {activeDept && activeDeptObj?.columns && (
+              <motion.div
+                initial={{ opacity: 0, y: 6 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: 6 }}
+                transition={{ duration: 0.16 }}
+                onMouseEnter={() => clearTimeout(deptMenuTimer.current)}
+                onMouseLeave={handleDeptMouseLeave}
+                style={{
+                  left: `${getDropdownLeft()}px`,
+                }}
+                className={`absolute top-full mt-0.5 bg-white text-stone-900 rounded-2xl shadow-[0_20px_48px_rgba(0,0,0,0.18)] border border-stone-200/90 p-5 z-50 before:content-[''] before:absolute before:-top-2 before:left-0 before:right-0 before:h-2 ${
+                  activeDeptObj.columns.length >= 4
+                    ? "w-[680px] max-w-[calc(100vw-2rem)]"
+                    : activeDeptObj.columns.length === 3
+                    ? "w-[500px] max-w-[calc(100vw-2rem)]"
+                    : "w-[380px] max-w-[calc(100vw-2rem)]"
+                }`}
+              >
+                <div
+                  className={`grid gap-6 ${
+                    activeDeptObj.columns.length >= 4
+                      ? "grid-cols-4"
+                      : activeDeptObj.columns.length === 3
+                      ? "grid-cols-3"
+                      : "grid-cols-2"
+                  }`}
+                >
+                  {activeDeptObj.columns.map((col, idx) => (
+                    <div key={idx} className="space-y-2">
+                      <h5 className="text-[11px] font-black uppercase tracking-wider text-stone-900 border-b border-stone-100 pb-1.5">
+                        {col.title}
+                      </h5>
+                      <ul className="space-y-1.5">
+                        {col.items.map((sub, sIdx) => (
+                          <li key={sIdx}>
+                            <Link
+                              to={sub.path}
+                              onClick={() => setActiveDept(null)}
+                              className="text-xs text-stone-600 hover:text-orange-600 transition-colors block py-0.5 leading-snug"
+                            >
+                              {sub.label}
+                            </Link>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  ))}
+                </div>
+                <div className="mt-3 pt-2.5 border-t border-stone-100 flex items-center justify-end">
+                  <Link
+                    to={activeDeptObj.path}
+                    onClick={() => setActiveDept(null)}
+                    className="text-xs font-bold text-orange-600 hover:text-orange-700 flex items-center gap-1 group"
+                  >
+                    <span>View All</span>
+                    <ArrowRight
+                      size={12}
+                      className="group-hover:translate-x-0.5 transition-transform"
+                    />
+                  </Link>
+                </div>
+              </motion.div>
+            )}
+          </AnimatePresence>
         </div>
       </div>
 
