@@ -3,10 +3,48 @@ import { motion, AnimatePresence } from "framer-motion";
 import { Globe, ChevronDown, Check, Sparkles } from "lucide-react";
 import { useShop } from "../../../context/ShopContext";
 
+// Crisp vector SVG flags that render consistently on all operating systems (Windows, Mac, Linux, Mobile)
+const FlagUK = ({ className = "w-4.5 h-3 rounded-xs shrink-0 border border-stone-200/50" }) => (
+  <svg className={className} viewBox="0 0 60 30" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <clipPath id="lang-uk-clip">
+      <path d="M0 0h60v30H0z"/>
+    </clipPath>
+    <g clipPath="url(#lang-uk-clip)">
+      <path d="M0 0h60v30H0z" fill="#012169"/>
+      <path d="M0 0l60 30m0-30L0 30" stroke="#fff" strokeWidth="6"/>
+      <path d="M0 0l60 30m0-30L0 30" stroke="#C8102E" strokeWidth="4"/>
+      <path d="M30 0v30M0 15h60" stroke="#fff" strokeWidth="10"/>
+      <path d="M30 0v30M0 15h60" stroke="#C8102E" strokeWidth="6"/>
+    </g>
+  </svg>
+);
+
+const FlagFR = ({ className = "w-4.5 h-3 rounded-xs shrink-0 border border-stone-200/50" }) => (
+  <svg className={className} viewBox="0 0 3 2" xmlns="http://www.w3.org/2000/svg">
+    <rect width="1" height="2" fill="#002395" />
+    <rect x="1" width="1" height="2" fill="#ffffff" />
+    <rect x="2" width="1" height="2" fill="#ED2939" />
+  </svg>
+);
+
+const FlagDE = ({ className = "w-4.5 h-3 rounded-xs shrink-0 border border-stone-200/50" }) => (
+  <svg className={className} viewBox="0 0 5 3" xmlns="http://www.w3.org/2000/svg">
+    <rect width="5" height="1" fill="#000000" />
+    <rect y="1" width="5" height="1" fill="#DD0000" />
+    <rect y="2" width="5" height="1" fill="#FFCE00" />
+  </svg>
+);
+
+const LanguageFlag = ({ code, className }) => {
+  if (code === "FR") return <FlagFR className={className} />;
+  if (code === "DE") return <FlagDE className={className} />;
+  return <FlagUK className={className} />;
+};
+
 /**
  * LanguageSelector component
  * Provides instant language switching between English (EN), French (FR), and German (DE).
- * Designed to sit prominently aside the main search bar in the navbar.
+ * Designed to sit prominently at the right corner of the navbar with perfect horizontal baseline alignment.
  */
 const LanguageSelector = ({ isTransparent = false, isMobile = false }) => {
   const { language, changeLanguage, supportedLanguages, t } = useShop();
@@ -19,21 +57,21 @@ const LanguageSelector = ({ isTransparent = false, isMobile = false }) => {
       code: "EN",
       name: "English",
       nativeName: "English",
-      flag: "🇬🇧",
+      flagCode: "GB",
       sub: "Default",
     },
     {
       code: "FR",
       name: "French",
       nativeName: "Français",
-      flag: "🇫🇷",
+      flagCode: "FR",
       sub: "Français",
     },
     {
       code: "DE",
       name: "German",
       nativeName: "Deutsch",
-      flag: "🇩🇪",
+      flagCode: "DE",
       sub: "Deutsch",
     },
   ];
@@ -71,14 +109,14 @@ const LanguageSelector = ({ isTransparent = false, isMobile = false }) => {
 
   return (
     <div ref={dropdownRef} className="relative inline-block text-left select-none">
-      {/* Trigger Button */}
+      {/* Trigger Button - Strictly aligned on the same horizontal centerline */}
       <button
         type="button"
         onClick={() => setIsOpen(!isOpen)}
         aria-label="Select website language"
         aria-expanded={isOpen}
         title={t("select_language", "Select Language")}
-        className={`flex items-center gap-1.5 h-9 sm:h-9.5 px-2.5 sm:px-3 rounded-full transition-all duration-150 cursor-pointer font-bold text-xs tracking-wide shadow-2xs ${
+        className={`inline-flex items-center justify-center gap-1.5 h-9 sm:h-9.5 px-2.5 sm:px-3 rounded-full transition-all duration-150 cursor-pointer font-bold text-xs tracking-wide shadow-2xs leading-none select-none ${
           isMobile
             ? "h-9 px-2.5 bg-stone-100 hover:bg-stone-200 text-stone-800 border border-stone-200"
             : isTransparent
@@ -86,23 +124,28 @@ const LanguageSelector = ({ isTransparent = false, isMobile = false }) => {
               : "bg-stone-50 hover:bg-stone-100 text-stone-700 hover:text-stone-900 border border-stone-200/80 hover:border-orange-300"
         }`}
       >
-        {/* Country Flag */}
-        <span className="text-base sm:text-lg leading-none filter drop-shadow-xs">
-          {currentLang.flag}
+        {/* Country Flag (Crisp SVG, horizontally synced) */}
+        <span className="inline-flex items-center justify-center shrink-0">
+          <LanguageFlag
+            code={currentLang.code}
+            className="w-4.5 h-3 rounded-xs shrink-0 shadow-2xs border border-stone-200/50"
+          />
         </span>
 
-        {/* Language Code / Name */}
-        <span className="font-extrabold uppercase text-[11px] sm:text-xs tracking-wider">
+        {/* Language Code / Name - exact baseline sync */}
+        <span className="font-extrabold uppercase text-xs tracking-wider leading-none text-stone-900 flex items-center">
           {currentLang.code}
         </span>
 
-        {/* Small Animated Chevron */}
-        <ChevronDown
-          size={13}
-          className={`transition-transform duration-200 ${
-            isOpen ? "rotate-180 text-orange-500" : isTransparent ? "text-white/70" : "text-stone-400"
-          }`}
-        />
+        {/* Small Animated Chevron - exact baseline sync */}
+        <span className="inline-flex items-center justify-center shrink-0">
+          <ChevronDown
+            size={12}
+            className={`transition-transform duration-200 ${
+              isOpen ? "rotate-180 text-orange-500" : isTransparent ? "text-white/70" : "text-stone-400"
+            }`}
+          />
+        </span>
       </button>
 
       {/* Dropdown Menu */}
@@ -144,8 +187,11 @@ const LanguageSelector = ({ isTransparent = false, isMobile = false }) => {
                     }`}
                   >
                     <div className="flex items-center gap-2.5">
-                      <span className="text-xl leading-none filter drop-shadow-xs">
-                        {langItem.flag}
+                      <span className="inline-flex items-center justify-center shrink-0 shadow-2xs">
+                        <LanguageFlag
+                          code={langItem.code}
+                          className="w-5 h-3.5 rounded-xs shrink-0 border border-stone-200/60"
+                        />
                       </span>
                       <div>
                         <div className="text-xs font-bold leading-tight">
