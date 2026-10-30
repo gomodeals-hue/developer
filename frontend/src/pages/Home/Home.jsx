@@ -12,6 +12,7 @@ import HomeCategorySections from '../../components/sections/Home/HomeCategorySec
 import ProductGrid from '../../components/sections/Home/ProductGrid/ProductGrid';
 import CustomerReviews from '../../components/sections/Home/Reviews/CustomerReviews';
 import NewsletterCTA from '../../components/sections/Home/Newsletter/NewsletterCTA';
+import SplashCursor from '../../components/common/SplashCursor';
 
 const Home = () => {
   const location = useLocation();
@@ -25,8 +26,23 @@ const Home = () => {
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
       transition={{ duration: 0.4 }}
-      className="overflow-x-hidden bg-white"
+      className="overflow-x-hidden bg-white relative"
     >
+      {/* Subtle Brand Orange WebGL Fluid Splash Cursor Effect */}
+      <SplashCursor
+        colors={['#f76e28', '#ff7a32', '#ea580c', '#fb923c', '#f97316']}
+        rainbow={false}
+        intensity={0.4}
+        size={0.65}
+        force={0.5}
+        swirl={1.8}
+        trail={0.6}
+        shading={0.3}
+        glow={0.08}
+        clickSplash={true}
+        zIndex={25}
+      />
+
       {/* 1. Cinematic Video Hero Section */}
       {!isSearching && <Hero />}
 
