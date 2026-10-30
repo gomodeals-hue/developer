@@ -70,11 +70,8 @@ const ProductCard = ({ product }) => {
   const handleDecrement = (e) => {
     e.preventDefault();
     e.stopPropagation();
-    if (cartQty <= 1) {
-      removeFromCart(productId);
-    } else {
-      updateQuantity(productId, cartQty - 1);
-    }
+    if (cartQty <= 1) return;
+    updateQuantity(productId, cartQty - 1);
   };
 
   useEffect(() => {
@@ -337,10 +334,15 @@ const ProductCard = ({ product }) => {
                   <button
                     type="button"
                     onClick={handleDecrement}
-                    className="w-7 h-7 sm:w-8 sm:h-8 rounded-full flex items-center justify-center text-white/90 hover:text-white hover:bg-black/15 active:scale-90 transition-all cursor-pointer"
-                    title={cartQty === 1 ? "Remove from cart" : "Decrease quantity"}
+                    disabled={cartQty <= 1}
+                    className={`w-7 h-7 sm:w-8 sm:h-8 rounded-full flex items-center justify-center transition-all ${
+                      cartQty <= 1
+                        ? 'opacity-40 cursor-not-allowed text-white/50'
+                        : 'text-white/90 hover:text-white hover:bg-black/15 active:scale-90 cursor-pointer'
+                    }`}
+                    title={cartQty <= 1 ? "Minimum quantity is 1" : "Decrease quantity"}
                   >
-                    {cartQty === 1 ? <Trash2 size={13} /> : <Minus size={13} strokeWidth={2.5} />}
+                    <Minus size={13} strokeWidth={2.5} />
                   </button>
                   <span className="px-2 font-black text-xs sm:text-sm text-white min-w-[20px] text-center select-none tabular-nums">
                     {cartQty}

@@ -43,11 +43,8 @@ export default function ClaimDealButton({ product, productId, className = '' }) 
   const handleDecrement = (e) => {
     e.preventDefault();
     e.stopPropagation();
-    if (cartQty <= 1) {
-      removeFromCart(pId);
-    } else {
-      updateQuantity(pId, cartQty - 1);
-    }
+    if (cartQty <= 1) return;
+    updateQuantity(pId, cartQty - 1);
   };
 
   useEffect(() => {
@@ -149,10 +146,15 @@ export default function ClaimDealButton({ product, productId, className = '' }) 
           <button
             type="button"
             onClick={handleDecrement}
-            className="w-7 h-7 rounded-full flex items-center justify-center text-white/90 hover:text-white hover:bg-black/15 active:scale-90 transition-all cursor-pointer"
-            title={cartQty === 1 ? "Remove from cart" : "Decrease quantity"}
+            disabled={cartQty <= 1}
+            className={`w-7 h-7 rounded-full flex items-center justify-center transition-all ${
+              cartQty <= 1
+                ? 'opacity-40 cursor-not-allowed text-white/50'
+                : 'text-white/90 hover:text-white hover:bg-black/15 active:scale-90 cursor-pointer'
+            }`}
+            title={cartQty <= 1 ? "Minimum quantity is 1" : "Decrease quantity"}
           >
-            {cartQty === 1 ? <Trash2 size={13} /> : <Minus size={13} strokeWidth={2.5} />}
+            <Minus size={13} strokeWidth={2.5} />
           </button>
           <span className="font-black text-xs text-white min-w-[20px] text-center select-none tabular-nums px-1 flex items-center gap-1.5">
             <Check size={12} strokeWidth={3} className="text-white shrink-0" />

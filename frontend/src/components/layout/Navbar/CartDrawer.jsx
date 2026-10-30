@@ -454,14 +454,16 @@ const CartDrawer = () => {
                             <span>Save ({selectedKeys.length})</span>
                           </button>
 
-                          <button
-                            type="button"
-                            onClick={handleDeleteSelected}
-                            className="flex items-center gap-1 text-[11px] font-bold text-rose-600 hover:text-white bg-rose-50 hover:bg-rose-600 px-2.5 py-1 rounded-lg border border-rose-200 transition-all cursor-pointer shadow-2xs"
-                          >
-                            <Trash2 size={11} />
-                            <span>Delete ({selectedKeys.length})</span>
-                          </button>
+                          {selectedKeys.length > 1 && (
+                            <button
+                              type="button"
+                              onClick={handleDeleteSelected}
+                              className="flex items-center gap-1 text-[11px] font-bold text-rose-600 hover:text-white bg-rose-50 hover:bg-rose-600 px-2.5 py-1 rounded-lg border border-rose-200 transition-all cursor-pointer shadow-2xs"
+                            >
+                              <Trash2 size={11} />
+                              <span>Delete ({selectedKeys.length})</span>
+                            </button>
+                          )}
                         </div>
                       )}
                     </div>
@@ -610,14 +612,18 @@ const CartDrawer = () => {
                                 <button
                                   type="button"
                                   onClick={() => {
-                                    if (item.quantity <= 1) {
-                                      handleRemoveItem(item);
-                                    } else {
+                                    if (item.quantity > 1) {
                                       updateQuantity(item.id, item.quantity - 1, item.selectedColor);
                                     }
                                   }}
-                                  className="px-2 h-full text-stone-600 hover:text-orange-600 hover:bg-orange-50 transition-colors flex items-center justify-center cursor-pointer rounded-l-xl"
+                                  disabled={item.quantity <= 1}
+                                  className={`px-2 h-full transition-colors flex items-center justify-center rounded-l-xl ${
+                                    item.quantity <= 1
+                                      ? 'text-stone-300 cursor-not-allowed'
+                                      : 'text-stone-600 hover:text-orange-600 hover:bg-orange-50 cursor-pointer'
+                                  }`}
                                   aria-label="Decrease quantity"
+                                  title={item.quantity <= 1 ? "Minimum quantity is 1" : "Decrease quantity"}
                                 >
                                   <Minus size={11} strokeWidth={2.5} />
                                 </button>

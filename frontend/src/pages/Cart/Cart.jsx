@@ -425,14 +425,16 @@ const Cart = () => {
                       <span className="sm:hidden">Save</span>
                     </button>
 
-                    <button
-                      type="button"
-                      onClick={handleDeleteSelected}
-                      className="flex items-center gap-1.5 px-3 py-1.5 text-xs font-bold text-rose-600 hover:text-white bg-rose-50/80 hover:bg-rose-600 border border-rose-200 hover:border-rose-600 rounded-xl transition-all cursor-pointer shadow-2xs"
-                    >
-                      <Trash2 size={13} />
-                      <span>Delete ({selectedKeys.length})</span>
-                    </button>
+                    {selectedKeys.length > 1 && (
+                      <button
+                        type="button"
+                        onClick={handleDeleteSelected}
+                        className="flex items-center gap-1.5 px-3 py-1.5 text-xs font-bold text-rose-600 hover:text-white bg-rose-50/80 hover:bg-rose-600 border border-rose-200 hover:border-rose-600 rounded-xl transition-all cursor-pointer shadow-2xs"
+                      >
+                        <Trash2 size={13} />
+                        <span>Delete ({selectedKeys.length})</span>
+                      </button>
+                    )}
                   </>
                 )}
                 
@@ -617,14 +619,18 @@ const Cart = () => {
                                 <button
                                   type="button"
                                   onClick={() => {
-                                    if (item.quantity <= 1) {
-                                      handleRemoveItem(item);
-                                    } else {
+                                    if (item.quantity > 1) {
                                       updateQuantity(item.id, item.quantity - 1, item.selectedColor);
                                     }
                                   }}
-                                  className="w-8 h-full text-stone-600 hover:text-[#f76e28] hover:bg-orange-50 transition-colors flex items-center justify-center cursor-pointer rounded-l-xl"
+                                  disabled={item.quantity <= 1}
+                                  className={`w-8 h-full transition-colors flex items-center justify-center rounded-l-xl ${
+                                    item.quantity <= 1
+                                      ? 'text-stone-300 cursor-not-allowed'
+                                      : 'text-stone-600 hover:text-[#f76e28] hover:bg-orange-50 cursor-pointer'
+                                  }`}
                                   aria-label="Decrease quantity"
+                                  title={item.quantity <= 1 ? "Minimum quantity is 1" : "Decrease quantity"}
                                 >
                                   <Minus size={12} strokeWidth={2.5} />
                                 </button>
