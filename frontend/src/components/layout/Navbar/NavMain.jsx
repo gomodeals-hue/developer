@@ -50,6 +50,7 @@ import { realtimeService } from "../../../services/realtimeService";
 import CartDrawer from "./CartDrawer";
 import AllDepartmentsDrawer from "./AllDepartmentsDrawer";
 import LanguageSelector from "./LanguageSelector";
+import SlingButton from "../../common/SlingButton";
 import { getProductImage } from "../../../utils/productImages";
 import { findRespectiveCategoryMatch, buildSearchNavigationUrl } from "../../../utils/categorySearchMatcher.js";
 
@@ -1388,15 +1389,33 @@ const NavMain = ({ isTransparent = false, isHome = false }) => {
                 </button>
               )}
 
-              {/* Search Submit Button */}
-              <button
-                type="submit"
-                className="h-full px-6 bg-[#f76e28] hover:bg-[#de5713] active:bg-[#c44908] active:scale-95 text-white rounded-r-full flex items-center justify-center gap-1.5 transition-all duration-150 cursor-pointer flex-shrink-0 font-bold text-xs uppercase tracking-wider shadow-sm hover:shadow-md hover:shadow-[#f76e28]/25"
-                aria-label="Search"
-              >
-                <Search size={16} strokeWidth={2.5} />
-                <span className="hidden lg:inline">{t("search", "Search")}</span>
-              </button>
+              {/* SlingButton Search Action (React Bits in Brand Theme) */}
+              <div className="mr-1.5 shrink-0 flex items-center justify-center">
+                <SlingButton
+                  onSend={() => handleSearchSubmit()}
+                  padColor="#f76e28"
+                  iconColor="#ffffff"
+                  accentColor="#f76e28"
+                  wellColor={isTransparent ? "rgba(255, 255, 255, 0.25)" : "#ffedd5"}
+                  bandColor="#fb923c"
+                  size={36}
+                  strokeWidth={2.5}
+                  armAt={32}
+                  maxPull={90}
+                  launchSpeed={2600}
+                  recoil={0.2}
+                  flight={90}
+                  particles={14}
+                  spread={60}
+                  axis="any"
+                  tapSends={true}
+                  ariaLabel={t("search", "Search")}
+                  title={t("search", "Search")}
+                >
+                  <Search size={16} strokeWidth={2.5} />
+                </SlingButton>
+              </div>
+              <button type="submit" className="hidden" aria-hidden="true" tabIndex={-1} />
             </form>
 
             {/* Instant Fast Search Suggestions Popover */}
@@ -2386,12 +2405,32 @@ const NavMain = ({ isTransparent = false, isHome = false }) => {
                     <X size={13} />
                   </button>
                 )}
-                <button
-                  type="submit"
-                  className="px-3.5 py-1 bg-[#f76e28] hover:bg-[#de5713] active:bg-[#c44908] active:scale-95 text-white text-[11px] font-bold uppercase rounded-full tracking-wider shadow-xs cursor-pointer shrink-0 transition-all duration-100"
-                >
-                  {t("search", "Search")}
-                </button>
+                <div className="shrink-0 flex items-center justify-center">
+                  <SlingButton
+                    onSend={() => handleSearchSubmit()}
+                    padColor="#f76e28"
+                    iconColor="#ffffff"
+                    accentColor="#f76e28"
+                    wellColor="#ffedd5"
+                    bandColor="#fb923c"
+                    size={32}
+                    strokeWidth={2}
+                    armAt={26}
+                    maxPull={70}
+                    launchSpeed={2400}
+                    recoil={0.2}
+                    flight={70}
+                    particles={12}
+                    spread={50}
+                    axis="any"
+                    tapSends={true}
+                    ariaLabel={t("search", "Search")}
+                    title={t("search", "Search")}
+                  >
+                    <Search size={14} strokeWidth={2.5} />
+                  </SlingButton>
+                </div>
+                <button type="submit" className="hidden" aria-hidden="true" tabIndex={-1} />
               </form>
           </motion.div>
         )}

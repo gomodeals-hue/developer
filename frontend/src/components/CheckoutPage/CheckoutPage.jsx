@@ -31,6 +31,7 @@ import { useAuth } from "../../context/AuthContext";
 import { useToast } from "../../context/ToastContext";
 import { orderService } from "../../services/orderService";
 import { addressService } from "../../services/addressService";
+import SlideCommit from "../common/SlideCommit";
 import "./CheckoutPage.css";
 
 const DELIVERY_SLOTS = [
@@ -370,14 +371,14 @@ const CheckoutPage = () => {
   const handlePlaceOrder = async () => {
     if (items.length === 0) {
       showToast("No products found in checkout.");
-      return;
+      throw new Error("No products found in checkout.");
     }
 
     // If COD, check captcha
     if (paymentMethod === "cod") {
       if (captchaInput.trim().toUpperCase() !== captchaCode.toUpperCase()) {
         showToast("Invalid security Captcha. Please enter the code shown.");
-        return;
+        throw new Error("Invalid security Captcha.");
       }
     }
 
@@ -1348,15 +1349,34 @@ const CheckoutPage = () => {
 
               {/* Action Buttons Area */}
               <div className="mt-6 pt-5 border-t border-stone-100 space-y-3">
-                {/* Buy Now Button (Primary) */}
-                <button
-                  type="button"
-                  onClick={handlePlaceOrder}
-                  className="w-full py-3.5 px-4 bg-orange-600 hover:bg-orange-700 active:bg-orange-800 text-white font-extrabold text-sm rounded-xl shadow-md hover:shadow-lg transition-all duration-200 flex items-center justify-center gap-2 group cursor-pointer"
-                >
-                  <ShieldCheck className="w-5 h-5 transition-transform group-hover:scale-110" />
-                  <span>BUY NOW — PLACE ORDER ({formatPrice(finalTotal)})</span>
-                </button>
+                {/* Slide to Pay Slider (React Bits SlideCommit) */}
+                <div className="w-full flex flex-col items-center justify-center pt-1">
+                  <SlideCommit
+                    label={`Slide to Pay • ${formatPrice(finalTotal)}`}
+                    doneLabel="Order Placed & Secured!"
+                    errorLabel="Please Verify Captcha / Address"
+                    onConfirm={async () => {
+                      return await handlePlaceOrder();
+                    }}
+                    trackColor="#1c1917"
+                    handleColor="#f76e28"
+                    successColor="#16a34a"
+                    dangerColor="#ef4444"
+                    width="100%"
+                    height={54}
+                    radius={27}
+                    speed={55}
+                    returnBounce={0.35}
+                    landingDip={0.026}
+                    holdMs={2000}
+                    disabled={isBookingOrder || items.length === 0}
+                    className="w-full shadow-md"
+                  />
+                  <div className="flex items-center justify-center gap-1.5 mt-2.5 text-[11px] font-semibold text-stone-500">
+                    <ShieldCheck size={13} className="text-emerald-600" />
+                    <span>256-Bit Bank-Grade Secure Payment Gateway</span>
+                  </div>
+                </div>
 
                 {/* Terms Agreement Note */}
                 <p className="text-[10.5px] text-stone-500 text-center pt-1 font-medium">

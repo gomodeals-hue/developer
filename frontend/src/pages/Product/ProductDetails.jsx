@@ -24,6 +24,7 @@ import {
 import * as productService from '../../services/productService';
 import VoiceOfCustomerModal from '../../components/Orders/VoiceOfCustomerModal';
 import SizeChartModal from '../../components/common/SizeChartModal';
+import JellyRadio from '../../components/common/JellyRadio';
 import { apiClient } from '../../services/apiClient';
 import lottie from 'lottie-web';
 import addToCartAnimationData from '../../assets/addToCartAnimation.json';
@@ -859,17 +860,26 @@ const ProductDetails = () => {
                     )}
                   </div>
                 </div>
-                <div className="option-row" id="sizeOptions">
-                  {sizeOptions.map((sz) => (
-                    <button
-                      key={sz}
-                      type="button"
-                      className={`option ${selectedSize === sz ? 'active' : ''}`}
-                      onClick={() => setSelectedSize(sz)}
-                    >
-                      {sz}
-                    </button>
-                  ))}
+                <div className="py-1 -ml-3 overflow-x-auto custom-scrollbar" id="sizeOptions">
+                  <JellyRadio
+                    items={sizeOptions}
+                    value={selectedSize}
+                    onChange={(sz) => setSelectedSize(sz)}
+                    size="md"
+                    gap={10}
+                    radius={20}
+                    swell={0.22}
+                    barge={6}
+                    shrink={0.05}
+                    jelly={1}
+                    bounce={0.25}
+                    stiffness={580}
+                    chipColor="#ffffff"
+                    textColor="#292524"
+                    activeColor="#f76e28"
+                    activeTextColor="#ffffff"
+                    ariaLabel="Select Product Size"
+                  />
                 </div>
               </section>
             )}
