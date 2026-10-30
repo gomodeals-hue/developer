@@ -11,6 +11,7 @@ import { useShop } from '../../context/ShopContext';
 import { cartService } from '../../services/cartService';
 import { toast } from 'react-hot-toast';
 import { getProductImage } from '../../utils/productImages';
+import TimedUndoAction from '../../components/common/TimedUndoAction';
 
 const getItemKey = (item) => `${String(item?.product_id || item?.id || '')}__${String(item?.selectedColor || item?.variant_value || 'default')}`;
 
@@ -660,14 +661,14 @@ const Cart = () => {
 
                               <span className="text-stone-300">|</span>
 
-                              <button
-                                type="button"
-                                onClick={() => handleRemoveItem(item)}
-                                className="group/remove inline-flex items-center gap-1.5 text-[11.5px] font-bold text-stone-500 hover:text-rose-600 transition-all duration-150 cursor-pointer active:scale-95"
-                              >
-                                <Trash2 size={13} className="group-hover/remove:rotate-12 group-hover/remove:scale-110 transition-transform duration-200" />
-                                <span>Remove</span>
-                              </button>
+                              <TimedUndoAction
+                                initialSeconds={4}
+                                deleteLabel="Remove"
+                                undoLabel="Cancel"
+                                size="sm"
+                                onDelete={() => handleRemoveItem(item)}
+                                onUndo={() => toast.success(`Restored "${item.name || 'item'}"`)}
+                              />
                             </div>
 
                           </div>

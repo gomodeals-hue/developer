@@ -10,6 +10,7 @@ import { useNavigate, Link } from 'react-router-dom';
 import { useShop } from '../../../context/ShopContext';
 import { toast } from 'react-hot-toast';
 import { getProductImage } from '../../../utils/productImages';
+import TimedUndoAction from '../../common/TimedUndoAction';
 
 const getItemKey = (item) => `${String(item?.product_id || item?.id || '')}__${String(item?.selectedColor || item?.variant_value || 'default')}`;
 
@@ -645,14 +646,14 @@ const CartDrawer = () => {
                                 <Heart size={13} />
                               </button>
 
-                              <button
-                                type="button"
-                                onClick={() => handleRemoveItem(item)}
-                                className="group/remove p-1.5 text-stone-300 hover:text-rose-600 hover:bg-rose-50 rounded-lg transition-all duration-150 cursor-pointer active:scale-95"
-                                title="Remove item"
-                              >
-                                <Trash2 size={13} className="group-hover/remove:rotate-12 group-hover/remove:scale-110 transition-transform duration-200" />
-                              </button>
+                              <TimedUndoAction
+                                initialSeconds={4}
+                                deleteLabel="Remove"
+                                undoLabel="Cancel"
+                                size="xs"
+                                onDelete={() => handleRemoveItem(item)}
+                                onUndo={() => toast.success(`Restored "${item.name || 'item'}"`)}
+                              />
                             </div>
                           </motion.div>
                         );
