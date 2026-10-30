@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { 
   X, Plus, Minus, ShoppingBag, 
-  Truck
+  Truck, ArrowRight, ExternalLink
 } from 'lucide-react';
 import { useNavigate, Link } from 'react-router-dom';
 import { useShop } from '../../../context/ShopContext';
@@ -62,6 +62,11 @@ const CartDrawer = () => {
     navigate('/');
   };
 
+  const handleViewFullCart = () => {
+    setCartDrawerOpen(false);
+    navigate('/cart');
+  };
+
   // Pricing calculations
   const subtotal = Number(cartSubtotal) || 0;
   const freeShippingThreshold = 499;
@@ -94,21 +99,33 @@ const CartDrawer = () => {
             transition={{ type: 'spring', damping: 28, stiffness: 280, mass: 0.85 }}
             className="fixed top-0 right-0 bottom-0 w-full sm:w-[430px] md:w-[460px] bg-white h-full shadow-2xl flex flex-col z-[160] overflow-hidden text-stone-900 border-l border-orange-100"
           >
-            {/* Header: Title ("Shopping Cart") + Close 'X' Button */}
+            {/* Header: Title ("Shopping Cart") + Full Page Link + Close 'X' Button */}
             <div className="px-6 py-5 flex items-center justify-between border-b border-orange-100/80 shrink-0 bg-white">
               <h2 className="text-2xl font-black text-stone-900 tracking-tight">
                 {t('shopping_cart', 'Shopping Cart')}
               </h2>
 
-              <button 
-                type="button"
-                onClick={() => setCartDrawerOpen(false)} 
-                className="text-stone-500 hover:text-[#f76e28] p-1.5 -mr-1.5 rounded-full hover:bg-orange-50 transition-colors cursor-pointer"
-                title="Close Cart"
-                aria-label="Close"
-              >
-                <X size={22} strokeWidth={2} />
-              </button>
+              <div className="flex items-center gap-1.5">
+                <button
+                  type="button"
+                  onClick={handleViewFullCart}
+                  className="inline-flex items-center gap-1 px-2.5 py-1 text-xs font-bold text-stone-600 hover:text-[#f76e28] hover:bg-orange-50 rounded-lg transition-colors cursor-pointer"
+                  title="View cart in full page"
+                >
+                  <span>Full Page</span>
+                  <ExternalLink size={13} />
+                </button>
+
+                <button 
+                  type="button"
+                  onClick={() => setCartDrawerOpen(false)} 
+                  className="text-stone-500 hover:text-[#f76e28] p-1.5 -mr-1.5 rounded-full hover:bg-orange-50 transition-colors cursor-pointer"
+                  title="Close Cart"
+                  aria-label="Close"
+                >
+                  <X size={22} strokeWidth={2} />
+                </button>
+              </div>
             </div>
 
             {/* Scrollable Body */}
@@ -125,13 +142,22 @@ const CartDrawer = () => {
                   <p className="text-xs text-stone-500 max-w-[240px] leading-relaxed mb-6">
                     Looks like you haven't added anything to your cart yet.
                   </p>
-                  <button
-                    type="button"
-                    onClick={handleReturnToShop}
-                    className="inline-flex items-center justify-center px-6 py-2.5 bg-[#f76e28] hover:bg-[#de5713] active:bg-[#c44908] text-white text-xs font-bold rounded-full transition-all cursor-pointer shadow-md shadow-[#f76e28]/25 hover:shadow-lg hover:shadow-[#f76e28]/35"
-                  >
-                    Start Shopping
-                  </button>
+                  <div className="flex flex-col sm:flex-row items-center gap-2.5">
+                    <button
+                      type="button"
+                      onClick={handleReturnToShop}
+                      className="inline-flex items-center justify-center px-6 py-2.5 bg-[#f76e28] hover:bg-[#de5713] active:bg-[#c44908] text-white text-xs font-bold rounded-full transition-all cursor-pointer shadow-md shadow-[#f76e28]/25 hover:shadow-lg hover:shadow-[#f76e28]/35"
+                    >
+                      Start Shopping
+                    </button>
+                    <button
+                      type="button"
+                      onClick={handleViewFullCart}
+                      className="inline-flex items-center justify-center px-5 py-2.5 bg-white border border-stone-200 hover:border-orange-300 text-stone-700 hover:text-[#f76e28] text-xs font-bold rounded-full transition-all cursor-pointer"
+                    >
+                      View Cart in Full Page
+                    </button>
+                  </div>
                 </div>
               ) : (
                 <div className="space-y-4">
@@ -292,14 +318,27 @@ const CartDrawer = () => {
                   </div>
                 </div>
 
-                {/* Checkout CTA Button (Our GoMo Deals Orange Brand Color) */}
-                <button
-                  type="button"
-                  onClick={handleCheckout}
-                  className="w-full py-3.5 sm:py-4 px-6 bg-[#f76e28] hover:bg-[#de5713] active:bg-[#c44908] text-white font-bold text-base rounded-full text-center transition-all duration-150 cursor-pointer shadow-md shadow-[#f76e28]/25 hover:shadow-lg hover:shadow-[#f76e28]/35 active:scale-[0.99]"
-                >
-                  Checkout
-                </button>
+                {/* Primary & Secondary Action Buttons */}
+                <div className="space-y-2.5">
+                  {/* Checkout CTA Button (Our GoMo Deals Orange Brand Color) */}
+                  <button
+                    type="button"
+                    onClick={handleCheckout}
+                    className="w-full py-3.5 sm:py-4 px-6 bg-[#f76e28] hover:bg-[#de5713] active:bg-[#c44908] text-white font-bold text-base rounded-full text-center transition-all duration-150 cursor-pointer shadow-md shadow-[#f76e28]/25 hover:shadow-lg hover:shadow-[#f76e28]/35 active:scale-[0.99]"
+                  >
+                    Checkout
+                  </button>
+
+                  {/* View Cart in Full Page Button */}
+                  <button
+                    type="button"
+                    onClick={handleViewFullCart}
+                    className="w-full py-3 px-6 bg-white hover:bg-orange-50/70 active:bg-orange-100/70 text-[#f76e28] hover:text-[#de5713] border border-orange-200 hover:border-[#f76e28] font-bold text-sm rounded-full text-center transition-all duration-150 cursor-pointer flex items-center justify-center gap-2 shadow-2xs group"
+                  >
+                    <span>View Cart in Full Page</span>
+                    <ArrowRight size={15} className="group-hover:translate-x-1 transition-transform" />
+                  </button>
+                </div>
 
                 {/* Payment Methods Badges Row */}
                 <div className="flex items-center justify-center gap-2 pt-1">

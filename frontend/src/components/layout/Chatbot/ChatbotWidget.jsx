@@ -6,9 +6,11 @@ import {
 } from 'lucide-react';
 import { sendChatbotMessage } from '../../../services/chatbotService';
 import { useAuth } from '../../../context/AuthContext';
+import { useShop } from '../../../context/ShopContext';
 
 const ChatbotWidget = () => {
     const { user } = useAuth();
+    const { cartDrawerOpen } = useShop();
     const navigate = useNavigate();
     const [isOpen, setIsOpen] = useState(false);
     const [messages, setMessages] = useState([]);
@@ -58,140 +60,102 @@ const ChatbotWidget = () => {
             }
         };
 
-        window.addEventListener('scroll', handleScroll);
+        window.addEventListener('scroll', handleScroll, { passive: true });
         return () => window.removeEventListener('scroll', handleScroll);
     }, []);
 
-    const scrollToTop = () => {
-        window.scrollTo({
-            top: 0,
-            behavior: 'smooth'
-        });
+    // Close chatbot if cart sidebar is opened
+    useEffect(() => {
+        if (cartDrawerOpen) {
+            setIsOpen(false);
+        }
+    }, [cartDrawerOpen]);
+
+    // Format time
+    const getCurrentTime = () => {
+        return new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
     };
 
     const messagesEndRef = useRef(null);
 
-    // Load message history from local storage when component mounts or user changes
-    useEffect(() => {
-        if (user?.id) {
-            const chatKey = `gomo_chat_history_${user.id}`;
-            const cachedMessages = localStorage.getItem(chatKey);
-            if (cachedMessages) {
-                setMessages(JSON.parse(cachedMessages));
-            } else {
-                // Initial welcoming message
-                const welcomeMsg = {
-                    role: 'model',
-                    text: "Welcome to GoMo Deals! I am your shopping assistant. I can help you find discount deals, search items across Electronics, Fashion, or Home & Living, track active orders, or explain our shipping and return policies. How can I help you today?",
-                    timestamp: new Date().toISOString()
-                };
-                setMessages([welcomeMsg]);
-                localStorage.setItem(chatKey, JSON.stringify([welcomeMsg]));
-            }
-        } else {
-            // Guest user: start with a clean welcoming message on mount/refresh (never saved to localStorage)
-            const welcomeMsg = {
-                role: 'model',
-                text: "Welcome to GoMo Deals! I am your shopping assistant. I can help you find discount deals, search items across Electronics, Fashion, or Home & Living, track active orders, or explain our shipping and return policies. How can I help you today?",
-                timestamp: new Date().toISOString()
-            };
-            setMessages([welcomeMsg]);
-        }
-    }, [user]);
-
-    // Auto-scroll messages container to bottom on new messages or loading state
-    useEffect(() => {
+    const scrollToBottom = () => {
         messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
-    }, [messages, isLoading, isOpen]);
-
-    // Save messages to local storage whenever they change, keeping only the last 20 messages to prevent unbounded growth
-    const saveMessages = (newMessages) => {
-        const cappedMessages = newMessages.slice(-20);
-        setMessages(cappedMessages);
-        
-        if (user?.id) {
-            const chatKey = `gomo_chat_history_${user.id}`;
-            localStorage.setItem(chatKey, JSON.stringify(cappedMessages));
-        }
     };
 
-    const handleSendMessage = async (textToSend) => {
-        const query = (textToSend || inputValue).trim();
-        if (!query) return;
+    useEffect(() => {
+        if (isOpen) {
+            scrollToBottom();
+        }
+    }, [messages, isOpen]);
 
-        // Add user message to state
+    // Send query to AI backend
+    const handleSendMessage = async (textToSend = null) => {
+        const text = textToSend || inputValue;
+        if (!text || !text.trim()) return;
+
         const userMsg = {
             role: 'user',
-            text: query,
-            timestamp: new Date().toISOString()
+            content: text,
+            timestamp: getCurrentTime()
         };
 
-        const updatedMessages = [...messages, userMsg];
-        saveMessages(updatedMessages);
-        setInputValue('');
+        setMessages((prev) => [...prev, userMsg]);
+        if (!textToSend) setInputValue('');
         setIsLoading(true);
 
         try {
-            // Map history format: { role: 'user' | 'model', content: string }
-            const historyForAPI = updatedMessages.map(msg => ({
-                role: msg.role,
-                content: msg.text
+            const history = messages.map(m => ({
+                role: m.role,
+                content: m.content
             }));
 
-            const response = await sendChatbotMessage(query, historyForAPI, user);
+            const response = await sendChatbotMessage(text, history);
 
-            if (response && response.success && response.reply) {
+            if (response.success && response.reply) {
                 const botMsg = {
-                    role: 'model',
-                    text: response.reply,
-                    products: response.products || [],
-                    timestamp: new Date().toISOString()
+                    role: 'bot',
+                    content: response.reply,
+                    timestamp: getCurrentTime(),
+                    suggestions: response.suggestedFollowUps || []
                 };
-                saveMessages([...updatedMessages, botMsg]);
-                
-                // Update dynamic quick suggested replies
-                if (response.suggestedReplies && response.suggestedReplies.length > 0) {
-                    setSuggestedReplies(response.suggestedReplies);
-                } else {
-                    setSuggestedReplies(["More hot deals", "Track Order", "Main Menu"]);
+                setMessages((prev) => [...prev, botMsg]);
+                if (response.suggestedFollowUps && response.suggestedFollowUps.length > 0) {
+                    setSuggestedReplies(response.suggestedFollowUps);
                 }
             } else {
-                const fallbackReply = response?.reply || "Here are some of our top deals and services you might like!";
-                const botMsg = {
-                    role: 'model',
-                    text: fallbackReply,
-                    products: response?.products || [],
-                    timestamp: new Date().toISOString()
-                };
-                saveMessages([...updatedMessages, botMsg]);
-                setSuggestedReplies(["Show hot deals", "Track my order", "Return & Refund policy"]);
+                setMessages((prev) => [
+                    ...prev,
+                    {
+                        role: 'bot',
+                        content: response.reply || "I'm having a slight connection glitch. How else can I assist you?",
+                        timestamp: getCurrentTime()
+                    }
+                ]);
             }
         } catch (error) {
-            console.error("Chatbot response error:", error);
-            const errorMsg = {
-                role: 'model',
-                text: "I'm having a little connection issue. Please try asking again or check our hot deals!",
-                timestamp: new Date().toISOString()
-            };
-            saveMessages([...updatedMessages, errorMsg]);
+            console.error('Chat error:', error);
+            setMessages((prev) => [
+                ...prev,
+                {
+                    role: 'bot',
+                    content: "Sorry, our concierge service is momentarily experiencing high demand. Please try again in a few seconds.",
+                    timestamp: getCurrentTime()
+                }
+            ]);
         } finally {
             setIsLoading(false);
         }
     };
 
     const handleKeyPress = (e) => {
-        if (e.key === 'Enter') {
+        if (e.key === 'Enter' && !e.shiftKey) {
+            e.preventDefault();
             handleSendMessage();
         }
     };
 
     const handleClearChat = () => {
-        const welcomeMsg = {
-            role: 'model',
-            text: "Welcome back! How can I assist you with today's deals or orders?",
-            timestamp: new Date().toISOString()
-        };
-        saveMessages([welcomeMsg]);
+        setMessages([]);
         setSuggestedReplies([
             "Shipping performance & SLA",
             "Raise a support ticket",
@@ -201,21 +165,22 @@ const ChatbotWidget = () => {
         ]);
     };
 
-    // Helper to format timestamps nicely
-    const formatTime = (isoString) => {
-        try {
-            const date = new Date(isoString);
-            return date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-        } catch (e) {
-            return '';
-        }
+    const scrollToTop = () => {
+        window.scrollTo({
+            top: 0,
+            behavior: 'smooth'
+        });
     };
 
-    // Helper to render markdown bolding/strikethrough/emojis nicely in messages
-    const renderMessageText = (text) => {
-        if (!text) return '';
-        // Replace bold (**text**) and strikethrough (~~text~~)
-        const parts = text.split(/(\*\*[^*]+\*\*|~~[^~]+~~)/g);
+    // Render formatted markdown-like text
+    const formatMessageText = (content) => {
+        if (!content) return '';
+        
+        // Strip markdown image tags or handle product cards
+        const cleaned = content.replace(/!\[([^\]]*)\]\(([^)]+)\)/g, '').trim();
+
+        // Split by lines or bold patterns
+        const parts = cleaned.split(/(\*\*.*?\*\*|\~\~.*?\~\~)/g);
         return parts.map((part, index) => {
             if (part.startsWith('**') && part.endsWith('**')) {
                 return <strong key={index} className="font-extrabold text-sky-950">{part.slice(2, -2)}</strong>;
@@ -227,7 +192,8 @@ const ChatbotWidget = () => {
         });
     };
 
-    if (isSellerChatActive) return null;
+    // When seller chat or the cart sidebar is open, hide both the top arrow and the chatbox button
+    if (isSellerChatActive || cartDrawerOpen) return null;
 
     return (
         <div className="fixed bottom-6 right-6 z-[999] font-sans flex flex-col gap-4 items-end">
@@ -378,74 +344,26 @@ const ChatbotWidget = () => {
                                         transition={{ duration: 0.2 }}
                                         className={`flex ${msg.role === 'user' ? 'justify-end' : 'justify-start'}`}
                                     >
-                                        <div className={`flex flex-col max-w-[85%] ${msg.role === 'user' ? 'items-end' : 'items-start'}`}>
-                                            <div
-                                                className={`px-4.5 py-3 text-[12px] leading-relaxed whitespace-pre-wrap break-words transition-all shadow-sm ${
-                                                    msg.role === 'user'
-                                                        ? 'bg-gradient-to-r from-[#0284c7] via-[#00a8e8] to-[#38bdf8] text-white border border-sky-300/40 rounded-2xl rounded-tr-none shadow-[0_4px_14px_rgba(2,132,199,0.25)]'
-                                                        : 'bg-white text-slate-800 border border-sky-100 rounded-2xl rounded-tl-none border-l-4 border-l-[#0284c7] shadow-sm'
+                                        <div
+                                            className={`max-w-[80%] rounded-2xl px-4 py-3 text-xs leading-relaxed shadow-xs ${
+                                                msg.role === 'user'
+                                                    ? 'bg-gradient-to-r from-[#0284c7] to-[#00a8e8] text-white rounded-tr-none'
+                                                    : 'bg-white text-slate-800 border border-sky-100 rounded-tl-none'
+                                            }`}
+                                        >
+                                            <p className="whitespace-pre-wrap">{formatMessageText(msg.content)}</p>
+                                            <span
+                                                className={`text-[8px] block mt-1.5 font-sans font-bold tracking-wider ${
+                                                    msg.role === 'user' ? 'text-sky-100/90 text-right' : 'text-sky-700/60 text-left'
                                                 }`}
                                             >
-                                                {renderMessageText(msg.text || "Here is the information you requested:")}
-
-                                                {/* Interactive product preview cards for deals/recommendations */}
-                                                {msg.role !== 'user' && msg.products && msg.products.length > 0 && (
-                                                    <div className="mt-3 pt-2.5 border-t border-sky-100 flex flex-col gap-2">
-                                                        {msg.products.map((prod) => (
-                                                             <div 
-                                                                key={prod.id || prod.product_id}
-                                                                onClick={() => {
-                                                                    navigate(`/product/${prod.product_id || prod.id}`);
-                                                                }}
-                                                                className="flex items-center gap-2.5 p-2 bg-sky-50/70 hover:bg-sky-100/80 border border-sky-200/80 rounded-xl transition-all cursor-pointer group shadow-xs"
-                                                            >
-                                                                <img 
-                                                                    src={prod.thumbnail || prod.images?.[0] || 'https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=200&q=80'} 
-                                                                    alt={prod.name || prod.title} 
-                                                                    className="w-10 h-10 rounded-lg object-cover bg-white border border-sky-200/60 flex-shrink-0"
-                                                                />
-                                                                <div className="flex-1 min-w-0">
-                                                                    <div className="flex items-center justify-between gap-1">
-                                                                        <h5 className="text-[11px] font-bold text-slate-900 truncate group-hover:text-[#0284c7] transition-colors">
-                                                                            {prod.name || prod.title}
-                                                                        </h5>
-                                                                        {prod.discount_percentage ? (
-                                                                            <span className="text-[8px] font-black text-white bg-[#0284c7] px-1.5 py-0.5 rounded-full flex-shrink-0">
-                                                                                {prod.discount_percentage}% OFF
-                                                                            </span>
-                                                                        ) : null}
-                                                                    </div>
-                                                                    <div className="flex items-center gap-1.5 mt-0.5 text-[10px]">
-                                                                        <span className="font-extrabold text-[#0284c7]">
-                                                                            ₹{Number(prod.price || 0).toLocaleString('en-IN')}
-                                                                        </span>
-                                                                        {prod.mrp && prod.mrp > prod.price ? (
-                                                                            <span className="line-through text-slate-400 text-[9px]">
-                                                                                ₹{Number(prod.mrp).toLocaleString('en-IN')}
-                                                                            </span>
-                                                                        ) : null}
-                                                                        {prod.rating ? (
-                                                                            <span className="ml-auto text-[9px] font-semibold text-amber-700 flex items-center gap-1">
-                                                                                <Star size={10} className="fill-amber-400 text-amber-500" /> {prod.rating}
-                                                                            </span>
-                                                                        ) : null}
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        ))}
-                                                    </div>
-                                                )}
-                                            </div>
-                                            <span className="text-[8px] text-slate-400 mt-1.5 px-2 flex items-center gap-1 font-bold tracking-widest uppercase">
-                                                <Clock className="w-2.5 h-2.5 text-slate-400" />
-                                                <span>{formatTime(msg.timestamp)}</span>
+                                                {msg.timestamp}
                                             </span>
                                         </div>
                                     </motion.div>
                                 ))}
                             </AnimatePresence>
 
-                            {/* Animated Loading/Typing Bubble */}
                             {isLoading && (
                                 <motion.div 
                                     initial={{ opacity: 0, y: 6 }}

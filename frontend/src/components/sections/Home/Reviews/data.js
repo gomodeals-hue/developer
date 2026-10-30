@@ -59,3 +59,4 @@ export const customerReviewsData = [
     date: '1 week ago'
   }
 ];
+
