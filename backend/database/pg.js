@@ -1,7 +1,17 @@
 import pg from 'pg';
 import dotenv from 'dotenv';
+import fsNode from 'node:fs';
+import path from 'node:path';
+import { fileURLToPath } from 'node:url';
 
-dotenv.config();
+const __fn = fileURLToPath(import.meta.url);
+const __dn = path.dirname(__fn);
+const envB = path.join(__dn, '../.env');
+if (fsNode.existsSync(envB)) {
+  dotenv.config({ path: envB });
+} else {
+  dotenv.config();
+}
 
 const { Pool } = pg;
 
