@@ -1,7 +1,8 @@
 import { getDB, saveCollection } from '../database/db.js';
 import { broadcast, advanceOrderStep } from '../realtime.js';
+import { isPostgresConnected, pool } from '../database/pg.js';
 
-export function handleOrdersRoutes(req, res, pathname, method, query, body, sendJSON) {
+export async function handleOrdersRoutes(req, res, pathname, method, query, body, sendJSON) {
   const db = getDB();
 
   // 1. Advance order tracking step on demand (Live Simulator API)
@@ -317,6 +318,37 @@ export function handleOrdersRoutes(req, res, pathname, method, query, body, send
 
     db.orders.unshift(newOrder);
     saveCollection('orders');
+
+    if (isPostgresConnected()) {
+      try {
+        await pool.query(`
+          INSERT INTO orders (
+            id, order_number, user_id, customer_name, customer_email,
+            items, total_amount, discount_amount, shipping_fee,
+            payment_method, payment_status, order_status, shipping_address, created_at
+          )
+          VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14)
+          ON CONFLICT (id) DO NOTHING;
+        `, [
+          newOrder.id,
+          newOrder.order_number,
+          newOrder.userId,
+          newOrder.customer_name,
+          newOrder.customer_email,
+          JSON.stringify(newOrder.items),
+          newOrder.total_amount,
+          newOrder.discount_amount || 0,
+          newOrder.shipping_fee || 0,
+          newOrder.payment_method,
+          newOrder.payment_status,
+          newOrder.status,
+          JSON.stringify(newOrder.shipping_address),
+          newOrder.created_at
+        ]);
+      } catch (err) {
+        console.warn('[Orders] Supabase order insert error:', err.message);
+      }
+    }
 
     // 3. Clear user's cart in backend
     const uid = newOrder.userId;

@@ -20,10 +20,10 @@ export const pool = new Pool({
   ...connectionConfig,
   max: 20,
   idleTimeoutMillis: 30000,
-  connectionTimeoutMillis: 5000,
-  ...(process.env.NODE_ENV === 'production' && {
-    ssl: { rejectUnauthorized: false }
-  })
+  connectionTimeoutMillis: 10000,
+  ssl: (process.env.DATABASE_URL?.includes('supabase') || process.env.PGHOST?.includes('supabase') || process.env.NODE_ENV === 'production')
+    ? { rejectUnauthorized: false }
+    : false
 });
 
 let isConnected = false;

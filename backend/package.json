@@ -7,7 +7,8 @@
   "scripts": {
     "start": "node server.js",
     "dev": "node --watch server.js",
-    "db:setup": "node database/setupPostgres.js"
+    "db:setup": "node database/setupPostgres.js",
+    "db:supabase": "node setup_supabase.mjs"
   },
   "dependencies": {
     "dotenv": "^18.0.8",

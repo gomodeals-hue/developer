@@ -116,10 +116,10 @@ async function startServer() {
       if (await handleBusRoutes(req, res, pathname, method, query, body, sendJSON)) return;
       if (handleProductsRoutes(req, res, pathname, method, query, body, sendJSON)) return;
       if (handleCategoriesRoutes(req, res, pathname, method, query, body, sendJSON)) return;
-      if (handleOrdersRoutes(req, res, pathname, method, query, body, sendJSON)) return;
+      if (await handleOrdersRoutes(req, res, pathname, method, query, body, sendJSON)) return;
       if (handleCartWishlistRoutes(req, res, pathname, method, query, body, sendJSON)) return;
       if (handleAdminRoutes(req, res, pathname, method, query, body, sendJSON)) return;
-      if (handleAuthRoutes(req, res, pathname, method, query, body, sendJSON)) return;
+      if (await handleAuthRoutes(req, res, pathname, method, query, body, sendJSON)) return;
       if (handleCouponsDeliveryRoutes(req, res, pathname, method, query, body, sendJSON)) return;
       if (handleBannersRankingsRoutes(req, res, pathname, method, query, body, sendJSON)) return;
       if (handleSellerRoutes(req, res, pathname, method, query, body, sendJSON)) return;
