@@ -20,7 +20,7 @@ export default function HomeCategorySections() {
     const list = allProducts.filter((p) => {
       const cat = (p.category || p.category_name || '').toString().toLowerCase();
       const tags = (Array.isArray(p.tags) ? p.tags.join(' ') : (p.tags || '')).toString().toLowerCase();
-      const name = (p.name || '').toString().toLowerCase();
+      const name = (p.name || p.title || '').toString().toLowerCase();
       return (
         cat.includes('clothing') ||
         cat.includes('fashion') ||
@@ -53,7 +53,7 @@ export default function HomeCategorySections() {
     const list = allProducts.filter((p) => {
       const cat = (p.category || p.category_name || '').toString().toLowerCase();
       const tags = (Array.isArray(p.tags) ? p.tags.join(' ') : (p.tags || '')).toString().toLowerCase();
-      const name = (p.name || '').toString().toLowerCase();
+      const name = (p.name || p.title || '').toString().toLowerCase();
       return (
         cat.includes('beauty') ||
         cat.includes('care') ||
@@ -75,7 +75,7 @@ export default function HomeCategorySections() {
     const list = allProducts.filter((p) => {
       const cat = (p.category || p.category_name || '').toString().toLowerCase();
       const tags = (Array.isArray(p.tags) ? p.tags.join(' ') : (p.tags || '')).toString().toLowerCase();
-      const name = (p.name || '').toString().toLowerCase();
+      const name = (p.name || p.title || '').toString().toLowerCase();
       return (
         cat.includes('elect') ||
         cat.includes('gadget') ||
@@ -96,7 +96,7 @@ export default function HomeCategorySections() {
     const list = allProducts.filter((p) => {
       const cat = (p.category || p.category_name || '').toString().toLowerCase();
       const tags = (Array.isArray(p.tags) ? p.tags.join(' ') : (p.tags || '')).toString().toLowerCase();
-      const name = (p.name || '').toString().toLowerCase();
+      const name = (p.name || p.title || '').toString().toLowerCase();
       return (
         cat.includes('pooja') ||
         cat.includes('sacred') ||

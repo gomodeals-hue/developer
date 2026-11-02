@@ -192,7 +192,7 @@ const ProductCard = ({ product }) => {
           <div className="w-full h-full block overflow-hidden">
             <img
               src={image}
-              alt={t(product.name)}
+              alt={t(product.name || product.title)}
               onError={(e) => {
                 e.target.onerror = null;
                 e.target.src = getProductImage(product);
@@ -252,7 +252,7 @@ const ProductCard = ({ product }) => {
 
             {/* Clean Bold Title clamped to 2 lines */}
             <h3 className="font-bold text-sm sm:text-[15px] text-stone-950 leading-snug line-clamp-2 min-h-[42px] group-hover:text-orange-600 transition-colors">
-              <span>{t(product.name)}</span>
+              <span>{t(product.name || product.title)}</span>
             </h3>
 
             {/* Rating & Delivery Row */}

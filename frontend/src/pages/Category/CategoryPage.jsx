@@ -1047,7 +1047,7 @@ const CategoryPage = () => {
           return cat === 'beauty';
         }
         if (cleanCat === 'gadgets' || cleanCat === 'electronics') {
-          return cat === 'gadgets' || cat === 'electronics';
+          return cat === 'gadgets' || cat === 'electronics' || cat.includes('elect') || cat.includes('gadget');
         }
         if (cleanCat === 'home-kitchen' || cleanCat === 'home-living') {
           return cat === 'home-kitchen' || cat === 'home-living';

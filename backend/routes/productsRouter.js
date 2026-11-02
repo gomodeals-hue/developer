@@ -347,7 +347,7 @@ export function handleProductsRoutes(req, res, pathname, method, query, body, se
         if (pCat === cat || pCatName === cat || pSub === cat || pSec === cat) return true;
         if ((cat === 'home-living' || cat === 'home-kitchen') && (pCat === 'home-living' || pCat === 'home-kitchen')) return true;
         if ((cat === 'pooja-items' || cat === 'pooja') && (pCat.includes('pooja') || pSub.includes('pooja'))) return true;
-        if ((cat === 'gadgets' || cat === 'electronics') && (pCat === 'gadgets' || pCat === 'electronics')) return true;
+        if ((cat === 'gadgets' || cat === 'electronics') && (pCat === 'gadgets' || pCat === 'electronics' || pCat.includes('gadget') || pCat.includes('elect') || (p.tags && (p.tags.includes('electronics') || p.tags.includes('headphones'))))) return true;
         if ((cat === 'jewellery' || cat === 'jewelry') && (pCat === 'jewellery' || pCat === 'jewelry')) return true;
         if ((cat === 'stationery' || cat === 'stationary') && (pCat === 'stationery' || pCat === 'stationary')) return true;
         if ((cat === 'grocery' || cat === 'groceries' || cat === 'grocery-items') && (pCat === 'grocery' || pCat === 'groceries' || pCat === 'grocery-items')) return true;
