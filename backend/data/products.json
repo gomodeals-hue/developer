@@ -1,5 +1,36 @@
 [
   {
+    "id": "gmd-prod-1793599904781",
+    "title": "Sony WH-1000XM5 Wireless Noise-Cancelling Headphones (Midnight Black Edition)",
+    "name": "Sony WH-1000XM5 Wireless Noise-Cancelling Headphones (Midnight Black Edition)",
+    "description": "Industry-leading noise canceling with two processors and 8 microphones for unprecedented noise cancellation. Exceptional sound quality with newly developed 30mm driver unit. Up to 30 hours battery life with quick charging (3 min charge for 3 hours playback). Ultra-comfortable, lightweight design with soft fit leather.",
+    "category": "Gadgets & Electronics",
+    "category_slug": "gadgets",
+    "price": 26990,
+    "original_price": 34990,
+    "discount_percentage": 23,
+    "rating": 4.9,
+    "rating_count": 142,
+    "stock": 35,
+    "thumbnail": "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=800&q=80",
+    "images": [
+      "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=800&q=80",
+      "https://images.unsplash.com/photo-1484704849700-f032a568e944?w=800&q=80"
+    ],
+    "tags": [
+      "headphones",
+      "wireless",
+      "noise-cancelling",
+      "electronics",
+      "premium-audio",
+      "sony"
+    ],
+    "badge": "Bestseller",
+    "is_featured": true,
+    "product_id": "gmd-prod-1793599904781",
+    "created_at": "2026-11-02T06:11:44.912Z"
+  },
+  {
     "id": "gmd-mn-sh-001",
     "product_id": "gmd-mn-sh-001",
     "name": "Campus Sutra Men's Comfort Opaque Checked Casual Shirt",
