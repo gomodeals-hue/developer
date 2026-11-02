@@ -280,6 +280,179 @@ export function getDB() {
   return DB;
 }
 
+/**
+ * Hydrates the in-memory cache directly from Supabase Cloud PostgreSQL
+ * Ensures serverless environments instantly access persisted live data across cold-starts.
+ */
+export async function hydrateFromPostgres(pool) {
+  if (!pool) return;
+  try {
+    const [prodsRes, sellersRes, ordersRes, usersRes, reviewsRes, addrRes, couponsRes, cartsRes, wishlistsRes] = await Promise.all([
+      pool.query('SELECT * FROM products ORDER BY created_at DESC NULLS LAST'),
+      pool.query('SELECT * FROM sellers ORDER BY created_at ASC'),
+      pool.query('SELECT * FROM orders ORDER BY created_at DESC'),
+      pool.query('SELECT * FROM users ORDER BY created_at ASC'),
+      pool.query('SELECT * FROM reviews ORDER BY created_at DESC'),
+      pool.query('SELECT * FROM addresses ORDER BY is_default DESC, created_at DESC'),
+      pool.query('SELECT * FROM coupons ORDER BY created_at DESC'),
+      pool.query('SELECT * FROM carts'),
+      pool.query('SELECT * FROM wishlists')
+    ]);
+
+    if (prodsRes?.rows?.length > 0) {
+      DB.products = prodsRes.rows.map(r => ({
+        id: r.id,
+        product_id: r.id,
+        name: r.name || r.title,
+        title: r.title || r.name,
+        description: r.description,
+        category: r.category,
+        category_slug: r.category_slug || r.category,
+        category_name: r.category_name || r.category,
+        subcategory: r.subcategory,
+        childCategory: r.child_category,
+        department: r.department,
+        section: r.department,
+        brand: r.brand,
+        price: Number(r.price),
+        mrp: Number(r.mrp || r.original_price || r.price),
+        original_price: Number(r.original_price || r.mrp || r.price),
+        discount_percentage: Number(r.discount_percentage || 0),
+        rating: Number(r.rating || 4.5),
+        rating_count: Number(r.rating_count || r.reviews_count || 10),
+        reviews_count: Number(r.reviews_count || r.rating_count || 10),
+        stock: Number(r.stock ?? r.stock_quantity ?? 25),
+        stock_quantity: Number(r.stock_quantity ?? r.stock ?? 25),
+        in_stock: r.in_stock !== undefined ? Boolean(r.in_stock) : (Number(r.stock) > 0),
+        is_active: r.is_active !== undefined ? Boolean(r.is_active) : true,
+        is_featured: Boolean(r.is_featured),
+        is_bestseller: Boolean(r.is_bestseller),
+        badge: r.badge || '',
+        deal_type: r.deal_type || '',
+        seller_id: r.seller_id || 'seller-1',
+        seller_name: r.seller_name || 'GoMo Verified Partner',
+        thumbnail: r.thumbnail || (Array.isArray(r.images) && r.images[0]) || '',
+        image: r.thumbnail || (Array.isArray(r.images) && r.images[0]) || '',
+        images: Array.isArray(r.images) ? r.images : (r.thumbnail ? [r.thumbnail] : []),
+        tags: Array.isArray(r.tags) ? r.tags : [],
+        created_at: r.created_at
+      }));
+    }
+
+    if (sellersRes?.rows?.length > 0) {
+      DB.sellers = sellersRes.rows.map(s => ({
+        ...s,
+        id: s.id,
+        seller_id: s.seller_id || s.id,
+        store_name: s.store_name,
+        owner_name: s.owner_name,
+        email: s.email,
+        phone: s.phone,
+        category: s.category,
+        gstin: s.gstin,
+        address: s.address,
+        status: s.status,
+        verified: s.verified,
+        rating: Number(s.rating || 5.0),
+        review_count: Number(s.review_count || 0),
+        total_sales: Number(s.total_sales || 0),
+        total_revenue: Number(s.total_revenue || 0),
+        balance: Number(s.balance || 0),
+        bank_details: typeof s.bank_details === 'string' ? JSON.parse(s.bank_details) : (s.bank_details || {}),
+        avatar: s.avatar,
+        logo: s.logo,
+        description: s.description,
+        settings: typeof s.settings === 'string' ? JSON.parse(s.settings) : (s.settings || {}),
+        created_at: s.created_at
+      }));
+    }
+
+    if (ordersRes?.rows?.length > 0) {
+      DB.orders = ordersRes.rows.map(o => ({
+        ...o,
+        id: o.id,
+        order_id: o.id,
+        order_number: o.order_number,
+        userId: o.user_id,
+        customer_id: o.user_id,
+        customer_name: o.customer_name,
+        customer_email: o.customer_email,
+        customer_phone: o.customer_phone,
+        items: Array.isArray(o.items) ? o.items : (typeof o.items === 'string' ? JSON.parse(o.items) : []),
+        total_amount: Number(o.total_amount || 0),
+        subtotal: Number(o.subtotal || o.total_amount || 0),
+        tax: Number(o.tax || 0),
+        discount_amount: Number(o.discount_amount || 0),
+        shipping_fee: Number(o.shipping_fee || 0),
+        payment_method: o.payment_method,
+        payment_status: o.payment_status,
+        status: o.status || o.order_status || 'Confirmed',
+        order_status: o.order_status || o.status || 'Confirmed',
+        shipping_address: typeof o.shipping_address === 'string' ? JSON.parse(o.shipping_address) : (o.shipping_address || {}),
+        delivery_address: typeof o.delivery_address === 'string' ? JSON.parse(o.delivery_address) : (o.delivery_address || {}),
+        tracking: Array.isArray(o.tracking) ? o.tracking : (typeof o.tracking === 'string' ? JSON.parse(o.tracking) : []),
+        courier_partner: o.courier_partner,
+        tracking_number: o.tracking_number,
+        seller_id: o.seller_id,
+        seller_name: o.seller_name,
+        created_at: o.created_at,
+        estimated_delivery: o.estimated_delivery
+      }));
+    }
+
+    if (usersRes?.rows?.length > 0) {
+      DB.users = usersRes.rows.map(u => ({ ...u }));
+    }
+
+    if (reviewsRes?.rows?.length > 0) {
+      const groupedReviews = {};
+      reviewsRes.rows.forEach(r => {
+        if (!groupedReviews[r.product_id]) groupedReviews[r.product_id] = [];
+        groupedReviews[r.product_id].push({
+          id: r.id,
+          review_id: r.review_id || r.id,
+          product_id: r.product_id,
+          user_name: r.user_name,
+          rating: Number(r.rating || 5),
+          comment: r.comment,
+          verified: Boolean(r.verified),
+          status: r.status,
+          created_at: r.created_at
+        });
+      });
+      DB.reviews = groupedReviews;
+    }
+
+    if (addrRes?.rows?.length > 0) {
+      DB.addresses = addrRes.rows.map(a => ({ ...a }));
+    }
+
+    if (couponsRes?.rows?.length > 0) {
+      DB.coupons = couponsRes.rows.map(c => ({
+        ...c,
+        discount_value: Number(c.discount_value),
+        min_order_amount: Number(c.min_order_amount)
+      }));
+    }
+
+    if (cartsRes?.rows?.length > 0) {
+      cartsRes.rows.forEach(c => {
+        DB.carts[c.user_id] = Array.isArray(c.items) ? c.items : (typeof c.items === 'string' ? JSON.parse(c.items) : []);
+      });
+    }
+
+    if (wishlistsRes?.rows?.length > 0) {
+      wishlistsRes.rows.forEach(w => {
+        DB.wishlists[w.user_id] = Array.isArray(w.items) ? w.items : (typeof w.items === 'string' ? JSON.parse(w.items) : []);
+      });
+    }
+
+    console.log(`[DB] Successfully hydrated from Supabase PostgreSQL: ${DB.products.length} products, ${DB.sellers.length} sellers, ${DB.orders.length} orders, ${DB.users.length} users.`);
+  } catch (err) {
+    console.warn('[DB] PostgreSQL hydration warning:', err.message);
+  }
+}
+
 // ==========================================
 // SEED GENERATORS
 // ==========================================

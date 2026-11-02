@@ -4,6 +4,7 @@ import { isPostgresConnected, pool } from '../database/pg.js';
 
 export async function handleOrdersRoutes(req, res, pathname, method, query, body, sendJSON) {
   const db = getDB();
+  const pgConnected = isPostgresConnected();
 
   // 1. Advance order tracking step on demand (Live Simulator API)
   if (pathname.includes('/orders/') && pathname.endsWith('/advance-step') && method === 'POST') {
@@ -136,6 +137,22 @@ export async function handleOrdersRoutes(req, res, pathname, method, query, body
         time: new Date().toISOString(),
         note: body.note || `Courier update: Status changed to ${newStatus}`
       });
+    }
+
+    if (pgConnected) {
+      try {
+        await pool.query(`
+          UPDATE orders
+          SET status = COALESCE($1, status),
+              order_status = COALESCE($1, order_status),
+              courier_partner = COALESCE($2, courier_partner),
+              tracking_number = COALESCE($3, tracking_number),
+              tracking = $4
+          WHERE id = $5 OR order_number = $5;
+        `, [newStatus, order.courier_partner, order.tracking_number, JSON.stringify(order.tracking), order.id]);
+      } catch (err) {
+        console.warn('[Orders] Postgres status update error:', err.message);
+      }
     }
 
     saveCollection('orders');

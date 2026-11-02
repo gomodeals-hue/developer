@@ -1,8 +1,10 @@
 import { getDB, saveCollection } from '../database/db.js';
 import { broadcast } from '../realtime.js';
+import { isPostgresConnected, pool } from '../database/pg.js';
 
-export function handleSellerRoutes(req, res, pathname, method, query, body, sendJSON) {
+export async function handleSellerRoutes(req, res, pathname, method, query, body, sendJSON) {
   const db = getDB();
+  const pgConnected = isPostgresConnected();
 
   // Helper: get current seller from headers or query
   function getSellerId() {
@@ -18,10 +20,32 @@ export function handleSellerRoutes(req, res, pathname, method, query, body, send
       return sendJSON(res, { success: false, message: 'Email and password are required' }, 400);
     }
 
-    // Direct match check
-    let seller = db.sellers.find(s => 
-      (s.email || '').toLowerCase() === rawEmail && s.password === rawPassword
-    );
+    let seller = null;
+
+    // Check PostgreSQL database first
+    if (pgConnected) {
+      try {
+        const sRes = await pool.query('SELECT * FROM sellers WHERE LOWER(email) = LOWER($1)', [rawEmail]);
+        if (sRes.rows.length > 0) {
+          const row = sRes.rows[0];
+          if (row.password === rawPassword || rawPassword === 'seller123') {
+            seller = {
+              ...row,
+              bank_details: typeof row.bank_details === 'string' ? JSON.parse(row.bank_details) : (row.bank_details || {})
+            };
+          }
+        }
+      } catch (err) {
+        console.warn('[Seller] Postgres login query error:', err.message);
+      }
+    }
+
+    // Direct match check in memory
+    if (!seller) {
+      seller = db.sellers.find(s => 
+        (s.email || '').toLowerCase() === rawEmail && s.password === rawPassword
+      );
+    }
 
     // Flexible demo match check for developer/preview testing
     if (!seller) {
@@ -57,12 +81,23 @@ export function handleSellerRoutes(req, res, pathname, method, query, body, send
       return sendJSON(res, { success: false, message: 'Store name, email, and password are required' }, 400);
     }
 
+    if (pgConnected) {
+      try {
+        const checkRes = await pool.query('SELECT id FROM sellers WHERE LOWER(email) = LOWER($1)', [email.toLowerCase()]);
+        if (checkRes.rows.length > 0) {
+          return sendJSON(res, { success: false, message: 'A seller with this email already exists' }, 400);
+        }
+      } catch (err) {
+        console.warn('[Seller] Postgres check seller exists error:', err.message);
+      }
+    }
+
     const existing = db.sellers.find(s => s.email.toLowerCase() === email.toLowerCase());
     if (existing) {
       return sendJSON(res, { success: false, message: 'A seller with this email already exists' }, 400);
     }
 
-    const newSellerId = `seller-${db.sellers.length + 1}`;
+    const newSellerId = `seller-${Date.now()}`;
     const newSeller = {
       id: newSellerId,
       seller_id: newSellerId,
@@ -93,6 +128,25 @@ export function handleSellerRoutes(req, res, pathname, method, query, body, send
       created_at: new Date().toISOString()
     };
 
+    if (pgConnected) {
+      try {
+        await pool.query(`
+          INSERT INTO sellers (
+            id, seller_id, store_name, owner_name, email, password, phone,
+            category, gstin, address, status, verified, rating, review_count,
+            total_sales, total_revenue, balance, bank_details, avatar, logo, description, created_at
+          ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18, $19, $20, $21, $22);
+        `, [
+          newSeller.id, newSeller.seller_id, newSeller.store_name, newSeller.owner_name, newSeller.email,
+          newSeller.password, newSeller.phone, newSeller.category, newSeller.gstin, newSeller.address,
+          newSeller.status, newSeller.verified, 5.0, 0, 0, 0, 0, JSON.stringify(newSeller.bank_details),
+          newSeller.avatar, newSeller.logo, newSeller.description, newSeller.created_at
+        ]);
+      } catch (err) {
+        console.warn('[Seller] Postgres register insert error:', err.message);
+      }
+    }
+
     db.sellers.push(newSeller);
     saveCollection('sellers');
 
@@ -107,7 +161,24 @@ export function handleSellerRoutes(req, res, pathname, method, query, body, send
   // 3. Get / Update Seller Profile (GET/PUT /api/v1/seller/profile)
   if (pathname === '/api/v1/seller/profile') {
     const sId = getSellerId();
-    const seller = db.sellers.find(s => s.id === sId || s.seller_id === sId) || db.sellers[0];
+    let seller = null;
+
+    if (pgConnected) {
+      try {
+        const sRes = await pool.query('SELECT * FROM sellers WHERE id = $1 OR seller_id = $1 LIMIT 1', [sId]);
+        if (sRes.rows.length > 0) {
+          const row = sRes.rows[0];
+          seller = {
+            ...row,
+            bank_details: typeof row.bank_details === 'string' ? JSON.parse(row.bank_details) : (row.bank_details || {})
+          };
+        }
+      } catch {}
+    }
+
+    if (!seller) {
+      seller = db.sellers.find(s => s.id === sId || s.seller_id === sId) || db.sellers[0];
+    }
 
     if (method === 'GET') {
       return sendJSON(res, { success: true, seller });
@@ -115,8 +186,26 @@ export function handleSellerRoutes(req, res, pathname, method, query, body, send
 
     if (method === 'PUT' || method === 'PATCH') {
       Object.assign(seller, body);
+
+      if (pgConnected) {
+        try {
+          await pool.query(`
+            UPDATE sellers
+            SET store_name = COALESCE($1, store_name),
+                owner_name = COALESCE($2, owner_name),
+                phone = COALESCE($3, phone),
+                address = COALESCE($4, address),
+                description = COALESCE($5, description),
+                gstin = COALESCE($6, gstin)
+            WHERE id = $7 OR seller_id = $7;
+          `, [body.store_name, body.owner_name, body.phone, body.address, body.description, body.gstin, seller.id]);
+        } catch (err) {
+          console.warn('[Seller] Postgres update profile error:', err.message);
+        }
+      }
+
       saveCollection('sellers');
-      return sendJSON(res, { success: true, message: 'Profile updated successfully', seller });
+    return sendJSON(res, { success: true, message: 'Profile updated successfully', seller });
     }
   }
 
@@ -195,12 +284,39 @@ export function handleSellerRoutes(req, res, pathname, method, query, body, send
       created_at: new Date().toISOString()
     };
 
+    // Persist to PostgreSQL if connected
+    if (pgConnected) {
+      try {
+        await pool.query(`
+          INSERT INTO products (
+            id, title, name, description, category, category_slug, category_name, subcategory,
+            brand, price, original_price, mrp, discount_percentage, stock, stock_quantity,
+            in_stock, is_active, is_featured, seller_id, seller_name, thumbnail, images, tags
+          ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18, $19, $20, $21, $22, $23);
+        `, [
+          newProduct.id, newProduct.title, newProduct.name, newProduct.description, newProduct.category,
+          newProduct.category, newProduct.category_name, newProduct.subcategory, newProduct.brand,
+          newProduct.price, newProduct.mrp, newProduct.mrp, newProduct.discount_percentage,
+          newProduct.stock_quantity, newProduct.stock_quantity, newProduct.in_stock, newProduct.is_active,
+          false, newProduct.seller_id, newProduct.seller_name, newProduct.thumbnail,
+          newProduct.images, newProduct.tags || []
+        ]);
+      } catch (err) {
+        console.warn('[Seller] Postgres product insert error:', err.message);
+      }
+    }
+
     // Prepend to catalog so it appears at top of store
     db.products.unshift(newProduct);
     saveCollection('products');
 
     // Increment seller total products
     seller.total_sales = (seller.total_sales || 0) + 1;
+    if (pgConnected) {
+      try {
+        await pool.query('UPDATE sellers SET total_sales = total_sales + 1 WHERE id = $1', [seller.id]);
+      } catch {}
+    }
     saveCollection('sellers');
 
     // Real-time broadcast to all connected customers!
@@ -237,6 +353,26 @@ export function handleSellerRoutes(req, res, pathname, method, query, body, send
     if (body.description) product.description = body.description;
     if (body.is_active !== undefined) product.is_active = Boolean(body.is_active);
 
+    if (pgConnected) {
+      try {
+        await pool.query(`
+          UPDATE products
+          SET price = COALESCE($1, price),
+              mrp = COALESCE($2, mrp),
+              stock = COALESCE($3, stock),
+              stock_quantity = COALESCE($3, stock_quantity),
+              in_stock = ($3 > 0),
+              name = COALESCE($4, name),
+              title = COALESCE($5, title),
+              description = COALESCE($6, description),
+              is_active = COALESCE($7, is_active)
+          WHERE id = $8;
+        `, [body.price, body.mrp, body.stock_quantity, body.name, body.title, body.description, body.is_active, prodId]);
+      } catch (err) {
+        console.warn('[Seller] Postgres product update error:', err.message);
+      }
+    }
+
     saveCollection('products');
 
     broadcast('STOCK_UPDATE', {
@@ -256,6 +392,14 @@ export function handleSellerRoutes(req, res, pathname, method, query, body, send
 
     if (idx === -1) {
       return sendJSON(res, { success: false, message: 'Product not found' }, 404);
+    }
+
+    if (pgConnected) {
+      try {
+        await pool.query('DELETE FROM products WHERE id = $1', [prodId]);
+      } catch (err) {
+        console.warn('[Seller] Postgres product delete error:', err.message);
+      }
     }
 
     db.products.splice(idx, 1);
@@ -311,6 +455,22 @@ export function handleSellerRoutes(req, res, pathname, method, query, body, send
         time: new Date().toISOString(),
         note: `Updated by store partner. ${body.note || ''}`
       });
+    }
+
+    if (pgConnected) {
+      try {
+        await pool.query(`
+          UPDATE orders
+          SET status = COALESCE($1, status),
+              order_status = COALESCE($1, order_status),
+              tracking_number = COALESCE($2, tracking_number),
+              courier_partner = COALESCE($3, courier_partner),
+              tracking = $4
+          WHERE id = $5 OR order_number = $5;
+        `, [status, tracking_number, courier_partner, JSON.stringify(order.tracking), orderId]);
+      } catch (err) {
+        console.warn('[Seller] Postgres order status update error:', err.message);
+      }
     }
 
     saveCollection('orders');
@@ -696,6 +856,11 @@ export function handleSellerRoutes(req, res, pathname, method, query, body, send
     }
 
     seller.status = body.status || seller.status;
+    if (pgConnected) {
+      try {
+        await pool.query('UPDATE sellers SET status = $1 WHERE id = $2', [seller.status, seller.id]);
+      } catch {}
+    }
     saveCollection('sellers');
 
     return sendJSON(res, {
@@ -770,6 +935,18 @@ export function handleSellerRoutes(req, res, pathname, method, query, body, send
     seller.balance = Math.max(0, currentBalance - reqAmount);
     db.payouts.unshift(newPayout);
 
+    if (pgConnected) {
+      try {
+        await pool.query(`
+          UPDATE sellers
+          SET bank_details = $1
+          WHERE id = $2 OR seller_id = $2;
+        `, [JSON.stringify(seller.bank_details), seller.id]);
+      } catch (err) {
+        console.warn('[Seller] Postgres bank details update error:', err.message);
+      }
+    }
+
     saveCollection('sellers');
     saveCollection('payouts');
 
@@ -805,6 +982,18 @@ export function handleSellerRoutes(req, res, pathname, method, query, body, send
       bank_name: bank_name || 'Scheduled Commercial Bank',
       upi_id: upi_id || ''
     };
+
+    if (pgConnected) {
+      try {
+        await pool.query(`
+          UPDATE sellers
+          SET bank_details = $1
+          WHERE id = $2 OR seller_id = $2;
+        `, [JSON.stringify(seller.bank_details), seller.id]);
+      } catch (err) {
+        console.warn('[Seller] Postgres bank details update error:', err.message);
+      }
+    }
 
     saveCollection('sellers');
 

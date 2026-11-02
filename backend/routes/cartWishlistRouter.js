@@ -1,4 +1,5 @@
 import { getDB, saveCollection } from '../database/db.js';
+import { isPostgresConnected, pool } from '../database/pg.js';
 
 /**
  * Helper to enrich cart items with catalog data (live stock, prices)
@@ -88,7 +89,36 @@ function extractUserId(req, pathname, query, body, defaultUser = 'usr-1') {
   return defaultUser;
 }
 
-export function handleCartWishlistRoutes(req, res, pathname, method, query, body, sendJSON) {
+
+async function persistCartToPostgres(userId, items) {
+  if (isPostgresConnected()) {
+    try {
+      await pool.query(`
+        INSERT INTO carts (user_id, items, updated_at)
+        VALUES ($1, $2, NOW())
+        ON CONFLICT (user_id) DO UPDATE SET items = EXCLUDED.items, updated_at = NOW();
+      `, [userId, JSON.stringify(items || [])]);
+    } catch (err) {
+      console.warn('[Cart] Postgres cart persist error:', err.message);
+    }
+  }
+}
+
+async function persistWishlistToPostgres(userId, items) {
+  if (isPostgresConnected()) {
+    try {
+      await pool.query(`
+        INSERT INTO wishlists (user_id, items, updated_at)
+        VALUES ($1, $2, NOW())
+        ON CONFLICT (user_id) DO UPDATE SET items = EXCLUDED.items, updated_at = NOW();
+      `, [userId, JSON.stringify(items || [])]);
+    } catch (err) {
+      console.warn('[Wishlist] Postgres wishlist persist error:', err.message);
+    }
+  }
+}
+
+export async function handleCartWishlistRoutes(req, res, pathname, method, query, body, sendJSON) {
   const db = getDB();
 
   // 1. Get Cart (GET /api/v1/cart/:userId or GET /api/v1/cart)
@@ -169,7 +199,7 @@ export function handleCartWishlistRoutes(req, res, pathname, method, query, body
       });
     }
 
-    saveCollection('carts');
+    saveCollection('carts'); if (typeof userId !== 'undefined') { persistCartToPostgres(userId, db.carts[userId]); }
     const { cart, summary } = enrichCartAndCalculateSummary(db.carts[userId], db);
     return sendJSON(res, {
       success: true,
@@ -220,7 +250,7 @@ export function handleCartWishlistRoutes(req, res, pathname, method, query, body
       }
     }
 
-    saveCollection('carts');
+    saveCollection('carts'); if (typeof userId !== 'undefined') { persistCartToPostgres(userId, db.carts[userId]); }
     const rawCart = targetUid ? (db.carts[targetUid] || []) : [];
     const { cart, summary } = enrichCartAndCalculateSummary(rawCart, db);
     return sendJSON(res, { 
@@ -265,7 +295,7 @@ export function handleCartWishlistRoutes(req, res, pathname, method, query, body
       }
     }
 
-    saveCollection('carts');
+    saveCollection('carts'); if (typeof userId !== 'undefined') { persistCartToPostgres(userId, db.carts[userId]); }
     const rawCart = targetUid ? (db.carts[targetUid] || []) : [];
     const { cart, summary } = enrichCartAndCalculateSummary(rawCart, db);
     return sendJSON(res, { 
@@ -286,7 +316,7 @@ export function handleCartWishlistRoutes(req, res, pathname, method, query, body
       userId = extractUserId(req, pathname, query, body);
     }
     db.carts[userId] = [];
-    saveCollection('carts');
+    saveCollection('carts'); if (typeof userId !== 'undefined') { persistCartToPostgres(userId, db.carts[userId]); }
     return sendJSON(res, { 
       success: true, 
       message: 'Cart cleared', 
@@ -342,7 +372,7 @@ export function handleCartWishlistRoutes(req, res, pathname, method, query, body
       }
     }
 
-    saveCollection('carts');
+    saveCollection('carts'); if (typeof userId !== 'undefined') { persistCartToPostgres(userId, db.carts[userId]); }
     const { cart, summary } = enrichCartAndCalculateSummary(db.carts[userId], db);
     return sendJSON(res, {
       success: true,
@@ -389,8 +419,8 @@ export function handleCartWishlistRoutes(req, res, pathname, method, query, body
       });
     }
 
-    saveCollection('carts');
-    saveCollection('wishlists');
+    saveCollection('carts'); if (typeof userId !== 'undefined') { persistCartToPostgres(userId, db.carts[userId]); }
+    saveCollection('wishlists'); if (typeof userId !== 'undefined') { persistWishlistToPostgres(userId, db.wishlists[userId]); }
     const { cart, summary } = enrichCartAndCalculateSummary(db.carts[userId], db);
     return sendJSON(res, {
       success: true,
@@ -434,8 +464,8 @@ export function handleCartWishlistRoutes(req, res, pathname, method, query, body
       });
     }
 
-    saveCollection('carts');
-    saveCollection('wishlists');
+    saveCollection('carts'); if (typeof userId !== 'undefined') { persistCartToPostgres(userId, db.carts[userId]); }
+    saveCollection('wishlists'); if (typeof userId !== 'undefined') { persistWishlistToPostgres(userId, db.wishlists[userId]); }
     const { cart, summary } = enrichCartAndCalculateSummary(db.carts[userId], db);
     return sendJSON(res, {
       success: true,
@@ -508,7 +538,7 @@ export function handleCartWishlistRoutes(req, res, pathname, method, query, body
         thumbnail: body.thumbnail || prod?.thumbnail || '',
         added_at: new Date().toISOString()
       });
-      saveCollection('wishlists');
+      saveCollection('wishlists'); if (typeof userId !== 'undefined') { persistWishlistToPostgres(userId, db.wishlists[userId]); }
     }
 
     return sendJSON(res, { success: true, message: 'Added to wishlist', data: db.wishlists[userId] });
@@ -545,7 +575,7 @@ export function handleCartWishlistRoutes(req, res, pathname, method, query, body
       }
     }
 
-    saveCollection('wishlists');
+    saveCollection('wishlists'); if (typeof userId !== 'undefined') { persistWishlistToPostgres(userId, db.wishlists[userId]); }
     return sendJSON(res, { 
       success: true, 
       message: 'Item removed from wishlist', 
@@ -560,7 +590,7 @@ export function handleCartWishlistRoutes(req, res, pathname, method, query, body
       userId = extractUserId(req, pathname, query, body);
     }
     db.wishlists[userId] = [];
-    saveCollection('wishlists');
+    saveCollection('wishlists'); if (typeof userId !== 'undefined') { persistWishlistToPostgres(userId, db.wishlists[userId]); }
     return sendJSON(res, { success: true, message: 'Wishlist cleared', data: [] });
   }
 

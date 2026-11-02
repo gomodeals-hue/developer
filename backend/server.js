@@ -1,6 +1,6 @@
 import http from 'node:http';
 import url from 'node:url';
-import { initDatabase, getDB } from './database/db.js';
+import { initDatabase, getDB, hydrateFromPostgres } from './database/db.js';
 import { handleSSEConnection, getActiveClientsCount } from './realtime.js';
 
 import { handleProductsRoutes } from './routes/productsRouter.js';
@@ -18,7 +18,7 @@ import { handleChatbotRoutes } from './routes/chatbotRouter.js';
 import { handleFleaMarketRoutes } from './routes/fleaMarketRouter.js';
 import { handleTicketBookingRoutes } from './routes/ticketBookingRouter.js';
 import { handleBusRoutes } from './routes/busRouter.js';
-import { testPostgresConnection, isPostgresConnected } from './database/pg.js';
+import { testPostgresConnection, isPostgresConnected, pool } from './database/pg.js';
 
 const PORT = process.env.PORT || 5000;
 
@@ -65,7 +65,13 @@ export function getRequestBody(req) {
 let initPromise = null;
 export async function ensureDbReady() {
   if (!initPromise) {
-    initPromise = Promise.all([initDatabase(), testPostgresConnection()]);
+    initPromise = (async () => {
+      await initDatabase();
+      const connected = await testPostgresConnection();
+      if (connected) {
+        await hydrateFromPostgres(pool);
+      }
+    })();
   }
   return initPromise;
 }
@@ -131,15 +137,15 @@ export async function app(req, res) {
     if (await handleFleaMarketRoutes(req, res, pathname, method, query, body, sendJSON)) return;
     if (await handleTicketBookingRoutes(req, res, pathname, method, query, body, sendJSON)) return;
     if (await handleBusRoutes(req, res, pathname, method, query, body, sendJSON)) return;
-    if (handleProductsRoutes(req, res, pathname, method, query, body, sendJSON)) return;
+    if (await handleProductsRoutes(req, res, pathname, method, query, body, sendJSON)) return;
     if (handleCategoriesRoutes(req, res, pathname, method, query, body, sendJSON)) return;
     if (await handleOrdersRoutes(req, res, pathname, method, query, body, sendJSON)) return;
-    if (handleCartWishlistRoutes(req, res, pathname, method, query, body, sendJSON)) return;
+    if (await handleCartWishlistRoutes(req, res, pathname, method, query, body, sendJSON)) return;
     if (handleAdminRoutes(req, res, pathname, method, query, body, sendJSON)) return;
     if (await handleAuthRoutes(req, res, pathname, method, query, body, sendJSON)) return;
     if (handleCouponsDeliveryRoutes(req, res, pathname, method, query, body, sendJSON)) return;
     if (handleBannersRankingsRoutes(req, res, pathname, method, query, body, sendJSON)) return;
-    if (handleSellerRoutes(req, res, pathname, method, query, body, sendJSON)) return;
+    if (await handleSellerRoutes(req, res, pathname, method, query, body, sendJSON)) return;
     if (handleVocRoutes(req, res, pathname, method, query, body, sendJSON)) return;
     if (handleTicketRoutes(req, res, pathname, method, query, body, sendJSON)) return;
     if (handleChatbotRoutes(req, res, pathname, method, query, body, sendJSON)) return;

@@ -1,5 +1,6 @@
 import { getDB, saveCollection } from '../database/db.js';
 import { broadcast } from '../realtime.js';
+import { isPostgresConnected, pool } from '../database/pg.js';
 
 function calculateSearchScore(p, q, tokens) {
   let score = 0;
@@ -39,7 +40,8 @@ function calculateSearchScore(p, q, tokens) {
   return score;
 }
 
-export function handleProductsRoutes(req, res, pathname, method, query, body, sendJSON) {
+export async function handleProductsRoutes(req, res, pathname, method, query, body, sendJSON) {
+  const pgConnected = isPostgresConnected();
   const db = getDB();
 
   // 1. Suggestions endpoint
@@ -167,8 +169,19 @@ export function handleProductsRoutes(req, res, pathname, method, query, body, se
         created_at: new Date().toISOString()
       };
 
-      db.reviews[prodId].unshift(newRev);
-      saveCollection('reviews');
+      if (pgConnected) {
+      try {
+        await pool.query(`
+          INSERT INTO reviews (id, review_id, product_id, user_name, rating, comment, verified, status, created_at)
+          VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9);
+        `, [newRev.id, newRev.review_id, prodId, newRev.user_name, newRev.rating, newRev.comment, true, 'approved', newRev.created_at]);
+      } catch (err) {
+        console.warn('[Products] Postgres review insert error:', err.message);
+      }
+    }
+
+    db.reviews[prodId].unshift(newRev);
+    saveCollection('reviews');
 
       // Update product rating and reviews_count
       const prod = db.products.find(p => p.id === prodId || p.product_id === prodId);
@@ -243,6 +256,26 @@ export function handleProductsRoutes(req, res, pathname, method, query, body, se
       product_id: db.products[idx].product_id,
       updated_at: new Date().toISOString()
     };
+    if (pgConnected) {
+      try {
+        await pool.query(`
+          UPDATE products
+          SET price = COALESCE($1, price),
+              mrp = COALESCE($2, mrp),
+              stock = COALESCE($3, stock),
+              stock_quantity = COALESCE($3, stock_quantity),
+              in_stock = ($3 > 0),
+              name = COALESCE($4, name),
+              title = COALESCE($5, title),
+              description = COALESCE($6, description),
+              is_active = COALESCE($7, is_active)
+          WHERE id = $8;
+        `, [body.price, body.mrp, body.stock_quantity, body.name, body.title, body.description, body.is_active, id]);
+      } catch (err) {
+        console.warn('[Products] Postgres update error:', err.message);
+      }
+    }
+
     saveCollection('products');
 
     // Broadcast stock/price update if changed
@@ -263,6 +296,14 @@ export function handleProductsRoutes(req, res, pathname, method, query, body, se
     db.products = db.products.filter(p => p.id !== id && p.product_id !== id);
     if (db.products.length === initialLen) {
       return sendJSON(res, { success: false, message: 'Product not found' }, 404);
+    }
+
+    if (pgConnected) {
+      try {
+        await pool.query('DELETE FROM products WHERE id = $1', [id]);
+      } catch (err) {
+        console.warn('[Products] Postgres delete error:', err.message);
+      }
     }
     saveCollection('products');
     return sendJSON(res, { success: true, message: 'Product deleted successfully' });
@@ -293,6 +334,28 @@ export function handleProductsRoutes(req, res, pathname, method, query, body, se
       images: Array.isArray(body.images) ? body.images : [body.thumbnail || 'https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=800&q=80'],
       created_at: new Date().toISOString()
     };
+
+    if (pgConnected) {
+      try {
+        await pool.query(`
+          INSERT INTO products (
+            id, title, name, description, category, category_slug, category_name, subcategory,
+            brand, price, original_price, mrp, discount_percentage, stock, stock_quantity,
+            in_stock, is_active, is_featured, seller_id, seller_name, thumbnail, images, tags
+          ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18, $19, $20, $21, $22, $23);
+        `, [
+          newProd.id, newProd.title, newProd.name, newProd.description, newProd.category || 'clothing',
+          newProd.category_slug || newProd.category || 'clothing', newProd.category_name || newProd.category || 'Store Collection',
+          newProd.subcategory || 'all', newProd.brand || 'GoMo Verified',
+          newProd.price, newProd.mrp, newProd.mrp, newProd.discount_percentage,
+          newProd.stock_quantity, newProd.stock_quantity, newProd.in_stock, newProd.is_active,
+          Boolean(newProd.is_featured), newProd.seller_id || 'seller-1', newProd.seller_name || 'GoMo Verified Partner',
+          newProd.thumbnail, newProd.images, newProd.tags || []
+        ]);
+      } catch (err) {
+        console.warn('[Products] Postgres product insert error:', err.message);
+      }
+    }
 
     db.products.unshift(newProd);
     saveCollection('products');
@@ -458,11 +521,11 @@ export function handleProductsRoutes(req, res, pathname, method, query, body, se
 
     const total = filtered.length;
     const isPagingRequested = query.page !== undefined || query.limit !== undefined;
-    const page = Math.min(4, Math.max(1, Number(query.page) || 1));
-    const fixedPageSize = Math.max(1, Math.ceil(total / 4));
     const limit = query.all === 'true' || query.limit === 'all' || !isPagingRequested
       ? Math.max(1000, total)
-      : (query.limit ? Number(query.limit) : fixedPageSize);
+      : Math.max(1, Number(query.limit) || 20);
+    const totalPages = Math.max(1, Math.ceil(total / limit));
+    const page = Math.min(totalPages, Math.max(1, Number(query.page) || 1));
     const startIndex = (page - 1) * limit;
     const paginated = filtered.slice(startIndex, startIndex + limit);
 
@@ -472,7 +535,7 @@ export function handleProductsRoutes(req, res, pathname, method, query, body, se
       count: paginated.length,
       page,
       limit,
-      totalPages: 4,
+      totalPages,
       data: paginated,
       products: paginated
     });
