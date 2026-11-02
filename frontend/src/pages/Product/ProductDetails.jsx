@@ -764,7 +764,7 @@ const ProductDetails = () => {
 
             {/* Subtitle */}
             <div className="product-subtitle" id="productSubtitle">
-              {product.subtitle || product.description?.slice(0, 140) || 'Premium curated catalog selection with authentic single-vendor warranty.'}
+              {product.subtitle || product.description?.slice(0, 140) || 'Premium curated catalog selection with authentic manufacturer & seller warranty.'}
             </div>
 
             {/* Ratings Row */}
@@ -911,7 +911,7 @@ const ProductDetails = () => {
                     <ShieldCheck size={16} />
                   </div>
                   <div>
-                    <strong>Assured Single-Vendor Authenticity</strong>
+                    <strong>100% Genuine Authenticity Guaranteed</strong>
                     <span>100% verified genuine merchandise with direct brand quality guarantee.</span>
                   </div>
                 </div>
@@ -1055,7 +1055,7 @@ const ProductDetails = () => {
               )}
             </div>
             <div className="asset-note">
-              <strong>Authentic Catalog Item:</strong> Single-vendor verified product guaranteed by {brandName}.
+              <strong>Authentic Catalog Item:</strong> Verified merchant product backed by direct brand warranty.
               <span className="code-label">{productId}</span>
             </div>
           </section>

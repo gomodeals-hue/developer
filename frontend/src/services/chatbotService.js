@@ -195,7 +195,7 @@ export const generateSmartBotResponse = (message = '', history = [], user = null
     ) {
         return {
             success: true,
-            reply: `**GoMo Deals Returns & Refunds Policy**\n\n• **15-Day Return Window**: You can request a return or replacement on delivered items within 15 days.\n• **Free Doorstep Pickup**: Our verified courier partners collect the item directly from your address at ₹0 extra fee.\n• **Instant Refunds**: Once picked up and verified, refunds are credited to your original payment method or GoMo Wallet in 24-48 hours.\n• **100% Genuine Guarantee**: All items undergo single-vendor authentic quality checks with full brand warranties.\n\nWould you like to initiate a return on an existing order or check product warranties?`,
+            reply: `**GoMo Deals Returns & Refunds Policy**\n\n• **15-Day Return Window**: You can request a return or replacement on delivered items within 15 days.\n• **Free Doorstep Pickup**: Our verified courier partners collect the item directly from your address at ₹0 extra fee.\n• **Instant Refunds**: Once picked up and verified, refunds are credited to your original payment method or GoMo Wallet in 24-48 hours.\n• **100% Genuine Guarantee**: All items undergo rigorous verified quality inspections with full brand warranties.\n\nWould you like to initiate a return on an existing order or check product warranties?`,
             suggestedReplies: ["Track my order", "Featured deals", "Main Menu"]
         };
     }

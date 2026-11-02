@@ -272,7 +272,7 @@ export default function CategoriesManagementPage() {
                 {/* Body Details */}
                 <div className="p-5 flex-1 flex flex-col justify-between space-y-4">
                   <p className="text-xs text-stone-600 line-clamp-2">
-                    {cat.description || 'Curated single-vendor selection certified for daily living and gifting.'}
+                    {cat.description || 'Curated artisan and brand selection certified for daily living and gifting.'}
                   </p>
 
                   {/* Subcategories list */}

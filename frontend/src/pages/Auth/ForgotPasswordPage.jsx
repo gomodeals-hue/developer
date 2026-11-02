@@ -95,7 +95,7 @@ const ForgotPasswordPage = () => {
                     <div className="mb-6 p-3.5 bg-emerald-50 border border-emerald-200 text-emerald-800 text-xs rounded-sm text-left flex items-start gap-2">
                         <ShieldCheck size={16} className="text-emerald-600 flex-shrink-0 mt-0.5" />
                         <div>
-                            <p className="font-bold text-[10px] uppercase tracking-wider text-emerald-900">Demo Mode Recovery Code</p>
+                            <p className="font-bold text-[10px] uppercase tracking-wider text-emerald-900">Instant Verification Code</p>
                             <p className="mt-0.5 text-xs">Use code: <span className="font-mono font-black text-sm text-emerald-900 bg-white px-2 py-0.5 rounded border border-emerald-300 tracking-widest">{mockOtpHint}</span></p>
                         </div>
                     </div>

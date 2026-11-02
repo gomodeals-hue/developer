@@ -203,7 +203,7 @@ export default function ReviewsPage() {
                                             </div>
                                             <div className="min-w-0">
                                                 <p className="text-[11px] font-black text-orange-950 truncate">{review.product_name || `Product #${review.product_id}`}</p>
-                                                <p className="text-[9px] font-bold text-orange-400 uppercase tracking-widest">Single-Vendor Item</p>
+                                                <p className="text-[9px] font-bold text-orange-400 uppercase tracking-widest">Verified Catalog Item</p>
                                             </div>
                                         </div>
                                         <div className="flex items-center gap-3">

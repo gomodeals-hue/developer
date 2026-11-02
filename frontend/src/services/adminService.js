@@ -79,7 +79,7 @@ const DEFAULT_BANNERS = [
 const DEFAULT_HOMEPAGE_CONFIG = {
   announcementText: 'FREE Next-Day Express Delivery on All Orders Over ₹999 | Use Code GOMO50 for Flat 50% Off First Purchase',
   heroHeadline: 'Curated Excellence, Guaranteed Authenticity',
-  heroSubheadline: 'Explore thousands of verified single-vendor boutique deals with direct brand warranty and seamless doorstep returns.',
+  heroSubheadline: 'Explore thousands of verified artisan deals with direct brand warranty and seamless doorstep returns.',
   featuredProductIds: ['el_1', 'el_2', 'fas_1', 'hl_1'],
   dealOfTheDay: {
     productId: 'el_1',

@@ -2468,7 +2468,7 @@ const CategoryPage = () => {
           <div className="border-t border-stone-100 pt-3 space-y-3">
             <div>
               <span className="text-xs font-black uppercase tracking-wider text-stone-900 block mb-1.5">
-                Demographic
+                Shop By
               </span>
               <div className="grid grid-cols-3 gap-1 p-0.5 bg-stone-100 rounded-xl">
                 {[

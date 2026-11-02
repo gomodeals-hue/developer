@@ -314,7 +314,7 @@ const ProfilePage = () => {
                         <ArrowLeft size={13} className="group-hover:-translate-x-1 transition-transform" /> Back to Boutique
                     </button>
                     <span className="text-[9px] uppercase tracking-widest text-orange-400 font-bold">
-                        Single-Vendor Customer Portal
+                        GoMo Deals Customer Account
                     </span>
                 </div>
 

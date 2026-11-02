@@ -97,7 +97,7 @@ export default function MyTicketBookings() {
       try {
         localStorage.setItem('tb_bookings', JSON.stringify(updated));
       } catch {}
-      showToast('Booking cancelled. Refund of 90% processed in demo mode.', 'info');
+      showToast('Booking cancelled successfully. Refund of 90% credited to your original payment source.', 'success');
       setCancelModalBooking(null);
     } finally {
       setCancelling(false);

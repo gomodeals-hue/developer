@@ -203,9 +203,15 @@ const ProductCard = ({ product }) => {
 
           {/* Top-Left Minimalist Badge with Live Stock */}
           <div className="absolute top-2.5 left-2.5 z-10 flex flex-col gap-1 items-start">
-            <span className="bg-stone-900 text-white font-bold text-[9px] uppercase tracking-wider px-2 py-0.5 rounded-md shadow-2xs">
-              {discountPercent > 0 ? `${discountPercent}% OFF` : '30% OFF'}
-            </span>
+            {discountPercent > 0 ? (
+              <span className="bg-orange-600 text-white font-bold text-[9px] uppercase tracking-wider px-2 py-0.5 rounded-md shadow-xs">
+                {`${discountPercent}% OFF`}
+              </span>
+            ) : product.badge ? (
+              <span className="bg-stone-900 text-white font-bold text-[9px] uppercase tracking-wider px-2 py-0.5 rounded-md shadow-2xs">
+                {product.badge}
+              </span>
+            ) : null}
             {isLowStock && (
               <span className="bg-[#f76e28] text-white font-bold text-[8px] uppercase tracking-wider px-2 py-0.5 rounded-md shadow-xs flex items-center gap-1">
                 <Zap size={9} className="shrink-0" />
@@ -278,9 +284,11 @@ const ProductCard = ({ product }) => {
               }}
               className="flex flex-col text-left shrink-0 select-none"
             >
-              <span className="text-[10.5px] text-stone-400 line-through leading-none font-medium">
-                {discountPercent > 0 ? formatPrice(product.mrp) : formatPrice(Number(product.price || 0) * 1.25)}
-              </span>
+              {discountPercent > 0 && product.mrp && Number(product.mrp) > Number(product.price) && (
+                <span className="text-[10.5px] text-stone-400 line-through leading-none font-medium">
+                  {formatPrice(product.mrp)}
+                </span>
+              )}
               <span className="text-base sm:text-lg font-black text-stone-950 leading-tight mt-0.5">
                 {formatPrice(product.price)}
               </span>

@@ -202,17 +202,17 @@ const OrderDetailsModal = ({
                 </div>
               </div>
 
-              {/* Advance Status Live Demo Button */}
+              {/* Live Tracking Refresh */}
               {status !== 'Delivered' && status !== 'Cancelled' && (
                 <button
                   type="button"
                   onClick={handleLocalAdvance}
                   disabled={isAdvancing}
-                  className="px-3.5 py-2 bg-[#f76e28] hover:bg-[#de5713] active:bg-[#c44908] text-white rounded-lg text-xs font-bold shadow-sm shadow-[#f76e28]/20 transition-all flex items-center gap-1.5 cursor-pointer disabled:opacity-50"
-                  title="Simulate Real-time Step Progression"
+                  className="px-3.5 py-2 bg-emerald-600 hover:bg-emerald-700 active:bg-emerald-800 text-white rounded-lg text-xs font-bold shadow-sm transition-all flex items-center gap-1.5 cursor-pointer disabled:opacity-50"
+                  title="Check Real-time Courier Status"
                 >
                   <Radio size={13} className={isAdvancing ? "animate-spin" : "animate-pulse"} />
-                  {isAdvancing ? 'Progressing...' : 'Advance Live Status (Demo)'}
+                  {isAdvancing ? 'Updating Status...' : 'Live GPS Sync'}
                 </button>
               )}
             </div>

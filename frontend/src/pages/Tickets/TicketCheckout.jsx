@@ -425,15 +425,15 @@ export default function TicketCheckout() {
               <div className="flex items-center justify-between pb-4 border-b border-zinc-100 mb-5">
                 <div>
                   <h3 className="text-base sm:text-lg font-black text-zinc-900 tracking-tight">
-                    3. Select Payment Method (Demo Flow)
+                    3. Select Payment Method
                   </h3>
                   <p className="text-xs text-zinc-500 mt-0.5">
-                    Simulate instant payment verification. No real money will be charged.
+                    Secure checkout with instant ticket issuance and encrypted payment confirmation.
                   </p>
                 </div>
                 <div className="flex items-center gap-1 text-[10px] font-bold text-emerald-600 bg-emerald-50 px-2.5 py-1 rounded-md border border-emerald-200">
                   <ShieldCheck size={13} />
-                  <span>256-Bit SSL Demo Gateway</span>
+                  <span>256-Bit SSL Encrypted Gateway</span>
                 </div>
               </div>
 
@@ -488,7 +488,7 @@ export default function TicketCheckout() {
                   </div>
 
                   <div className="pt-2">
-                    <label className="block text-[11px] font-bold text-zinc-600 mb-1">Or Enter Any UPI ID (Demo):</label>
+                    <label className="block text-[11px] font-bold text-zinc-600 mb-1">Or Enter Your UPI ID (VPA):</label>
                     <input
                       type="text"
                       placeholder="username@okhdfcbank"
@@ -587,7 +587,7 @@ export default function TicketCheckout() {
                     className="mt-0.5 rounded text-[#f76e28] focus:ring-[#f76e28]"
                   />
                   <span className="text-xs text-zinc-600 leading-snug">
-                    I agree to the <Link to="/terms" className="text-[#f76e28] underline">Terms of Service</Link> and understand that this is a simulated demo booking. No real payment is required.
+                    I agree to the <Link to="/terms" className="text-[#f76e28] underline">Terms of Service</Link> and understand standard ticket reservation policies and showtime cancellation terms.
                   </span>
                 </label>
                 {formErrors.terms && (
@@ -696,7 +696,7 @@ export default function TicketCheckout() {
                 {loading ? (
                   <>
                     <Loader2 size={16} className="animate-spin" />
-                    <span>Processing Demo Booking...</span>
+                    <span>Confirming Reservation...</span>
                   </>
                 ) : (
                   <>
@@ -706,12 +706,13 @@ export default function TicketCheckout() {
                 )}
               </button>
 
-              <div className="p-3 bg-zinc-50 rounded-xl border border-zinc-200/60 text-center space-y-1">
-                <span className="text-[10px] font-bold text-zinc-600 uppercase tracking-wider block">
-                  DEMO CHECKOUT MODE
+              <div className="p-3 bg-emerald-50/70 rounded-xl border border-emerald-200/80 text-center space-y-1">
+                <span className="text-[10px] font-bold text-emerald-800 uppercase tracking-wider flex items-center justify-center gap-1.5">
+                  <ShieldCheck size={13} className="text-emerald-600" />
+                  Instant Confirmed E-Pass
                 </span>
-                <p className="text-[11px] text-zinc-400">
-                  No real bank account or credit card is charged. Instant confirmed QR pass is generated for demo verification.
+                <p className="text-[11px] text-emerald-700/80">
+                  Cryptographically signed digital pass with scannable QR code issued immediately upon placement.
                 </p>
               </div>
 

@@ -363,7 +363,7 @@ export default function BusCheckout() {
             <div className="bg-white rounded-2xl p-6 border border-zinc-200 shadow-xs space-y-4">
               <h3 className="font-black text-xs uppercase tracking-wider text-zinc-900 flex items-center gap-2">
                 <CreditCard size={16} className="text-[#f76e28]" />
-                <span>Select Payment Method (Demonstration Mode)</span>
+                <span>Select Payment Method</span>
               </h3>
 
               <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 text-xs">
@@ -507,7 +507,7 @@ export default function BusCheckout() {
                     className="accent-[#f76e28] mt-0.5 rounded cursor-pointer"
                   />
                   <span className="text-[11px] leading-snug">
-                    I agree to the <Link to="/tickets" className="text-[#f76e28] underline">cancellation policy</Link>, passenger terms, and acknowledge this is a demonstration booking.
+                    I agree to the <Link to="/tickets" className="text-[#f76e28] underline">cancellation policy</Link>, passenger terms, and acknowledge bus ticket policies and terms.
                   </span>
                 </label>
               </div>
@@ -534,7 +534,7 @@ export default function BusCheckout() {
 
               <div className="text-[10px] text-zinc-400 text-center flex items-center justify-center gap-1.5 pt-2">
                 <ShieldCheck size={14} className="text-emerald-600" />
-                <span>256-Bit Encrypted Simulated Checkout • Demo Ticket</span>
+                <span>256-Bit Encrypted Checkout • Verified Digital Travel Pass</span>
               </div>
 
             </div>

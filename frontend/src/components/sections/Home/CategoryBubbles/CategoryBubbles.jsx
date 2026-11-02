@@ -68,12 +68,7 @@ export default function CategoryBubbles() {
   const navigate = useNavigate();
 
   const handleCategoryClick = (cat) => {
-    const el = document.getElementById(`section-${cat.id}`);
-    if (el) {
-      el.scrollIntoView({ behavior: 'smooth', block: 'start' });
-    } else {
-      navigate(cat.path);
-    }
+    navigate(cat.path);
   };
 
   return (

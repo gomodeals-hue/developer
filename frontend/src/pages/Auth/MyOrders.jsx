@@ -558,16 +558,12 @@ const MyOrders = () => {
                           <span>Raise Ticket</span>
                         </button>
 
-                        {/* Lifecycle Simulator demo button */}
+                        {/* Live Delivery Status Indicator */}
                         {status !== 'Delivered' && status !== 'Cancelled' && !status.includes('Return') && (
-                          <button
-                            type="button"
-                            onClick={() => handleAdvanceStatus(order)}
-                            className="flex-1 md:w-full py-2 bg-amber-50 hover:bg-amber-100 text-amber-900 border border-amber-200 text-[9px] font-mono font-bold transition-colors cursor-pointer"
-                            title="Simulate advancing fulfillment lifecycle"
-                          >
-                            Advance Status
-                          </button>
+                          <div className="flex-1 md:w-full py-2 px-3 bg-emerald-50 text-emerald-900 border border-emerald-200/80 rounded-lg text-[10px] font-semibold text-center flex items-center justify-center gap-1.5">
+                            <span className="w-2 h-2 rounded-full bg-emerald-500 animate-ping inline-block" />
+                            <span>In Real-time Transit</span>
+                          </div>
                         )}
                       </div>
                     </div>

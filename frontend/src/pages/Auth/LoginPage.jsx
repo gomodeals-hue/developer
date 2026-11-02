@@ -129,30 +129,30 @@ const LoginPage = () => {
                     </p>
                 </motion.div>
 
-                {/* Quick Autofill Demo Accounts for Easy Testing */}
-                <div className="mb-6 p-3.5 bg-orange-50/70 border border-orange-200/60 rounded-sm">
+                {/* Quick 1-Click Helper for Staff / Evaluation */}
+                <div className="mb-6 p-3 bg-stone-50 border border-stone-200 rounded-xl">
                     <div className="flex items-center justify-between mb-2">
-                        <span className="text-[9px] uppercase tracking-widest font-black text-orange-950 flex items-center gap-1">
-                            Quick Test Accounts
+                        <span className="text-[10px] font-bold text-stone-700 flex items-center gap-1">
+                            Quick Fill Credentials
                         </span>
-                        <span className="text-[8px] text-orange-600 uppercase font-bold tracking-wider">Demo Mode</span>
+                        <span className="text-[9px] text-orange-600 font-bold">1-Click</span>
                     </div>
                     <div className="grid grid-cols-2 gap-2">
                         <button 
                             type="button"
                             onClick={() => handleFillDemo('customer')}
-                            className="flex items-center justify-center gap-1.5 py-2 px-2 bg-white border border-orange-200 hover:border-orange-900 text-orange-950 text-[9px] uppercase tracking-wider font-bold transition-all hover:bg-orange-50"
+                            className="flex items-center justify-center gap-1.5 py-2 px-2 bg-white border border-stone-200 hover:border-orange-500 rounded-lg text-stone-800 text-[10px] font-bold transition-all shadow-2xs hover:bg-orange-50/50 cursor-pointer"
                         >
-                            <UserCheck size={12} className="text-orange-600" />
-                            Customer
+                            <UserCheck size={13} className="text-orange-600" />
+                            Member Account
                         </button>
                         <button 
                             type="button"
                             onClick={() => handleFillDemo('admin')}
-                            className="flex items-center justify-center gap-1.5 py-2 px-2 bg-white border border-orange-200 hover:border-orange-900 text-orange-950 text-[9px] uppercase tracking-wider font-bold transition-all hover:bg-orange-50"
+                            className="flex items-center justify-center gap-1.5 py-2 px-2 bg-white border border-stone-200 hover:border-orange-500 rounded-lg text-stone-800 text-[10px] font-bold transition-all shadow-2xs hover:bg-orange-50/50 cursor-pointer"
                         >
-                            <ShieldCheck size={12} className="text-red-600" />
-                            Admin
+                            <ShieldCheck size={13} className="text-stone-700" />
+                            Store Admin
                         </button>
                     </div>
                 </div>

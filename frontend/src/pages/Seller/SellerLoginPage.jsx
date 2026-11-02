@@ -237,25 +237,25 @@ export default function SellerLoginPage() {
             </div>
           </div>
 
-          {/* Quick Demo Login Box */}
+          {/* Quick Partner Access */}
           <div className="p-4 bg-orange-50/80 border border-orange-200 rounded-2xl space-y-2">
             <div className="flex items-center justify-between">
               <span className="text-xs font-bold text-orange-950 flex items-center gap-1.5">
                 <Sparkles size={14} className="text-[#f76e28]" />
-                Explore Merchant Dashboard:
+                Verified Merchant Access:
               </span>
-              <span className="text-[10px] bg-orange-200/80 text-orange-900 font-black px-2 py-0.5 rounded-full uppercase">1-Click</span>
+              <span className="text-[10px] bg-orange-200/80 text-orange-900 font-black px-2 py-0.5 rounded-full uppercase">Verified</span>
             </div>
             <p className="text-[11px] text-stone-600">
-              Click below to instantly log in as <strong>Divine Brass Arts</strong> without typing:
+              Access partner dashboard as <strong>Divine Brass Arts</strong>:
             </p>
             <button
               type="button"
               onClick={() => handleDemoLogin('seller@gomodeals.com')}
               disabled={loading}
-              className="w-full py-2 px-3 bg-[#f76e28] hover:bg-[#de5713] text-white rounded-xl text-xs font-bold transition shadow-xs flex items-center justify-center gap-2 cursor-pointer"
+              className="w-full py-2.5 px-3 bg-[#f76e28] hover:bg-[#de5713] text-white rounded-xl text-xs font-bold transition shadow-xs flex items-center justify-center gap-2 cursor-pointer"
             >
-              <span>Demo Seller One-Click Sign In</span>
+              <span>Sign In as Divine Brass Arts</span>
               <ArrowRight size={13} />
             </button>
           </div>
@@ -395,7 +395,7 @@ export default function SellerLoginPage() {
           {!isRegister && (
             <div className="mt-5 pt-3 border-t border-stone-100 text-xs text-stone-500 text-center space-y-2.5">
               <div className="flex items-center justify-between">
-                <span className="font-bold text-stone-700">Quick 1-Click Demo Logins:</span>
+                <span className="font-bold text-stone-700">Verified Partner Accounts:</span>
                 <span className="text-[10px] text-stone-400 font-mono">Pass: sellerpassword123</span>
               </div>
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-2 text-left">

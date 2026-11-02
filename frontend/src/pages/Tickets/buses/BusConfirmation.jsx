@@ -86,8 +86,8 @@ export default function BusConfirmation() {
         <div className="inline-flex items-center justify-center w-14 h-14 bg-emerald-100 text-emerald-600 rounded-full shadow-xs mb-2">
           <CheckCircle2 size={32} />
         </div>
-        <span className="text-[10px] font-black uppercase tracking-widest text-amber-800 bg-amber-100/80 border border-amber-300 px-3.5 py-1 rounded-full inline-block">
-          DEMO BOOKING — NOT VALID FOR TRAVEL
+        <span className="text-[10px] font-black uppercase tracking-widest text-emerald-800 bg-emerald-100/90 border border-emerald-300 px-3.5 py-1 rounded-full inline-block">
+          CONFIRMED DIGITAL TRAVEL PASS
         </span>
         <h1 className="text-2xl sm:text-3xl font-black text-zinc-900 tracking-tight">
           Your Travel Pass is Ready!

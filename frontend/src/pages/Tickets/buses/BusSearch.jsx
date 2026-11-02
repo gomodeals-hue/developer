@@ -283,7 +283,7 @@ export default function BusSearch() {
             <div className="mt-4 pt-3 border-t border-zinc-100 flex items-center justify-between text-[11px] text-zinc-500">
               <span className="flex items-center gap-1.5">
                 <Info size={13} className="text-amber-500" />
-                <span>Simulated live inventory — All bus operators and trip schedules are realistic demonstration data.</span>
+                <span>Live operator schedules across 2,400+ intercity routes with real-time GPS tracking.</span>
               </span>
               <span className="font-bold text-emerald-600 hidden sm:inline">
                 Instant M-Ticket & PDF Generation

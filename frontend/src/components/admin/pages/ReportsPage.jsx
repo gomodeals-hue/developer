@@ -213,7 +213,7 @@ export default function ReportsPage() {
         <div className="bg-white rounded-3xl border border-orange-100 p-8 shadow-sm space-y-6">
           <div>
             <h3 className="text-xl font-extrabold text-orange-955 tracking-tight">Top Grossing Products</h3>
-            <p className="text-xs text-stone-500">Ranked by actual mock order receipts</p>
+            <p className="text-xs text-stone-500">Ranked by verified customer order receipts</p>
           </div>
 
           <div className="space-y-4">

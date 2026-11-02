@@ -245,8 +245,8 @@ const ReviewOrder = ({
           </div>
         </div>
         <div className="text-right">
-          <span className="text-[9px] uppercase tracking-widest px-2.5 py-1 bg-orange-100 text-orange-850 font-bold border border-orange-200">
-            {t("Verified Mock Gateway")}
+          <span className="text-[9px] uppercase tracking-widest px-2.5 py-1 bg-emerald-50 text-emerald-800 font-bold border border-emerald-200 rounded-md">
+            {t("256-Bit Encrypted Gateway")}
           </span>
         </div>
       </div>

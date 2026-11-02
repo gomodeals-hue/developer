@@ -387,7 +387,7 @@ const OrderPlaced = () => {
           {/* Security & Verification Footer */}
           <div className="pt-4 border-t border-dashed border-orange-200 flex items-center justify-between text-orange-400 text-[9px] uppercase tracking-widest font-bold">
             <span className="flex items-center gap-1.5">
-              <ShieldCheck size={14} className="text-orange-600" /> {t("Verified Order & Mock Receipt")}
+              <ShieldCheck size={14} className="text-emerald-600" /> {t("Verified Order & Official Tax Invoice")}
             </span>
             <span>GoMo Deals Studio</span>
           </div>

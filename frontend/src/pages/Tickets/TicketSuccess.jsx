@@ -56,7 +56,7 @@ export default function TicketSuccess() {
         
         <div>
           <span className="text-[10px] font-black uppercase tracking-widest text-[#f76e28] bg-orange-50 border border-orange-200 px-3 py-1 rounded-full">
-            Demo Booking Confirmed
+            Booking Confirmed
           </span>
           <h1 className="text-2xl sm:text-3xl font-black text-zinc-900 mt-2 tracking-tight">
             You're Going to the Show!

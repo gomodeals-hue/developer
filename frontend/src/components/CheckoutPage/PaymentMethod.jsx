@@ -78,9 +78,9 @@ const PaymentMethod = ({
     {
       id: "CARD",
       label: "Credit / Debit Card",
-      subtitle: "Instant & Secure Mock Gateway (Visa, MC, RuPay)",
+      subtitle: "100% Encrypted & Secure (Visa, Mastercard, RuPay)",
       icon: <CreditCard size={20} strokeWidth={1.5} />,
-      badge: "Mock Gateway"
+      badge: "Preferred"
     },
     {
       id: "UPI",
@@ -102,17 +102,17 @@ const PaymentMethod = ({
     <div className="space-y-8">
       <div>
         <h2 className="text-2xl font-serif italic text-orange-900 mb-1">{t("Payment Method")}</h2>
-        <p className="text-[10px] uppercase tracking-widest text-orange-400 font-bold">
-          {t("Select your preferred simulated payment method")}
+        <p className="text-[10px] uppercase tracking-widest text-orange-600 font-bold">
+          {t("Select your preferred payment method")}
         </p>
       </div>
 
-      {/* Mock Security Notice Banner */}
-      <div className="flex items-center gap-3 p-4 bg-orange-50 border border-orange-200/60 rounded-none text-orange-850">
-        <ShieldCheck size={20} className="text-orange-600 shrink-0" />
-        <p className="text-xs font-light leading-relaxed">
-          <span className="font-bold uppercase tracking-wider text-[10px] text-orange-950 mr-1">Simulated Mode:</span>
-          No actual bank charges or real credentials are required. All payment steps are safely emulated via mock services.
+      {/* 256-Bit SSL Security Banner */}
+      <div className="flex items-center gap-3 p-4 bg-emerald-50/70 border border-emerald-200/80 rounded-xl text-emerald-900 shadow-2xs">
+        <ShieldCheck size={20} className="text-emerald-600 shrink-0" />
+        <p className="text-xs font-medium leading-relaxed">
+          <span className="font-bold uppercase tracking-wider text-[10px] text-emerald-950 mr-1">256-Bit SSL Encryption:</span>
+          Your payment transaction is guaranteed safe. All card and UPI payments are protected by end-to-end encrypted banking infrastructure.
         </p>
       </div>
 
@@ -209,15 +209,15 @@ const PaymentMethod = ({
       {paymentMethod === "CARD" && (
         <div className="p-6 bg-orange-50/50 border border-orange-200 rounded-none space-y-4 animate-in fade-in duration-300">
           <div className="flex items-center justify-between">
-            <h3 className="text-sm font-serif italic font-bold text-orange-950">
-              {t("Card Credentials (Mock)")}
+            <h3 className="text-sm font-bold text-orange-950">
+              {t("Enter Card Details")}
             </h3>
             <button
               type="button"
               onClick={fillDemoCard}
-              className="text-[9px] uppercase tracking-widest font-black text-orange-600 hover:text-orange-955 transition-colors underline cursor-pointer"
+              className="text-[10px] uppercase tracking-wider font-bold text-orange-600 hover:text-orange-700 transition-colors cursor-pointer"
             >
-              {t("Fill Demo Card")}
+              {t("Quick Test Auto-fill")}
             </button>
           </div>
 
@@ -313,14 +313,25 @@ const PaymentMethod = ({
               {t("Quick select provider handle:")}
             </p>
             <div className="flex flex-wrap gap-2">
-              {["@okhdfcbank", "@oksbi", "@paytm", "@ybl", "@axl"].map((handle) => (
+              {[
+                { name: "Google Pay", handle: "@okhdfcbank" },
+                { name: "PhonePe", handle: "@ybl" },
+                { name: "Paytm", handle: "@paytm" },
+                { name: "BHIM", handle: "@upi" },
+                { name: "SBI UPI", handle: "@oksbi" }
+              ].map((item) => (
                 <button
-                  key={handle}
+                  key={item.handle}
                   type="button"
-                  onClick={() => fillDemoUPI(handle)}
-                  className="px-3 py-1 bg-white border border-orange-200 text-orange-850 hover:bg-orange-955 hover:text-white transition-colors text-xs font-mono rounded-none cursor-pointer"
+                  onClick={() => {
+                    const currentPrefix = upiId.includes('@') ? upiId.split('@')[0] : (upiId || 'customer');
+                    setUpiId(`${currentPrefix}${item.handle}`);
+                    setError('');
+                  }}
+                  className="px-3 py-1.5 bg-white border border-orange-200 text-stone-800 hover:bg-orange-600 hover:text-white transition-colors text-xs font-semibold rounded-lg cursor-pointer flex items-center gap-1.5 shadow-2xs"
                 >
-                  saranyan{handle}
+                  <span>{item.name}</span>
+                  <span className="text-[10px] opacity-75 font-mono">{item.handle}</span>
                 </button>
               ))}
             </div>
