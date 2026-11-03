@@ -324,7 +324,7 @@ const OrderSummary = ({
             <RefreshCcw size={14} />
           </div>
           <p className="text-[9px] uppercase tracking-widest text-orange-500 leading-relaxed">
-            <span className="font-black text-orange-900 block">{t("boutique_return")}</span>
+            <span className="font-black text-orange-900 block">{"Easy 7-Day Returns"}</span>
             {t("return_desc")}
           </p>
         </div>

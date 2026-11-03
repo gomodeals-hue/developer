@@ -164,7 +164,7 @@ export default function CategoriesManagementPage() {
             <span className="text-[10px] font-black uppercase tracking-[0.3em] text-orange-500">Store Taxonomy</span>
           </div>
           <h1 className="text-3xl font-extrabold text-orange-955 tracking-tight">Category Management</h1>
-          <p className="text-xs text-stone-500 font-medium">Organize boutique departments, subcategories, imagery, and catalog navigation.</p>
+          <p className="text-xs text-stone-500 font-medium">Organize store departments, subcategories, imagery, and catalog navigation.</p>
         </div>
 
         <Button

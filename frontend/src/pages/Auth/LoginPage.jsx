@@ -55,12 +55,14 @@ const LoginPage = () => {
             setErrors({});
             try {
                 const response = await authService.login(formData.email, formData.password, otp);
-                login(response.data);
-                const isUserAdmin = response.data?.role === 'admin' || response.data?.role === 'super_admin';
+                const userData = response.data || response.user;
+                login(userData);
+                const isUserAdmin = userData?.role === 'admin' || userData?.role === 'super_admin';
                 navigate(isUserAdmin ? '/admin' : targetRedirect, { replace: true });
             } catch (err) {
                 console.error("LOGIN OTP VERIFY ERROR:", err);
-                setErrors({ submit: err.response?.data?.message || 'Failed to verify verification code' });
+                const errorMsg = err.response?.data?.message || err.data?.message || err.message || 'Failed to verify verification code';
+                setErrors({ submit: errorMsg });
             } finally {
                 setLoading(false);
             }
@@ -76,15 +78,17 @@ const LoginPage = () => {
                     setRequiresOtp(true);
                     setOtpTimer(600); // 10 minutes
                 } else {
-                    login(response.data);
-                    const isUserAdmin = response.data?.role === 'admin' || response.data?.role === 'super_admin';
+                    const userData = response.data || response.user;
+                    login(userData);
+                    const isUserAdmin = userData?.role === 'admin' || userData?.role === 'super_admin';
                     navigate(isUserAdmin ? '/admin' : targetRedirect, { replace: true });
                 }
             } catch (err) {
                 console.error("LOGIN ERROR:", err);
+                const errorMsg = err.response?.data?.message || err.data?.message || err.message || t('login_failed_desc') || 'Invalid email or password';
                 setErrors({ 
-                    submit: err.response?.data?.message || t('login_failed_desc') || 'Invalid email or password',
-                    isBlocked: err.response?.status === 403
+                    submit: errorMsg,
+                    isBlocked: err.response?.status === 403 || err.status === 403
                 });
             } finally {
                 setLoading(false);
@@ -122,10 +126,10 @@ const LoginPage = () => {
                     transition={{ duration: 0.5 }}
                     className="text-center mb-8"
                 >
-                    <span className="text-[10px] uppercase tracking-[0.4em] text-orange-600/80 block mb-2 font-bold">GoMo Boutique</span>
+                    <span className="text-[10px] uppercase tracking-[0.4em] text-orange-600/80 block mb-2 font-bold">GoMo Deals</span>
                     <h2 className="text-3xl sm:text-4xl font-serif italic text-orange-950 font-normal mb-2">{t("sign_in") || "Sign In"}</h2>
                     <p className="text-orange-950/60 text-[9px] uppercase tracking-[0.18em] font-bold max-w-xs mx-auto leading-relaxed">
-                        {t("sign_in_desc") || "Access your orders, luxury wishlist & exclusive membership"}
+                        {t("sign_in_desc") || "Access your orders, wishlist & exclusive membership privileges"}
                     </p>
                 </motion.div>
 
@@ -278,7 +282,7 @@ const LoginPage = () => {
                     </p>
                     <p className="mt-4">
                         <Link to="/" className="text-orange-700 hover:text-orange-900 text-xs uppercase tracking-wider font-semibold">
-                            &larr; {t("back_to_home") || "Back to Boutique"}
+                            &larr; {t("back_to_home") || "Back to Home"}
                         </Link>
                     </p>
                 </motion.div>

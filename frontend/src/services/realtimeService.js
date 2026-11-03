@@ -20,11 +20,20 @@ class RealtimeService {
    * Connect to the backend SSE endpoint
    */
   connect() {
-    if (this.eventSource && this.eventSource.readyState !== EventSource.CLOSED) {
+    // If offline, wait for online event
+    if (typeof navigator !== 'undefined' && !navigator.onLine) {
       return;
     }
 
-    // Try relative URL which proxies through Vite /api to backend
+    if (this.eventSource) {
+      if (this.eventSource.readyState === EventSource.OPEN || this.eventSource.readyState === EventSource.CONNECTING) {
+        return;
+      }
+      try { this.eventSource.close(); } catch (e) {}
+      this.eventSource = null;
+    }
+
+    // Relative URL which proxies through Vite /api or hits Vercel api
     const sseUrl = '/api/v1/realtime/stream';
 
     try {
@@ -40,8 +49,12 @@ class RealtimeService {
         this.isConnected = false;
         this.notifyStatus(false);
         if (this.eventSource) {
-          this.eventSource.close();
+          try { this.eventSource.close(); } catch (e) {}
           this.eventSource = null;
+        }
+        // If navigator went offline or suspended, let online event trigger reconnect
+        if (typeof navigator !== 'undefined' && !navigator.onLine) {
+          return;
         }
         this.scheduleReconnect();
       };
@@ -126,7 +139,16 @@ class RealtimeService {
 
   scheduleReconnect() {
     if (this.reconnectTimer) return;
-    const timeout = Math.min(10000, 2000 * Math.pow(1.5, this.reconnectAttempts));
+    if (this.reconnectAttempts > 6) {
+      // Back off to 30s to prevent socket suspension loops
+      this.reconnectTimer = setTimeout(() => {
+        this.reconnectTimer = null;
+        this.reconnectAttempts = 0;
+        this.connect();
+      }, 30000);
+      return;
+    }
+    const timeout = Math.min(15000, 2000 * Math.pow(1.5, this.reconnectAttempts));
     this.reconnectAttempts++;
     this.reconnectTimer = setTimeout(() => {
       this.reconnectTimer = null;
@@ -189,7 +211,24 @@ class RealtimeService {
 }
 
 export const realtimeService = new RealtimeService();
-// Auto-connect singleton
+// Auto-connect singleton with online/offline & visibility lifecycle guards
 if (typeof window !== 'undefined') {
-  realtimeService.connect();
+  window.addEventListener('online', () => {
+    console.log('[Realtime] Browser online, reconnecting SSE...');
+    realtimeService.connect();
+  });
+  window.addEventListener('offline', () => {
+    console.log('[Realtime] Browser offline, disconnecting SSE cleanly...');
+    realtimeService.disconnect();
+  });
+  document.addEventListener('visibilitychange', () => {
+    if (document.visibilityState === 'visible' && !realtimeService.isConnected) {
+      realtimeService.connect();
+    }
+  });
+
+  // Delay initial connect slightly so critical login / UI paint has clean sockets
+  setTimeout(() => {
+    realtimeService.connect();
+  }, 1000);
 }

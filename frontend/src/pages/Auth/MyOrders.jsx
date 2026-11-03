@@ -321,7 +321,7 @@ const MyOrders = () => {
             onClick={() => navigate('/products')}
             className="px-6 py-3.5 bg-orange-955 text-white text-[10px] uppercase tracking-[0.3em] font-black hover:bg-orange-850 transition-colors shadow-sm cursor-pointer self-start sm:self-auto"
           >
-            {t("Browse Boutique")}
+            {t("Browse Products")}
           </button>
         </div>
 

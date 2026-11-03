@@ -125,7 +125,7 @@ export default function InventoryPage() {
           <div className="flex items-center gap-3">
             <ShieldAlert size={14} className="text-orange-600" />
             <span className="text-[10px] uppercase tracking-[0.4em] text-orange-500 font-black">
-              Boutique Stock Control
+              Store Stock Control
             </span>
           </div>
           <h1 className="text-4xl font-extrabold text-orange-955 tracking-tight">Inventory Management</h1>

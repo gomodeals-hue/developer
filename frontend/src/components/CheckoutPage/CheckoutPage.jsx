@@ -482,7 +482,7 @@ const CheckoutPage = () => {
           to="/products"
           className="px-6 py-3 bg-orange-600 hover:bg-orange-700 text-white font-bold text-sm rounded-xl shadow-md transition-all inline-flex items-center gap-2"
         >
-          Explore Boutique Products
+          Explore More Products
           <ArrowRight size={16} />
         </Link>
       </div>

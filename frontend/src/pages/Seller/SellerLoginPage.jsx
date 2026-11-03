@@ -615,7 +615,7 @@ export default function SellerLoginPage() {
             Why Sell on GoMo Deals (GMD)?
           </h2>
           <p className="text-xs sm:text-sm text-stone-600 mt-1">
-            Built from the ground up to empower independent manufacturers, boutique creators, and retail merchants.
+            Built from the ground up to empower independent manufacturers, brand creators, and retail merchants.
           </p>
         </div>
 

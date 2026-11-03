@@ -458,14 +458,43 @@ apiClient.interceptors.request.use(
   (error) => Promise.reject(error)
 );
 
-// Response interceptor: Standardized error parsing
+// Response interceptor: Standardized error parsing with automatic sleep/wake network recovery
 apiClient.interceptors.response.use(
   (response) => response,
-  (error) => {
+  async (error) => {
+    const config = error.config;
+    const isSuspendedOrDropped = 
+      error?.code === 'ERR_NETWORK' ||
+      error?.code === 'ECONNABORTED' ||
+      (error?.message && error.message.includes('ERR_NETWORK_IO_SUSPENDED')) ||
+      (error?.message && error.message.includes('Network Error'));
+
+    // Automatically retry up to 2 times with backoff when browser / network wakes from sleep
+    if (isSuspendedOrDropped && config && (!config._retryCount || config._retryCount < 2)) {
+      config._retryCount = (config._retryCount || 0) + 1;
+      const delay = config._retryCount * 400;
+      console.warn(`[API] Network suspended or interrupted. Retrying in ${delay}ms (attempt ${config._retryCount}/2)...`);
+      await new Promise(resolve => setTimeout(resolve, delay));
+      return apiClient(config);
+    }
+
+    const rawMsg = error?.response?.data?.message || error?.message || '';
+    const isSuspendedMsg = rawMsg.includes('ERR_NETWORK_IO_SUSPENDED') || isSuspendedOrDropped;
+    const userFriendlyMessage = isSuspendedMsg
+      ? 'Network connection was interrupted. Please check your connection and try again.'
+      : (rawMsg || 'A network error occurred. Please try again.');
+
+    const errorData = error?.response?.data || { message: userFriendlyMessage };
+
     const customError = {
-      status: error?.response?.status || 500,
-      message: error?.response?.data?.message || error?.message || 'Network error occurred',
-      data: error?.response?.data || null,
+      status: error?.response?.status || (isSuspendedOrDropped ? 0 : 500),
+      message: userFriendlyMessage,
+      data: errorData,
+      response: {
+        status: error?.response?.status || (isSuspendedOrDropped ? 0 : 500),
+        data: errorData,
+        statusText: error?.response?.statusText || 'Network Suspension'
+      },
       raw: error
     };
 

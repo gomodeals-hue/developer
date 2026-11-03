@@ -1,308 +1,343 @@
 [
   {
     "id": "GMD-ORD-10025",
-    "order_id": "GMD-ORD-10025",
     "order_number": "GOMO-2026-10025",
-    "userId": "usr-1",
-    "customer_id": "usr-1",
+    "user_id": "usr-1",
     "customer_name": "Priya Sharma",
     "customer_email": "priya.sharma@example.com",
-    "customer_phone": "+91 98450 12345",
-    "seller_id": "seller-1",
-    "seller_name": "Divine Brass & Temple Arts",
     "items": [
       {
         "id": "pooja-101",
-        "product_id": "pooja-101",
         "name": "Pure Brass Lotus Diya with Bell (Set of 2)",
         "price": 899,
         "quantity": 1,
         "seller_id": "seller-1",
-        "seller_name": "Divine Brass & Temple Arts",
         "thumbnail": "https://images.unsplash.com/photo-1608889825205-eebdb9fc5806?w=600&q=80",
+        "product_id": "pooja-101",
+        "seller_name": "Divine Brass & Temple Arts",
         "variant_value": "Solid Brass / Medium"
       }
     ],
     "total_amount": 899,
-    "subtotal": 899,
+    "discount_amount": 0,
     "shipping_fee": 0,
-    "tax": 45,
-    "status": "Delivered",
     "payment_method": "UPI",
     "payment_status": "Paid",
-    "courier_partner": "BlueDart Express",
-    "tracking_number": "BLU91823719",
-    "created_at": "2026-10-05T01:43:04.782Z",
-    "delivered_at": "2026-10-05T04:43:04.782Z",
+    "order_status": "Delivered",
     "shipping_address": {
-      "name": "Priya Sharma",
-      "street": "Plot 42, 4th Main, Indiranagar",
       "city": "Bengaluru",
+      "name": "Priya Sharma",
+      "phone": "+91 98450 12345",
       "state": "Karnataka",
-      "pincode": "560038",
-      "phone": "+91 98450 12345"
+      "street": "Plot 42, 4th Main, Indiranagar",
+      "pincode": "560038"
     },
+    "created_at": "2026-10-05T01:43:04.782Z",
+    "subtotal": 899,
+    "tax": 45,
+    "status": "Delivered",
     "tracking": [
       {
+        "note": "Confirmed",
         "step": "Order Placed",
-        "status": "completed",
         "time": "2026-10-05T01:43:04.782Z",
-        "note": "Confirmed"
+        "status": "completed"
       },
       {
+        "note": "Handcrafted inspection passed",
         "step": "Quality Check & Packing",
-        "status": "completed",
         "time": "2026-10-05T02:43:04.782Z",
-        "note": "Handcrafted inspection passed"
+        "status": "completed"
       },
       {
+        "note": "Dispatched from Temple Arts Hub",
         "step": "Dispatched via BlueDart",
-        "status": "completed",
         "time": "2026-10-05T03:43:04.782Z",
-        "note": "Dispatched from Temple Arts Hub"
+        "status": "completed"
       },
       {
+        "note": "Handed over at doorstep",
         "step": "Delivered",
-        "status": "completed",
         "time": "2026-10-05T04:43:04.782Z",
-        "note": "Handed over at doorstep"
+        "status": "completed"
       }
-    ]
+    ],
+    "delivery_address": {
+      "city": "Bengaluru",
+      "name": "Priya Sharma",
+      "phone": "+91 98450 12345",
+      "state": "Karnataka",
+      "street": "Plot 42, 4th Main, Indiranagar",
+      "pincode": "560038"
+    },
+    "courier_partner": "BlueDart Express",
+    "tracking_number": "BLU91823719",
+    "estimated_delivery": null,
+    "seller_id": "seller-1",
+    "seller_name": "Divine Brass & Temple Arts",
+    "customer_phone": "+91 98450 12345",
+    "order_id": "GMD-ORD-10025",
+    "userId": "usr-1",
+    "customer_id": "usr-1"
   },
   {
     "id": "GMD-ORD-10027",
-    "order_id": "GMD-ORD-10027",
     "order_number": "GOMO-2026-10027",
-    "userId": "usr-1",
-    "customer_id": "usr-1",
+    "user_id": "usr-1",
     "customer_name": "Saranyan E",
     "customer_email": "customer@gomodeals.com",
-    "customer_phone": "+91 98450 12345",
     "items": [
       {
         "id": "supp_shirts_0",
-        "product_id": "supp_shirts_0",
         "name": "Netplay Slim Fit Cotton Oxford Shirt",
         "price": 899,
         "quantity": 2,
-        "thumbnail": "",
-        "variant_value": null,
         "seller_id": "seller-1",
-        "seller_name": "Divine Brass & Temple Arts"
+        "thumbnail": "",
+        "product_id": "supp_shirts_0",
+        "seller_name": "Divine Brass & Temple Arts",
+        "variant_value": null
       }
     ],
     "total_amount": 1798,
-    "subtotal": 1798,
+    "discount_amount": 0,
     "shipping_fee": 0,
-    "tax": 50,
-    "status": "Cancelled",
     "payment_method": "UPI / Card",
     "payment_status": "Paid",
-    "courier_partner": "BlueDart Express",
-    "tracking_number": "BLU32295354",
-    "created_at": "2026-09-30T04:28:42.984Z",
-    "estimated_delivery": "2026-10-03T04:28:42.984Z",
+    "order_status": "Cancelled",
     "shipping_address": {
-      "name": "Saranyan E",
-      "street": "MG Road",
       "city": "Bengaluru",
-      "pincode": "560001",
-      "phone": "+91 98450 12345"
-    },
-    "delivery_address": {
       "name": "Saranyan E",
+      "phone": "+91 98450 12345",
       "street": "MG Road",
-      "city": "Bengaluru",
-      "pincode": "560001",
-      "phone": "+91 98450 12345"
+      "pincode": "560001"
     },
+    "created_at": "2026-09-30T04:28:42.984Z",
+    "subtotal": 1798,
+    "tax": 50,
+    "status": "Cancelled",
     "tracking": [
       {
+        "note": "Payment verified and order confirmed",
         "step": "Order Placed",
-        "status": "completed",
         "time": "2026-09-30T04:28:42.984Z",
-        "note": "Payment verified and order confirmed"
+        "status": "completed"
       },
       {
+        "note": "Boutique studio is carefully preparing your shipment",
         "step": "Processing & Quality Check",
-        "status": "in_transit",
         "time": "2026-09-30T04:28:42.995Z",
-        "note": "Boutique studio is carefully preparing your shipment"
+        "status": "in_transit"
       },
       {
+        "note": "Assigned to BlueDart Express (AWB: BLU32295354)",
         "step": "Shipped via Express",
-        "status": "pending",
-        "note": "Assigned to BlueDart Express (AWB: BLU32295354)"
+        "status": "pending"
       },
       {
+        "note": "Scheduled for local contactless delivery",
         "step": "Out for Delivery",
-        "status": "pending",
-        "note": "Scheduled for local contactless delivery"
+        "status": "pending"
       },
       {
+        "note": "Doorstep handover with OTP verification",
         "step": "Delivered",
-        "status": "pending",
-        "note": "Doorstep handover with OTP verification"
+        "status": "pending"
       },
       {
+        "note": "Customer requested cancellation. Refund initiated to source payment.",
         "step": "Order Cancelled",
-        "status": "cancelled",
         "time": "2026-09-30T04:28:49.482Z",
-        "note": "Customer requested cancellation. Refund initiated to source payment."
+        "status": "cancelled"
       }
     ],
-    "cancelled_at": "2026-09-30T04:28:49.482Z",
+    "delivery_address": {
+      "city": "Bengaluru",
+      "name": "Saranyan E",
+      "phone": "+91 98450 12345",
+      "street": "MG Road",
+      "pincode": "560001"
+    },
+    "courier_partner": "BlueDart Express",
+    "tracking_number": "BLU32295354",
+    "estimated_delivery": "2026-10-03T04:28:42.984Z",
     "seller_id": "seller-1",
-    "seller_name": "Divine Brass & Temple Arts"
+    "seller_name": "Divine Brass & Temple Arts",
+    "customer_phone": "+91 98450 12345",
+    "order_id": "GMD-ORD-10027",
+    "userId": "usr-1",
+    "customer_id": "usr-1"
   },
   {
     "id": "GMD-ORD-10024",
-    "order_id": "GMD-ORD-10024",
     "order_number": "GOMO-2026-10024",
-    "userId": "usr-1",
-    "customer_id": "usr-1",
+    "user_id": "usr-1",
     "customer_name": "Priya Sharma",
     "customer_email": "priya.sharma@example.com",
-    "customer_phone": "+91 98450 12345",
     "items": [
       {
         "id": "men-101",
-        "product_id": "men-101",
         "name": "Men Slim Fit Pure Linen Casual Shirt",
         "price": 1299,
         "quantity": 1,
-        "thumbnail": "https://images.unsplash.com/photo-1602810318383-e386cc2a3ccf?w=600&q=80",
-        "variant_value": "Navy Blue / L",
         "seller_id": "seller-1",
-        "seller_name": "Divine Brass & Temple Arts"
+        "thumbnail": "https://images.unsplash.com/photo-1602810318383-e386cc2a3ccf?w=600&q=80",
+        "product_id": "men-101",
+        "seller_name": "Divine Brass & Temple Arts",
+        "variant_value": "Navy Blue / L"
       }
     ],
     "total_amount": 1299,
-    "subtotal": 1299,
+    "discount_amount": 0,
     "shipping_fee": 0,
-    "tax": 65,
-    "status": "Out for Delivery",
     "payment_method": "Card / UPI",
     "payment_status": "Paid",
-    "courier_partner": "BlueDart Express",
-    "tracking_number": "BLU84920194",
-    "created_at": "2026-09-30T02:18:43.544Z",
-    "estimated_delivery": "2026-10-01T04:18:43.544Z",
+    "order_status": "Out for Delivery",
     "shipping_address": {
-      "name": "Priya Sharma",
-      "street": "Plot 42, 4th Main, Indiranagar",
       "city": "Bengaluru",
+      "name": "Priya Sharma",
+      "phone": "+91 98450 12345",
       "state": "Karnataka",
-      "pincode": "560038",
-      "phone": "+91 98450 12345"
+      "street": "Plot 42, 4th Main, Indiranagar",
+      "pincode": "560038"
     },
+    "created_at": "2026-09-30T02:18:43.544Z",
+    "subtotal": 1299,
+    "tax": 65,
+    "status": "Out for Delivery",
     "tracking": [
       {
+        "note": "Payment verified and order confirmed",
         "step": "Order Placed",
-        "status": "completed",
         "time": "2026-09-30T02:18:43.544Z",
-        "note": "Payment verified and order confirmed"
+        "status": "completed"
       },
       {
+        "note": "Eco packaging and barcode scan complete",
         "step": "Processing & Quality Check",
-        "status": "completed",
         "time": "2026-09-30T02:48:43.544Z",
-        "note": "Eco packaging and barcode scan complete"
+        "status": "completed"
       },
       {
+        "note": "Dispatched from Bengaluru Central Hub (AWB: BLU84920194)",
         "step": "Shipped via BlueDart",
-        "status": "completed",
         "time": "2026-09-30T03:18:43.544Z",
-        "note": "Dispatched from Bengaluru Central Hub (AWB: BLU84920194)"
+        "status": "completed"
       },
       {
+        "note": "Courier executive assigned: Ramesh K. (+91 99012 34567)",
         "step": "Out for Delivery",
-        "status": "in_transit",
-        "time": "2026-10-31T10:25:40.796Z",
-        "note": "Courier executive assigned: Ramesh K. (+91 99012 34567)"
+        "time": "2026-11-03T04:07:05.908Z",
+        "status": "in_transit"
       },
       {
+        "note": "Contactless OTP delivery at doorstep",
         "step": "Delivered",
-        "status": "pending",
-        "note": "Contactless OTP delivery at doorstep"
+        "status": "pending"
       }
     ],
+    "delivery_address": {
+      "city": "Bengaluru",
+      "name": "Priya Sharma",
+      "phone": "+91 98450 12345",
+      "state": "Karnataka",
+      "street": "Plot 42, 4th Main, Indiranagar",
+      "pincode": "560038"
+    },
+    "courier_partner": "BlueDart Express",
+    "tracking_number": "BLU84920194",
+    "estimated_delivery": "2026-10-01T04:18:43.544Z",
     "seller_id": "seller-1",
-    "seller_name": "Divine Brass & Temple Arts"
+    "seller_name": "Divine Brass & Temple Arts",
+    "customer_phone": "+91 98450 12345",
+    "order_id": "GMD-ORD-10024",
+    "userId": "usr-1",
+    "customer_id": "usr-1"
   },
   {
     "id": "GMD-ORD-10023",
-    "order_id": "GMD-ORD-10023",
     "order_number": "GOMO-2026-10023",
-    "userId": "usr-1",
-    "customer_id": "usr-1",
+    "user_id": "usr-1",
     "customer_name": "Priya Sharma",
     "customer_email": "priya.sharma@example.com",
-    "customer_phone": "+91 98450 12345",
     "items": [
       {
         "id": "women-201",
-        "product_id": "women-201",
         "name": "Handwoven Pure Kanjeevaram Silk Saree with Gold Zari",
         "price": 4599,
         "quantity": 1,
-        "thumbnail": "https://images.unsplash.com/photo-1610030469983-98e550d6193c?w=600&q=80",
         "seller_id": "seller-2",
+        "thumbnail": "https://images.unsplash.com/photo-1610030469983-98e550d6193c?w=600&q=80",
+        "product_id": "women-201",
         "seller_name": "Heritage Weaves & Silks"
       }
     ],
     "total_amount": 4599,
-    "subtotal": 4599,
+    "discount_amount": 0,
     "shipping_fee": 0,
-    "tax": 230,
-    "status": "Delivered",
     "payment_method": "UPI",
     "payment_status": "Paid",
-    "courier_partner": "BlueDart Express",
-    "tracking_number": "BLU73910542",
-    "created_at": "2026-09-28T04:18:43.544Z",
-    "delivered_at": "2026-09-29T04:18:43.544Z",
+    "order_status": "Delivered",
     "shipping_address": {
-      "name": "Priya Sharma",
-      "street": "Plot 42, 4th Main, Indiranagar",
       "city": "Bengaluru",
+      "name": "Priya Sharma",
+      "phone": "+91 98450 12345",
       "state": "Karnataka",
-      "pincode": "560038",
-      "phone": "+91 98450 12345"
+      "street": "Plot 42, 4th Main, Indiranagar",
+      "pincode": "560038"
     },
+    "created_at": "2026-09-28T04:18:43.544Z",
+    "subtotal": 4599,
+    "tax": 230,
+    "status": "Delivered",
     "tracking": [
       {
+        "note": "Order confirmed",
         "step": "Order Placed",
-        "status": "completed",
         "time": "2026-09-28T04:18:43.544Z",
-        "note": "Order confirmed"
+        "status": "completed"
       },
       {
+        "note": "Packaged",
         "step": "Processing & Quality Check",
-        "status": "completed",
         "time": "2026-09-28T10:38:43.544Z",
-        "note": "Packaged"
+        "status": "completed"
       },
       {
+        "note": "Dispatched",
         "step": "Shipped via BlueDart",
-        "status": "completed",
         "time": "2026-09-28T18:58:43.544Z",
-        "note": "Dispatched"
+        "status": "completed"
       },
       {
+        "note": "Arrived at local hub",
         "step": "Out for Delivery",
-        "status": "completed",
         "time": "2026-09-29T03:18:43.544Z",
-        "note": "Arrived at local hub"
+        "status": "completed"
       },
       {
+        "note": "Delivered to customer with OTP verification",
         "step": "Delivered",
-        "status": "completed",
         "time": "2026-09-29T04:18:43.544Z",
-        "note": "Delivered to customer with OTP verification"
+        "status": "completed"
       }
     ],
+    "delivery_address": {
+      "city": "Bengaluru",
+      "name": "Priya Sharma",
+      "phone": "+91 98450 12345",
+      "state": "Karnataka",
+      "street": "Plot 42, 4th Main, Indiranagar",
+      "pincode": "560038"
+    },
+    "courier_partner": "BlueDart Express",
+    "tracking_number": "BLU73910542",
+    "estimated_delivery": null,
     "seller_id": "seller-2",
-    "seller_name": "Heritage Weaves & Silks"
+    "seller_name": "Heritage Weaves & Silks",
+    "customer_phone": "+91 98450 12345",
+    "order_id": "GMD-ORD-10023",
+    "userId": "usr-1",
+    "customer_id": "usr-1"
   }
 ]

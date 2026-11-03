@@ -72,7 +72,8 @@ const RegisterPage = () => {
                 });
 
                 if (response.success) {
-                    login(response.data);
+                    const userData = response.data || response.user;
+                    login(userData);
                     navigate('/profile', { replace: true });
                 }
             } catch (err) {
@@ -95,10 +96,10 @@ const RegisterPage = () => {
                     transition={{ duration: 0.5 }}
                     className="text-center mb-8"
                 >
-                    <span className="text-[10px] uppercase tracking-[0.4em] text-orange-600/80 block mb-2 font-bold">GoMo Boutique</span>
+                    <span className="text-[10px] uppercase tracking-[0.4em] text-orange-600/80 block mb-2 font-bold">GoMo Deals</span>
                     <h2 className="text-3xl sm:text-4xl font-serif italic text-orange-950 font-normal mb-2">Create Account</h2>
                     <p className="text-orange-950/60 text-[9px] uppercase tracking-[0.18em] font-bold max-w-xs mx-auto leading-relaxed">
-                        Join the GoMo Deals luxury boutique & unlock member privileges
+                        Join GoMo Deals & unlock exclusive member privileges
                     </p>
                 </motion.div>
 
@@ -260,7 +261,7 @@ const RegisterPage = () => {
                     </p>
                     <p className="mt-4">
                         <Link to="/" className="text-orange-700 hover:text-orange-900 text-xs uppercase tracking-wider font-semibold">
-                            &larr; Back to Boutique
+                            &larr; Back to Home
                         </Link>
                     </p>
                 </div>

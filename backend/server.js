@@ -141,7 +141,7 @@ export async function app(req, res) {
     if (handleCategoriesRoutes(req, res, pathname, method, query, body, sendJSON)) return;
     if (await handleOrdersRoutes(req, res, pathname, method, query, body, sendJSON)) return;
     if (await handleCartWishlistRoutes(req, res, pathname, method, query, body, sendJSON)) return;
-    if (handleAdminRoutes(req, res, pathname, method, query, body, sendJSON)) return;
+    if (await handleAdminRoutes(req, res, pathname, method, query, body, sendJSON)) return;
     if (await handleAuthRoutes(req, res, pathname, method, query, body, sendJSON)) return;
     if (handleCouponsDeliveryRoutes(req, res, pathname, method, query, body, sendJSON)) return;
     if (handleBannersRankingsRoutes(req, res, pathname, method, query, body, sendJSON)) return;

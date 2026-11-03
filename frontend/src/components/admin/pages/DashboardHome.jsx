@@ -238,7 +238,7 @@ export default function DashboardHome() {
       <div className="bg-white border border-orange-100 rounded-3xl shadow-sm overflow-hidden">
         <div className="p-6 sm:p-8 border-b border-orange-100 flex flex-col xl:flex-row xl:items-center justify-between gap-6">
           <div>
-            <h3 className="text-xl font-extrabold text-orange-955 tracking-tight">Boutique Products</h3>
+            <h3 className="text-xl font-extrabold text-orange-955 tracking-tight">Store Products</h3>
             <p className="text-[9px] text-orange-500 font-bold mt-1 uppercase tracking-wider">Live Catalog Metrics</p>
           </div>
           <div className="flex flex-wrap items-center gap-4">

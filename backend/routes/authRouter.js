@@ -68,7 +68,8 @@ export async function handleAuthRoutes(req, res, pathname, method, query, body, 
       success: true,
       message: 'Logged in successfully',
       token,
-      user
+      user,
+      data: user
     });
   }
 

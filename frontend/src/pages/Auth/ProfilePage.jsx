@@ -311,7 +311,7 @@ const ProfilePage = () => {
                         onClick={() => navigate('/')}
                         className="inline-flex items-center gap-2 text-[10px] uppercase tracking-[0.25em] text-orange-900/70 hover:text-orange-950 font-bold transition-all group"
                     >
-                        <ArrowLeft size={13} className="group-hover:-translate-x-1 transition-transform" /> Back to Boutique
+                        <ArrowLeft size={13} className="group-hover:-translate-x-1 transition-transform" /> Back to Store
                     </button>
                     <span className="text-[9px] uppercase tracking-widest text-orange-400 font-bold">
                         GoMo Deals Customer Account
@@ -341,7 +341,7 @@ const ProfilePage = () => {
                             </div>
 
                             <h2 className="text-xl font-serif text-orange-950 font-normal mb-1">
-                                {user.full_name || user.name || 'Boutique Customer'}
+                                {user.full_name || user.name || 'GoMo Customer'}
                             </h2>
                             <p className="text-xs text-orange-950/60 font-medium mb-3">
                                 {user.email}
@@ -463,7 +463,7 @@ const ProfilePage = () => {
                                 {/* Recent Orders Preview */}
                                 <div>
                                     <div className="flex justify-between items-center mb-3">
-                                        <h4 className="text-xs uppercase tracking-[0.2em] font-black text-orange-950">Recent Boutique Orders</h4>
+                                        <h4 className="text-xs uppercase tracking-[0.2em] font-black text-orange-950">Recent Orders</h4>
                                         <button onClick={() => navigate('/my-orders')} className="text-[9px] uppercase tracking-wider font-bold text-orange-600 hover:underline flex items-center gap-1">
                                             All Orders ({orders.length}) <ChevronRight size={11} />
                                         </button>
@@ -491,7 +491,7 @@ const ProfilePage = () => {
                                         </div>
                                     ) : (
                                         <div className="p-8 text-center border border-dashed border-orange-200 text-orange-400 text-xs">
-                                            No orders placed yet. Explore the boutique catalog to find luxury deals!
+                                            No orders placed yet. Explore the store catalog to find top deals!
                                         </div>
                                     )}
                                 </div>
@@ -688,7 +688,7 @@ const ProfilePage = () => {
                                 <div className="border-b border-orange-100 pb-4 flex justify-between items-center">
                                     <div>
                                         <h3 className="text-xl font-serif text-orange-950 font-normal">My Wishlist</h3>
-                                        <p className="text-[9px] uppercase tracking-widest text-orange-400 font-bold mt-0.5">Your curated collection of saved boutique pieces</p>
+                                        <p className="text-[9px] uppercase tracking-widest text-orange-400 font-bold mt-0.5">Your curated collection of saved items</p>
                                     </div>
                                     <button 
                                         onClick={() => navigate('/wishlist')}
@@ -786,7 +786,7 @@ const ProfilePage = () => {
                                 <div className="border-b border-orange-100 pb-4 flex justify-between items-center">
                                     <div>
                                         <h3 className="text-xl font-serif text-orange-950 font-normal">Notifications & Preferences</h3>
-                                        <p className="text-[9px] uppercase tracking-widest text-orange-400 font-bold mt-0.5">Manage live order alerts and boutique offers</p>
+                                        <p className="text-[9px] uppercase tracking-widest text-orange-400 font-bold mt-0.5">Manage live order alerts and exclusive offers</p>
                                     </div>
                                     <button 
                                         onClick={handleMarkAllNotifications}

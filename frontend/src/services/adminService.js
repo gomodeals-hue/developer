@@ -373,6 +373,20 @@ export const adminService = {
    * Complete Single-Vendor Dashboard Metrics
    */
   async getDashboardData() {
+    try {
+      const res = await fetch('/api/v1/admin/dashboard-data', {
+        headers: {
+          'Authorization': `Bearer ${localStorage.getItem('admin_token') || ''}`,
+          'Accept': 'application/json'
+        }
+      });
+      if (res.ok) {
+        const json = await res.json();
+        if (json.success && json.data) return json;
+      }
+    } catch (e) {
+      console.warn('[AdminService] Live dashboard data fallback:', e.message);
+    }
     const orders = getStoredOrders();
     const customers = getStoredCustomers();
     const categories = getStoredCategories();
@@ -454,6 +468,29 @@ export const adminService = {
    * Product Management
    */
   async getProducts() {
+    try {
+      const res = await fetch('/api/v1/admin/products', {
+        headers: {
+          'Authorization': `Bearer ${localStorage.getItem('admin_token') || ''}`,
+          'Accept': 'application/json'
+        }
+      });
+      if (res.ok) {
+        const json = await res.json();
+        if (json.success && Array.isArray(json.data) && json.data.length > 0) {
+          const prods = json.data.map(p => ({
+            ...p,
+            product_id: p.id || p.product_id,
+            stock: p.stock_quantity ?? 25,
+            is_active: p.is_active !== undefined ? p.is_active : true,
+            is_disabled: p.is_active === false
+          }));
+          return { success: true, data: prods };
+        }
+      }
+    } catch (e) {
+      console.warn('[AdminService] Live products fallback:', e.message);
+    }
     const overrides = readStorage(ADMIN_PRODUCTS_OVERRIDE_KEY, {});
     const products = SAMPLE_PRODUCTS.map(p => {
       const pid = p.product_id || p.id;
@@ -554,6 +591,22 @@ export const adminService = {
    * Order Management
    */
   async getOrders() {
+    try {
+      const res = await fetch('/api/v1/admin/orders', {
+        headers: {
+          'Authorization': `Bearer ${localStorage.getItem('admin_token') || ''}`,
+          'Accept': 'application/json'
+        }
+      });
+      if (res.ok) {
+        const json = await res.json();
+        if (json.success && Array.isArray(json.data) && json.data.length > 0) {
+          return { success: true, data: json.data };
+        }
+      }
+    } catch (e) {
+      console.warn('[AdminService] Live orders fallback:', e.message);
+    }
     const orders = getStoredOrders();
     return { success: true, data: orders };
   },
@@ -566,6 +619,33 @@ export const adminService = {
   },
 
   async updateOrderStatus(orderId, { status, courier, tracking_id, est_delivery }) {
+    try {
+      const res = await fetch(`/api/v1/admin/orders/${orderId}/status`, {
+        method: 'PATCH',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${localStorage.getItem('admin_token') || ''}`
+        },
+        body: JSON.stringify({ status, courier, tracking_id, est_delivery })
+      });
+      if (res.ok) {
+        const json = await res.json();
+        if (json.success) {
+          // Sync locally as well
+          const orders = getStoredOrders();
+          const idx = orders.findIndex(o => (o.id === orderId || o.order_id === orderId));
+          if (idx !== -1) {
+            orders[idx].status = status || orders[idx].status;
+            if (courier) orders[idx].courier = courier;
+            if (tracking_id) orders[idx].tracking_id = tracking_id;
+            writeStorage(ADMIN_ORDERS_KEY, orders);
+          }
+          return json;
+        }
+      }
+    } catch (e) {
+      console.warn('[AdminService] Live order status update fallback:', e.message);
+    }
     const orders = getStoredOrders();
     const idx = orders.findIndex(o => (o.id === orderId || o.order_id === orderId));
     if (idx === -1) {
@@ -618,6 +698,22 @@ export const adminService = {
    * Customer Management
    */
   async getCustomers() {
+    try {
+      const res = await fetch('/api/v1/admin/customers', {
+        headers: {
+          'Authorization': `Bearer ${localStorage.getItem('admin_token') || ''}`,
+          'Accept': 'application/json'
+        }
+      });
+      if (res.ok) {
+        const json = await res.json();
+        if (json.success && Array.isArray(json.data) && json.data.length > 0) {
+          return { success: true, data: json.data };
+        }
+      }
+    } catch (e) {
+      console.warn('[AdminService] Live customers fallback:', e.message);
+    }
     const customers = getStoredCustomers();
     return { success: true, data: customers };
   },
