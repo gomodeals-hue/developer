@@ -2162,7 +2162,7 @@ const NavMain = ({ isTransparent = false, isHome = false }) => {
           <button
             type="button"
             onClick={() => setMobileMenuOpen(true)}
-            className={`flex items-center gap-1.5 px-2.5 sm:px-3 py-1.5 rounded-lg font-bold uppercase tracking-wider text-[10.5px] xl:text-[11px] cursor-pointer flex-shrink-0 mr-0.5 group transition-all duration-200 hover:-translate-y-0.5 hover:shadow-xs active:translate-y-0 active:scale-95 ${
+            className={`flex items-center gap-1.5 px-3 py-1.5 rounded-full font-black uppercase tracking-wider text-[10.5px] xl:text-[11px] cursor-pointer flex-shrink-0 mr-1 group transition-all duration-200 hover:-translate-y-0.5 hover:shadow-xs active:translate-y-0 active:scale-95 ${
               isTransparent
                 ? "text-white hover:bg-white/20"
                 : "text-stone-800 hover:bg-orange-50/80 hover:text-orange-600 border border-transparent hover:border-orange-200/60"
@@ -2225,18 +2225,18 @@ const NavMain = ({ isTransparent = false, isHome = false }) => {
                   >
                     <Link
                       to={dept.path}
-                      className={`group relative px-2 xl:px-2.5 py-1.5 rounded-lg text-[10.5px] xl:text-[11px] uppercase tracking-wider transition-all duration-200 flex items-center gap-1 sm:gap-1.5 cursor-pointer font-bold whitespace-nowrap flex-shrink-0 hover:-translate-y-0.5 active:translate-y-0 active:scale-95 ${
+                      className={`group relative px-3 py-1.5 rounded-full text-[10.5px] xl:text-[11px] uppercase tracking-wider transition-all duration-200 flex items-center gap-1 sm:gap-1.5 cursor-pointer font-bold whitespace-nowrap flex-shrink-0 hover:-translate-y-0.5 active:translate-y-0 active:scale-95 ${
                         dept.isHighlight || dept.isHighlighted
                           ? isTransparent
-                            ? "text-white hover:bg-white/15 border border-transparent"
-                            : "text-stone-900 hover:text-orange-600 hover:bg-orange-50/70 border border-transparent hover:shadow-xs"
+                            ? "text-white hover:bg-white/20 border border-white/25"
+                            : "text-[#f76e28] hover:text-[#de5713] bg-orange-50 hover:bg-orange-100/80 border border-orange-200/80 shadow-2xs font-black"
                           : isCurrentActive
                             ? isTransparent
-                              ? "text-white bg-white/20 shadow-2xs"
-                              : "text-orange-600 bg-stone-100 shadow-2xs"
+                              ? "text-white bg-white/25 shadow-xs border border-white/30"
+                              : "text-[#f76e28] bg-orange-50 border border-orange-200/90 shadow-2xs font-black"
                             : isTransparent
-                              ? "text-white/90 hover:text-white hover:bg-white/15"
-                              : "text-stone-700 hover:text-orange-600 hover:bg-orange-50/70 hover:border-orange-200/60 border border-transparent hover:shadow-xs"
+                              ? "text-white/90 hover:text-white hover:bg-white/15 border border-transparent"
+                              : "text-stone-700 hover:text-[#f76e28] hover:bg-orange-50/80 hover:border-orange-200/60 border border-transparent hover:shadow-2xs"
                       }`}
                     >
                       <span>{t(dept.label) || dept.label}</span>

@@ -2,7 +2,7 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
 import { useShop } from '../../../../context/ShopContext';
-import { ChevronRight, ArrowUpRight } from 'lucide-react';
+import { ChevronRight, ArrowUpRight, Sparkles } from 'lucide-react';
 
 const CATEGORIES = [
   {
@@ -72,41 +72,42 @@ export default function CategoryBubbles() {
   };
 
   return (
-    <section id="featured-categories" className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-8 pb-10">
-      {/* Section Header: Standardized Structure */}
-      <div className="flex items-end justify-between mb-6">
+    <section id="featured-categories" className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-10 pb-12">
+      {/* Section Header: Material 3 Expressive Header */}
+      <div className="flex items-end justify-between mb-8">
         <div>
-          <span className="text-[11px] font-bold uppercase tracking-widest text-stone-500 block mb-1">
-            {t("browse_catalog", "Browse Catalog")}
-          </span>
-          <h2 className="text-xl sm:text-2xl md:text-3xl font-extrabold text-stone-900 tracking-tight">
+          <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-orange-100 text-orange-800 text-[10.5px] font-black uppercase tracking-wider mb-2 border border-orange-200/60 shadow-2xs">
+            <Sparkles size={12} className="text-[#f76e28]" />
+            <span>{t("browse_catalog", "Browse Catalog")}</span>
+          </div>
+          <h2 className="text-2xl sm:text-3xl md:text-4xl font-extrabold text-stone-900 tracking-tight">
             {t("categories", "Top Categories")}
           </h2>
         </div>
         <button
           type="button"
           onClick={() => navigate('/categories')}
-          className="group flex items-center gap-1 text-xs font-bold text-stone-500 hover:text-orange-600 transition-colors cursor-pointer"
+          className="group flex items-center gap-1.5 px-4 py-2 rounded-full bg-white hover:bg-orange-50 text-xs font-bold text-stone-700 hover:text-[#f76e28] border border-stone-200/80 hover:border-orange-200 shadow-xs hover:shadow-sm transition-all duration-200 cursor-pointer active:scale-95"
         >
           <span>{t("view_all", "View All")}</span>
-          <ChevronRight size={14} className="group-hover:translate-x-0.5 transition-transform" />
+          <ChevronRight size={14} className="group-hover:translate-x-1 transition-transform duration-200 text-[#f76e28]" />
         </button>
       </div>
 
-      {/* Minimal Animated Category Tiles */}
-      <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-8 gap-3 sm:gap-3.5">
+      {/* Expressive M3 Squircle Category Tiles */}
+      <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-8 gap-3.5 sm:gap-4">
         {CATEGORIES.map((cat, idx) => (
           <motion.div
             key={cat.id}
-            initial={{ opacity: 0, y: 10 }}
+            initial={{ opacity: 0, y: 12 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            transition={{ duration: 0.25, delay: idx * 0.02 }}
+            transition={{ duration: 0.3, delay: idx * 0.03 }}
             onClick={() => handleCategoryClick(cat)}
-            className="group relative flex flex-col bg-white rounded-2xl p-2.5 border border-stone-200 hover:border-stone-300 shadow-xs transition-all duration-200 ease-out cursor-pointer hover:-translate-y-1 select-none"
+            className="group relative flex flex-col bg-white rounded-3xl p-3 border border-stone-200/80 hover:border-orange-300 shadow-[0_4px_16px_-2px_rgba(28,25,23,0.04)] hover:shadow-[0_16px_32px_-4px_rgba(247,110,40,0.14)] transition-all duration-300 ease-[cubic-bezier(0.34,1.56,0.64,1)] cursor-pointer hover:-translate-y-1.5 select-none overflow-hidden"
           >
-            {/* Minimal Image Frame with Smooth Zoom */}
-            <div className="relative w-full aspect-square rounded-xl overflow-hidden bg-stone-100 mb-2">
+            {/* Smooth Zoom Image Frame with M3 Squircle Corner */}
+            <div className="relative w-full aspect-square rounded-2xl overflow-hidden bg-stone-100 mb-2.5 shadow-inner">
               <img
                 src={cat.image}
                 alt={t(cat.id.replace(/-/g, "_"), cat.label)}
@@ -114,27 +115,29 @@ export default function CategoryBubbles() {
                   e.target.onerror = null;
                   e.target.src = 'https://images.unsplash.com/photo-1617137984095-74e4e5e3613f?w=320&auto=format&fit=crop&q=80';
                 }}
-                className="w-full h-full object-cover transition-transform duration-500 ease-out group-hover:scale-105"
+                className="w-full h-full object-cover transition-transform duration-500 ease-out group-hover:scale-108"
                 loading="lazy"
               />
-              {/* Subtle hover gradient wash */}
-              <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-200" />
+              {/* Gradient Vignette */}
+              <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent opacity-60 group-hover:opacity-80 transition-opacity duration-300" />
               
-              {/* Plain text Category Tag Label: no pill, no bg, no border, no radius */}
-              <span className="absolute top-2 left-2 text-[9px] font-bold tracking-widest uppercase text-white drop-shadow-md select-none pointer-events-none">
+              {/* Material 3 Expressive Floating Glass Pill Tag */}
+              <span className="absolute top-2.5 left-2.5 px-2.5 py-0.5 rounded-full bg-black/50 backdrop-blur-md text-[9px] font-black uppercase tracking-wider text-white border border-white/20 shadow-xs pointer-events-none">
                 {t(cat.tag)}
               </span>
             </div>
 
-            {/* Title & Subtle Directional Micro-Arrow */}
-            <div className="flex items-center justify-between px-1 pb-0.5">
-              <span className="text-xs font-bold text-stone-800 group-hover:text-orange-600 transition-colors truncate">
+            {/* Title & Spring Micro-Arrow */}
+            <div className="flex items-center justify-between px-1 pt-0.5 pb-1">
+              <span className="text-xs sm:text-[13px] font-extrabold text-stone-900 group-hover:text-[#f76e28] transition-colors truncate">
                 {cat.label}
               </span>
-              <ArrowUpRight
-                size={13}
-                className="text-stone-400 group-hover:text-orange-500 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-all duration-200 flex-shrink-0"
-              />
+              <div className="w-6 h-6 rounded-full bg-stone-50 group-hover:bg-orange-100 flex items-center justify-center transition-colors duration-200 shrink-0 ml-1">
+                <ArrowUpRight
+                  size={13}
+                  className="text-stone-400 group-hover:text-[#f76e28] group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-all duration-200"
+                />
+              </div>
             </div>
           </motion.div>
         ))}

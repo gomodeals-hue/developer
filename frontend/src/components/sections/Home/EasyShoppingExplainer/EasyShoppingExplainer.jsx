@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
-import { Search, ShoppingBag, ShoppingCart, CreditCard, Truck, ChevronRight, ShieldCheck, Store, HelpCircle, ArrowUpRight } from 'lucide-react';
+import { ShoppingBag, ShoppingCart, CreditCard, Truck, ChevronRight, ShieldCheck, Store, HelpCircle, Sparkles } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { useShop } from '../../../../context/ShopContext';
 import EasyOrderGuideModal from '../../../common/EasyOrderGuideModal';
@@ -45,19 +45,24 @@ export default function EasyShoppingExplainer() {
   ];
 
   return (
-    <section className="py-10 sm:py-12 bg-[#faf6f0] border-y border-stone-200">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <section className="py-12 sm:py-16 bg-gradient-to-b from-[#faf6f0] via-[#fff9f4] to-[#faf6f0] border-y border-orange-100/70 relative overflow-hidden">
+      {/* Expressive Ambient Background Accents */}
+      <div className="absolute top-0 right-1/4 w-96 h-96 bg-orange-200/20 rounded-full blur-3xl pointer-events-none" />
+      <div className="absolute bottom-0 left-1/4 w-96 h-96 bg-amber-200/20 rounded-full blur-3xl pointer-events-none" />
+
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         
         {/* Section Header */}
-        <div className="flex flex-col md:flex-row md:items-end justify-between mb-8 gap-4">
+        <div className="flex flex-col md:flex-row md:items-end justify-between mb-10 gap-5">
           <div>
-            <span className="text-[11px] font-bold uppercase tracking-widest text-stone-500 block mb-2">
-              {t("shopping_simple_badge", "Simple Shopping Experience")}
-            </span>
-            <h2 className="text-2xl sm:text-3xl font-extrabold text-stone-900 tracking-tight">
+            <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-orange-100 text-orange-800 text-[10.5px] font-black uppercase tracking-wider mb-2.5 border border-orange-200/60 shadow-2xs">
+              <Sparkles size={12} className="text-[#f76e28]" />
+              <span>{t("shopping_simple_badge", "Simple Shopping Experience")}</span>
+            </div>
+            <h2 className="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-stone-900 tracking-tight">
               {t("shopping_heading", "Straightforward, Reliable Shopping")}
             </h2>
-            <p className="text-xs sm:text-sm text-stone-600 mt-1 max-w-xl">
+            <p className="text-xs sm:text-sm text-stone-600 mt-1.5 max-w-xl leading-relaxed">
               {t("shopping_desc", "A transparent four-step ordering process designed to make selecting, buying, and tracking your items effortless.")}
             </p>
           </div>
@@ -65,42 +70,50 @@ export default function EasyShoppingExplainer() {
           <div className="flex items-center gap-3 shrink-0">
             <button
               onClick={() => setShowModal(true)}
-              className="h-10 px-4 rounded-xl bg-white hover:bg-stone-50 text-stone-800 border border-stone-200 font-bold text-xs shadow-xs transition-colors flex items-center gap-1.5 cursor-pointer"
+              className="h-11 px-4 sm:px-5 rounded-full bg-white hover:bg-stone-50 text-stone-800 border border-stone-200/80 font-bold text-xs shadow-xs hover:shadow-sm transition-all duration-200 flex items-center gap-2 cursor-pointer active:scale-95"
             >
-              <HelpCircle size={14} className="text-[#f76e28]" />
+              <HelpCircle size={15} className="text-[#f76e28]" />
               <span>{t("ordering_guide_btn", "Ordering Guide")}</span>
             </button>
             <Link
               to="/seller"
-              className="h-10 px-4 rounded-xl bg-[#f76e28] hover:bg-orange-700 text-white font-bold text-xs shadow-xs transition-colors flex items-center gap-1.5 cursor-pointer"
+              className="h-11 px-5 rounded-full bg-gradient-to-r from-[#f76e28] to-[#ea580c] hover:from-[#ea580c] hover:to-[#de5713] text-white font-extrabold text-xs shadow-md shadow-orange-500/25 hover:shadow-lg hover:shadow-orange-500/35 transition-all duration-200 flex items-center gap-2 cursor-pointer active:scale-95"
             >
-              <Store size={14} />
+              <Store size={15} />
               <span>{t("seller_portal_btn", "Seller Portal")}</span>
-              <ChevronRight size={14} />
+              <ChevronRight size={15} />
             </Link>
           </div>
         </div>
 
-        {/* 4 Cards Grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-          {cards.map((card) => {
+        {/* 4 Cards Grid - Material 3 Expressive Squircle Cards */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-5">
+          {cards.map((card, idx) => {
             const CardIcon = card.icon;
             return (
-              <div
+              <motion.div
                 key={card.step}
-                className="group bg-white rounded-2xl p-5 border border-stone-200 shadow-xs hover:border-stone-300 transition-colors duration-180 flex flex-col justify-between"
+                initial={{ opacity: 0, y: 14 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.35, delay: idx * 0.08 }}
+                className="group relative bg-gradient-to-b from-white via-white to-[#fffaf6] rounded-3xl p-6 border border-stone-200/80 hover:border-orange-200 shadow-[0_4px_18px_-2px_rgba(28,25,23,0.04)] hover:shadow-[0_16px_36px_-6px_rgba(247,110,40,0.14)] transition-all duration-300 ease-[cubic-bezier(0.34,1.56,0.64,1)] hover:-translate-y-1.5 flex flex-col justify-between overflow-hidden"
               >
+                {/* Ambient Top Glow on Hover */}
+                <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-bl from-orange-100/50 via-amber-100/20 to-transparent rounded-bl-full pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+
                 <div>
-                  <div className="flex items-center justify-between mb-4">
-                    <span className="text-xs font-mono font-bold text-stone-400 tracking-wider">
-                      {card.step}
+                  <div className="flex items-center justify-between mb-5">
+                    {/* Expressive Pill Step Badge */}
+                    <span className="px-3 py-1 rounded-full bg-gradient-to-r from-[#f76e28] to-[#ea580c] text-white font-black text-xs tracking-wider shadow-xs shadow-orange-500/30">
+                      STEP {card.step}
                     </span>
-                    <div className="w-10 h-10 rounded-xl bg-stone-50 border border-stone-200/80 flex items-center justify-center text-[#f76e28]">
-                      <CardIcon size={18} />
+                    <div className="w-11 h-11 rounded-2xl bg-orange-50/90 ring-4 ring-orange-50/50 border border-orange-200/60 flex items-center justify-center text-[#f76e28] group-hover:scale-110 group-hover:bg-orange-100 transition-all duration-300 ease-[cubic-bezier(0.34,1.56,0.64,1)]">
+                      <CardIcon size={20} strokeWidth={2.2} />
                     </div>
                   </div>
                   
-                  <h3 className="text-sm sm:text-base font-bold text-stone-900 mb-1.5 group-hover:text-orange-600 transition-colors">
+                  <h3 className="text-base font-extrabold text-stone-900 mb-2 group-hover:text-orange-950 transition-colors">
                     {t(card.title)}
                   </h3>
                   <p className="text-xs text-stone-600 leading-relaxed mb-4">
@@ -110,37 +123,37 @@ export default function EasyShoppingExplainer() {
 
                 <Link
                   to={card.link}
-                  className="mt-2 pt-3 border-t border-stone-100 flex items-center justify-between text-xs font-bold text-orange-600 hover:text-orange-700 transition-colors"
+                  className="mt-3 pt-3.5 border-t border-stone-100 flex items-center justify-between text-xs font-black text-[#f76e28] hover:text-[#de5713] transition-colors group/link"
                 >
-                  <span>{t(card.actionText)}</span>
-                  <ChevronRight size={14} />
+                  <span className="group-hover/link:underline">{t(card.actionText)}</span>
+                  <ChevronRight size={15} className="group-hover/link:translate-x-1 transition-transform duration-200" />
                 </Link>
-              </div>
+              </motion.div>
             );
           })}
         </div>
 
         {/* Triple-Party Ecosystem Trust Banner */}
-        <div className="mt-8 p-4 sm:p-5 rounded-2xl bg-white border border-stone-200 shadow-xs flex flex-col md:flex-row items-center justify-between gap-4">
-          <div className="flex items-center gap-3">
-            <div className="w-11 h-11 rounded-2xl bg-orange-100 text-orange-600 flex items-center justify-center shrink-0">
-              <ShieldCheck size={22} />
+        <div className="mt-10 p-5 sm:p-6 rounded-3xl bg-gradient-to-r from-white via-[#fffaf6] to-orange-50/70 border border-orange-200/70 shadow-[0_8px_24px_-4px_rgba(247,110,40,0.08)] flex flex-col md:flex-row items-center justify-between gap-5">
+          <div className="flex items-center gap-4">
+            <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-orange-500 to-[#ea580c] text-white flex items-center justify-center shrink-0 shadow-md shadow-orange-500/25">
+              <ShieldCheck size={26} strokeWidth={2.2} />
             </div>
             <div>
-              <h4 className="font-extrabold text-sm text-stone-900">
+              <h4 className="font-extrabold text-sm sm:text-base text-stone-900 tracking-tight">
                 Integrated Commerce: Customers, Verified Merchants &amp; Administration
               </h4>
-              <p className="text-xs text-stone-500">
+              <p className="text-xs text-stone-600 mt-0.5 leading-relaxed">
                 Orders placed by customers directly dispatch to verified vendor inventories, with automated courier tracking and administrator oversight.
               </p>
             </div>
           </div>
-          <div className="flex items-center gap-2 shrink-0">
+          <div className="flex items-center gap-2.5 shrink-0">
             <Link
               to="/seller"
-              className="px-3.5 py-1.5 bg-[#f76e28] hover:bg-[#de5713] text-white text-xs font-bold rounded-xl transition flex items-center gap-1.5 shadow-sm"
+              className="px-5 py-2.5 bg-gradient-to-r from-[#f76e28] to-[#ea580c] hover:from-[#ea580c] hover:to-[#de5713] text-white text-xs font-black rounded-full transition-all duration-200 flex items-center gap-1.5 shadow-md shadow-orange-500/25 active:scale-95"
             >
-              <Store size={13} />
+              <Store size={14} />
               <span>Seller Portal</span>
             </Link>
           </div>
