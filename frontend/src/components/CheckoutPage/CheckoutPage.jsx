@@ -68,7 +68,7 @@ const ALL_BANKS = [
 const CheckoutPage = () => {
   const location = useLocation();
   const navigate = useNavigate();
-  const { cart, removeFromCart, addToCart, formatPrice } = useShop();
+  const { cart, removeFromCart, addToCart, formatPrice, clearCart } = useShop();
   const { user } = useAuth();
   const { toast } = useToast();
 
@@ -429,11 +429,15 @@ const CheckoutPage = () => {
       setBookingStatusText("Booking Confirmed & Secured!");
       setBookingProgress(100);
 
-      // If bought from regular cart, clean up checked out items
+      // Clean up checked out items from cart in state and storage
       if (!buyNowProduct) {
-        items.forEach((it) => {
-          removeFromCart(it.product_id || it.id);
-        });
+        if (typeof clearCart === 'function') {
+          clearCart();
+        } else {
+          items.forEach((it) => {
+            removeFromCart(it.product_id || it.id);
+          });
+        }
       }
 
       showToast("Order confirmed! Redirecting to receipt...");
@@ -1349,6 +1353,42 @@ const CheckoutPage = () => {
 
               {/* Action Buttons Area */}
               <div className="mt-6 pt-5 border-t border-stone-100 space-y-3">
+                {/* Direct 1-Click Pay & Place Order Button */}
+                <button
+                  type="button"
+                  onClick={async () => {
+                    try {
+                      await handlePlaceOrder();
+                    } catch (e) {
+                      console.error("Order submit error:", e);
+                    }
+                  }}
+                  disabled={isBookingOrder || items.length === 0}
+                  className="w-full py-4 px-6 bg-gradient-to-r from-orange-600 via-orange-500 to-[#f76e28] hover:from-orange-700 hover:to-orange-600 active:scale-[0.99] text-white font-extrabold text-sm uppercase tracking-wider rounded-2xl shadow-lg shadow-orange-500/25 transition-all flex items-center justify-center gap-3 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed group"
+                >
+                  {isBookingOrder ? (
+                    <>
+                      <RefreshCw size={18} className="animate-spin text-white" />
+                      <span>{bookingStatusText || "Processing Order..."}</span>
+                    </>
+                  ) : (
+                    <>
+                      <Lock size={16} className="text-white/80 group-hover:scale-110 transition-transform" />
+                      <span>
+                        {paymentMethod === "cod" ? "CONFIRM ORDER (CASH ON DELIVERY)" : `PAY & PLACE ORDER • ${formatPrice(finalTotal)}`}
+                      </span>
+                      <ArrowRight size={16} className="text-white/80 group-hover:translate-x-1 transition-transform" />
+                    </>
+                  )}
+                </button>
+
+                {/* Visual Separator */}
+                <div className="relative flex py-1 items-center">
+                  <div className="flex-grow border-t border-stone-200"></div>
+                  <span className="shrink mx-3 text-[10px] font-bold text-stone-400 uppercase tracking-widest">or slide to confirm</span>
+                  <div className="flex-grow border-t border-stone-200"></div>
+                </div>
+
                 {/* Slide to Pay Slider (React Bits SlideCommit) */}
                 <div className="w-full flex flex-col items-center justify-center pt-1">
                   <SlideCommit

@@ -18,6 +18,7 @@ import { handleChatbotRoutes } from './routes/chatbotRouter.js';
 import { handleFleaMarketRoutes } from './routes/fleaMarketRouter.js';
 import { handleTicketBookingRoutes } from './routes/ticketBookingRouter.js';
 import { handleBusRoutes } from './routes/busRouter.js';
+import { handlePaymentsRoutes } from './routes/paymentsRouter.js';
 import { testPostgresConnection, isPostgresConnected, pool } from './database/pg.js';
 
 const PORT = process.env.PORT || 5000;
@@ -137,6 +138,7 @@ export async function app(req, res) {
     if (await handleFleaMarketRoutes(req, res, pathname, method, query, body, sendJSON)) return;
     if (await handleTicketBookingRoutes(req, res, pathname, method, query, body, sendJSON)) return;
     if (await handleBusRoutes(req, res, pathname, method, query, body, sendJSON)) return;
+    if (await handlePaymentsRoutes(req, res, pathname, method, query, body, sendJSON)) return;
     if (await handleProductsRoutes(req, res, pathname, method, query, body, sendJSON)) return;
     if (handleCategoriesRoutes(req, res, pathname, method, query, body, sendJSON)) return;
     if (await handleOrdersRoutes(req, res, pathname, method, query, body, sendJSON)) return;

@@ -28,7 +28,14 @@ const OrderPlaced = () => {
   const { user, register } = useAuth();
 
   const stateData = location.state || {};
-  const order = stateData.order || null;
+  const order = stateData.order?.data || stateData.order || (() => {
+    try {
+      const stored = JSON.parse(localStorage.getItem('gomo_customer_orders') || '[]');
+      return stored[0] || null;
+    } catch {
+      return null;
+    }
+  })();
   const orderId = stateData.orderId || order?.id || order?.order_id || "ORD-" + Math.floor(100000 + Math.random() * 900000);
   const orderNumber = stateData.orderNumber || order?.order_number || `GOMO-2026-${orderId.toString().slice(-5).toUpperCase()}`;
 

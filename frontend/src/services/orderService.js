@@ -28,7 +28,22 @@ export const orderService = {
     if (!API_CONFIG.USE_MOCK) {
       try {
         const res = await apiClient.post(API_CONFIG.ENDPOINTS.ORDERS.CREATE, orderData);
-        return res.data;
+        const orderObj = res.data?.data || res.data?.order || res.data;
+        if (orderObj) {
+          const normalized = {
+            ...orderObj,
+            id: orderObj.id || orderObj.order_id,
+            order_id: orderObj.order_id || orderObj.id,
+            order_number: orderObj.order_number || `GOMO-2026-${(orderObj.id || '').slice(-5)}`,
+            success: true
+          };
+          const local = loadLocalOrders();
+          // Avoid duplicate entries
+          const filtered = local.filter(o => (o.id !== normalized.id && o.order_number !== normalized.order_number));
+          filtered.unshift(normalized);
+          saveLocalOrders(filtered);
+          return normalized;
+        }
       } catch (err) {
         console.warn('API createOrder failed, creating in mock storage:', err.message);
       }
@@ -183,10 +198,19 @@ export const orderService = {
    * Get all orders placed by the current customer
    */
   async getMyOrders(customerId) {
-    if (!API_CONFIG.USE_MOCK && customerId) {
+    if (!API_CONFIG.USE_MOCK) {
       try {
-        const res = await apiClient.get(API_CONFIG.ENDPOINTS.ORDERS.LIST(customerId));
-        if (res.data?.success) return res.data;
+        const targetUrl = customerId ? API_CONFIG.ENDPOINTS.ORDERS.LIST(customerId) : '/orders';
+        const res = await apiClient.get(targetUrl);
+        if (res.data?.success && Array.isArray(res.data.data)) {
+          const localOrders = loadLocalOrders();
+          const apiIds = new Set(res.data.data.map(o => o.id || o.order_id));
+          const localOnly = localOrders.filter(o => !apiIds.has(o.id || o.order_id));
+          return {
+            success: true,
+            data: [...localOnly, ...res.data.data]
+          };
+        }
       } catch (err) {
         console.warn('API getMyOrders failed, returning local orders:', err.message);
       }
@@ -194,7 +218,7 @@ export const orderService = {
 
     const localOrders = loadLocalOrders();
     const userOrders = customerId
-      ? localOrders.filter(o => o.customer_id === customerId || !o.customer_id)
+      ? localOrders.filter(o => o.customer_id === customerId || o.userId === customerId || !o.customer_id)
       : localOrders;
 
     return {

@@ -265,6 +265,17 @@ export async function handleOrdersRoutes(req, res, pathname, method, query, body
         prod.stock_quantity = Math.max(0, prod.stock_quantity - reqQty);
         prod.in_stock = prod.stock_quantity > 0;
 
+        if (pgConnected) {
+          try {
+            await pool.query(
+              'UPDATE products SET stock_quantity = $1, in_stock = $2 WHERE id = $3 OR product_id = $3',
+              [prod.stock_quantity, prod.in_stock, prod.id]
+            );
+          } catch (e) {
+            console.warn('[Orders] Postgres stock update error:', e.message);
+          }
+        }
+
         broadcast('STOCK_UPDATE', {
           productId: prod.id,
           stock_quantity: prod.stock_quantity,
@@ -293,7 +304,7 @@ export async function handleOrdersRoutes(req, res, pathname, method, query, body
 
     const initialTracking = [
       { step: 'Order Placed', status: 'completed', time: nowIso, note: 'Payment verified and order confirmed' },
-      { step: 'Processing & Quality Check', status: 'in_transit', time: nowIso, note: 'Boutique studio is carefully preparing your shipment' },
+      { step: 'Processing & Quality Check', status: 'in_transit', time: nowIso, note: 'Our fulfillment team is carefully preparing your shipment' },
       { step: 'Shipped via Express', status: 'pending', note: `Assigned to BlueDart Express (AWB: ${trackingNumber})` },
       { step: 'Out for Delivery', status: 'pending', note: 'Scheduled for local contactless delivery' },
       { step: 'Delivered', status: 'pending', note: 'Doorstep handover with OTP verification' }
@@ -367,11 +378,16 @@ export async function handleOrdersRoutes(req, res, pathname, method, query, body
       }
     }
 
-    // 3. Clear user's cart in backend
+    // 3. Clear user's cart in backend & Postgres
     const uid = newOrder.userId;
     if (db.carts[uid]) {
       db.carts[uid] = [];
       saveCollection('carts');
+    }
+    if (pgConnected) {
+      try {
+        await pool.query('DELETE FROM cart WHERE user_id = $1', [uid]);
+      } catch (err) {}
     }
 
     // 4. Real-time Broadcasts
