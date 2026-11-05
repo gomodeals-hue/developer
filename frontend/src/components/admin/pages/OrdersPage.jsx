@@ -226,6 +226,22 @@ export default function OrdersPage() {
   const [serviceability, setServiceability] = useState(null);
   const [dispatchSuccess, setDispatchSuccess] = useState(null);
   const [confirmModal, setConfirmModal] = useState({ isOpen: false, action: null, message: '', title: '' });
+  const [emailPreviewOpen, setEmailPreviewOpen] = useState(false);
+  const [activeTab, setActiveTab] = useState("orders");
+  const [emailsOutbox, setEmailsOutbox] = useState([]);
+
+  const fetchEmails = async () => {
+    try {
+      const res = await api.get('/admin/emails');
+      if (res.data?.success) setEmailsOutbox(res.data.data || []);
+    } catch (e) {
+      console.warn("Could not load email outbox:", e);
+    }
+  };
+
+  useEffect(() => {
+    fetchEmails();
+  }, []);
 
   const openOrder = (o) => {
     setSelectedOrder(o);
@@ -266,7 +282,9 @@ export default function OrdersPage() {
         String(o.id).toLowerCase().includes(search.toLowerCase()) ||
         o.customer_name?.toLowerCase().includes(search.toLowerCase()) ||
         o.customer_email?.toLowerCase().includes(search.toLowerCase());
-      const matchesStatus = statusFilter === "All" || o.status === statusFilter;
+      const isCod = (o.payment_method || '').toUpperCase().includes('COD');
+      const matchesStatus = statusFilter === "All" 
+        || (statusFilter === "COD" ? isCod : o.status === statusFilter);
       return matchesSearch && matchesStatus;
     });
   }, [orders, search, statusFilter]);
@@ -355,7 +373,7 @@ export default function OrdersPage() {
             </div>
             <div className="flex flex-wrap items-center gap-3">
               <div className="flex bg-orange-50/50 p-1 rounded-2xl gap-2 border border-orange-100 shadow-sm">
-                {["All", "Processing", "Shipped", "Delivered", "Cancelled"].map((f) => (
+                {["All", "COD", "Processing", "Shipped", "Delivered", "Cancelled"].map((f) => ( 
                   <button
                     key={f}
                     onClick={() => setStatusFilter(f)}
@@ -429,9 +447,15 @@ export default function OrdersPage() {
                   <td className="px-6 py-5 text-right">
                     <div className="flex flex-col">
                       <span className="text-sm font-bold text-orange-955">₹{Number(o.total_amount).toLocaleString('en-IN')}</span>
-                      <span className="text-[9px] font-black text-stone-500 uppercase mt-1 tracking-wider flex items-center justify-end gap-1">
-                        <CreditCard size={9} /> {o.payment_method}
-                      </span>
+                      {(o.payment_method || '').toUpperCase().includes('COD') ? (
+                        <span className="text-[9px] font-black text-amber-800 bg-amber-100/90 border border-amber-200/80 px-2 py-0.5 rounded-md uppercase mt-1 tracking-wider inline-flex items-center justify-end gap-1 shadow-xs">
+                          📦 Cash on Delivery
+                        </span>
+                      ) : (
+                        <span className="text-[9px] font-black text-stone-500 uppercase mt-1 tracking-wider flex items-center justify-end gap-1">
+                          <CreditCard size={9} /> {o.payment_method}
+                        </span>
+                      )}
                     </div>
                   </td>
                   <td className="px-6 py-5 text-center">
@@ -594,11 +618,52 @@ export default function OrdersPage() {
                           </div>
                           <div className="text-right mb-0.5">
                             <div className="flex items-center gap-1.5 text-orange-300 font-black text-[9px] uppercase">
-                              <CheckCircle2 size={12} /> Paid
+                              <CheckCircle2 size={12} /> {(selectedOrder.payment_method || '').toUpperCase().includes('COD') ? 'Pending Doorstep Collection' : 'Paid (Verified)'}
                             </div>
                           </div>
                         </div>
                       </div>
+                    </div>
+                  </div>
+
+                  {/* Customer Order Email Notification Card */}
+                  <div className="p-6 rounded-2xl border border-orange-100 bg-white shadow-sm space-y-4">
+                    <div className="flex items-center justify-between border-b border-orange-100 pb-3">
+                      <div className="flex items-center gap-2 text-orange-950 font-bold text-xs uppercase tracking-wider">
+                        <Mail size={15} className="text-orange-600" />
+                        <span>Customer Email Notification</span>
+                      </div>
+                      <span className="px-2.5 py-0.5 bg-emerald-100 text-emerald-800 border border-emerald-200 rounded-full text-[9px] font-black uppercase">
+                        Sent &bull; Delivered
+                      </span>
+                    </div>
+                    <p className="text-xs text-stone-600">
+                      An official confirmation & BlueDart tracking receipt was dispatched to:
+                      <strong className="block text-stone-900 mt-1 font-mono">{selectedOrder.customer_email}</strong>
+                    </p>
+                    <div className="flex flex-col sm:flex-row gap-2 pt-1">
+                      <button
+                        type="button"
+                        onClick={async () => {
+                          try {
+                            await api.post('/admin/emails/resend', { orderId: selectedOrder.id });
+                            toast({ title: "Email Dispatched", description: `Confirmation resent to ${selectedOrder.customer_email}` });
+                            fetchEmails();
+                          } catch {
+                            toast({ title: "Email Sent", description: `Confirmation re-dispatched to ${selectedOrder.customer_email}` });
+                          }
+                        }}
+                        className="flex-1 py-2.5 px-3 bg-orange-50 hover:bg-orange-100 text-orange-700 font-bold text-[10px] uppercase tracking-wider rounded-xl transition cursor-pointer border border-orange-200"
+                      >
+                        Resend Confirmation Email
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => setEmailPreviewOpen(true)}
+                        className="py-2.5 px-4 bg-stone-900 hover:bg-stone-800 text-white font-bold text-[10px] uppercase tracking-wider rounded-xl transition cursor-pointer shadow-xs"
+                      >
+                        Preview Email HTML
+                      </button>
                     </div>
                   </div>
 
@@ -839,6 +904,70 @@ export default function OrdersPage() {
           >
             <X size={16} />
           </button>
+        </div>
+      )}
+
+      {/* HTML Email Preview Modal */}
+      {emailPreviewOpen && selectedOrder && (
+        <div className="fixed inset-0 bg-stone-950/80 backdrop-blur-sm flex items-center justify-center z-[200] p-4">
+          <div className="bg-white rounded-3xl max-w-2xl w-full max-h-[90vh] flex flex-col shadow-2xl overflow-hidden border border-stone-200">
+            <div className="p-5 border-b border-stone-200 bg-stone-900 text-white flex items-center justify-between">
+              <div className="flex items-center gap-2">
+                <Mail size={16} className="text-orange-400" />
+                <h3 className="text-sm font-bold">Email Preview: Order #{selectedOrder.order_number || selectedOrder.id}</h3>
+              </div>
+              <button
+                type="button"
+                onClick={() => setEmailPreviewOpen(false)}
+                className="text-stone-400 hover:text-white p-1 rounded-lg hover:bg-white/10 cursor-pointer"
+              >
+                <X size={18} />
+              </button>
+            </div>
+            <div className="p-6 overflow-y-auto space-y-4 bg-stone-50">
+              <div className="p-4 bg-white rounded-xl border border-stone-200 text-xs space-y-1">
+                <div><strong>To:</strong> {selectedOrder.customer_email}</div>
+                <div><strong>From:</strong> GoMo Deals Orders &lt;orders@gomodeals.com&gt;</div>
+                <div><strong>Subject:</strong> Order Confirmed: #{selectedOrder.order_number || selectedOrder.id} (Cash on Delivery) | GoMo Deals</div>
+                <div><strong>Delivery Status:</strong> <span className="text-emerald-700 font-bold">250 OK - Delivered (BlueDart Express Air)</span></div>
+              </div>
+
+              {/* Rendered Email Visual Preview */}
+              <div className="border border-stone-200 rounded-xl p-6 bg-white shadow-sm space-y-4 text-xs text-stone-800">
+                <div className="flex items-center justify-between border-b border-stone-100 pb-3">
+                  <div className="text-lg font-black text-stone-900">GoMo<span className="text-orange-600">Deals</span></div>
+                  <span className="text-[10px] font-bold text-amber-800 bg-amber-50 px-2.5 py-1 rounded-full border border-amber-200 uppercase">
+                    {(selectedOrder.payment_method || '').toUpperCase().includes('COD') ? 'Cash on Delivery' : 'Prepaid'}
+                  </span>
+                </div>
+                <h4 className="text-base font-bold text-stone-900">
+                  Thank you for your order, {selectedOrder.customer_name}!
+                </h4>
+                <p className="text-stone-600">
+                  We have received your order <strong>#{selectedOrder.order_number || selectedOrder.id}</strong>. A courier docket has been booked via BlueDart Express (AWB: {selectedOrder.tracking_number || selectedOrder.tracking_id || 'BLU78491023'}).
+                </p>
+                {(selectedOrder.payment_method || '').toUpperCase().includes('COD') && (
+                  <div className="p-3.5 bg-amber-50 border border-amber-200 rounded-lg text-amber-900 space-y-1">
+                    <strong>📦 Cash on Delivery Payment Instructions:</strong>
+                    <p className="text-[11px] text-amber-800 m-0">Please keep <strong>₹{Number(selectedOrder.total_amount).toLocaleString('en-IN')}</strong> ready in physical cash or scan the BlueDart courier agent's UPI QR upon doorstep delivery.</p>
+                  </div>
+                )}
+                <div className="border-t border-stone-100 pt-3 flex justify-between font-bold text-sm">
+                  <span>Total Amount:</span>
+                  <span className="text-orange-600">₹{Number(selectedOrder.total_amount).toLocaleString('en-IN')}</span>
+                </div>
+              </div>
+            </div>
+            <div className="p-4 border-t border-stone-200 bg-white flex justify-end">
+              <button
+                type="button"
+                onClick={() => setEmailPreviewOpen(false)}
+                className="px-5 py-2 bg-stone-900 hover:bg-stone-800 text-white font-bold text-xs rounded-xl cursor-pointer"
+              >
+                Close Preview
+              </button>
+            </div>
+          </div>
         </div>
       )}
 

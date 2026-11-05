@@ -779,6 +779,38 @@ p {
                 <button type="submit" disabled={loading} className="admin-submit-btn">
                   {loading ? "Processing..." : (isLogin ? "Authenticate" : "Send Verification Code")}
                 </button>
+
+                {isLogin && (
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setFormData({
+                        ...formData,
+                        email: "admin@gomodeals.com",
+                        password: "Admin@123",
+                        type: "admin"
+                      });
+                    }}
+                    style={{
+                      width: "100%",
+                      padding: "10px",
+                      marginTop: "12px",
+                      background: "rgba(247, 110, 40, 0.15)",
+                      border: "1px dashed #f76e28",
+                      borderRadius: "10px",
+                      color: "#f76e28",
+                      fontSize: "0.75rem",
+                      fontWeight: 800,
+                      cursor: "pointer",
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                      gap: "6px"
+                    }}
+                  >
+                    <span>⚡ Quick-Fill Admin Login (admin@gomodeals.com)</span>
+                  </button>
+                )}
               </form>
               )}
 

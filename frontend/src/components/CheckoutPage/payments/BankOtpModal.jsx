@@ -219,3 +219,4 @@ export const BankOtpModal = ({
 };
 
 export default BankOtpModal;
+

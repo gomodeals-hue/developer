@@ -1,6 +1,7 @@
 import { getDB, saveCollection } from '../database/db.js';
 import { broadcast, advanceOrderStep } from '../realtime.js';
 import { isPostgresConnected, pool } from '../database/pg.js';
+import { sendOrderNotifications, getEmailOutbox, resendOrderEmail } from '../services/emailService.js';
 
 export async function handleOrdersRoutes(req, res, pathname, method, query, body, sendJSON) {
   const db = getDB();
@@ -412,12 +413,42 @@ export async function handleOrdersRoutes(req, res, pathname, method, query, body
       });
     }
 
+    // 5. Dispatch Automatic Order Notification Emails (Customer Receipt + Admin Alert)
+    sendOrderNotifications(newOrder).catch(err => {
+      console.warn('[Orders] Background email dispatch error:', err.message);
+    });
+
     return sendJSON(res, {
       success: true,
       message: 'Order placed successfully',
       data: newOrder,
       order: newOrder
     }, 201);
+  }
+
+  // 10. Admin Outbox Emails List
+  if ((pathname === '/api/v1/admin/emails' || pathname === '/api/admin/emails') && method === 'GET') {
+    const emails = getEmailOutbox();
+    return sendJSON(res, {
+      success: true,
+      count: emails.length,
+      data: emails
+    });
+  }
+
+  // 11. Admin Resend Order Email
+  if ((pathname === '/api/v1/admin/emails/resend' || pathname === '/api/admin/emails/resend') && method === 'POST') {
+    const orderId = body.orderId || body.order_id;
+    const order = db.orders.find(o => o.id === orderId || o.order_id === orderId || o.order_number === orderId);
+    if (!order) {
+      return sendJSON(res, { success: false, message: 'Order not found' }, 404);
+    }
+    const result = await resendOrderEmail(order.id, order);
+    return sendJSON(res, {
+      success: true,
+      message: `Confirmation email re-dispatched to ${order.customer_email}`,
+      data: result
+    });
   }
 
   return false;
