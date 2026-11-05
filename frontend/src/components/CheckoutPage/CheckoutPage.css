@@ -27,8 +27,9 @@
 }
 
 .gomo-checkout-page .payment-body.active {
-  max-height: 380px;
+  max-height: 1400px;
   opacity: 1;
+  overflow: visible;
 }
 
 /* Shimmer Loading Animation */

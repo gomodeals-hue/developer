@@ -298,11 +298,17 @@ const OrderPlaced = () => {
                   {paymentMethod === "COD" 
                     ? t("Cash on Delivery (Doorstep)") 
                     : paymentMethod === "UPI" 
-                    ? t("UPI Transfer") 
-                    : t("Credit / Debit Card")}
+                    ? t("UPI Transfer (NPCI)") 
+                    : paymentMethod === "DEBIT_CARD"
+                    ? t("Debit Card (ATM Card)")
+                    : paymentMethod === "CREDIT_CARD"
+                    ? t("Credit Card")
+                    : paymentMethod === "NETBANKING"
+                    ? t("Net Banking")
+                    : t("Card Payment")}
                 </p>
                 <p className="text-[10px] font-mono text-orange-500">
-                  {order?.masked_account || (paymentMethod === "CARD" ? "Card •••• 8821" : paymentMethod === "UPI" ? "VPA Verified" : "Pay upon receipt")}
+                  {order?.masked_account || (paymentMethod === "DEBIT_CARD" ? "Debit Card •••• 4242" : paymentMethod === "CREDIT_CARD" ? "Credit Card •••• 8821" : paymentMethod === "UPI" ? "Verified UPI Transfer" : paymentMethod === "COD" ? "Pay upon doorstep delivery" : "Verified Payment")}
                 </p>
               </div>
             </div>
