@@ -7,7 +7,7 @@ import {
   Search, ShoppingCart, Truck, CheckCircle2, XCircle, RotateCcw,
   Eye, X, MapPin, Download, Package, ExternalLink, Calendar, Check,
   TrendingUp, History, Filter, MoreHorizontal, ArrowRight, List,
-  ShieldCheck, Clock, CreditCard
+  ShieldCheck, Clock, CreditCard, Mail, Sparkles, Send, BellRing, RefreshCw, AlertTriangle, ArrowUpRight
 } from "lucide-react";
 import { cn } from "../../../lib/utils";
 import { api } from "../../../services/api";
@@ -229,6 +229,102 @@ export default function OrdersPage() {
   const [emailPreviewOpen, setEmailPreviewOpen] = useState(false);
   const [activeTab, setActiveTab] = useState("orders");
   const [emailsOutbox, setEmailsOutbox] = useState([]);
+  const [abandonedCarts, setAbandonedCarts] = useState([]);
+  const [abandonedSummary, setAbandonedSummary] = useState(null);
+  const [loadingAbandoned, setLoadingAbandoned] = useState(false);
+  const [cartPreviewModal, setCartPreviewModal] = useState({ isOpen: false, cart: null, html: '' });
+  const [sendingReminderId, setSendingReminderId] = useState(null);
+  const [batchRunning, setBatchRunning] = useState(false);
+  const [abandonedFilter, setAbandonedFilter] = useState("all");
+  const [abandonedSearch, setAbandonedSearch] = useState("");
+
+  const fetchAbandonedCarts = async () => {
+    setLoadingAbandoned(true);
+    try {
+      const res = await api.get('/admin/abandoned-carts');
+      if (res.data?.success) {
+        setAbandonedCarts(res.data.data || []);
+        setAbandonedSummary(res.data.summary || null);
+      }
+    } catch (e) {
+      console.warn("Could not load abandoned carts:", e);
+    } finally {
+      setLoadingAbandoned(false);
+    }
+  };
+
+  const handleSendCartReminder = async (cart) => {
+    setSendingReminderId(cart.user_id);
+    try {
+      const res = await api.post('/admin/abandoned-carts/send-reminder', {
+        user_id: cart.user_id,
+        custom_email: cart.customer_email,
+        custom_name: cart.customer_name
+      });
+      if (res.data?.success) {
+        toast({
+          title: "Cart Reminder Dispatched! 🛒",
+          description: `Email sent to ${cart.customer_email} ("Your cart is waiting for you")`,
+          variant: "default"
+        });
+        await fetchAbandonedCarts();
+        await fetchEmails();
+      } else {
+        toast({
+          title: "Send Failed",
+          description: res.data?.message || "Could not dispatch email.",
+          variant: "destructive"
+        });
+      }
+    } catch (err) {
+      toast({
+        title: "Send Error",
+        description: err.message || "Failed to trigger reminder.",
+        variant: "destructive"
+      });
+    } finally {
+      setSendingReminderId(null);
+    }
+  };
+
+  const handleRun5DayJob = async () => {
+    setBatchRunning(true);
+    try {
+      const res = await api.post('/admin/abandoned-carts/run-5day-job');
+      if (res.data?.success) {
+        toast({
+          title: "5-Day Reminder Scanner Complete! ⚡",
+          description: res.data.message || `Dispatched ${res.data.sent_count} recovery emails.`,
+          variant: "default"
+        });
+        await fetchAbandonedCarts();
+        await fetchEmails();
+      }
+    } catch (err) {
+      toast({
+        title: "Scanner Error",
+        description: err.message || "Could not run 5-day scanner.",
+        variant: "destructive"
+      });
+    } finally {
+      setBatchRunning(false);
+    }
+  };
+
+  const handlePreviewCartEmail = async (cart) => {
+    try {
+      const res = await api.get(`/admin/abandoned-carts/preview?user_id=${cart.user_id}`);
+      if (res.data?.success) {
+        setCartPreviewModal({
+          isOpen: true,
+          cart,
+          html: res.data.preview_html
+        });
+      }
+    } catch (e) {
+      toast({ title: "Preview Error", description: "Could not generate email preview.", variant: "destructive" });
+    }
+  };
 
   const fetchEmails = async () => {
     try {
@@ -241,6 +337,7 @@ export default function OrdersPage() {
 
   useEffect(() => {
     fetchEmails();
+    fetchAbandonedCarts();
   }, []);
 
   const openOrder = (o) => {
@@ -326,6 +423,61 @@ export default function OrdersPage() {
         </div>
       </div>
 
+      {/* Top Level Operational Tabs */}
+      <div className="flex flex-wrap items-center gap-3 border-b border-orange-100 pb-4">
+        <button
+          type="button"
+          onClick={() => setActiveTab("orders")}
+          className={cn(
+            "px-6 py-3 rounded-2xl font-black text-xs uppercase tracking-wider transition-all flex items-center gap-2.5 cursor-pointer",
+            activeTab === "orders" 
+              ? "bg-stone-900 text-white shadow-lg shadow-stone-900/20" 
+              : "bg-white text-stone-600 hover:text-stone-900 hover:bg-stone-50 border border-stone-200/70"
+          )}
+        >
+          <Package size={15} className="text-orange-500" />
+          <span>Customer Orders ({orders.length})</span>
+        </button>
+
+        <button
+          type="button"
+          onClick={() => { setActiveTab("abandoned_carts"); fetchAbandonedCarts(); }}
+          className={cn(
+            "px-6 py-3 rounded-2xl font-black text-xs uppercase tracking-wider transition-all flex items-center gap-2.5 cursor-pointer relative",
+            activeTab === "abandoned_carts" 
+              ? "bg-orange-600 text-white shadow-lg shadow-orange-600/30" 
+              : "bg-white text-stone-600 hover:text-orange-600 hover:bg-orange-50/50 border border-stone-200/70"
+          )}
+        >
+          <ShoppingCart size={15} />
+          <span>🛒 Cart Waiting Reminders (5-Day Engine)</span>
+          {abandonedCarts.length > 0 && (
+            <span className={cn(
+              "px-2.5 py-0.5 rounded-full text-[10px] font-black",
+              activeTab === "abandoned_carts" ? "bg-white/20 text-white" : "bg-orange-100 text-orange-700"
+            )}>
+              {abandonedCarts.length}
+            </span>
+          )}
+        </button>
+
+        <button
+          type="button"
+          onClick={() => { setActiveTab("emails"); fetchEmails(); }}
+          className={cn(
+            "px-6 py-3 rounded-2xl font-black text-xs uppercase tracking-wider transition-all flex items-center gap-2.5 cursor-pointer",
+            activeTab === "emails" 
+              ? "bg-stone-900 text-white shadow-lg shadow-stone-900/20" 
+              : "bg-white text-stone-600 hover:text-stone-900 hover:bg-stone-50 border border-stone-200/70"
+          )}
+        >
+          <Mail size={15} className="text-amber-500" />
+          <span>Email Outbox Logs ({emailsOutbox.length})</span>
+        </button>
+      </div>
+
+      {activeTab === "orders" && (
+      <>
       {/* KPI Stats Grid - Unified StatCard */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
         <StatCard
@@ -904,6 +1056,362 @@ export default function OrdersPage() {
           >
             <X size={16} />
           </button>
+        </div>
+      )}
+
+      </>
+      )}
+
+      {/* ABANDONED CARTS & 5-DAY REMINDERS VIEW */}
+      {activeTab === "abandoned_carts" && (
+        <div className="space-y-6">
+          {/* Abandoned Cart KPI Cards */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            <StatCard
+              title="Inactive Carts"
+              value={abandonedSummary?.total_abandoned_carts || abandonedCarts.length}
+              changeType="neutral"
+              icon={ShoppingCart}
+            />
+            <StatCard
+              title="Recoverable Revenue"
+              value={abandonedSummary?.total_abandoned_value || "₹0"}
+              changeType="positive"
+              icon={TrendingUp}
+            />
+            <StatCard
+              title="5+ Days Inactive (Alert Due)"
+              value={abandonedSummary?.eligible_5_days_count || abandonedCarts.filter(c => c.days_idle >= 5 && !c.reminder_sent).length}
+              changeType="negative"
+              icon={Clock}
+            />
+            <StatCard
+              title="Reminders Dispatched"
+              value={abandonedSummary?.reminders_sent_count || abandonedCarts.filter(c => c.reminder_sent).length}
+              changeType="positive"
+              icon={Mail}
+            />
+          </div>
+
+          {/* Action & Table Container */}
+          <div className="bg-white border border-orange-100 rounded-3xl shadow-sm overflow-hidden">
+            <div className="p-8 border-b border-orange-100 flex flex-col xl:flex-row xl:items-center justify-between gap-6 bg-gradient-to-r from-orange-50/40 to-white">
+              <div>
+                <div className="flex items-center gap-2">
+                  <span className="p-1.5 bg-orange-100 text-orange-700 rounded-lg">
+                    <Sparkles size={16} />
+                  </span>
+                  <h3 className="text-xl font-extrabold text-orange-955 tracking-tight">Cart Waiting Recovery Ledger</h3>
+                </div>
+                <p className="text-[10px] text-stone-500 font-bold mt-1 uppercase tracking-wider">
+                  Automated 5-day cart re-engagement with custom Comeback coupon codes & real-time delivery
+                </p>
+              </div>
+
+              <div className="flex flex-wrap items-center gap-3">
+                <button
+                  type="button"
+                  disabled={batchRunning}
+                  onClick={handleRun5DayJob}
+                  className="px-5 py-2.5 bg-orange-600 hover:bg-orange-700 text-white rounded-xl text-xs font-black uppercase tracking-wider transition-all flex items-center gap-2 shadow-md shadow-orange-600/20 cursor-pointer disabled:opacity-50"
+                >
+                  <BellRing size={14} className={batchRunning ? "animate-spin" : ""} />
+                  <span>{batchRunning ? "Scanning & Sending..." : "⚡ Run 5-Day Auto Scanner"}</span>
+                </button>
+
+                <button
+                  type="button"
+                  onClick={fetchAbandonedCarts}
+                  className="px-4 py-2.5 bg-white border border-stone-200 hover:bg-stone-50 text-stone-700 rounded-xl text-xs font-bold transition-all flex items-center gap-2 cursor-pointer"
+                >
+                  <RefreshCw size={14} className={loadingAbandoned ? "animate-spin text-orange-500" : ""} />
+                  <span>Refresh</span>
+                </button>
+              </div>
+            </div>
+
+            {/* Filter and Search Bar */}
+            <div className="p-6 border-b border-stone-100 flex flex-wrap items-center justify-between gap-4 bg-stone-50/50">
+              <div className="relative w-full sm:w-80">
+                <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-orange-500" />
+                <input
+                  placeholder="Search by customer, email or item..."
+                  className="w-full h-10 pl-11 pr-4 border border-stone-200 focus:border-orange-500 bg-white text-stone-900 text-xs font-medium focus:outline-none placeholder:text-stone-400 transition-all rounded-xl"
+                  value={abandonedSearch}
+                  onChange={(e) => setAbandonedSearch(e.target.value)}
+                />
+              </div>
+
+              <div className="flex bg-stone-100 p-1 rounded-xl gap-1.5 border border-stone-200/60">
+                {[
+                  { id: "all", label: "All Inactive Carts" },
+                  { id: "5days", label: "⏳ 5+ Days Inactive" },
+                  { id: "sent", label: "✓ Reminder Sent" },
+                  { id: "recent", label: "Active Today" }
+                ].map((tab) => (
+                  <button
+                    key={tab.id}
+                    type="button"
+                    onClick={() => setAbandonedFilter(tab.id)}
+                    className={cn(
+                      "px-3.5 py-1.5 rounded-lg text-xs font-bold transition-all cursor-pointer",
+                      abandonedFilter === tab.id ? "bg-white text-orange-600 shadow-sm" : "text-stone-600 hover:text-stone-900"
+                    )}
+                  >
+                    {tab.label}
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            {/* Abandoned Carts Table */}
+            <div className="overflow-x-auto">
+              <table className="w-full text-left border-collapse">
+                <thead>
+                  <tr className="border-b border-stone-100 bg-stone-50/70 text-[10px] font-black text-stone-500 uppercase tracking-widest">
+                    <th className="py-4 px-6">Customer & Contact</th>
+                    <th className="py-4 px-6">Items Saved in Cart</th>
+                    <th className="py-4 px-6 text-right">Cart Total</th>
+                    <th className="py-4 px-6 text-center">Inactivity Age</th>
+                    <th className="py-4 px-6 text-center">5-Day Reminder Status</th>
+                    <th className="py-4 px-6 text-right">Actions</th>
+                  </tr>
+                </thead>
+                <tbody className="divide-y divide-stone-100 text-xs">
+                  {filteredAbandonedCarts.length === 0 ? (
+                    <tr>
+                      <td colSpan={6} className="py-16 text-center text-stone-500">
+                        <ShoppingCart size={32} className="mx-auto mb-3 text-stone-300" />
+                        <p className="font-bold">No abandoned carts matching filter.</p>
+                      </td>
+                    </tr>
+                  ) : (
+                    filteredAbandonedCarts.map((c) => {
+                      const is5DaysOrOlder = c.days_idle >= 5.0;
+                      return (
+                        <tr key={c.user_id} className="hover:bg-orange-50/30 transition-colors">
+                          <td className="py-4 px-6">
+                            <div className="font-bold text-stone-900">{c.customer_name}</div>
+                            <div className="text-[11px] text-stone-500 font-mono mt-0.5">{c.customer_email}</div>
+                            <div className="text-[10px] text-stone-400">{c.customer_phone}</div>
+                          </td>
+
+                          <td className="py-4 px-6">
+                            <div className="flex items-center gap-2">
+                              {(c.items || []).slice(0, 3).map((it, idx) => (
+                                <img
+                                  key={idx}
+                                  src={it.thumbnail || "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=100"}
+                                  alt={it.name}
+                                  title={it.name}
+                                  className="w-9 h-9 object-cover rounded-lg border border-stone-200 bg-stone-100"
+                                />
+                              ))}
+                              <div>
+                                <div className="font-bold text-stone-800 line-clamp-1 max-w-[200px]">
+                                  {c.items?.[0]?.name || "Item in cart"}
+                                </div>
+                                <div className="text-[10px] text-stone-500">
+                                  {c.items_count} {c.items_count === 1 ? "item" : "items"} total
+                                </div>
+                              </div>
+                            </div>
+                          </td>
+
+                          <td className="py-4 px-6 text-right">
+                            <div className="font-black text-stone-900 text-sm">
+                              ₹{Number(c.total_amount || 0).toLocaleString("en-IN")}
+                            </div>
+                            <div className="text-[10px] text-stone-500 font-medium">Subtotal</div>
+                          </td>
+
+                          <td className="py-4 px-6 text-center">
+                            <span className={cn(
+                              "inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[11px] font-black tracking-wide uppercase",
+                              is5DaysOrOlder 
+                                ? "bg-amber-100 text-amber-800 border border-amber-300 animate-pulse" 
+                                : "bg-stone-100 text-stone-700 border border-stone-200"
+                            )}>
+                              <Clock size={11} />
+                              {c.days_idle >= 1 ? `${c.days_idle} Days Inactive` : "Active Today"}
+                            </span>
+                          </td>
+
+                          <td className="py-4 px-6 text-center">
+                            {c.reminder_sent ? (
+                              <span className="inline-flex items-center gap-1 px-3 py-1 rounded-full text-[10px] font-black uppercase bg-emerald-100 text-emerald-800 border border-emerald-300">
+                                <Check size={11} /> Reminder Dispatched ({c.reminders_count || 1})
+                              </span>
+                            ) : is5DaysOrOlder ? (
+                              <span className="inline-flex items-center gap-1 px-3 py-1 rounded-full text-[10px] font-black uppercase bg-orange-100 text-orange-800 border border-orange-300">
+                                <AlertTriangle size={11} /> 5-Day Alert Due
+                              </span>
+                            ) : (
+                              <span className="inline-flex items-center gap-1 px-3 py-1 rounded-full text-[10px] font-bold uppercase bg-stone-100 text-stone-600 border border-stone-200">
+                                Recent Activity
+                              </span>
+                            )}
+                          </td>
+
+                          <td className="py-4 px-6 text-right">
+                            <div className="flex items-center justify-end gap-2">
+                              <button
+                                type="button"
+                                onClick={() => handlePreviewCartEmail(c)}
+                                className="px-3 py-1.5 bg-stone-100 hover:bg-stone-200 text-stone-800 font-bold text-xs rounded-xl transition-all cursor-pointer flex items-center gap-1"
+                              >
+                                <Eye size={12} /> Preview
+                              </button>
+
+                              <button
+                                type="button"
+                                disabled={sendingReminderId === c.user_id}
+                                onClick={() => handleSendCartReminder(c)}
+                                className="px-3.5 py-1.5 bg-orange-600 hover:bg-orange-700 text-white font-bold text-xs rounded-xl transition-all cursor-pointer flex items-center gap-1 shadow-sm disabled:opacity-50"
+                              >
+                                <Send size={12} className={sendingReminderId === c.user_id ? "animate-spin" : ""} />
+                                <span>{sendingReminderId === c.user_id ? "Sending..." : "Send Reminder"}</span>
+                              </button>
+                            </div>
+                          </td>
+                        </tr>
+                      );
+                    })
+                  )}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* EMAIL OUTBOX LOGS VIEW */}
+      {activeTab === "emails" && (
+        <div className="space-y-6">
+          <div className="bg-white border border-stone-200 rounded-3xl p-6 shadow-sm flex items-center justify-between">
+            <div>
+              <h3 className="text-lg font-black text-stone-900">Notifications & Dispatch Ledger</h3>
+              <p className="text-xs text-stone-500 font-medium">
+                Live audit trail of all outbound transactional emails (Receipts, Alerts, Cart Reminders)
+              </p>
+            </div>
+            <button
+              type="button"
+              onClick={fetchEmails}
+              className="px-4 py-2 bg-stone-100 hover:bg-stone-200 text-stone-800 rounded-xl text-xs font-bold flex items-center gap-2 cursor-pointer"
+            >
+              <RefreshCw size={14} /> Refresh Logs
+            </button>
+          </div>
+
+          <div className="bg-white border border-stone-200 rounded-3xl shadow-sm overflow-hidden">
+            <div className="overflow-x-auto">
+              <table className="w-full text-left border-collapse">
+                <thead>
+                  <tr className="border-b border-stone-100 bg-stone-50 text-[10px] font-black text-stone-500 uppercase tracking-widest">
+                    <th className="py-4 px-6">Type</th>
+                    <th className="py-4 px-6">Recipient</th>
+                    <th className="py-4 px-6">Subject</th>
+                    <th className="py-4 px-6">Amount / Context</th>
+                    <th className="py-4 px-6">Delivery Status</th>
+                    <th className="py-4 px-6 text-right">Sent Timestamp</th>
+                  </tr>
+                </thead>
+                <tbody className="divide-y divide-stone-100 text-xs">
+                  {emailsOutbox.length === 0 ? (
+                    <tr>
+                      <td colSpan={6} className="py-12 text-center text-stone-500">
+                        No emails in outbox log.
+                      </td>
+                    </tr>
+                  ) : (
+                    emailsOutbox.map((em) => (
+                      <tr key={em.id} className="hover:bg-stone-50 transition-colors">
+                        <td className="py-4 px-6">
+                          <span className={cn(
+                            "px-2.5 py-1 rounded-full text-[10px] font-black uppercase tracking-wider",
+                            em.recipient_type === "cart_reminder"
+                              ? "bg-purple-100 text-purple-800 border border-purple-200"
+                              : em.recipient_type === "customer"
+                              ? "bg-emerald-100 text-emerald-800 border border-emerald-200"
+                              : "bg-blue-100 text-blue-800 border border-blue-200"
+                          )}>
+                            {em.recipient_type === "cart_reminder" ? "🛒 Cart Reminder" : (em.recipient_type === "customer" ? "Receipt" : "Admin Alert")}
+                          </span>
+                        </td>
+                        <td className="py-4 px-6 font-mono font-medium text-stone-900">{em.to}</td>
+                        <td className="py-4 px-6 font-medium text-stone-800 max-w-xs truncate">{em.subject}</td>
+                        <td className="py-4 px-6 font-bold text-stone-900">
+                          {em.amount ? `₹${Number(em.amount).toLocaleString("en-IN")}` : "N/A"}
+                        </td>
+                        <td className="py-4 px-6">
+                          <span className="text-emerald-700 font-bold flex items-center gap-1">
+                            <Check size={13} /> {em.status}
+                          </span>
+                        </td>
+                        <td className="py-4 px-6 text-right font-mono text-[11px] text-stone-500">
+                          {new Date(em.created_at).toLocaleString("en-IN")}
+                        </td>
+                      </tr>
+                    ))
+                  )}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Cart Reminder Email Preview Modal */}
+      {cartPreviewModal.isOpen && (
+        <div className="fixed inset-0 bg-stone-950/80 backdrop-blur-sm flex items-center justify-center z-[200] p-4">
+          <div className="bg-white rounded-3xl max-w-2xl w-full max-h-[92vh] flex flex-col shadow-2xl overflow-hidden border border-stone-200">
+            <div className="p-5 border-b border-stone-200 bg-stone-900 text-white flex items-center justify-between">
+              <div className="flex items-center gap-2">
+                <ShoppingCart size={16} className="text-orange-400" />
+                <h3 className="text-sm font-bold">
+                  Email Preview: "Your Cart is Waiting for You" ({cartPreviewModal.cart?.customer_name})
+                </h3>
+              </div>
+              <button
+                type="button"
+                onClick={() => setCartPreviewModal({ isOpen: false, cart: null, html: '' })}
+                className="text-stone-400 hover:text-white p-1 rounded-lg hover:bg-white/10 cursor-pointer"
+              >
+                <X size={18} />
+              </button>
+            </div>
+            <div className="p-4 bg-stone-100 border-b border-stone-200 text-xs flex items-center justify-between">
+              <div>
+                <strong>To:</strong> {cartPreviewModal.cart?.customer_email} &bull; <strong>Coupon Code:</strong> COMEBACK10 (10% Off)
+              </div>
+              <button
+                type="button"
+                onClick={() => {
+                  handleSendCartReminder(cartPreviewModal.cart);
+                  setCartPreviewModal({ isOpen: false, cart: null, html: '' });
+                }}
+                className="px-4 py-1.5 bg-orange-600 hover:bg-orange-700 text-white font-bold rounded-lg cursor-pointer flex items-center gap-1"
+              >
+                <Send size={12} /> Send This Email
+              </button>
+            </div>
+            <div className="p-6 overflow-y-auto space-y-4 bg-stone-50 flex-1">
+              <div 
+                className="bg-white rounded-2xl shadow-sm border border-stone-200 p-4"
+                dangerouslySetInnerHTML={{ __html: cartPreviewModal.html }}
+              />
+            </div>
+            <div className="p-4 border-t border-stone-200 bg-white flex justify-end">
+              <button
+                type="button"
+                onClick={() => setCartPreviewModal({ isOpen: false, cart: null, html: '' })}
+                className="px-5 py-2 bg-stone-900 hover:bg-stone-800 text-white font-bold text-xs rounded-xl cursor-pointer"
+              >
+                Close Preview
+              </button>
+            </div>
+          </div>
         </div>
       )}
 

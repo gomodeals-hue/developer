@@ -20,6 +20,8 @@ import { handleTicketBookingRoutes } from './routes/ticketBookingRouter.js';
 import { handleBusRoutes } from './routes/busRouter.js';
 import { handlePaymentsRoutes } from './routes/paymentsRouter.js';
 import { testPostgresConnection, isPostgresConnected, pool } from './database/pg.js';
+import { sendCartReminderEmail } from './services/emailService.js';
+import { saveCollection } from './database/db.js';
 
 const PORT = process.env.PORT || 5000;
 
@@ -168,6 +170,70 @@ export async function app(req, res) {
   }, 404);
 }
 
+/**
+ * Automated Abandoned Cart Recovery Cron Worker
+ * Scans for carts inactive for 5 or more days and dispatches recovery emails.
+ */
+function startAbandonedCartCron() {
+  const checkAbandonedCarts = async () => {
+    try {
+      const db = getDB();
+      if (!db || !db.carts) return;
+      if (!db.carts_meta) db.carts_meta = {};
+
+      for (const uid in db.carts) {
+        const rawItems = db.carts[uid] || [];
+        if (!Array.isArray(rawItems) || rawItems.length === 0) continue;
+
+        const meta = db.carts_meta[uid] || {};
+        if (meta.status === 'converted') continue;
+
+        const updatedAt = meta.updated_at || rawItems[0]?.added_at || new Date().toISOString();
+        const idleMs = Math.max(0, Date.now() - new Date(updatedAt).getTime());
+        const daysIdle = idleMs / (1000 * 60 * 60 * 24);
+        const remindersSent = Array.isArray(meta.reminders_sent) ? meta.reminders_sent : [];
+
+        // Condition: Idle for 5 or more days and no reminder sent yet
+        if (daysIdle >= 5.0 && remindersSent.length === 0) {
+          const userObj = (db.users || []).find(u => u.id === uid || u.customer_id === uid);
+          const customerEmail = meta.customer_email || userObj?.email || (uid.includes('@') ? uid : `${uid}@gomodeals.com`);
+          const customerName = meta.customer_name || userObj?.name || 'Valued Customer';
+          const subtotal = rawItems.reduce((s, i) => s + (Number(i.price || 0) * Number(i.quantity || 1)), 0);
+
+          console.log(`[Cron] ⏰ Detected 5-day abandoned cart for ${customerEmail} (Idle: ${daysIdle.toFixed(1)} days). Sending reminder...`);
+          const res = await sendCartReminderEmail({
+            user_id: uid,
+            customer_name: customerName,
+            customer_email: customerEmail,
+            days_idle: Math.max(5, Math.round(daysIdle)),
+            items: rawItems,
+            total_amount: subtotal
+          });
+
+          if (res.success) {
+            remindersSent.push({
+              type: '5_day_automatic_cron',
+              sent_at: new Date().toISOString(),
+              to: customerEmail
+            });
+            meta.reminders_sent = remindersSent;
+            meta.last_reminder_at = new Date().toISOString();
+            meta.reminder_count = (meta.reminder_count || 0) + 1;
+            db.carts_meta[uid] = meta;
+            saveCollection('carts_meta');
+          }
+        }
+      }
+    } catch (e) {
+      console.warn('[Cron] Abandoned cart check error:', e.message);
+    }
+  };
+
+  // Run initial scan 5 seconds after server start, then every 6 hours
+  setTimeout(checkAbandonedCarts, 5000);
+  setInterval(checkAbandonedCarts, 6 * 60 * 60 * 1000);
+}
+
 // Start HTTP Server when running standalone locally
 async function startServer() {
   await ensureDbReady();
@@ -177,6 +243,7 @@ async function startServer() {
   server.listen(PORT, '0.0.0.0', () => {
     console.log(`\x1b[32m[Server] GoMo Deals Real-Time Backend API Server is running on http://127.0.0.1:${PORT}/api/v1\x1b[0m`);
     console.log(`\x1b[36m[Server] Real-Time SSE Stream active at http://127.0.0.1:${PORT}/api/v1/realtime/stream\x1b[0m`);
+    startAbandonedCartCron();
   });
 }
 

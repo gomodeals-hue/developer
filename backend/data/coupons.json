@@ -28,5 +28,13 @@
     "min_spend": 299,
     "description": "Zero Shipping Fee on any order above ₹299",
     "is_active": true
+  },
+  {
+    "code": "COMEBACK10",
+    "discount_percent": 10,
+    "max_discount": 500,
+    "min_spend": 299,
+    "description": "Exclusive 10% Off on your abandoned cart recovery",
+    "is_active": true
   }
 ]

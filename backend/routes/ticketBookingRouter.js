@@ -926,6 +926,26 @@ export async function handleTicketBookingRoutes(req, res, pathname, method, quer
       const discount = upper === 'GOMO10' ? subtotal * 0.1 : upper === 'MOVIE20' ? subtotal * 0.2 : 50;
       return sendJSON(res, { valid: true, discountAmount: discount, message: `Promo code ${upper} applied!` });
     }
+    // Fallback: check e-commerce store coupons
+    const storeCoupon = (db.coupons || []).find(c => (c.code || '').toUpperCase() === upper && c.is_active !== false);
+    if (storeCoupon) {
+      let discount = 0;
+      if (storeCoupon.discount) {
+        discount = storeCoupon.discount;
+      } else if (storeCoupon.discount_percent) {
+        discount = Math.round((subtotal * storeCoupon.discount_percent) / 100);
+      }
+      return sendJSON(res, {
+        valid: true,
+        success: true,
+        code: storeCoupon.code,
+        discountAmount: discount || 50,
+        discount: discount || 50,
+        free_shipping: storeCoupon.free_shipping || false,
+        message: `Promo code ${upper} applied!`
+      });
+    }
+
     return sendJSON(res, { valid: false, message: 'Invalid or expired coupon code' }, 404);
   }
 

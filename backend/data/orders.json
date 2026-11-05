@@ -1,80 +1,52 @@
 [
   {
     "id": "GMD-ORD-10035",
-    "order_id": "GMD-ORD-10035",
     "order_number": "GOMO-2026-10035",
-    "userId": "usr-1",
-    "customer_id": "usr-1",
+    "user_id": "usr-1",
     "customer_name": "Antigravity Verified Buyer",
     "customer_email": "buyer@gomodeals.com",
-    "customer_phone": "+91 99887 76655",
     "items": [
       {
         "id": "GMD-PRD-101",
-        "product_id": "GMD-PRD-101",
         "name": "Smart Noise-Cancelling Wireless Headphones",
         "price": 2499,
         "quantity": 1,
         "thumbnail": "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=200",
-        "variant_value": null
+        "product_id": "GMD-PRD-101",
+        "variant_value": null,
+        "seller_id": "seller-1",
+        "seller_name": "Divine Brass & Temple Arts"
       }
     ],
     "total_amount": 2499,
-    "subtotal": 999,
+    "discount_amount": 0,
     "shipping_fee": 0,
-    "tax": 50,
-    "status": "Confirmed",
     "payment_method": "COD",
     "payment_status": "Pending",
-    "courier_partner": "BlueDart Express",
-    "tracking_number": "BLU35870378",
-    "created_at": "2026-11-05T09:30:57.317Z",
-    "estimated_delivery": "2026-11-08T09:30:57.317Z",
+    "order_status": "Confirmed",
     "shipping_address": {
-      "name": "Antigravity Verified Buyer",
-      "street": "42 Prestige Tower, MG Road",
       "city": "Bengaluru",
-      "state": "Karnataka",
-      "pincode": "560001",
-      "phone": "+91 99887 76655"
-    },
-    "delivery_address": {
       "name": "Antigravity Verified Buyer",
-      "street": "42 Prestige Tower, MG Road",
-      "city": "Bengaluru",
+      "phone": "+91 99887 76655",
       "state": "Karnataka",
-      "pincode": "560001",
-      "phone": "+91 99887 76655"
+      "street": "42 Prestige Tower, MG Road",
+      "pincode": "560001"
     },
-    "tracking": [
-      {
-        "step": "Order Placed",
-        "status": "completed",
-        "time": "2026-11-05T09:30:57.317Z",
-        "note": "Payment verified and order confirmed"
-      },
-      {
-        "step": "Processing & Quality Check",
-        "status": "in_transit",
-        "time": "2026-11-05T09:30:57.317Z",
-        "note": "Our fulfillment team is carefully preparing your shipment"
-      },
-      {
-        "step": "Shipped via Express",
-        "status": "pending",
-        "note": "Assigned to BlueDart Express (AWB: BLU35870378)"
-      },
-      {
-        "step": "Out for Delivery",
-        "status": "pending",
-        "note": "Scheduled for local contactless delivery"
-      },
-      {
-        "step": "Delivered",
-        "status": "pending",
-        "note": "Doorstep handover with OTP verification"
-      }
-    ]
+    "created_at": "2026-11-05T09:30:57.317Z",
+    "subtotal": 0,
+    "tax": 0,
+    "status": "Confirmed",
+    "tracking": [],
+    "delivery_address": {},
+    "courier_partner": "BlueDart Express",
+    "tracking_number": null,
+    "estimated_delivery": null,
+    "seller_id": "seller-1",
+    "seller_name": "Divine Brass & Temple Arts",
+    "customer_phone": null,
+    "order_id": "GMD-ORD-10035",
+    "userId": "usr-1",
+    "customer_id": "usr-1"
   },
   {
     "id": "GMD-ORD-10034",
@@ -90,7 +62,9 @@
         "quantity": 1,
         "thumbnail": "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=200",
         "product_id": "prod-001",
-        "variant_value": null
+        "variant_value": null,
+        "seller_id": "seller-1",
+        "seller_name": "Divine Brass & Temple Arts"
       }
     ],
     "total_amount": 1999,
@@ -116,8 +90,8 @@
     "courier_partner": "BlueDart Express",
     "tracking_number": null,
     "estimated_delivery": null,
-    "seller_id": null,
-    "seller_name": null,
+    "seller_id": "seller-1",
+    "seller_name": "Divine Brass & Temple Arts",
     "customer_phone": null,
     "order_id": "GMD-ORD-10034",
     "userId": "usr-1",
@@ -137,7 +111,9 @@
         "quantity": 1,
         "thumbnail": "",
         "product_id": "prod-002",
-        "variant_value": null
+        "variant_value": null,
+        "seller_id": "seller-1",
+        "seller_name": "Divine Brass & Temple Arts"
       }
     ],
     "total_amount": 2499,
@@ -163,8 +139,8 @@
     "courier_partner": "BlueDart Express",
     "tracking_number": null,
     "estimated_delivery": null,
-    "seller_id": null,
-    "seller_name": null,
+    "seller_id": "seller-1",
+    "seller_name": "Divine Brass & Temple Arts",
     "customer_phone": null,
     "order_id": "GMD-ORD-10033",
     "userId": "usr-1",
@@ -184,7 +160,9 @@
         "quantity": 1,
         "thumbnail": "",
         "product_id": "prod-002",
-        "variant_value": null
+        "variant_value": null,
+        "seller_id": "seller-1",
+        "seller_name": "Divine Brass & Temple Arts"
       }
     ],
     "total_amount": 2499,
@@ -210,8 +188,8 @@
     "courier_partner": "BlueDart Express",
     "tracking_number": null,
     "estimated_delivery": null,
-    "seller_id": null,
-    "seller_name": null,
+    "seller_id": "seller-1",
+    "seller_name": "Divine Brass & Temple Arts",
     "customer_phone": null,
     "order_id": "GMD-ORD-10032",
     "userId": "usr-1",
@@ -231,7 +209,9 @@
         "quantity": 1,
         "thumbnail": "",
         "product_id": "prod-002",
-        "variant_value": null
+        "variant_value": null,
+        "seller_id": "seller-1",
+        "seller_name": "Divine Brass & Temple Arts"
       }
     ],
     "total_amount": 2499,
@@ -257,8 +237,8 @@
     "courier_partner": "BlueDart Express",
     "tracking_number": null,
     "estimated_delivery": null,
-    "seller_id": null,
-    "seller_name": null,
+    "seller_id": "seller-1",
+    "seller_name": "Divine Brass & Temple Arts",
     "customer_phone": null,
     "order_id": "GMD-ORD-10031",
     "userId": "usr-1",
@@ -278,7 +258,9 @@
         "quantity": 1,
         "thumbnail": "",
         "product_id": "prod-002",
-        "variant_value": null
+        "variant_value": null,
+        "seller_id": "seller-1",
+        "seller_name": "Divine Brass & Temple Arts"
       }
     ],
     "total_amount": 2499,
@@ -304,8 +286,8 @@
     "courier_partner": "BlueDart Express",
     "tracking_number": null,
     "estimated_delivery": null,
-    "seller_id": null,
-    "seller_name": null,
+    "seller_id": "seller-1",
+    "seller_name": "Divine Brass & Temple Arts",
     "customer_phone": null,
     "order_id": "GMD-ORD-10030",
     "userId": "usr-1",
@@ -325,7 +307,9 @@
         "quantity": 1,
         "thumbnail": "",
         "product_id": "prod-001",
-        "variant_value": null
+        "variant_value": null,
+        "seller_id": "seller-1",
+        "seller_name": "Divine Brass & Temple Arts"
       }
     ],
     "total_amount": 1499,
@@ -351,8 +335,8 @@
     "courier_partner": "BlueDart Express",
     "tracking_number": null,
     "estimated_delivery": null,
-    "seller_id": null,
-    "seller_name": null,
+    "seller_id": "seller-1",
+    "seller_name": "Divine Brass & Temple Arts",
     "customer_phone": null,
     "order_id": "GMD-ORD-10029",
     "userId": "usr-1",
@@ -586,7 +570,7 @@
       {
         "note": "Courier executive assigned: Ramesh K. (+91 99012 34567)",
         "step": "Out for Delivery",
-        "time": "2026-11-05T09:31:23.838Z",
+        "time": "2026-11-05T11:23:40.449Z",
         "status": "in_transit"
       },
       {

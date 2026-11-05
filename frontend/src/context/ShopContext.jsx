@@ -640,6 +640,8 @@ export const ShopProvider = ({ children }) => {
           variant_value: variantValue,
           quantity,
           price,
+          customer_email: user?.email,
+          customer_name: user?.name || user?.full_name,
           product: {
             ...product,
             price,

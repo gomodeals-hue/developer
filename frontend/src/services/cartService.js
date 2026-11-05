@@ -131,7 +131,7 @@ export const cartService = {
   /**
    * Add an item to the cart
    */
-  async addToCart({ userId, product_id, variant_id = null, variant_value = null, quantity = 1, price, product = {} }) {
+  async addToCart({ userId, product_id, variant_id = null, variant_value = null, quantity = 1, price, product = {}, customer_email = null, customer_name = null }) {
     if (!API_CONFIG.USE_MOCK && userId) {
       try {
         const res = await apiClient.post(API_CONFIG.ENDPOINTS.CART.ADD, {
@@ -140,7 +140,9 @@ export const cartService = {
           variant_id,
           variant_value,
           quantity,
-          price
+          price,
+          customer_email,
+          customer_name
         });
         if (res.data?.success) {
           return res.data;

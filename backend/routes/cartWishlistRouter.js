@@ -1,5 +1,6 @@
 import { getDB, saveCollection } from '../database/db.js';
 import { isPostgresConnected, pool } from '../database/pg.js';
+import { sendCartReminderEmail, buildCartReminderEmail } from '../services/emailService.js';
 
 /**
  * Helper to enrich cart items with catalog data (live stock, prices)
@@ -82,6 +83,29 @@ function enrichCartAndCalculateSummary(rawCart = [], db, options = {}) {
 /**
  * Extract active user identifier safely from body, query, headers or URL
  */
+function updateCartMetadata(userId, body = {}, db) {
+  if (!db.carts_meta) db.carts_meta = {};
+  const meta = db.carts_meta[userId] || {
+    user_id: userId,
+    created_at: new Date().toISOString(),
+    reminders_sent: [],
+    reminder_count: 0
+  };
+  meta.updated_at = new Date().toISOString();
+  if (body.customer_email || body.user_email || body.email) {
+    meta.customer_email = body.customer_email || body.user_email || body.email;
+  }
+  if (body.customer_name || body.user_name || body.name) {
+    meta.customer_name = body.customer_name || body.user_name || body.name;
+  }
+  if (body.customer_phone || body.user_phone || body.phone) {
+    meta.customer_phone = body.customer_phone || body.user_phone || body.phone;
+  }
+  db.carts_meta[userId] = meta;
+  saveCollection('carts_meta');
+  return meta;
+}
+
 function extractUserId(req, pathname, query, body, defaultUser = 'usr-1') {
   if (body?.userId || body?.customer_id) return body.userId || body.customer_id;
   if (query?.userId || query?.customer_id) return query.userId || query.customer_id;
@@ -200,6 +224,7 @@ export async function handleCartWishlistRoutes(req, res, pathname, method, query
     }
 
     saveCollection('carts'); if (typeof userId !== 'undefined') { persistCartToPostgres(userId, db.carts[userId]); }
+    updateCartMetadata(userId, body, db);
     const { cart, summary } = enrichCartAndCalculateSummary(db.carts[userId], db);
     return sendJSON(res, {
       success: true,
@@ -251,6 +276,7 @@ export async function handleCartWishlistRoutes(req, res, pathname, method, query
     }
 
     saveCollection('carts'); if (typeof userId !== 'undefined') { persistCartToPostgres(userId, db.carts[userId]); }
+    if (targetUid) updateCartMetadata(targetUid, body, db);
     const rawCart = targetUid ? (db.carts[targetUid] || []) : [];
     const { cart, summary } = enrichCartAndCalculateSummary(rawCart, db);
     return sendJSON(res, { 
@@ -373,6 +399,7 @@ export async function handleCartWishlistRoutes(req, res, pathname, method, query
     }
 
     saveCollection('carts'); if (typeof userId !== 'undefined') { persistCartToPostgres(userId, db.carts[userId]); }
+    updateCartMetadata(userId, body, db);
     const { cart, summary } = enrichCartAndCalculateSummary(db.carts[userId], db);
     return sendJSON(res, {
       success: true,
@@ -382,6 +409,239 @@ export async function handleCartWishlistRoutes(req, res, pathname, method, query
       count: cart.length,
       total_items: summary.total_items,
       summary
+    });
+  }
+
+  
+  // 6b. Sync Cart with Metadata (POST /api/v1/cart/sync)
+  if (pathname === '/api/v1/cart/sync' && method === 'POST') {
+    const userId = extractUserId(req, pathname, query, body);
+    const items = Array.isArray(body.items) ? body.items : [];
+    if (!db.carts[userId]) db.carts[userId] = [];
+    if (items.length > 0) {
+      db.carts[userId] = items;
+    }
+    updateCartMetadata(userId, body, db);
+    saveCollection('carts');
+    if (typeof userId !== 'undefined') { persistCartToPostgres(userId, db.carts[userId]); }
+    const { cart, summary } = enrichCartAndCalculateSummary(db.carts[userId], db);
+    return sendJSON(res, {
+      success: true,
+      message: 'Cart synced successfully',
+      data: cart,
+      items: cart,
+      count: cart.length,
+      total_items: summary.total_items,
+      summary
+    });
+  }
+
+  // 6c. Admin Get Abandoned Carts (GET /api/v1/admin/abandoned-carts)
+  if ((pathname === '/api/v1/admin/abandoned-carts' || pathname === '/api/admin/abandoned-carts') && method === 'GET') {
+    if (!db.carts_meta) db.carts_meta = {};
+    const abandonedList = [];
+
+    for (const uid in db.carts) {
+      const rawItems = db.carts[uid] || [];
+      if (!Array.isArray(rawItems) || rawItems.length === 0) continue;
+
+      const meta = db.carts_meta[uid] || {};
+      const userObj = (db.users || []).find(u => u.id === uid || u.customer_id === uid);
+      const customerEmail = meta.customer_email || userObj?.email || (uid.includes('@') ? uid : `${uid}@gomodeals.com`);
+      const customerName = meta.customer_name || userObj?.name || (uid.startsWith('cust_') ? uid.replace('cust_', '').replace('_5d', '').replace('_6d', '').toUpperCase() : 'Customer');
+      const updatedAt = meta.updated_at || rawItems[0]?.added_at || new Date().toISOString();
+      const idleMs = Math.max(0, Date.now() - new Date(updatedAt).getTime());
+      const daysIdle = Number((idleMs / (1000 * 60 * 60 * 24)).toFixed(1));
+      const { cart, summary } = enrichCartAndCalculateSummary(rawItems, db);
+      const remindersSent = Array.isArray(meta.reminders_sent) ? meta.reminders_sent : [];
+      const hasReminderBeenSent = remindersSent.length > 0;
+      const isEligible5Day = daysIdle >= 5.0 && !hasReminderBeenSent;
+
+      abandonedList.push({
+        user_id: uid,
+        cart_id: uid,
+        customer_name: customerName,
+        customer_email: customerEmail,
+        customer_phone: meta.customer_phone || '+91 98765 43210',
+        items: cart,
+        items_count: summary.total_items,
+        distinct_items: cart.length,
+        total_amount: summary.final_total,
+        subtotal: summary.subtotal,
+        updated_at: updatedAt,
+        created_at: meta.created_at || updatedAt,
+        days_idle: daysIdle,
+        is_eligible_5_day: isEligible5Day,
+        reminder_sent: hasReminderBeenSent,
+        reminders_count: remindersSent.length,
+        last_reminder_at: meta.last_reminder_at || null,
+        status: isEligible5Day ? 'eligible_5_days' : (hasReminderBeenSent ? 'reminder_sent' : 'recent')
+      });
+    }
+
+    abandonedList.sort((a, b) => b.days_idle - a.days_idle);
+
+    const totalValue = abandonedList.reduce((s, c) => s + Number(c.total_amount || 0), 0);
+    const eligibleCount = abandonedList.filter(c => c.is_eligible_5_day).length;
+    const sentCount = abandonedList.filter(c => c.reminder_sent).length;
+
+    return sendJSON(res, {
+      success: true,
+      count: abandonedList.length,
+      summary: {
+        total_abandoned_carts: abandonedList.length,
+        total_abandoned_value: `₹${totalValue.toLocaleString('en-IN')}`,
+        total_abandoned_numeric: totalValue,
+        eligible_5_days_count: eligibleCount,
+        reminders_sent_count: sentCount
+      },
+      data: abandonedList
+    });
+  }
+
+  // 6d. Admin Send Cart Reminder Email (POST /api/v1/admin/abandoned-carts/send-reminder)
+  if ((pathname === '/api/v1/admin/abandoned-carts/send-reminder' || pathname === '/api/admin/abandoned-carts/send-reminder') && method === 'POST') {
+    const targetUid = body.user_id || body.cart_id;
+    if (!targetUid || !db.carts[targetUid] || db.carts[targetUid].length === 0) {
+      return sendJSON(res, { success: false, message: 'Cart not found or is empty.' }, 404);
+    }
+
+    if (!db.carts_meta) db.carts_meta = {};
+    const meta = db.carts_meta[targetUid] || { user_id: targetUid, reminders_sent: [] };
+    const rawItems = db.carts[targetUid];
+    const { cart, summary } = enrichCartAndCalculateSummary(rawItems, db);
+    const customerEmail = body.custom_email || meta.customer_email || (targetUid.includes('@') ? targetUid : `${targetUid}@gomodeals.com`);
+    const customerName = body.custom_name || meta.customer_name || 'Valued Customer';
+    const updatedAt = meta.updated_at || rawItems[0]?.added_at || new Date().toISOString();
+    const idleMs = Math.max(0, Date.now() - new Date(updatedAt).getTime());
+    const daysIdle = Number((idleMs / (1000 * 60 * 60 * 24)).toFixed(1));
+
+    const reminderResult = await sendCartReminderEmail({
+      user_id: targetUid,
+      customer_name: customerName,
+      customer_email: customerEmail,
+      days_idle: Math.max(1, Math.round(daysIdle)),
+      items: cart,
+      total_amount: summary.final_total
+    });
+
+    if (reminderResult.success) {
+      if (!Array.isArray(meta.reminders_sent)) meta.reminders_sent = [];
+      meta.reminders_sent.push({
+        type: 'manual_or_5_day',
+        sent_at: new Date().toISOString(),
+        to: customerEmail
+      });
+      meta.last_reminder_at = new Date().toISOString();
+      meta.reminder_count = (meta.reminder_count || 0) + 1;
+      db.carts_meta[targetUid] = meta;
+      saveCollection('carts_meta');
+
+      return sendJSON(res, {
+        success: true,
+        message: `Cart reminder email successfully dispatched to ${customerEmail}`,
+        email: reminderResult.emailRecord
+      });
+    } else {
+      return sendJSON(res, {
+        success: false,
+        message: reminderResult.error || 'Failed to dispatch email'
+      }, 500);
+    }
+  }
+
+  // 6e. Admin Run 5-Day Automated Abandoned Cart Job (POST /api/v1/admin/abandoned-carts/run-5day-job)
+  if ((pathname === '/api/v1/admin/abandoned-carts/run-5day-job' || pathname === '/api/admin/abandoned-carts/run-5day-job') && method === 'POST') {
+    if (!db.carts_meta) db.carts_meta = {};
+    let processed = 0;
+    let sent = 0;
+    const details = [];
+
+    for (const uid in db.carts) {
+      const rawItems = db.carts[uid] || [];
+      if (!Array.isArray(rawItems) || rawItems.length === 0) continue;
+
+      processed++;
+      const meta = db.carts_meta[uid] || {};
+      const updatedAt = meta.updated_at || rawItems[0]?.added_at || new Date().toISOString();
+      const idleMs = Math.max(0, Date.now() - new Date(updatedAt).getTime());
+      const daysIdle = idleMs / (1000 * 60 * 60 * 24);
+      const remindersSent = Array.isArray(meta.reminders_sent) ? meta.reminders_sent : [];
+
+      if (daysIdle >= 5.0 && remindersSent.length === 0) {
+        const userObj = (db.users || []).find(u => u.id === uid || u.customer_id === uid);
+        const customerEmail = meta.customer_email || userObj?.email || (uid.includes('@') ? uid : `${uid}@gomodeals.com`);
+        const customerName = meta.customer_name || userObj?.name || 'Valued Customer';
+        const { cart, summary } = enrichCartAndCalculateSummary(rawItems, db);
+
+        const resEmail = await sendCartReminderEmail({
+          user_id: uid,
+          customer_name: customerName,
+          customer_email: customerEmail,
+          days_idle: Math.max(5, Math.round(daysIdle)),
+          items: cart,
+          total_amount: summary.final_total
+        });
+
+        if (resEmail.success) {
+          sent++;
+          remindersSent.push({
+            type: '5_day_automatic_job',
+            sent_at: new Date().toISOString(),
+            to: customerEmail
+          });
+          meta.reminders_sent = remindersSent;
+          meta.last_reminder_at = new Date().toISOString();
+          meta.reminder_count = (meta.reminder_count || 0) + 1;
+          db.carts_meta[uid] = meta;
+          details.push({
+            user_id: uid,
+            email: customerEmail,
+            days_idle: Number(daysIdle.toFixed(1)),
+            amount: summary.final_total
+          });
+        }
+      }
+    }
+
+    saveCollection('carts_meta');
+
+    return sendJSON(res, {
+      success: true,
+      message: `Processed ${processed} carts. Dispatched ${sent} 5-day cart reminder emails.`,
+      processed_count: processed,
+      sent_count: sent,
+      details
+    });
+  }
+
+  // 6f. Admin Preview Cart Reminder HTML (GET /api/v1/admin/abandoned-carts/preview)
+  if ((pathname === '/api/v1/admin/abandoned-carts/preview' || pathname === '/api/admin/abandoned-carts/preview') && method === 'GET') {
+    const targetUid = query.user_id || query.cart_id || 'cust_priya_5d';
+    const rawItems = db.carts[targetUid] || (db.carts['cust_priya_5d'] || []);
+    const meta = (db.carts_meta && db.carts_meta[targetUid]) || {};
+    const { cart, summary } = enrichCartAndCalculateSummary(rawItems, db);
+    const customerEmail = meta.customer_email || 'customer@gomodeals.com';
+    const customerName = meta.customer_name || 'Priya Sharma';
+    const daysIdle = 5;
+
+    const html = buildCartReminderEmail({
+      user_id: targetUid,
+      customer_name: customerName,
+      customer_email: customerEmail,
+      days_idle: daysIdle,
+      items: cart,
+      total_amount: summary.final_total
+    });
+
+    return sendJSON(res, {
+      success: true,
+      preview_html: html,
+      cart_id: targetUid,
+      customer_name: customerName,
+      customer_email: customerEmail,
+      days_idle: daysIdle,
+      total_amount: summary.final_total
     });
   }
 

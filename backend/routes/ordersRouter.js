@@ -385,6 +385,11 @@ export async function handleOrdersRoutes(req, res, pathname, method, query, body
       db.carts[uid] = [];
       saveCollection('carts');
     }
+    if (db.carts_meta && db.carts_meta[uid]) {
+      db.carts_meta[uid].status = 'converted';
+      db.carts_meta[uid].converted_at = new Date().toISOString();
+      saveCollection('carts_meta');
+    }
     if (pgConnected) {
       try {
         await pool.query('DELETE FROM cart WHERE user_id = $1', [uid]);

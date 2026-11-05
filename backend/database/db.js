@@ -24,6 +24,7 @@ const DB = {
   rankings: { showcase: [], open: [], admin: [] },
   addresses: [],
   carts: {},
+  carts_meta: {},
   wishlists: {},
   shared_wishlists: {},
   sellers: [],
@@ -223,10 +224,91 @@ export async function initDatabase() {
     DB.addresses = addresses;
   }
 
-  // 11. Carts & Wishlists
+  // 11. Carts, Cart Metadata & Wishlists
   DB.carts = loadCollection('carts', {});
+  DB.carts_meta = loadCollection('carts_meta', {});
   DB.wishlists = loadCollection('wishlists', {});
   DB.shared_wishlists = loadCollection('shared_wishlists', {});
+
+  // Seed initial abandoned carts if empty or sparse for 5-day reminder testing
+  if (Object.keys(DB.carts).length < 2) {
+    const fiveDaysAgo = new Date(Date.now() - 5 * 24 * 60 * 60 * 1000 - 15 * 60 * 1000).toISOString();
+    const sixDaysAgo = new Date(Date.now() - 6 * 24 * 60 * 60 * 1000 - 2 * 3600 * 1000).toISOString();
+
+    if (!DB.carts['cust_priya_5d']) {
+      DB.carts['cust_priya_5d'] = [
+        {
+          id: 'gmd-pooja-001',
+          cart_item_id: 'cart_item_priya_1',
+          product_id: 'gmd-pooja-001',
+          name: 'Pure Brass Pooja Thali & Diya Set',
+          price: 1499,
+          mrp: 2499,
+          thumbnail: 'https://images.unsplash.com/photo-1606293926075-69a00dbfde81?w=200',
+          variant_value: 'Standard Brass',
+          selectedColor: 'Standard Brass',
+          quantity: 1,
+          category_name: 'Pooja Items',
+          added_at: fiveDaysAgo
+        }
+      ];
+      DB.carts_meta['cust_priya_5d'] = {
+        user_id: 'cust_priya_5d',
+        customer_name: 'Priya Sharma',
+        customer_email: 'priya.sharma@example.com',
+        customer_phone: '+91 98451 22334',
+        created_at: fiveDaysAgo,
+        updated_at: fiveDaysAgo,
+        reminders_sent: [],
+        reminder_count: 0
+      };
+    }
+
+    if (!DB.carts['cust_vikram_6d']) {
+      DB.carts['cust_vikram_6d'] = [
+        {
+          id: 'gmd-eth-001',
+          cart_item_id: 'cart_item_vikram_1',
+          product_id: 'gmd-eth-001',
+          name: 'Handwoven Pure Kanchipuram Silk Saree',
+          price: 4999,
+          mrp: 8999,
+          thumbnail: 'https://images.unsplash.com/photo-1610030469983-98e550d6193c?w=200',
+          variant_value: 'Temple Gold & Crimson',
+          selectedColor: 'Temple Gold & Crimson',
+          quantity: 1,
+          category_name: 'Ethnic Wear',
+          added_at: sixDaysAgo
+        }
+      ];
+      DB.carts_meta['cust_vikram_6d'] = {
+        user_id: 'cust_vikram_6d',
+        customer_name: 'Vikram Mehta',
+        customer_email: 'vikram.mehta@example.com',
+        customer_phone: '+91 97312 99881',
+        created_at: sixDaysAgo,
+        updated_at: sixDaysAgo,
+        reminders_sent: [],
+        reminder_count: 0
+      };
+    }
+
+    if (DB.carts['cust_101'] && !DB.carts_meta['cust_101']) {
+      DB.carts_meta['cust_101'] = {
+        user_id: 'cust_101',
+        customer_name: 'Ananya Roy',
+        customer_email: 'ananya.roy@example.com',
+        customer_phone: '+91 99001 54321',
+        created_at: new Date().toISOString(),
+        updated_at: new Date().toISOString(),
+        reminders_sent: [],
+        reminder_count: 0
+      };
+    }
+
+    saveCollection('carts');
+    saveCollection('carts_meta');
+  }
 
   // 12. Sellers
   let sellers = loadCollection('sellers', null);
@@ -428,11 +510,24 @@ export async function hydrateFromPostgres(pool) {
     }
 
     if (couponsRes?.rows?.length > 0) {
-      DB.coupons = couponsRes.rows.map(c => ({
+      const pgCoupons = couponsRes.rows.map(c => ({
         ...c,
-        discount_value: Number(c.discount_value),
-        min_order_amount: Number(c.min_order_amount)
+        discount: Number(c.discount_value || c.discount || 0),
+        discount_percent: c.discount_type === 'percentage' ? Number(c.discount_value) : (c.discount_percent || 10),
+        discount_value: Number(c.discount_value || 0),
+        min_spend: Number(c.min_order_amount || c.min_spend || 0),
+        min_order_amount: Number(c.min_order_amount || 0),
+        is_active: c.is_active !== false
       }));
+      // Merge with JSON collection
+      const localCoupons = loadCollection('coupons', []);
+      const seenCodes = new Set(pgCoupons.map(c => (c.code || '').toUpperCase()));
+      for (const lc of localCoupons) {
+        if (!seenCodes.has((lc.code || '').toUpperCase())) {
+          pgCoupons.push(lc);
+        }
+      }
+      DB.coupons = pgCoupons;
     }
 
     if (cartsRes?.rows?.length > 0) {
