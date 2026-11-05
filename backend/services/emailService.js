@@ -1,4 +1,4 @@
-import nodemailer from 'nodemailer';
+9import nodemailer from 'nodemailer';
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
@@ -576,7 +576,7 @@ export async function sendOrderNotifications(order) {
   try {
     const customerHtml = buildCustomerOrderEmail(order);
     const customerSubject = `Order Confirmed: #${orderNumber} (${order.payment_method === 'COD' ? 'Cash on Delivery' : 'Verified'}) | GoMo Deals`;
-    
+
     const sendResult = await mailer.sendMail({
       from: `"GoMo Deals" <${process.env.SMTP_FROM || 'orders@gomodeals.com'}>`,
       to: customerEmail,

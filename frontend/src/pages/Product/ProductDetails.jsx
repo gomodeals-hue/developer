@@ -12,6 +12,9 @@ import {
   Loader2, 
   ArrowRight, 
   ChevronRight, 
+  ChevronLeft, 
+  Sparkles, 
+  CheckCheck, 
   AlertCircle,
   Percent,
   Plus,
@@ -226,6 +229,16 @@ const ProductDetails = () => {
   // Lower Section Navigation
   const [activeDetailTab, setActiveDetailTab] = useState('description');
   const [similarProducts, setSimilarProducts] = useState([]);
+  const [trendingProducts, setTrendingProducts] = useState([]);
+  const similarCarouselRef = useRef(null);
+  const trendingCarouselRef = useRef(null);
+
+  const scrollCarousel = (ref, dir) => {
+    if (ref.current) {
+      const scrollAmount = dir * 320;
+      ref.current.scrollBy({ left: scrollAmount, behavior: 'smooth' });
+    }
+  };
 
   // Review Modal State
   const [isReviewModalOpen, setIsReviewModalOpen] = useState(false);
@@ -266,11 +279,20 @@ const ProductDetails = () => {
           // Record in recently viewed
           productService.recordRecentlyViewed(item);
 
-          // Fetch similar products safely (5 items for similar grid)
+          // Fetch similar and trending products for dual carousels
           try {
-            const relRes = await productService.getRelatedProducts(item.product_id || item.id, 5);
+            const relRes = await productService.getRelatedProducts(item.product_id || item.id, 20);
             if (relRes.success && isMounted) {
-              setSimilarProducts(relRes.data || []);
+              const allRelated = relRes.data || [];
+              setSimilarProducts(allRelated.slice(0, 10));
+              if (allRelated.length > 10) {
+                setTrendingProducts(allRelated.slice(10, 20));
+              } else {
+                const featRes = await productService.getProducts({ limit: 10, is_featured: true });
+                if (featRes.success && isMounted) {
+                  setTrendingProducts((featRes.data || []).filter(p => (p.id || p.product_id) !== (item.id || item.product_id)).slice(0, 10));
+                }
+              }
             }
           } catch (relErr) {
             console.warn('Could not load related products:', relErr);
@@ -762,10 +784,7 @@ const ProductDetails = () => {
               {product.name || product.title}
             </h1>
 
-            {/* Subtitle */}
-            <div className="product-subtitle" id="productSubtitle">
-              {product.subtitle || product.description?.slice(0, 140) || 'Premium curated catalog selection with authentic manufacturer & seller warranty.'}
-            </div>
+{/* Subtitle removed per design specification */}
 
             {/* Ratings Row */}
             <div className="rating-row flex items-center gap-2">
@@ -860,20 +879,20 @@ const ProductDetails = () => {
                     )}
                   </div>
                 </div>
-                <div className="py-1 -ml-3 overflow-x-auto custom-scrollbar" id="sizeOptions">
+                <div className="py-1 overflow-x-auto no-scrollbar" id="sizeOptions">
                   <JellyRadio
                     items={sizeOptions}
                     value={selectedSize}
                     onChange={(sz) => setSelectedSize(sz)}
                     size="md"
                     gap={10}
-                    radius={20}
-                    swell={0.22}
-                    barge={6}
-                    shrink={0.05}
-                    jelly={1}
-                    bounce={0.25}
-                    stiffness={580}
+                    radius={999}
+                    swell={0.04}
+                    barge={0}
+                    shrink={0}
+                    jelly={0.2}
+                    bounce={0.15}
+                    stiffness={450}
                     chipColor="#ffffff"
                     textColor="#292524"
                     activeColor="#f76e28"
@@ -1036,27 +1055,144 @@ const ProductDetails = () => {
         {/* LOWER DETAILS (ACCORDION SECTIONS) */}
         <section className="detail-wrap">
 
-          {/* 1. DESCRIPTION SECTION */}
+          {/* 1. AMAZON A+ / FROM THE BRAND RICH DESCRIPTION SECTION */}
           <section className="detail-section" id="description">
-            <h2 className="section-heading">Product Description</h2>
-            <div className="description">
-              <p id="descriptionText">
-                {product.description || 'This product is meticulously crafted to meet rigorous quality standards. Designed with premium materials for maximum durability and everyday elegance.'}
-              </p>
-              {product.features && Array.isArray(product.features) && product.features.length > 0 && (
-                <div>
-                  <h3 className="text-xs font-bold uppercase tracking-wider text-stone-900 mt-4 mb-2">Key Features</h3>
-                  <ul className="bullet-list">
-                    {product.features.map((feat, fIdx) => (
-                      <li key={fIdx}>{feat}</li>
-                    ))}
-                  </ul>
-                </div>
-              )}
+            <div className="flex items-center justify-between pb-3 border-b border-stone-200/80 mb-6">
+              <div>
+                <span className="text-[10px] font-black tracking-[0.25em] text-orange-600 uppercase">From the Brand</span>
+                <h2 className="section-heading" style={{ margin: '2px 0 0 0' }}>Product Story &amp; Details</h2>
+              </div>
+              <span className="inline-flex items-center gap-1.5 px-3 py-1 bg-orange-50 border border-orange-200 text-orange-700 text-xs font-bold rounded-full">
+                <CheckCheck size={13} />
+                <span>100% Genuine Certified</span>
+              </span>
             </div>
-            <div className="asset-note">
-              <strong>Authentic Catalog Item:</strong> Verified merchant product backed by direct brand warranty.
-              <span className="code-label">{productId}</span>
+
+            {/* Split Story Card with High-Res Product Image */}
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center bg-stone-50/70 border border-stone-200/80 rounded-2xl p-6 lg:p-8 mb-6">
+              {/* Left Column: Storytelling Narrative */}
+              <div className="lg:col-span-7 space-y-4">
+                <div className="inline-block text-[10px] font-black uppercase tracking-wider text-stone-500 bg-white border border-stone-200 px-2.5 py-1 rounded-md">
+                  {brandName || 'GoMo Verified Collection'} · {categoryName || 'Heritage Essentials'}
+                </div>
+                
+                <h3 className="text-xl sm:text-2xl font-black text-stone-900 tracking-tight leading-snug">
+                  India-inspired Style, Meticulously Handcrafted &amp; Super Functional
+                </h3>
+
+                <p className="text-sm text-stone-700 leading-relaxed">
+                  {product.description || 'Crafted with passion to honor traditional Indian artistry while embracing modern ergonomics. Every seam, cut, and embellishment is inspected to deliver exceptional elegance, supreme comfort, and unmatched lasting quality.'}
+                </p>
+
+                <p className="text-sm text-stone-600 leading-relaxed">
+                  Whether tailored for joyous festivities, weddings, family celebrations, or everyday versatility, this piece ensures you step out with poised confidence. Designed with breathable textiles that keep you cool and comfortable all day long.
+                </p>
+
+                <p className="text-sm text-stone-600 leading-relaxed">
+                  Resistant to color fading and shrinkage, with reinforced double-needle hem stitching engineered for durable, long-term enjoyment.
+                </p>
+
+                {product.features && Array.isArray(product.features) && product.features.length > 0 && (
+                  <div className="pt-2">
+                    <h4 className="text-xs font-black uppercase tracking-wider text-stone-900 mb-2">Key Highlights</h4>
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs text-stone-700">
+                      {product.features.slice(0, 4).map((feat, fIdx) => (
+                        <div key={fIdx} className="flex items-start gap-2 bg-white border border-stone-200/70 p-2.5 rounded-xl">
+                          <Check size={14} className="text-emerald-600 mt-0.5 flex-shrink-0" />
+                          <span>{feat}</span>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                )}
+              </div>
+
+              {/* Right Column: Hero Visual Image */}
+              <div className="lg:col-span-5">
+                <div className="relative rounded-2xl overflow-hidden border border-stone-200 shadow-md group bg-white">
+                  <img
+                    src={(product.images && product.images.length > 1) ? product.images[1] : (product.thumbnail || product.images?.[0] || 'https://images.unsplash.com/photo-1610030469983-98e550d6193c?w=600')}
+                    alt={product.name || product.title}
+                    className="w-full h-[320px] object-cover transition-transform duration-500 group-hover:scale-105"
+                    onError={(e) => {
+                      e.target.src = product.thumbnail || 'https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=600';
+                    }}
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-stone-950/70 via-transparent to-transparent flex flex-col justify-end p-5 text-white">
+                    <span className="text-[10px] font-black uppercase tracking-widest text-orange-400">Authentic Catalog Item</span>
+                    <h4 className="text-base font-bold text-white line-clamp-1">{product.name || product.title}</h4>
+                    <span className="text-xs text-stone-200 mt-0.5">Verified by GoMo Quality Labs · Direct Warranty</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Structured Specifications Grid Table */}
+            <div className="border border-stone-200 rounded-2xl overflow-hidden mb-6 bg-white shadow-xs">
+              <div className="bg-stone-100/70 px-5 py-3 border-b border-stone-200 font-bold text-xs uppercase tracking-wider text-stone-800">
+                Specifications &amp; Technical Attributes
+              </div>
+              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 divide-y sm:divide-y-0 sm:divide-x divide-stone-200 text-xs">
+                <div className="p-4">
+                  <div className="font-bold text-stone-500 uppercase tracking-wider text-[10px]">Material &amp; Weave</div>
+                  <div className="font-bold text-stone-900 mt-1 text-sm">{materialVal}</div>
+                  <div className="text-stone-500 text-[11px] mt-0.5">Premium curated grade</div>
+                </div>
+                <div className="p-4">
+                  <div className="font-bold text-stone-500 uppercase tracking-wider text-[10px]">Fit &amp; Silhouette</div>
+                  <div className="font-bold text-stone-900 mt-1 text-sm">{fitVal}</div>
+                  <div className="text-stone-500 text-[11px] mt-0.5">Ergonomic comfort sizing</div>
+                </div>
+                <div className="p-4">
+                  <div className="font-bold text-stone-500 uppercase tracking-wider text-[10px]">Occasion / Purpose</div>
+                  <div className="font-bold text-stone-900 mt-1 text-sm">{occasionVal}</div>
+                  <div className="text-stone-500 text-[11px] mt-0.5">Festive &amp; versatile</div>
+                </div>
+                <div className="p-4">
+                  <div className="font-bold text-stone-500 uppercase tracking-wider text-[10px]">Care Instructions</div>
+                  <div className="font-bold text-stone-900 mt-1 text-sm">{careVal}</div>
+                  <div className="text-stone-500 text-[11px] mt-0.5">Retains color &amp; shape</div>
+                </div>
+              </div>
+            </div>
+
+            {/* 3 Visual Feature Highlights Cards */}
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+              <div className="bg-white border border-stone-200/80 rounded-2xl p-4 flex items-center gap-4 shadow-xs hover:border-orange-200 transition-colors">
+                <img
+                  src={product.thumbnail || (product.images && product.images[0]) || 'https://images.unsplash.com/photo-1606293926075-69a00dbfde81?w=200'}
+                  alt="Craftsmanship"
+                  className="w-16 h-16 rounded-xl object-cover border border-stone-200 flex-shrink-0"
+                />
+                <div>
+                  <h4 className="font-bold text-stone-900 text-xs">Exquisite Detailing</h4>
+                  <p className="text-[11px] text-stone-500 mt-0.5 line-clamp-2">Fine threadwork and precision tailored edges for sophisticated aesthetics.</p>
+                </div>
+              </div>
+
+              <div className="bg-white border border-stone-200/80 rounded-2xl p-4 flex items-center gap-4 shadow-xs hover:border-orange-200 transition-colors">
+                <img
+                  src={(product.images && product.images[1]) || product.thumbnail || 'https://images.unsplash.com/photo-1610030469983-98e550d6193c?w=200'}
+                  alt="Comfort"
+                  className="w-16 h-16 rounded-xl object-cover border border-stone-200 flex-shrink-0"
+                />
+                <div>
+                  <h4 className="font-bold text-stone-900 text-xs">Breathable Comfort</h4>
+                  <p className="text-[11px] text-stone-500 mt-0.5 line-clamp-2">Soft interior lining prevents chafing and provides all-day ease.</p>
+                </div>
+              </div>
+
+              <div className="bg-white border border-stone-200/80 rounded-2xl p-4 flex items-center gap-4 shadow-xs hover:border-orange-200 transition-colors">
+                <img
+                  src={(product.images && product.images[2]) || (product.images && product.images[0]) || product.thumbnail || 'https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=200'}
+                  alt="Durability"
+                  className="w-16 h-16 rounded-xl object-cover border border-stone-200 flex-shrink-0"
+                />
+                <div>
+                  <h4 className="font-bold text-stone-900 text-xs">Reinforced Seams</h4>
+                  <p className="text-[11px] text-stone-500 mt-0.5 line-clamp-2">Built to withstand repeated wear and maintain pristine shape.</p>
+                </div>
+              </div>
             </div>
           </section>
 
@@ -1232,66 +1368,210 @@ const ProductDetails = () => {
             </div>
           </section>
 
-          {/* 5. SIMILAR PRODUCTS SECTION */}
+          {/* 5. DUAL ROW PRODUCT CAROUSELS */}
+          {/* ROW 1: SIMILAR PRODUCTS CAROUSEL */}
           <section className="detail-section" id="similar">
-            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '18px' }}>
-              <h2 className="section-heading" style={{ margin: 0 }}>Similar Products</h2>
-              <Link
-                to={`/collection/${(product.category || 'clothing').toLowerCase()}`}
-                className="view-all"
-              >
-                View all →
-              </Link>
+            <div className="flex items-center justify-between mb-4">
+              <div>
+                <span className="text-[10px] font-black tracking-widest text-orange-600 uppercase">Handpicked Recommendations</span>
+                <h2 className="section-heading" style={{ margin: '2px 0 0 0' }}>Similar Products You May Like</h2>
+              </div>
+              
+              {/* Carousel Navigation Buttons */}
+              <div className="flex items-center gap-2">
+                <button
+                  type="button"
+                  onClick={() => scrollCarousel(similarCarouselRef, -1)}
+                  className="w-9 h-9 rounded-full bg-stone-100 hover:bg-orange-600 text-stone-700 hover:text-white border border-stone-200 flex items-center justify-center transition-all cursor-pointer shadow-xs active:scale-95"
+                  aria-label="Previous Products"
+                >
+                  <ChevronLeft size={18} />
+                </button>
+                <button
+                  type="button"
+                  onClick={() => scrollCarousel(similarCarouselRef, 1)}
+                  className="w-9 h-9 rounded-full bg-stone-100 hover:bg-orange-600 text-stone-700 hover:text-white border border-stone-200 flex items-center justify-center transition-all cursor-pointer shadow-xs active:scale-95"
+                  aria-label="Next Products"
+                >
+                  <ChevronRight size={18} />
+                </button>
+              </div>
             </div>
 
-            <div className="similar-grid">
+            {/* Horizontal Scrollable Carousel Container */}
+            <div
+              ref={similarCarouselRef}
+              className="flex gap-4 overflow-x-auto no-scrollbar scroll-smooth py-2 px-1"
+            >
               {similarProducts.map((sim) => {
                 const simId = sim.product_id || sim.id;
                 const simImg = sim.thumbnail || sim.image || sim.images?.[0] || 'https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=400&q=80';
                 const simPrice = Number(sim.price || 0);
                 const simMrp = Number(sim.mrp || Math.round(simPrice * 1.25));
+                const discount = simMrp > simPrice ? Math.round(((simMrp - simPrice) / simMrp) * 100) : 0;
 
                 return (
                   <article
-                    className="product-card cursor-pointer"
+                    className="min-w-[210px] sm:min-w-[230px] max-w-[230px] flex-shrink-0 bg-white border border-stone-200/90 rounded-2xl p-3 hover:shadow-lg hover:border-orange-300 transition-all group cursor-pointer relative overflow-hidden flex flex-col justify-between"
                     key={simId}
-                    onClick={() => navigate(`/product/${simId}`)}
+                    onClick={() => {
+                      navigate(`/product/${simId}`);
+                      window.scrollTo({ top: 0, behavior: 'smooth' });
+                    }}
                   >
-                    <div className="card-image">
-                      <img
-                        src={simImg}
-                        alt={sim.name || sim.title}
-                        loading="lazy"
-                        onError={(e) => {
-                          e.target.src = 'https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=400&q=80';
-                        }}
-                      />
-                    </div>
-                    <div className="card-body">
-                      <div className="card-category">
+                    <div>
+                      <div className="relative aspect-square w-full rounded-xl overflow-hidden bg-stone-100 mb-3 border border-stone-100">
+                        <img
+                          src={simImg}
+                          alt={sim.name || sim.title}
+                          loading="lazy"
+                          className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-108"
+                          onError={(e) => {
+                            e.target.src = 'https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=400&q=80';
+                          }}
+                        />
+                        {discount > 0 && (
+                          <span className="absolute top-2 left-2 bg-rose-600 text-white text-[9.5px] font-black px-2 py-0.5 rounded-full shadow-xs uppercase tracking-wider">
+                            {discount}% OFF
+                          </span>
+                        )}
+                      </div>
+
+                      <div className="text-[10px] font-extrabold uppercase tracking-wider text-orange-600 mb-1">
                         {sim.category_name || sim.category || categoryName}
                       </div>
-                      <div className="card-name" title={sim.name || sim.title}>
+
+                      <h4 className="text-xs font-bold text-stone-900 line-clamp-2 leading-snug group-hover:text-orange-600 transition-colors">
                         {sim.name || sim.title}
-                      </div>
-                      <div className="card-rating flex items-center gap-1">
+                      </h4>
+                    </div>
+
+                    <div className="mt-3 pt-2 border-t border-stone-100">
+                      <div className="flex items-center gap-1 mb-1.5">
                         <span className="flex items-center gap-0.5 text-amber-400">
                           {[...Array(5)].map((_, i) => (
                             <Star key={i} size={11} className="fill-amber-400 text-amber-400" />
                           ))}
                         </span>
-                        <span className="text-[11px] font-bold text-stone-600 ml-1">
-                          {sim.rating ? Number(sim.rating).toFixed(1) : '4.6'}
+                        <span className="text-[10px] font-bold text-stone-500 ml-1">
+                          {sim.rating ? Number(sim.rating).toFixed(1) : '4.8'}
                         </span>
                       </div>
-                      <div className="card-price">
-                        {formatPrice(simPrice)}
+
+                      <div className="flex items-baseline gap-2">
+                        <span className="text-sm font-black text-stone-950 font-mono">
+                          {formatPrice(simPrice)}
+                        </span>
+                        {simMrp > simPrice && (
+                          <span className="text-xs text-stone-400 line-through font-mono">
+                            {formatPrice(simMrp)}
+                          </span>
+                        )}
                       </div>
-                      {simMrp > simPrice && (
-                        <div className="card-mrp">
-                          <s>{formatPrice(simMrp)}</s>
-                        </div>
-                      )}
+                    </div>
+                  </article>
+                );
+              })}
+            </div>
+          </section>
+
+          {/* ROW 2: FREQUENTLY BOUGHT TOGETHER / TRENDING RECOMMENDATIONS CAROUSEL */}
+          <section className="detail-section" id="trending-recommendations">
+            <div className="flex items-center justify-between mb-4">
+              <div>
+                <span className="text-[10px] font-black tracking-widest text-emerald-600 uppercase">Frequently Bought Together</span>
+                <h2 className="section-heading" style={{ margin: '2px 0 0 0' }}>Complete the Look &amp; Trending Essentials</h2>
+              </div>
+              
+              {/* Carousel Navigation Buttons */}
+              <div className="flex items-center gap-2">
+                <button
+                  type="button"
+                  onClick={() => scrollCarousel(trendingCarouselRef, -1)}
+                  className="w-9 h-9 rounded-full bg-stone-100 hover:bg-orange-600 text-stone-700 hover:text-white border border-stone-200 flex items-center justify-center transition-all cursor-pointer shadow-xs active:scale-95"
+                  aria-label="Previous Trending Products"
+                >
+                  <ChevronLeft size={18} />
+                </button>
+                <button
+                  type="button"
+                  onClick={() => scrollCarousel(trendingCarouselRef, 1)}
+                  className="w-9 h-9 rounded-full bg-stone-100 hover:bg-orange-600 text-stone-700 hover:text-white border border-stone-200 flex items-center justify-center transition-all cursor-pointer shadow-xs active:scale-95"
+                  aria-label="Next Trending Products"
+                >
+                  <ChevronRight size={18} />
+                </button>
+              </div>
+            </div>
+
+            {/* Horizontal Scrollable Carousel Container */}
+            <div
+              ref={trendingCarouselRef}
+              className="flex gap-4 overflow-x-auto no-scrollbar scroll-smooth py-2 px-1"
+            >
+              {(trendingProducts.length > 0 ? trendingProducts : similarProducts).map((trend) => {
+                const trId = trend.product_id || trend.id;
+                const trImg = trend.thumbnail || trend.image || trend.images?.[0] || 'https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=400&q=80';
+                const trPrice = Number(trend.price || 0);
+                const trMrp = Number(trend.mrp || Math.round(trPrice * 1.3));
+                const discount = trMrp > trPrice ? Math.round(((trMrp - trPrice) / trMrp) * 100) : 0;
+
+                return (
+                  <article
+                    className="min-w-[210px] sm:min-w-[230px] max-w-[230px] flex-shrink-0 bg-white border border-stone-200/90 rounded-2xl p-3 hover:shadow-lg hover:border-orange-300 transition-all group cursor-pointer relative overflow-hidden flex flex-col justify-between"
+                    key={`trend_${trId}`}
+                    onClick={() => {
+                      navigate(`/product/${trId}`);
+                      window.scrollTo({ top: 0, behavior: 'smooth' });
+                    }}
+                  >
+                    <div>
+                      <div className="relative aspect-square w-full rounded-xl overflow-hidden bg-stone-100 mb-3 border border-stone-100">
+                        <img
+                          src={trImg}
+                          alt={trend.name || trend.title}
+                          loading="lazy"
+                          className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-108"
+                          onError={(e) => {
+                            e.target.src = 'https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=400&q=80';
+                          }}
+                        />
+                        <span className="absolute top-2 left-2 bg-stone-900 text-white text-[9.5px] font-black px-2 py-0.5 rounded-full shadow-xs uppercase tracking-wider">
+                          Trending
+                        </span>
+                      </div>
+
+                      <div className="text-[10px] font-extrabold uppercase tracking-wider text-stone-500 mb-1">
+                        {trend.category_name || trend.category || 'Popular Pick'}
+                      </div>
+
+                      <h4 className="text-xs font-bold text-stone-900 line-clamp-2 leading-snug group-hover:text-orange-600 transition-colors">
+                        {trend.name || trend.title}
+                      </h4>
+                    </div>
+
+                    <div className="mt-3 pt-2 border-t border-stone-100">
+                      <div className="flex items-center gap-1 mb-1.5">
+                        <span className="flex items-center gap-0.5 text-amber-400">
+                          {[...Array(5)].map((_, i) => (
+                            <Star key={i} size={11} className="fill-amber-400 text-amber-400" />
+                          ))}
+                        </span>
+                        <span className="text-[10px] font-bold text-stone-500 ml-1">
+                          {trend.rating ? Number(trend.rating).toFixed(1) : '4.9'}
+                        </span>
+                      </div>
+
+                      <div className="flex items-baseline gap-2">
+                        <span className="text-sm font-black text-stone-950 font-mono">
+                          {formatPrice(trPrice)}
+                        </span>
+                        {trMrp > trPrice && (
+                          <span className="text-xs text-stone-400 line-through font-mono">
+                            {formatPrice(trMrp)}
+                          </span>
+                        )}
+                      </div>
                     </div>
                   </article>
                 );
