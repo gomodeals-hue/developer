@@ -63,3 +63,4 @@ async function verify() {
 }
 
 verify().catch(e => console.error('Verification failed:', e));
+

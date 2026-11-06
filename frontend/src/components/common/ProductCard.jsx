@@ -2,6 +2,8 @@ import React, { useState, useRef, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { ShoppingBag, Heart, Eye, Check, Star, Scale, Zap, Truck, Minus, Plus, Trash2 } from 'lucide-react';
+import gsap from 'gsap';
+import { animate } from 'animejs';
 import lottie from 'lottie-web';
 import addToCartAnimationData from '../../assets/addToCartAnimation.json';
 import { useShop } from '../../context/ShopContext';
@@ -64,6 +66,13 @@ const ProductCard = ({ product }) => {
     e.preventDefault();
     e.stopPropagation();
     if (cartQty >= liveStock) return;
+    if (qtyNumRef.current) {
+      animate(qtyNumRef.current, {
+        scale: [0.8, 1.25, 1],
+        duration: 260,
+        ease: 'outBack'
+      });
+    }
     updateQuantity(productId, cartQty + 1);
   };
 
@@ -71,6 +80,13 @@ const ProductCard = ({ product }) => {
     e.preventDefault();
     e.stopPropagation();
     if (cartQty <= 1) return;
+    if (qtyNumRef.current) {
+      animate(qtyNumRef.current, {
+        scale: [0.8, 1.25, 1],
+        duration: 260,
+        ease: 'outBack'
+      });
+    }
     updateQuantity(productId, cartQty - 1);
   };
 
@@ -127,12 +143,23 @@ const ProductCard = ({ product }) => {
     }
   }, [animPhase]);
 
+  const wishlistBtnRef = useRef(null);
+  const qtyNumRef = useRef(null);
+
   const handleToggleWishlist = (e) => {
     e.preventDefault();
     e.stopPropagation();
     if (!user) {
       navigate('/login');
       return;
+    }
+    if (wishlistBtnRef.current) {
+      animate(wishlistBtnRef.current, {
+        scale: [1, 1.45, 0.88, 1.15, 1],
+        rotate: [-14, 14, -6, 0],
+        duration: 520,
+        ease: 'outElastic(1, .6)'
+      });
     }
     toggleWishlist(product);
   };
@@ -164,15 +191,33 @@ const ProductCard = ({ product }) => {
       left: rect.left,
       width: rect.width,
       height: rect.height,
+      borderRadius: 16
     } : null;
 
-    navigate(`/product/${productId}`, {
-      state: {
-        previewProduct: product,
-        previewImage: image,
-        sourceImgRect
-      }
-    });
+    if (imgContainerRef.current) {
+      gsap.to(imgContainerRef.current, {
+        scale: 0.965,
+        duration: 0.1,
+        ease: 'power2.inOut',
+        onComplete: () => {
+          navigate(`/product/${productId}`, {
+            state: {
+              previewProduct: product,
+              previewImage: image,
+              sourceImgRect
+            }
+          });
+        }
+      });
+    } else {
+      navigate(`/product/${productId}`, {
+        state: {
+          previewProduct: product,
+          previewImage: image,
+          sourceImgRect
+        }
+      });
+    }
   };
 
   return (
@@ -228,6 +273,7 @@ const ProductCard = ({ product }) => {
           {/* Top-Right Wishlist Button */}
           <div className="absolute top-2.5 right-2.5 z-20">
             <button 
+              ref={wishlistBtnRef}
               onClick={handleToggleWishlist}
               className={`w-8 h-8 rounded-full flex items-center justify-center transition-all duration-200 border shadow-xs hover:scale-110 active:scale-95 cursor-pointer group/wish ${
                 isInWishlist(productId) 
@@ -352,7 +398,7 @@ const ProductCard = ({ product }) => {
                   >
                     <Minus size={13} strokeWidth={2.5} />
                   </button>
-                  <span className="px-2 font-black text-xs sm:text-sm text-white min-w-[20px] text-center select-none tabular-nums">
+                  <span ref={qtyNumRef} className="px-2 font-black text-xs sm:text-sm text-white min-w-[20px] text-center select-none tabular-nums inline-block">
                     {cartQty}
                   </span>
                   <button

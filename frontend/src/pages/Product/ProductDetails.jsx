@@ -1,6 +1,8 @@
 import React, { useEffect, useState, useMemo, useRef, useLayoutEffect } from 'react';
 import { useParams, Link, useNavigate, useLocation } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
+import gsap from 'gsap';
+import { animate, stagger } from 'animejs';
 import { 
   Heart, 
   ShoppingBag, 
@@ -166,19 +168,82 @@ const ProductDetails = () => {
     return () => cancelAnimationFrame(frame);
   }, [sourceImgRect, isMatchingPreview]);
 
+  // GSAP Morph & Anime.js UI animation references
+  const gsapMorphRef = useRef(null);
+  const gsapThumbRef = useRef(null);
+  const gsapFullRef = useRef(null);
+  const detailsWishlistBtnRef = useRef(null);
+  const mainImageImgRef = useRef(null);
+
   // Safety fallback to dismiss expanding overlay after timeout
   useEffect(() => {
     if (isExpanding) {
       const timer = setTimeout(() => {
         setIsExpanding(false);
-      }, 700);
+      }, 750);
       return () => clearTimeout(timer);
     }
   }, [isExpanding]);
 
+  // GSAP Morph Animation for Product Card Opening into Page
+  useEffect(() => {
+    if (!isExpanding || !sourceImgRect || !targetRect || !gsapMorphRef.current) return;
+
+    gsap.set(gsapMorphRef.current, {
+      position: 'fixed',
+      top: sourceImgRect.top,
+      left: sourceImgRect.left,
+      width: sourceImgRect.width,
+      height: sourceImgRect.height,
+      borderRadius: 16,
+      boxShadow: '0 25px 50px -10px rgba(0, 0, 0, 0.3)',
+      zIndex: 99999,
+      overflow: 'hidden',
+      pointerEvents: 'none',
+      opacity: 1,
+      backgroundColor: '#ffffff'
+    });
+
+    const tl = gsap.timeline({
+      onComplete: () => {
+        setIsExpanding(false);
+      }
+    });
+
+    tl.to(gsapMorphRef.current, {
+      top: targetRect.top,
+      left: targetRect.left,
+      width: targetRect.width,
+      height: targetRect.height,
+      borderRadius: 20,
+      boxShadow: '0 4px 20px -2px rgba(40, 20, 10, 0.08)',
+      duration: 0.52,
+      ease: 'power3.out'
+    });
+
+    if (gsapThumbRef.current && gsapFullRef.current) {
+      tl.to(gsapThumbRef.current, {
+        opacity: 0,
+        duration: 0.28,
+        ease: 'power1.inOut'
+      }, 0.12);
+
+      tl.to(gsapFullRef.current, {
+        opacity: 1,
+        duration: 0.32,
+        ease: 'power2.out'
+      }, 0.16);
+    }
+
+    return () => {
+      tl.kill();
+    };
+  }, [isExpanding, sourceImgRect, targetRect]);
+
   // Gallery & Variant State
   const [activeImageIndex, setActiveImageIndex] = useState(0);
   const [selectedSize, setSelectedSize] = useState('M');
+  const prevSizeRef = useRef(selectedSize);
   const [isSizeChartOpen, setIsSizeChartOpen] = useState(false);
   const [addCartPhase, setAddCartPhase] = useState('idle'); // 'idle' | 'animating' | 'transitioning'
   const [isVocOpen, setIsVocOpen] = useState(false);
@@ -186,6 +251,56 @@ const ProductDetails = () => {
   const detailsAnimRef = useRef(null);
 
   const isAddingToCart = addCartPhase === 'animating' || addCartPhase === 'transitioning';
+
+  // Anime.js Staggered Entrance for Product Details Info
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      animate([
+        '.breadcrumbs',
+        '.product-info .eyebrow',
+        '.product-info .product-title',
+        '.product-info .rating-row',
+        '.product-info .price-block',
+        '.product-info .size-selection-area',
+        '.product-info .offer-box',
+        '.product-info .delivery',
+        '.product-info .actions',
+        '.product-info .seller'
+      ], {
+        opacity: [0, 1],
+        translateY: [20, 0],
+        delay: stagger(45, { start: isExpanding ? 150 : 30 }),
+        duration: 600,
+        ease: 'outQuart'
+      });
+    }, 40);
+
+    return () => clearTimeout(timer);
+  }, [id, isExpanding]);
+
+  // Anime.js Elastic Spring Feedback on Size Pill Selection
+  useEffect(() => {
+    if (prevSizeRef.current !== selectedSize) {
+      prevSizeRef.current = selectedSize;
+      animate('#sizeOptions button[aria-checked="true"], #sizeOptions .jelly-radio-chip-active', {
+        scale: [0.88, 1.15, 0.98, 1],
+        duration: 380,
+        ease: 'outElastic(1, .5)'
+      });
+    }
+  }, [selectedSize]);
+
+  // Anime.js Smooth Crossfade & Pulse on Gallery Main Image Update
+  useEffect(() => {
+    if (mainImageImgRef.current) {
+      animate(mainImageImgRef.current, {
+        opacity: [0.4, 1],
+        scale: [0.98, 1],
+        duration: 320,
+        ease: 'outQuad'
+      });
+    }
+  }, [activeImageIndex]);
 
   useEffect(() => {
     if (addCartPhase !== 'animating' || !detailsLottieRef.current) return;
@@ -233,10 +348,32 @@ const ProductDetails = () => {
   const similarCarouselRef = useRef(null);
   const trendingCarouselRef = useRef(null);
 
-  const scrollCarousel = (ref, dir) => {
+  // Anime.js Smooth Reveal on Tab Switching
+  useEffect(() => {
+    animate('.detail-section', {
+      opacity: [0.6, 1],
+      translateY: [12, 0],
+      duration: 380,
+      ease: 'outQuad'
+    });
+  }, [activeDetailTab]);
+
+  // GSAP Smooth Momentum Scroll for Product Carousels with Anime.js Button Tactile Feedback
+  const scrollCarousel = (ref, dir, event) => {
+    if (event?.currentTarget) {
+      animate(event.currentTarget, {
+        scale: [0.85, 1.14, 1],
+        duration: 280,
+        ease: 'outBack'
+      });
+    }
     if (ref.current) {
-      const scrollAmount = dir * 320;
-      ref.current.scrollBy({ left: scrollAmount, behavior: 'smooth' });
+      const scrollAmount = dir * 350;
+      gsap.to(ref.current, {
+        scrollLeft: ref.current.scrollLeft + scrollAmount,
+        duration: 0.55,
+        ease: 'power2.out'
+      });
     }
   };
 
@@ -466,12 +603,20 @@ const ProductDetails = () => {
     navigate('/checkout', { state: { buyNowProduct: buyNowItem } });
   };
 
-  // Wishlist toggle handler
+  // Wishlist toggle handler with Anime.js tactile pulse
   const handleToggleWishlist = () => {
     if (!product) return;
     if (!user) {
       navigate('/login');
       return;
+    }
+    if (detailsWishlistBtnRef.current) {
+      animate(detailsWishlistBtnRef.current, {
+        scale: [1, 1.4, 0.88, 1.12, 1],
+        rotate: [-14, 14, -6, 0],
+        duration: 520,
+        ease: 'outElastic(1, .6)'
+      });
     }
     toggleWishlist(product);
   };
@@ -633,66 +778,44 @@ const ProductDetails = () => {
 
   return (
     <div className="gomo-product-detail-page">
-      {/* Shared Element Expanding Card Animation with Seamless Crossfade */}
-      <AnimatePresence>
-        {isExpanding && sourceImgRect && targetRect && (
-          <motion.div
-            key="product-card-shared-expansion"
-            initial={{
-              position: 'fixed',
-              top: sourceImgRect.top,
-              left: sourceImgRect.left,
-              width: sourceImgRect.width,
-              height: sourceImgRect.height,
-              borderRadius: 14,
-              boxShadow: '0 20px 35px -10px rgba(0, 0, 0, 0.2), 0 10px 15px -5px rgba(0, 0, 0, 0.1)',
-              zIndex: 99999,
-              backgroundColor: '#ffffff',
-              overflow: 'hidden',
-              pointerEvents: 'none',
-            }}
-            animate={{
-              top: targetRect.top,
-              left: targetRect.left,
-              width: targetRect.width,
-              height: targetRect.height,
-              borderRadius: 16,
-              boxShadow: '0 4px 14px rgba(40, 20, 10, 0.08)',
-            }}
-            exit={{ opacity: 0, transition: { duration: 0.2, ease: 'easeOut' } }}
-            transition={{
-              type: 'spring',
-              stiffness: 260,
-              damping: 26,
-              mass: 0.85
-            }}
-            onAnimationComplete={() => {
-              setIsExpanding(false);
-            }}
-            className="relative flex items-center justify-center border border-stone-200"
-          >
-            {/* Crossfade Layer 1: Starting Card Image (object-cover from the card) */}
-            <motion.img
-              src={mainImgSrc}
-              alt={product?.name || product?.title || 'Product Image'}
-              initial={{ opacity: 1 }}
-              animate={{ opacity: 0 }}
-              transition={{ duration: 0.28, ease: 'easeInOut' }}
-              className="absolute inset-0 w-full h-full object-cover"
-            />
+      {/* GSAP Powered Shared Element Expanding Morph Animation */}
+      {isExpanding && sourceImgRect && targetRect && (
+        <div
+          ref={gsapMorphRef}
+          key="product-card-gsap-expansion"
+          style={{
+            position: 'fixed',
+            top: sourceImgRect.top,
+            left: sourceImgRect.left,
+            width: sourceImgRect.width,
+            height: sourceImgRect.height,
+            borderRadius: 16,
+            boxShadow: '0 25px 50px -10px rgba(0, 0, 0, 0.3)',
+            zIndex: 99999,
+            overflow: 'hidden',
+            pointerEvents: 'none',
+            backgroundColor: '#ffffff'
+          }}
+          className="relative flex items-center justify-center border border-stone-200"
+        >
+          {/* Crossfade Layer 1: Starting Card Image (object-cover from the card) */}
+          <img
+            ref={gsapThumbRef}
+            src={mainImgSrc}
+            alt={product?.name || product?.title || 'Product Image'}
+            className="absolute inset-0 w-full h-full object-cover"
+          />
 
-            {/* Crossfade Layer 2: Destination Detail Image (object-contain with natural padding) */}
-            <motion.img
-              src={mainImgSrc}
-              alt={product?.name || product?.title || 'Product Image'}
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ duration: 0.32, delay: 0.06, ease: 'easeInOut' }}
-              className="w-full h-full object-contain p-3"
-            />
-          </motion.div>
-        )}
-      </AnimatePresence>
+          {/* Crossfade Layer 2: Destination Detail Image (object-contain with natural padding) */}
+          <img
+            ref={gsapFullRef}
+            src={mainImgSrc}
+            alt={product?.name || product?.title || 'Product Image'}
+            style={{ opacity: 0 }}
+            className="w-full h-full object-contain p-3"
+          />
+        </div>
+      )}
 
       <motion.main 
         className="page"
@@ -741,6 +864,7 @@ const ProductDetails = () => {
                 transition={{ duration: 0.35, delay: isExpanding ? 0.22 : 0, ease: 'easeOut' }}
               >
                 <img
+                  ref={mainImageImgRef}
                   src={mainImgSrc}
                   alt={product.name || product.title}
                   onError={(e) => {
@@ -748,6 +872,7 @@ const ProductDetails = () => {
                   }}
                 />
                 <button
+                  ref={detailsWishlistBtnRef}
                   className={`wishlist ${isWishlisted ? 'active' : ''}`}
                   id="wishlistBtn"
                   onClick={handleToggleWishlist}
@@ -1377,11 +1502,11 @@ const ProductDetails = () => {
                 <h2 className="section-heading" style={{ margin: '2px 0 0 0' }}>Similar Products You May Like</h2>
               </div>
               
-              {/* Carousel Navigation Buttons */}
+              {/* Carousel Navigation Buttons with Anime.js tactile bounce */}
               <div className="flex items-center gap-2">
                 <button
                   type="button"
-                  onClick={() => scrollCarousel(similarCarouselRef, -1)}
+                  onClick={(e) => scrollCarousel(similarCarouselRef, -1, e)}
                   className="w-9 h-9 rounded-full bg-stone-100 hover:bg-orange-600 text-stone-700 hover:text-white border border-stone-200 flex items-center justify-center transition-all cursor-pointer shadow-xs active:scale-95"
                   aria-label="Previous Products"
                 >
@@ -1389,7 +1514,7 @@ const ProductDetails = () => {
                 </button>
                 <button
                   type="button"
-                  onClick={() => scrollCarousel(similarCarouselRef, 1)}
+                  onClick={(e) => scrollCarousel(similarCarouselRef, 1, e)}
                   className="w-9 h-9 rounded-full bg-stone-100 hover:bg-orange-600 text-stone-700 hover:text-white border border-stone-200 flex items-center justify-center transition-all cursor-pointer shadow-xs active:scale-95"
                   aria-label="Next Products"
                 >
@@ -1414,9 +1539,23 @@ const ProductDetails = () => {
                   <article
                     className="min-w-[210px] sm:min-w-[230px] max-w-[230px] flex-shrink-0 bg-white border border-stone-200/90 rounded-2xl p-3 hover:shadow-lg hover:border-orange-300 transition-all group cursor-pointer relative overflow-hidden flex flex-col justify-between"
                     key={simId}
-                    onClick={() => {
-                      navigate(`/product/${simId}`);
-                      window.scrollTo({ top: 0, behavior: 'smooth' });
+                    onClick={(e) => {
+                      const imgEl = e.currentTarget.querySelector('img');
+                      const rect = imgEl?.getBoundingClientRect();
+                      const sourceImgRect = rect ? {
+                        top: rect.top,
+                        left: rect.left,
+                        width: rect.width,
+                        height: rect.height,
+                      } : null;
+                      navigate(`/product/${simId}`, {
+                        state: {
+                          previewProduct: sim,
+                          previewImage: simImg,
+                          sourceImgRect
+                        }
+                      });
+                      window.scrollTo(0, 0);
                     }}
                   >
                     <div>
@@ -1483,11 +1622,11 @@ const ProductDetails = () => {
                 <h2 className="section-heading" style={{ margin: '2px 0 0 0' }}>Complete the Look &amp; Trending Essentials</h2>
               </div>
               
-              {/* Carousel Navigation Buttons */}
+              {/* Carousel Navigation Buttons with Anime.js tactile bounce */}
               <div className="flex items-center gap-2">
                 <button
                   type="button"
-                  onClick={() => scrollCarousel(trendingCarouselRef, -1)}
+                  onClick={(e) => scrollCarousel(trendingCarouselRef, -1, e)}
                   className="w-9 h-9 rounded-full bg-stone-100 hover:bg-orange-600 text-stone-700 hover:text-white border border-stone-200 flex items-center justify-center transition-all cursor-pointer shadow-xs active:scale-95"
                   aria-label="Previous Trending Products"
                 >
@@ -1495,7 +1634,7 @@ const ProductDetails = () => {
                 </button>
                 <button
                   type="button"
-                  onClick={() => scrollCarousel(trendingCarouselRef, 1)}
+                  onClick={(e) => scrollCarousel(trendingCarouselRef, 1, e)}
                   className="w-9 h-9 rounded-full bg-stone-100 hover:bg-orange-600 text-stone-700 hover:text-white border border-stone-200 flex items-center justify-center transition-all cursor-pointer shadow-xs active:scale-95"
                   aria-label="Next Trending Products"
                 >
@@ -1520,9 +1659,23 @@ const ProductDetails = () => {
                   <article
                     className="min-w-[210px] sm:min-w-[230px] max-w-[230px] flex-shrink-0 bg-white border border-stone-200/90 rounded-2xl p-3 hover:shadow-lg hover:border-orange-300 transition-all group cursor-pointer relative overflow-hidden flex flex-col justify-between"
                     key={`trend_${trId}`}
-                    onClick={() => {
-                      navigate(`/product/${trId}`);
-                      window.scrollTo({ top: 0, behavior: 'smooth' });
+                    onClick={(e) => {
+                      const imgEl = e.currentTarget.querySelector('img');
+                      const rect = imgEl?.getBoundingClientRect();
+                      const sourceImgRect = rect ? {
+                        top: rect.top,
+                        left: rect.left,
+                        width: rect.width,
+                        height: rect.height,
+                      } : null;
+                      navigate(`/product/${trId}`, {
+                        state: {
+                          previewProduct: trend,
+                          previewImage: trImg,
+                          sourceImgRect
+                        }
+                      });
+                      window.scrollTo(0, 0);
                     }}
                   >
                     <div>
