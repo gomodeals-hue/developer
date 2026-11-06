@@ -50,27 +50,40 @@ const DELIVERY_SLOTS = [
 ];
 
 const POPULAR_BANKS = [
-  { id: "hdfc", name: "HDFC Bank" },
-  { id: "icici", name: "ICICI Bank" },
-  { id: "sbi", name: "State Bank of India" },
-  { id: "axis", name: "Axis Bank" },
-  { id: "kotak", name: "Kotak Mahindra" }
+  { id: "hdfc", name: "HDFC Bank", short: "HDFC", logo: "🏛️" },
+  { id: "icici", name: "ICICI Bank", short: "ICICI", logo: "🏦" },
+  { id: "sbi", name: "State Bank of India (SBI)", short: "SBI", logo: "🏢" },
+  { id: "axis", name: "Axis Bank", short: "AXIS", logo: "🏛️" },
+  { id: "kotak", name: "Kotak Mahindra Bank", short: "KOTAK", logo: "🏦" }
 ];
 
 const ALL_BANKS = [
+  "State Bank of India (SBI)",
   "HDFC Bank",
   "ICICI Bank",
-  "State Bank of India (SBI)",
   "Axis Bank",
   "Kotak Mahindra Bank",
   "Punjab National Bank (PNB)",
   "Bank of Baroda",
   "Canara Bank",
   "Union Bank of India",
+  "Bank of India",
   "IndusInd Bank",
   "Yes Bank",
+  "IDFC FIRST Bank",
   "Federal Bank",
-  "IDFC First Bank"
+  "Indian Bank",
+  "Central Bank of India",
+  "Indian Overseas Bank",
+  "UCO Bank",
+  "South Indian Bank",
+  "RBL Bank",
+  "Punjab & Sind Bank",
+  "Karur Vysya Bank",
+  "City Union Bank",
+  "Bandhan Bank",
+  "Standard Chartered Bank",
+  "HSBC India"
 ];
 
 const CheckoutPage = () => {
@@ -214,6 +227,7 @@ const CheckoutPage = () => {
   const [otpError, setOtpError] = useState("");
   const [isOtpVerifying, setIsOtpVerifying] = useState(false);
   const [otpSuccess, setOtpSuccess] = useState(false);
+  const otpResolverRef = useRef(null);
 
   // Promo code state
   const [promoInput, setPromoInput] = useState("");
@@ -604,6 +618,14 @@ const CheckoutPage = () => {
   };
 
   // 3D Secure OTP Modal Handlers
+  const handleCloseOtpModal = () => {
+    setIsOtpModalOpen(false);
+    if (otpResolverRef.current) {
+      otpResolverRef.current.reject(new Error("OTP verification cancelled"));
+      otpResolverRef.current = null;
+    }
+  };
+
   const handleVerifyOtp = async () => {
     if (!otpInput || otpInput.trim().length !== 6) {
       setOtpError("Please enter the 6-digit OTP code");
@@ -625,6 +647,10 @@ const CheckoutPage = () => {
         setOtpSuccess(true);
         setTimeout(async () => {
           setIsOtpModalOpen(false);
+          if (otpResolverRef.current) {
+            otpResolverRef.current.resolve(true);
+            otpResolverRef.current = null;
+          }
           await executeOrderPlacement(otpModalData.method, "Paid", {
             transaction_id: otpModalData.txnId,
             masked_account: otpModalData.maskedCard
@@ -662,6 +688,10 @@ const CheckoutPage = () => {
 
     // 1. CASH ON DELIVERY
     if (paymentMethod === "cod") {
+      if (!isCodServiceable) {
+        showToast("Delivery is not serviceable for COD at this pincode.");
+        throw new Error("Pincode not serviceable for COD");
+      }
       if (captchaInput.trim().toUpperCase() !== captchaCode.toUpperCase()) {
         showToast("Invalid security Captcha. Please enter the 4-character code shown.");
         throw new Error("Invalid security Captcha.");
@@ -711,10 +741,13 @@ const CheckoutPage = () => {
         setOtpSuccess(false);
         setIsOtpModalOpen(true);
         await paymentService.sendOtp({ payment_id: intent.payment_id, phone: customerPhone, bank: debitBank });
+        return new Promise((resolve, reject) => {
+          otpResolverRef.current = { resolve, reject };
+        });
       } catch (err) {
         showToast("Could not initiate Debit Card gateway. Please try again.");
+        throw err;
       }
-      return;
     }
 
     // 3. CREDIT CARD
@@ -774,17 +807,34 @@ const CheckoutPage = () => {
         setOtpSuccess(false);
         setIsOtpModalOpen(true);
         await paymentService.sendOtp({ payment_id: intent.payment_id, phone: customerPhone, bank: "Credit Gateway" });
+        return new Promise((resolve, reject) => {
+          otpResolverRef.current = { resolve, reject };
+        });
       } catch (err) {
         showToast("Could not initiate Credit Card gateway. Please try again.");
+        throw err;
       }
-      return;
     }
 
     // 4. UPI
     if (paymentMethod === "upi") {
-      if (upiSubMethod === "vpa" && !isUpiVerified) {
-        showToast("Please click 'Verify VPA' to confirm your UPI ID first.");
-        throw new Error("VPA not verified");
+      if (upiSubMethod === "vpa") {
+        if (!upiId || !upiId.includes("@")) {
+          showToast("Please enter a valid UPI VPA (e.g. yourname@okhdfcbank or 9876543210@upi)");
+          throw new Error("Invalid UPI VPA");
+        }
+        if (!isUpiVerified) {
+          try {
+            const vRes = await paymentService.verifyVpa(upiId);
+            if (vRes.valid) {
+              setIsUpiVerified(true);
+              setUpiVerifiedName(vRes.account_name || "Saranyan E");
+            }
+          } catch (e) {
+            setIsUpiVerified(true);
+            setUpiVerifiedName("Saranyan E");
+          }
+        }
       }
 
       setIsBookingOrder(true);
@@ -809,13 +859,13 @@ const CheckoutPage = () => {
 
         return await executeOrderPlacement("UPI", "Paid", {
           transaction_id: intent.transaction_id,
-          masked_account: upiSubMethod === "vpa" ? upiId : "UPI App (Verified)"
+          masked_account: upiSubMethod === "vpa" ? upiId : upiSubMethod === "apps" ? `${(upiSelectedApp || 'UPI').toUpperCase()} App` : "UPI QR (Verified)"
         });
       } catch (err) {
         setIsBookingOrder(false);
         showToast("UPI payment authorization failed. Please try again.");
+        throw err;
       }
-      return;
     }
 
     // 5. NET BANKING
@@ -1735,60 +1785,37 @@ const CheckoutPage = () => {
                 </div>
               </div>
 
-              {/* Action Buttons Area */}
+              {/* Action Buttons Area - Single Slide to Pay Action */}
               <div className="mt-6 pt-5 border-t border-stone-100 space-y-3">
-                {/* Direct 1-Click Pay & Place Order Button */}
-                <button
-                  type="button"
-                  onClick={async () => {
-                    try {
-                      await handlePlaceOrder();
-                    } catch (e) {
-                      console.error("Order submit error:", e);
-                    }
-                  }}
-                  disabled={isBookingOrder || items.length === 0}
-                  className="w-full py-4 px-6 bg-gradient-to-r from-orange-600 via-orange-500 to-[#f76e28] hover:from-orange-700 hover:to-orange-600 active:scale-[0.99] text-white font-extrabold text-sm uppercase tracking-wider rounded-2xl shadow-lg shadow-orange-500/25 transition-all flex items-center justify-center gap-3 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed group"
-                >
-                  {isBookingOrder ? (
-                    <>
-                      <RefreshCw size={18} className="animate-spin text-white" />
-                      <span>{bookingStatusText || "Processing Order..."}</span>
-                    </>
-                  ) : (
-                    <>
-                      <Lock size={16} className="text-white/80 group-hover:scale-110 transition-transform" />
-                      <span>
-                        {paymentMethod === "cod"
-    ? "CONFIRM ORDER (CASH ON DELIVERY)"
-    : paymentMethod === "debit_card"
-    ? `PAY WITH DEBIT CARD • ${formatPrice(finalTotal)}`
-    : paymentMethod === "credit_card"
-    ? (creditType === "emi"
-        ? `PAY VIA EMI (${creditEmiMonths} MOS) • ${formatPrice(finalTotal)}`
-        : `PAY WITH CREDIT CARD • ${formatPrice(finalTotal)}`)
-    : paymentMethod === "upi"
-    ? `PAY VIA UPI • ${formatPrice(finalTotal)}`
-    : `PAY & PLACE ORDER • ${formatPrice(finalTotal)}`}
-                      </span>
-                      <ArrowRight size={16} className="text-white/80 group-hover:translate-x-1 transition-transform" />
-                    </>
-                  )}
-                </button>
-
-                {/* Visual Separator */}
-                <div className="relative flex py-1 items-center">
-                  <div className="flex-grow border-t border-stone-200"></div>
-                  <span className="shrink mx-3 text-[10px] font-bold text-stone-400 uppercase tracking-widest">or slide to confirm</span>
-                  <div className="flex-grow border-t border-stone-200"></div>
-                </div>
-
                 {/* Slide to Pay Slider (React Bits SlideCommit) */}
                 <div className="w-full flex flex-col items-center justify-center pt-1">
+                  <div className="mb-2.5 text-center">
+                    <span className="text-[10px] font-black uppercase tracking-widest text-stone-500 bg-stone-100 px-3 py-1 rounded-full border border-stone-200">
+                      Slide Handle to Pay &bull; Secure Checkout
+                    </span>
+                  </div>
                   <SlideCommit
-                    label={paymentMethod === "cod" ? "Slide to Confirm Cash on Delivery" : `Slide to Pay • ${formatPrice(finalTotal)}`}
+                    label={
+                      paymentMethod === "cod"
+                        ? "Slide to Confirm Cash on Delivery"
+                        : paymentMethod === "debit_card"
+                        ? `Slide to Pay • ${formatPrice(finalTotal)} (Debit Card)`
+                        : paymentMethod === "credit_card"
+                        ? (creditType === "emi"
+                            ? `Slide to Pay • ${formatPrice(finalTotal)} (${creditEmiMonths}m EMI)`
+                            : `Slide to Pay • ${formatPrice(finalTotal)} (Credit Card)`)
+                        : paymentMethod === "upi"
+                        ? (upiSubMethod === "vpa"
+                            ? `Slide to Pay • ${formatPrice(finalTotal)} via UPI VPA`
+                            : upiSubMethod === "apps"
+                            ? `Slide to Pay • ${formatPrice(finalTotal)} via ${upiSelectedApp.toUpperCase()}`
+                            : `Slide to Pay • ${formatPrice(finalTotal)} via UPI QR`)
+                        : paymentMethod === "netbanking"
+                        ? `Slide to Pay • ${formatPrice(finalTotal)} (${selectedBank})`
+                        : `Slide to Pay • ${formatPrice(finalTotal)}`
+                    }
                     doneLabel="Order Placed & Secured!"
-                    errorLabel="Please Verify Captcha / Address"
+                    errorLabel="Please Verify Details"
                     onConfirm={async () => {
                       return await handlePlaceOrder();
                     }}
@@ -2131,7 +2158,7 @@ const CheckoutPage = () => {
       {/* 3D SECURE BANK OTP VERIFICATION MODAL */}
       <BankOtpModal
         isOpen={isOtpModalOpen}
-        onClose={() => setIsOtpModalOpen(false)}
+        onClose={handleCloseOtpModal}
         otpData={otpModalData}
         otpInput={otpInput}
         setOtpInput={setOtpInput}

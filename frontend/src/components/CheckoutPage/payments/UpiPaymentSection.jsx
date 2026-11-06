@@ -10,7 +10,7 @@ const UPI_APPS = [
   { id: "cred", name: "CRED UPI", badge: "CRED", color: "hover:border-stone-800 hover:bg-stone-50 text-stone-900 bg-white" }
 ];
 
-const VPA_HANDLES = ["@okhdfcbank", "@okaxis", "@okicici", "@oksbi", "@paytm", "@ybl"];
+const VPA_HANDLES = ["@okhdfcbank", "@okaxis", "@okicici", "@oksbi", "@paytm", "@ybl", "@ibl", "@upi"];
 
 export const UpiPaymentSection = ({
   upiSubMethod,
@@ -155,29 +155,17 @@ export const UpiPaymentSection = ({
                 ))}
               </div>
 
-              {/* Direct Desktop Confirmation Simulation Button */}
+              {/* Seamless Slide-to-Pay Confirmation Prompt */}
               <div className="pt-2">
-                <button
-                  type="button"
-                  onClick={handleSimulateUpiSuccess}
-                  disabled={isUpiSimulating}
-                  className="w-full sm:w-auto px-4 py-2 bg-stone-900 hover:bg-stone-800 text-white text-xs font-bold rounded-lg transition flex items-center justify-center gap-2 cursor-pointer shadow-xs"
-                >
-                  {isUpiSimulating ? (
-                    <>
-                      <RefreshCw size={13} className="animate-spin text-orange-400" />
-                      <span>Verifying Payment from Bank...</span>
-                    </>
-                  ) : (
-                    <>
-                      <Zap size={13} className="text-amber-400 fill-amber-400" />
-                      <span>I Have Completed Payment via App</span>
-                    </>
-                  )}
-                </button>
-                <p className="text-[10px] text-stone-400 mt-1">
-                  Click above after completing transaction on your phone to confirm order instantly.
-                </p>
+                <div className="p-2.5 bg-orange-50/80 border border-orange-200/80 rounded-xl text-xs text-orange-950 flex items-center justify-between">
+                  <div className="flex items-center gap-2">
+                    <Zap size={14} className="text-orange-600 shrink-0" />
+                    <span className="font-medium">Scan QR with your app, then <strong>Slide to Pay</strong> below to secure your order.</span>
+                  </div>
+                  <span className="text-[10px] font-bold text-orange-700 bg-orange-100/90 px-2 py-0.5 rounded-full shrink-0">
+                    Auto-Sync
+                  </span>
+                </div>
               </div>
             </div>
           </div>

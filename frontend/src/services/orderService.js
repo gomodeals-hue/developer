@@ -105,8 +105,12 @@ export const orderService = {
       total_amount: Number(orderData.total_amount || 0),
       subtotal: Number(orderData.subtotal || 0),
       shipping_fee: Number(orderData.shipping_fee || 0),
-      address: orderData.delivery_address || {},
-      delivery_address: orderData.delivery_address || {},
+      customer_name: orderData.customer_name || orderData.delivery_address?.full_name || 'Valued Customer',
+      customer_email: orderData.customer_email || orderData.delivery_address?.email || 'customer@gomodeals.com',
+      customer_phone: orderData.customer_phone || orderData.delivery_address?.phone || '+91 98765 43210',
+      address: orderData.delivery_address || orderData.shipping_address || {},
+      delivery_address: orderData.delivery_address || orderData.shipping_address || {},
+      shipping_address: orderData.shipping_address || orderData.delivery_address || {},
       payment: {
         method: orderData.payment_method || 'CARD',
         status: orderData.payment_status || (orderData.payment_method === 'COD' ? 'Pending' : 'Paid'),
@@ -116,6 +120,9 @@ export const orderService = {
       payment_method: orderData.payment_method || 'CARD',
       payment_status: orderData.payment_status || (orderData.payment_method === 'COD' ? 'Pending' : 'Paid'),
       order_status: 'Confirmed',
+      status: 'Confirmed',
+      courier_partner: 'BlueDart Express Air',
+      tracking_number: `BLU${Math.floor(10000000 + Math.random() * 90000000)}`,
       timestamps: {
         created_at: createdAt,
         estimated_delivery: estimatedDelivery

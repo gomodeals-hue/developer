@@ -7,7 +7,11 @@ const EMI_BANKS = [
   "State Bank of India (SBI)",
   "Axis Bank",
   "Kotak Mahindra Bank",
-  "American Express"
+  "IDFC FIRST Bank",
+  "IndusInd Bank",
+  "American Express",
+  "Standard Chartered Bank",
+  "RBL Bank"
 ];
 
 export const CreditCardSection = ({

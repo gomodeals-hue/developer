@@ -11,6 +11,11 @@ const DEBIT_BANKS = [
   "Bank of Baroda",
   "Canara Bank",
   "Union Bank of India",
+  "IndusInd Bank",
+  "IDFC FIRST Bank",
+  "Yes Bank",
+  "Federal Bank",
+  "Indian Bank",
   "Other Scheduled Bank"
 ];
 

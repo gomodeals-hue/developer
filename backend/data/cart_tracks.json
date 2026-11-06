@@ -106,6 +106,67 @@
   ],
   "cust_101": [
     {
+      "id": "trk_1793957329453_2qwrf",
+      "user_id": "cust_101",
+      "timestamp": "2026-11-06T09:28:49.453Z",
+      "action": "ORDER_PURCHASED",
+      "title": "Cart Converted to Order #GMD-ORD-10037",
+      "description": "Order #GMD-ORD-10037 placed successfully (UPI) for ₹1,039",
+      "product_id": null,
+      "product_name": null,
+      "variant": null,
+      "quantity": null,
+      "price": null,
+      "thumbnail": null,
+      "account_email": "customer@gomodeals.com",
+      "account_name": "Saranyan E",
+      "metadata": {
+        "order_id": "GMD-ORD-10037",
+        "total_amount": 1039,
+        "items_count": 1
+      }
+    },
+    {
+      "id": "trk_1793957323501_blu7y",
+      "user_id": "cust_101",
+      "timestamp": "2026-11-06T09:28:43.501Z",
+      "action": "ORDER_PURCHASED",
+      "title": "Cart Converted to Order #GMD-ORD-10036",
+      "description": "Order #GMD-ORD-10036 placed successfully (UPI) for ₹1,039",
+      "product_id": null,
+      "product_name": null,
+      "variant": null,
+      "quantity": null,
+      "price": null,
+      "thumbnail": null,
+      "account_email": "customer@gomodeals.com",
+      "account_name": "Saranyan E",
+      "metadata": {
+        "order_id": "GMD-ORD-10036",
+        "total_amount": 1039,
+        "items_count": 1
+      }
+    },
+    {
+      "id": "trk_1793957316354_tc3gj",
+      "user_id": "cust_101",
+      "timestamp": "2026-11-06T09:28:36.354Z",
+      "action": "GUEST_CART_MERGED",
+      "title": "Guest Browsing Items Linked to Account",
+      "description": "Successfully migrated and synced 1 product(s) from guest browsing session into account cart on login",
+      "product_id": null,
+      "product_name": null,
+      "variant": null,
+      "quantity": null,
+      "price": null,
+      "thumbnail": null,
+      "account_email": "ananya.roy@example.com",
+      "account_name": "Ananya Roy",
+      "metadata": {
+        "items_count": 1
+      }
+    },
+    {
       "id": "trk_1793954791538_iu69g",
       "user_id": "cust_101",
       "timestamp": "2026-11-06T08:46:31.538Z",

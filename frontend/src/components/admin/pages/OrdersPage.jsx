@@ -18,10 +18,34 @@ import { StatCard } from "../components/StatCard";
 import { exportToExcel } from "../../../utils/exportUtils";
 import ConfirmModal from '../../common/ConfirmModal';
 
+/* ─── Address formatting helper ────────────────────────────────── */
+export const formatAddress = (addr) => {
+  if (!addr) return "No shipping address provided";
+  if (typeof addr === "string") return addr;
+  if (typeof addr === "object") {
+    const parts = [
+      addr.street,
+      addr.city,
+      addr.state,
+      addr.postal_code || addr.pincode
+    ].filter(Boolean);
+    const tag = addr.tag || addr.type ? ` (${addr.tag || addr.type})` : "";
+    return (parts.join(", ") || "Address details on file") + tag;
+  }
+  return String(addr);
+};
+
 /* ─── PDF Invoice download helper ─────────────────────────────── */
 function downloadInvoice(order) {
+  if (!order) return;
   const doc = new jsPDF();
   const items = Array.isArray(order.items) ? order.items : [];
+  const rawId = String(order.id || order.order_id || order.order_number || "ORDER");
+  const invoiceId = rawId.replace(/[^a-zA-Z0-9]/g, "").slice(-8).toUpperCase() || "ORD1001";
+  const custName = order.customer_name || (typeof order.shipping_address === 'object' ? order.shipping_address?.full_name : null) || "GoMo Customer";
+  const custEmail = order.customer_email || "customer@gomodeals.com";
+  const custPhone = order.customer_phone || (typeof order.shipping_address === 'object' ? order.shipping_address?.phone : null) || "N/A";
+  const fullAddress = formatAddress(order.shipping_address || order.delivery_address);
 
   // Header
   doc.setFontSize(22);
@@ -35,8 +59,8 @@ function downloadInvoice(order) {
   doc.setTextColor(0);
   doc.text("TAX INVOICE", 200, 22, { align: 'right' });
   doc.setFontSize(10);
-  doc.text(`Invoice #: INV-${order.id.slice(0, 8).toUpperCase()}`, 200, 28, { align: 'right' });
-  doc.text(`Date: ${new Date(order.created_at).toLocaleDateString()}`, 200, 34, { align: 'right' });
+  doc.text(`Invoice #: INV-${invoiceId}`, 200, 28, { align: 'right' });
+  doc.text(`Date: ${new Date(order.created_at || Date.now()).toLocaleDateString("en-IN")}`, 200, 34, { align: 'right' });
 
   // Info Grid
   doc.setDrawColor(240);
@@ -44,39 +68,44 @@ function downloadInvoice(order) {
 
   doc.setFontSize(10);
   doc.setFont("helvetica", "bold");
-  doc.text("BILL TO:", 14, 50);
+  doc.text("BILL & DELIVER TO:", 14, 48);
   doc.setFont("helvetica", "normal");
-  doc.text(`${order.customer_name}`, 14, 56);
-  doc.text(`${order.customer_email}`, 14, 62);
-  doc.text(`${order.customer_phone || 'N/A'}`, 14, 68);
+  doc.text(`${custName}`, 14, 54);
+  doc.text(`${custEmail}`, 14, 60);
+  doc.text(`${custPhone}`, 14, 66);
+  doc.setFontSize(8);
+  const splitAddress = doc.splitTextToSize(fullAddress, 65);
+  doc.text(splitAddress, 14, 72);
+
+  doc.setFontSize(10);
+  doc.setFont("helvetica", "bold");
+  doc.text("ORDER INFO:", 85, 48);
+  doc.setFont("helvetica", "normal");
+  doc.text(`Order ID: #${rawId}`, 85, 54);
+  doc.text(`Payment: ${order.payment_method || 'Prepaid'}`, 85, 60);
+  doc.text(`Status: ${order.status || 'Confirmed'}`, 85, 66);
 
   doc.setFont("helvetica", "bold");
-  doc.text("ORDER INFO:", 80, 50);
+  doc.text("SUMMARY:", 150, 48);
   doc.setFont("helvetica", "normal");
-  doc.text(`Order ID: #${order.id.slice(0, 8)}`, 80, 56);
-  doc.text(`Payment: ${order.payment_method}`, 80, 62);
-
+  doc.text(`Items: ${items.length}`, 150, 54);
+  doc.text(`Delivery: Express BlueDart`, 150, 60);
   doc.setFont("helvetica", "bold");
-  doc.text("SUMMARY:", 150, 50);
-  doc.setFont("helvetica", "normal");
-  doc.text(`Items: ${items.length}`, 150, 56);
-  doc.text(`Status: Paid`, 150, 62);
-  doc.setFont("helvetica", "bold");
-  doc.text(`Total: ₹${order.total_amount}`, 150, 68);
+  doc.text(`Total: ₹${Number(order.total_amount || 0).toLocaleString('en-IN')}`, 150, 66);
 
   // Table
   const tableRows = items.map((it, i) => [
     i + 1,
-    it.name,
-    it.quantity,
-    `INR ${it.price}`,
-    `INR ${(it.price * it.quantity).toFixed(2)}`,
-    `INR ${(it.price * 0.05 * it.quantity).toFixed(2)}`,
-    `INR ${(it.price * 1.05 * it.quantity).toFixed(2)}`
+    it.name || it.title || "Product Item",
+    it.quantity || 1,
+    `INR ${Number(it.price || 0).toLocaleString('en-IN')}`,
+    `INR ${(Number(it.price || 0) * Number(it.quantity || 1)).toLocaleString('en-IN')}`,
+    `INR ${(Number(it.price || 0) * 0.05 * Number(it.quantity || 1)).toFixed(2)}`,
+    `INR ${(Number(it.price || 0) * 1.05 * Number(it.quantity || 1)).toFixed(2)}`
   ]);
 
   autoTable(doc, {
-    startY: 80,
+    startY: 92,
     head: [['#', 'Product', 'Qty', 'Unit Price', 'Net Price', 'GST (5%)', 'Total']],
     body: tableRows,
     theme: 'striped',
@@ -84,22 +113,22 @@ function downloadInvoice(order) {
     styles: { fontSize: 9, font: "helvetica" },
   });
 
-  const finalY = doc.lastAutoTable.finalY || 80;
+  const finalY = doc.lastAutoTable.finalY || 100;
 
   // Totals
   doc.setFontSize(10);
-  doc.text(`Subtotal: INR ${order.total_amount}`, 200, finalY + 15, { align: 'right' });
+  doc.text(`Subtotal: INR ${Number(order.total_amount || 0).toLocaleString('en-IN')}`, 200, finalY + 15, { align: 'right' });
   doc.setFont("helvetica", "bold");
-  doc.text(`Grand Total: INR ${order.total_amount}`, 200, finalY + 25, { align: 'right' });
+  doc.text(`Grand Total: INR ${Number(order.total_amount || 0).toLocaleString('en-IN')}`, 200, finalY + 25, { align: 'right' });
 
   // Footer
   doc.setFont("helvetica", "normal");
   doc.setFontSize(8);
   doc.setTextColor(150);
-  doc.text("Thank you for your business. For support, contact support@gomogift.com", 14, 280);
+  doc.text("Thank you for your business. For support, contact support@gomodeals.com", 14, 280);
   doc.text(`Generated on ${new Date().toLocaleDateString("en-IN")}`, 200, 280, { align: 'right' });
 
-  doc.save(`Invoice-${order.id.slice(0, 8)}.pdf`);
+  doc.save(`Invoice-${invoiceId}.pdf`);
 }
 
 const statusStyle = {
@@ -584,16 +613,18 @@ export default function OrdersPage() {
                   </td>
                   <td className="px-6 py-5">
                     <div className="flex flex-col">
-                      <span className="text-sm font-bold text-orange-955 font-mono">#{o.id.slice(0, 8).toUpperCase()}</span>
+                      <span className="text-sm font-bold text-orange-955 font-mono">#{String(o.id || o.order_id || 'ORDER').slice(0, 12).toUpperCase()}</span>
                       <span className="text-[9px] font-black text-stone-500 uppercase mt-1 tracking-wider flex items-center gap-1.5">
-                        <Calendar size={11} /> {new Date(o.created_at).toLocaleDateString('en-IN', { day: '2-digit', month: 'short' })}
+                        <Calendar size={11} /> {new Date(o.created_at || Date.now()).toLocaleDateString('en-IN', { day: '2-digit', month: 'short' })}
                       </span>
                     </div>
                   </td>
                   <td className="px-6 py-5">
                     <div className="flex flex-col">
-                      <span className="text-sm font-bold text-stone-900">{o.customer_name}</span>
-                      <span className="text-[10px] font-bold text-stone-500 mt-0.5 truncate max-w-[200px]">{o.customer_email}</span>
+                      <span className="text-sm font-bold text-stone-900">
+                        {o.customer_name || (typeof o.shipping_address === 'object' ? o.shipping_address?.full_name : null) || 'Valued Customer'}
+                      </span>
+                      <span className="text-[10px] font-bold text-stone-500 mt-0.5 truncate max-w-[200px]">{o.customer_email || 'N/A'}</span>
                     </div>
                   </td>
                   <td className="px-6 py-5 text-right">
@@ -701,17 +732,60 @@ export default function OrdersPage() {
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6 relative z-10">
                       <div>
                         <p className="text-[9px] font-black text-stone-500 uppercase tracking-wider mb-2">Customer Profile</p>
-                        <p className="text-base font-extrabold text-orange-955">{selectedOrder.customer_name}</p>
+                        <p className="text-base font-extrabold text-orange-955">
+                          {selectedOrder.customer_name || (typeof selectedOrder.shipping_address === 'object' ? selectedOrder.shipping_address?.full_name : null) || 'Valued Customer'}
+                        </p>
                         <div className="mt-3 space-y-1.5">
-                          <p className="text-xs font-bold text-stone-700 flex items-center gap-1.5"><Check size={12} className="text-orange-500" /> {selectedOrder.customer_email}</p>
-                          <p className="text-xs font-bold text-stone-700 flex items-center gap-1.5"><Check size={12} className="text-orange-500" /> {selectedOrder.customer_phone || '+91 00000 00000'}</p>
+                          <p className="text-xs font-bold text-stone-700 flex items-center gap-1.5">
+                            <Mail size={12} className="text-orange-500" /> {selectedOrder.customer_email || 'N/A'}
+                          </p>
+                          <p className="text-xs font-bold text-stone-700 flex items-center gap-1.5">
+                            <Check size={12} className="text-orange-500" /> {selectedOrder.customer_phone || (typeof selectedOrder.shipping_address === 'object' ? selectedOrder.shipping_address?.phone : null) || '+91 98450 12345'}
+                          </p>
+                          {selectedOrder.userId && (
+                            <p className="text-[10px] font-mono text-stone-500">User ID: {selectedOrder.userId}</p>
+                          )}
                         </div>
                       </div>
-                      <div className="bg-white/80 p-4 rounded-xl border border-orange-100 shadow-inner">
-                        <p className="text-[9px] font-black text-stone-500 uppercase tracking-wider mb-2">Shipping Address</p>
-                        <div className="flex gap-2">
+                      <div className="bg-white/90 p-4 rounded-xl border border-orange-100 shadow-inner">
+                        <div className="flex items-center justify-between mb-2">
+                          <p className="text-[9px] font-black text-stone-500 uppercase tracking-wider">Shipping Address</p>
+                          {typeof (selectedOrder.shipping_address || selectedOrder.delivery_address) === 'object' && (
+                            <span className="px-2 py-0.5 rounded bg-orange-100 text-orange-800 text-[8px] font-black uppercase tracking-wider">
+                              {(selectedOrder.shipping_address || selectedOrder.delivery_address)?.tag || (selectedOrder.shipping_address || selectedOrder.delivery_address)?.type || 'Shipping'}
+                            </span>
+                          )}
+                        </div>
+                        <div className="flex items-start gap-2">
                           <MapPin className="h-4 w-4 text-rose-500 shrink-0 mt-0.5" />
-                          <p className="text-xs font-bold text-stone-800 leading-relaxed">{selectedOrder.shipping_address}</p>
+                          <div className="text-xs text-stone-800 leading-relaxed">
+                            {typeof (selectedOrder.shipping_address || selectedOrder.delivery_address) === 'object' && (selectedOrder.shipping_address || selectedOrder.delivery_address) !== null ? (
+                              <>
+                                <p className="font-bold text-stone-900">
+                                  {(selectedOrder.shipping_address || selectedOrder.delivery_address)?.full_name || selectedOrder.customer_name}
+                                </p>
+                                <p className="text-stone-700">{(selectedOrder.shipping_address || selectedOrder.delivery_address)?.street}</p>
+                                <p className="text-stone-700">
+                                  {[
+                                    (selectedOrder.shipping_address || selectedOrder.delivery_address)?.city,
+                                    (selectedOrder.shipping_address || selectedOrder.delivery_address)?.state
+                                  ].filter(Boolean).join(", ")}
+                                  {(selectedOrder.shipping_address || selectedOrder.delivery_address)?.postal_code
+                                    ? ` - ${(selectedOrder.shipping_address || selectedOrder.delivery_address)?.postal_code}`
+                                    : ""}
+                                </p>
+                                {(selectedOrder.shipping_address || selectedOrder.delivery_address)?.phone && (
+                                  <p className="text-stone-500 text-[11px] mt-1">
+                                    Phone: {(selectedOrder.shipping_address || selectedOrder.delivery_address)?.phone}
+                                  </p>
+                                )}
+                              </>
+                            ) : (
+                              <p className="font-bold text-stone-800">
+                                {formatAddress(selectedOrder.shipping_address || selectedOrder.delivery_address)}
+                              </p>
+                            )}
+                          </div>
                         </div>
                       </div>
                     </div>
@@ -727,19 +801,36 @@ export default function OrdersPage() {
                       {(selectedOrder.items || []).map((item, i) => (
                         <div key={i} className="flex items-center justify-between p-4 rounded-xl bg-orange-50/20 border border-orange-100 hover:border-orange-955 transition-all duration-300 group/item">
                           <div className="flex items-center gap-4">
-                            <div className="h-14 w-14 rounded-xl border border-orange-100 overflow-hidden shrink-0 shadow-sm">
-                              <img src={item.image} alt={item.name} className="h-full w-full object-cover" onError={e => e.target.src = '/fallback-product.png'} />
+                            <div className="h-14 w-14 rounded-xl border border-orange-100 overflow-hidden shrink-0 shadow-sm bg-white">
+                              <img
+                                src={item.image || item.thumbnail || item.images?.[0] || '/fallback-product.png'}
+                                alt={item.name || item.title || "Product"}
+                                className="h-full w-full object-cover"
+                                onError={e => { e.target.src = '/fallback-product.png'; }}
+                              />
                             </div>
                             <div>
-                              <p className="text-sm font-bold text-orange-955">{item.name}</p>
-                              <div className="flex items-center gap-2 mt-1">
-                                <span className="text-[9px] font-black text-stone-500 uppercase bg-orange-50 px-2 py-0.5 rounded border border-orange-100">SKU: {item.sku || 'N/A'}</span>
+                              <p className="text-sm font-bold text-orange-955">{item.name || item.title || "Product Item"}</p>
+                              <div className="flex flex-wrap items-center gap-2 mt-1">
+                                <span className="text-[9px] font-black text-stone-500 uppercase bg-orange-50 px-2 py-0.5 rounded border border-orange-100">
+                                  SKU: {item.sku || item.product_id || item.id || 'N/A'}
+                                </span>
+                                {(item.variant_value || item.selectedSize || item.selectedColor) && (
+                                  <span className="text-[9px] font-bold text-orange-700 bg-orange-100/60 px-2 py-0.5 rounded border border-orange-200">
+                                    {item.variant_value ? `Variant: ${item.variant_value}` : ''}
+                                    {item.selectedSize ? `Size: ${item.selectedSize}` : ''}
+                                    {item.selectedColor ? ` • ${item.selectedColor}` : ''}
+                                  </span>
+                                )}
                               </div>
                             </div>
                           </div>
                           <div className="text-right">
-                            <p className="text-sm font-bold text-orange-955">₹{Number(item.price).toLocaleString('en-IN')}</p>
-                            <p className="text-[9px] font-black text-stone-500 uppercase mt-0.5">Qty: {item.quantity}</p>
+                            <p className="text-sm font-bold text-orange-955">₹{Number(item.price || 0).toLocaleString('en-IN')}</p>
+                            <p className="text-[9px] font-black text-stone-500 uppercase mt-0.5">Qty: {item.quantity || 1}</p>
+                            <p className="text-[10px] font-bold text-stone-600 mt-0.5">
+                              Subtotal: ₹{(Number(item.price || 0) * Number(item.quantity || 1)).toLocaleString('en-IN')}
+                            </p>
                           </div>
                         </div>
                       ))}
@@ -758,10 +849,38 @@ export default function OrdersPage() {
                         <h3 className="text-[10px] font-black text-orange-300 uppercase tracking-widest">Payment Summary</h3>
                       </div>
 
-                      <div className="space-y-4">
-                        <div className="flex justify-between items-center">
-                          <span className="text-[9px] font-bold text-orange-300 uppercase">Method</span>
-                          <span className="text-[9px] font-black uppercase text-white bg-white/10 px-2 py-0.5 rounded border border-white/10">{selectedOrder.payment_method}</span>
+                      <div className="space-y-2.5 text-xs">
+                        <div className="flex justify-between items-center text-stone-200">
+                          <span className="text-[10px] font-bold text-orange-200 uppercase">Payment Method</span>
+                          <span className="text-[10px] font-black uppercase text-white bg-white/10 px-2 py-0.5 rounded border border-white/10">
+                            {selectedOrder.payment_method || 'Prepaid'}
+                          </span>
+                        </div>
+                        <div className="flex justify-between items-center text-stone-200">
+                          <span className="text-[10px] font-bold text-orange-200 uppercase">Payment Status</span>
+                          <span className="text-[10px] font-black uppercase text-emerald-300 bg-emerald-500/20 px-2 py-0.5 rounded border border-emerald-500/30">
+                            {selectedOrder.payment_status || ((selectedOrder.payment_method || '').toUpperCase().includes('COD') ? 'Pending Collection' : 'Paid (Verified)')}
+                          </span>
+                        </div>
+                        {(selectedOrder.tracking_number || selectedOrder.tracking_id) && (
+                          <div className="flex justify-between items-center text-stone-200">
+                            <span className="text-[10px] font-bold text-orange-200 uppercase">AWB Tracking #</span>
+                            <span className="text-[10px] font-mono font-bold text-orange-300">
+                              {selectedOrder.tracking_number || selectedOrder.tracking_id}
+                            </span>
+                          </div>
+                        )}
+                        <div className="flex justify-between items-center text-stone-300 pt-1 text-[11px]">
+                          <span>Items Subtotal</span>
+                          <span>₹{Number(selectedOrder.subtotal || selectedOrder.total_amount).toLocaleString('en-IN')}</span>
+                        </div>
+                        <div className="flex justify-between items-center text-stone-300 text-[11px]">
+                          <span>Shipping (Express)</span>
+                          <span className="text-emerald-400 font-bold">FREE</span>
+                        </div>
+                        <div className="flex justify-between items-center text-stone-300 text-[11px]">
+                          <span>Estimated GST (5%)</span>
+                          <span>₹{Number(selectedOrder.tax || Math.round(Number(selectedOrder.total_amount || 0) * 0.05)).toLocaleString('en-IN')}</span>
                         </div>
                         <div className="flex justify-between items-end pt-3 border-t border-orange-800">
                           <div className="flex flex-col">

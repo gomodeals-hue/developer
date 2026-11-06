@@ -1,24 +1,5 @@
 {
-  "cust_101": [
-    {
-      "id": "gmd-el-eb-002",
-      "mrp": 2499,
-      "name": "Mivi DuoPods K7 True Wireless In-Ear Earbuds with 50H Playtime & AI-ENC Calling",
-      "price": 999,
-      "added_at": "2026-11-05T09:59:01.706Z",
-      "quantity": 32,
-      "thumbnail": "https://m.media-amazon.com/images/I/51Xk2STcvzL._AC_UF1000,1000_QL80_.jpg",
-      "product_id": "gmd-el-eb-002",
-      "variant_id": null,
-      "cart_item_id": "cart-item-1793872741706-720",
-      "category_name": "TWS True Wireless Earbuds",
-      "selectedColor": null,
-      "variant_value": null,
-      "stock_quantity": 48,
-      "account_id": "cust_101",
-      "updated_at": "2026-11-06T08:46:31.530Z"
-    }
-  ],
+  "cust_101": [],
   "cust_priya_5d": [
     {
       "id": "gmd-pooja-001",
