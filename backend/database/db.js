@@ -25,6 +25,7 @@ const DB = {
   addresses: [],
   carts: {},
   carts_meta: {},
+  cart_tracks: {},
   wishlists: {},
   shared_wishlists: {},
   sellers: [],
@@ -224,23 +225,27 @@ export async function initDatabase() {
     DB.addresses = addresses;
   }
 
-  // 11. Carts, Cart Metadata & Wishlists
+  // 11. Carts, Cart Metadata, Wishlists & Activity Tracks
   DB.carts = loadCollection('carts', {});
   DB.carts_meta = loadCollection('carts_meta', {});
+  DB.cart_tracks = loadCollection('cart_tracks', {});
   DB.wishlists = loadCollection('wishlists', {});
   DB.shared_wishlists = loadCollection('shared_wishlists', {});
 
+  const fiveDaysAgo = new Date(Date.now() - 5 * 24 * 60 * 60 * 1000 - 15 * 60 * 1000).toISOString();
+  const sixDaysAgo = new Date(Date.now() - 6 * 24 * 60 * 60 * 1000 - 2 * 3600 * 1000).toISOString();
+
   // Seed initial abandoned carts if empty or sparse for 5-day reminder testing
   if (Object.keys(DB.carts).length < 2) {
-    const fiveDaysAgo = new Date(Date.now() - 5 * 24 * 60 * 60 * 1000 - 15 * 60 * 1000).toISOString();
-    const sixDaysAgo = new Date(Date.now() - 6 * 24 * 60 * 60 * 1000 - 2 * 3600 * 1000).toISOString();
-
     if (!DB.carts['cust_priya_5d']) {
       DB.carts['cust_priya_5d'] = [
         {
           id: 'gmd-pooja-001',
           cart_item_id: 'cart_item_priya_1',
           product_id: 'gmd-pooja-001',
+          account_id: 'cust_priya_5d',
+          account_email: 'priya.sharma@example.com',
+          account_name: 'Priya Sharma',
           name: 'Pure Brass Pooja Thali & Diya Set',
           price: 1499,
           mrp: 2499,
@@ -270,6 +275,9 @@ export async function initDatabase() {
           id: 'gmd-eth-001',
           cart_item_id: 'cart_item_vikram_1',
           product_id: 'gmd-eth-001',
+          account_id: 'cust_vikram_6d',
+          account_email: 'vikram.mehta@example.com',
+          account_name: 'Vikram Mehta',
           name: 'Handwoven Pure Kanchipuram Silk Saree',
           price: 4999,
           mrp: 8999,
@@ -309,6 +317,112 @@ export async function initDatabase() {
     saveCollection('carts');
     saveCollection('carts_meta');
   }
+
+  // Ensure every account with active items has account fields and activity tracks seeded
+  const saranyanUser = (DB.users || []).find(u => u.email === 'saranyangmd@gmail.com' || u.id === 'usr-1793872697845');
+  const sId = saranyanUser ? saranyanUser.id : 'usr-1793872697845';
+  if (!DB.carts[sId] || DB.carts[sId].length === 0) {
+    const kurthaAddedTime = new Date(Date.now() - 42 * 60 * 1000).toISOString();
+    DB.carts[sId] = [
+      {
+        id: 'gmd-kd-et-103',
+        cart_item_id: `cart-item-${sId}-1`,
+        product_id: 'gmd-kd-et-103',
+        account_id: sId,
+        account_email: 'saranyangmd@gmail.com',
+        account_name: 'saranyangmd',
+        name: 'Boys Elegant Ivory Silk Kurta Pyjama with Intricate Threadwork Nehru Waistcoat Set',
+        price: 1399,
+        mrp: 2799,
+        thumbnail: 'https://images.unsplash.com/photo-1583391733956-3750e0ff4e8b?w=500',
+        variant_value: '3-4Y',
+        selectedColor: '3-4Y',
+        quantity: 1,
+        stock_quantity: 25,
+        category_name: 'Ethnic Sets',
+        added_at: kurthaAddedTime
+      }
+    ];
+    DB.carts_meta[sId] = {
+      user_id: sId,
+      customer_name: saranyanUser?.name || 'saranyangmd',
+      customer_email: saranyanUser?.email || 'saranyangmd@gmail.com',
+      customer_phone: saranyanUser?.phone || '+91 98450 12345',
+      created_at: kurthaAddedTime,
+      updated_at: kurthaAddedTime,
+      reminders_sent: [],
+      reminder_count: 0
+    };
+    saveCollection('carts');
+    saveCollection('carts_meta');
+  }
+
+  // Seed initial activity tracks if empty
+  if (!DB.cart_tracks[sId] || DB.cart_tracks[sId].length === 0) {
+    const kurthaAddedTime = DB.carts[sId]?.[0]?.added_at || new Date(Date.now() - 42 * 60 * 1000).toISOString();
+    DB.cart_tracks[sId] = [
+      {
+        id: `trk_${Date.now()}_saranyan`,
+        user_id: sId,
+        timestamp: kurthaAddedTime,
+        action: 'ITEM_ADDED',
+        title: 'Boys Elegant Ivory Silk Kurta Pyjama Added to Cart',
+        description: 'Customer selected size 3-4Y and added to account cart at ₹1,399 (50% Off)',
+        product_id: 'gmd-kd-et-103',
+        product_name: 'Boys Elegant Ivory Silk Kurta Pyjama with Intricate Threadwork Nehru Waistcoat Set',
+        variant: '3-4Y',
+        quantity: 1,
+        price: 1399,
+        thumbnail: 'https://images.unsplash.com/photo-1583391733956-3750e0ff4e8b?w=500',
+        account_email: 'saranyangmd@gmail.com',
+        account_name: 'saranyangmd'
+      }
+    ];
+  }
+
+  if (!DB.cart_tracks['cust_priya_5d'] || DB.cart_tracks['cust_priya_5d'].length === 0) {
+    DB.cart_tracks['cust_priya_5d'] = [
+      {
+        id: 'trk_priya_1',
+        user_id: 'cust_priya_5d',
+        timestamp: fiveDaysAgo,
+        action: 'ITEM_ADDED',
+        title: 'Pure Brass Pooja Thali & Diya Set Added',
+        description: 'Customer added "Pure Brass Pooja Thali & Diya Set" (Standard Brass, Qty: 1) at ₹1,499',
+        product_id: 'gmd-pooja-001',
+        product_name: 'Pure Brass Pooja Thali & Diya Set',
+        variant: 'Standard Brass',
+        quantity: 1,
+        price: 1499,
+        thumbnail: 'https://images.unsplash.com/photo-1606293926075-69a00dbfde81?w=200',
+        account_email: 'priya.sharma@example.com',
+        account_name: 'Priya Sharma'
+      }
+    ];
+  }
+
+  if (!DB.cart_tracks['cust_vikram_6d'] || DB.cart_tracks['cust_vikram_6d'].length === 0) {
+    DB.cart_tracks['cust_vikram_6d'] = [
+      {
+        id: 'trk_vikram_1',
+        user_id: 'cust_vikram_6d',
+        timestamp: sixDaysAgo,
+        action: 'ITEM_ADDED',
+        title: 'Handwoven Pure Kanchipuram Silk Saree Added',
+        description: 'Customer added "Handwoven Pure Kanchipuram Silk Saree" (Temple Gold & Crimson, Qty: 1) at ₹4,999',
+        product_id: 'gmd-eth-001',
+        product_name: 'Handwoven Pure Kanchipuram Silk Saree',
+        variant: 'Temple Gold & Crimson',
+        quantity: 1,
+        price: 4999,
+        thumbnail: 'https://images.unsplash.com/photo-1610030469983-98e550d6193c?w=200',
+        account_email: 'vikram.mehta@example.com',
+        account_name: 'Vikram Mehta'
+      }
+    ];
+  }
+
+  saveCollection('cart_tracks');
 
   // 12. Sellers
   let sellers = loadCollection('sellers', null);
@@ -360,6 +474,52 @@ export async function initDatabase() {
 
 export function getDB() {
   return DB;
+}
+
+/**
+ * Record an audit track event for an account's cart
+ */
+export function recordCartTrack(userId, event = {}) {
+  if (!userId) return null;
+  if (!DB.cart_tracks) DB.cart_tracks = {};
+  if (!DB.cart_tracks[userId]) DB.cart_tracks[userId] = [];
+
+  const userObj = (DB.users || []).find(u => u.id === userId || u.customer_id === userId);
+  const meta = DB.carts_meta?.[userId] || {};
+
+  const trackEntry = {
+    id: `trk_${Date.now()}_${Math.random().toString(36).substring(2, 7)}`,
+    user_id: userId,
+    timestamp: event.timestamp || new Date().toISOString(),
+    action: event.action || 'ITEM_ADDED',
+    title: event.title || 'Cart Activity',
+    description: event.description || '',
+    product_id: event.product_id || null,
+    product_name: event.product_name || null,
+    variant: event.variant || event.variant_value || event.selectedColor || null,
+    quantity: event.quantity !== undefined ? Number(event.quantity) : null,
+    price: event.price !== undefined ? Number(event.price) : null,
+    thumbnail: event.thumbnail || null,
+    account_email: event.account_email || meta.customer_email || userObj?.email || null,
+    account_name: event.account_name || meta.customer_name || userObj?.name || null,
+    metadata: event.metadata || {}
+  };
+
+  DB.cart_tracks[userId].unshift(trackEntry);
+  if (DB.cart_tracks[userId].length > 100) {
+    DB.cart_tracks[userId] = DB.cart_tracks[userId].slice(0, 100);
+  }
+  saveCollection('cart_tracks');
+  return trackEntry;
+}
+
+/**
+ * Retrieve all activity tracks for a specific account's cart
+ */
+export function getCartTracks(userId) {
+  if (!userId) return [];
+  if (!DB.cart_tracks) DB.cart_tracks = {};
+  return DB.cart_tracks[userId] || [];
 }
 
 /**

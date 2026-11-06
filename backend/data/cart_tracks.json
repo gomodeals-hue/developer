@@ -1,0 +1,107 @@
+{
+  "usr-1793872697845": [
+    {
+      "id": "trk_1793940511232_rnq0c",
+      "user_id": "usr-1793872697845",
+      "timestamp": "2026-11-06T04:48:31.232Z",
+      "action": "QUANTITY_UPDATED",
+      "title": "Quantity Updated: Pure Brass Pooja Thali & Diya Set",
+      "description": "Increased quantity of \"Pure Brass Pooja Thali & Diya Set\" (Standard Brass) to 3",
+      "product_id": "gmd-pooja-001",
+      "product_name": "Pure Brass Pooja Thali & Diya Set",
+      "variant": "Standard Brass",
+      "quantity": 3,
+      "price": 1499,
+      "thumbnail": null,
+      "account_email": "saranyangmd@gmail.com",
+      "account_name": "saranyangmd",
+      "metadata": {}
+    },
+    {
+      "id": "trk_1793940481709_0gldz",
+      "user_id": "usr-1793872697845",
+      "timestamp": "2026-11-06T04:48:01.709Z",
+      "action": "QUANTITY_UPDATED",
+      "title": "Quantity Updated: Pure Brass Pooja Thali & Diya Set",
+      "description": "Increased quantity of \"Pure Brass Pooja Thali & Diya Set\" (Standard Brass) to 2",
+      "product_id": "gmd-pooja-001",
+      "product_name": "Pure Brass Pooja Thali & Diya Set",
+      "variant": "Standard Brass",
+      "quantity": 2,
+      "price": 1499,
+      "thumbnail": null,
+      "account_email": "saranyangmd@gmail.com",
+      "account_name": "saranyangmd",
+      "metadata": {}
+    },
+    {
+      "id": "trk_1793940457683_aaxys",
+      "user_id": "usr-1793872697845",
+      "timestamp": "2026-11-06T04:47:37.683Z",
+      "action": "ITEM_ADDED",
+      "title": "Pure Brass Pooja Thali & Diya Set Stored in Cart",
+      "description": "Account added \"Pure Brass Pooja Thali & Diya Set\" (Size/Option: Standard Brass, Qty: 1) to active cart at ₹1,499",
+      "product_id": "gmd-pooja-001",
+      "product_name": "Pure Brass Pooja Thali & Diya Set",
+      "variant": "Standard Brass",
+      "quantity": 1,
+      "price": 1499,
+      "thumbnail": null,
+      "account_email": "saranyangmd@gmail.com",
+      "account_name": "saranyangmd",
+      "metadata": {}
+    },
+    {
+      "id": "trk_1793940429908_saranyan",
+      "user_id": "usr-1793872697845",
+      "timestamp": "2026-11-06T04:05:09.808Z",
+      "action": "ITEM_ADDED",
+      "title": "Boys Elegant Ivory Silk Kurta Pyjama Added to Cart",
+      "description": "Customer selected size 3-4Y and added to account cart at ₹1,399 (50% Off)",
+      "product_id": "gmd-kd-et-103",
+      "product_name": "Boys Elegant Ivory Silk Kurta Pyjama with Intricate Threadwork Nehru Waistcoat Set",
+      "variant": "3-4Y",
+      "quantity": 1,
+      "price": 1399,
+      "thumbnail": "https://images.unsplash.com/photo-1583391733956-3750e0ff4e8b?w=500",
+      "account_email": "saranyangmd@gmail.com",
+      "account_name": "saranyangmd"
+    }
+  ],
+  "cust_priya_5d": [
+    {
+      "id": "trk_priya_1",
+      "user_id": "cust_priya_5d",
+      "timestamp": "2026-11-01T04:32:09.792Z",
+      "action": "ITEM_ADDED",
+      "title": "Pure Brass Pooja Thali & Diya Set Added",
+      "description": "Customer added \"Pure Brass Pooja Thali & Diya Set\" (Standard Brass, Qty: 1) at ₹1,499",
+      "product_id": "gmd-pooja-001",
+      "product_name": "Pure Brass Pooja Thali & Diya Set",
+      "variant": "Standard Brass",
+      "quantity": 1,
+      "price": 1499,
+      "thumbnail": "https://images.unsplash.com/photo-1606293926075-69a00dbfde81?w=200",
+      "account_email": "priya.sharma@example.com",
+      "account_name": "Priya Sharma"
+    }
+  ],
+  "cust_vikram_6d": [
+    {
+      "id": "trk_vikram_1",
+      "user_id": "cust_vikram_6d",
+      "timestamp": "2026-10-31T02:47:09.794Z",
+      "action": "ITEM_ADDED",
+      "title": "Handwoven Pure Kanchipuram Silk Saree Added",
+      "description": "Customer added \"Handwoven Pure Kanchipuram Silk Saree\" (Temple Gold & Crimson, Qty: 1) at ₹4,999",
+      "product_id": "gmd-eth-001",
+      "product_name": "Handwoven Pure Kanchipuram Silk Saree",
+      "variant": "Temple Gold & Crimson",
+      "quantity": 1,
+      "price": 4999,
+      "thumbnail": "https://images.unsplash.com/photo-1610030469983-98e550d6193c?w=200",
+      "account_email": "vikram.mehta@example.com",
+      "account_name": "Vikram Mehta"
+    }
+  ]
+}

@@ -282,10 +282,15 @@ export const cartService = {
   /**
    * Merge anonymous guest cart with user cart on login
    */
-  async mergeCart(userId, items = []) {
+  async mergeCart(userId, items = [], options = {}) {
     if (!API_CONFIG.USE_MOCK && userId) {
       try {
-        const res = await apiClient.post('/cart/merge', { userId, items });
+        const res = await apiClient.post('/cart/merge', {
+          userId,
+          items,
+          customer_email: options.customer_email || options.email,
+          customer_name: options.customer_name || options.name
+        });
         if (res.data?.success) {
           saveLocalCart(res.data.data);
           return res.data;

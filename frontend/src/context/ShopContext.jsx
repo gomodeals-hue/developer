@@ -360,6 +360,24 @@ export const ShopProvider = ({ children }) => {
       if (user?.id && (user?.role === 'customer' || user?.role === 'admin' || user?.role === 'super_admin')) {
         setLoading(true);
         try {
+          // 1. Check for any guest items in localStorage and merge them into the user's account
+          let guestItems = [];
+          try {
+            const rawLocal = localStorage.getItem('cart') || localStorage.getItem('gomo_cart_items');
+            if (rawLocal) guestItems = JSON.parse(rawLocal);
+          } catch {}
+
+          if (Array.isArray(guestItems) && guestItems.length > 0) {
+            await cartService.mergeCart(user.id, guestItems, {
+              customer_email: user.email,
+              customer_name: user.name || user.full_name
+            });
+            // Clear guest items after merging into account
+            localStorage.removeItem('cart');
+            localStorage.removeItem('gomo_cart_items');
+          }
+
+          // 2. Load authoritative account cart & wishlist from backend
           const [remoteCart, remoteWishlist] = await Promise.all([
             cartService.getCart(user.id),
             wishlistService.getWishlist(user.id)
@@ -372,7 +390,7 @@ export const ShopProvider = ({ children }) => {
               name: item.name,
               price: item.price,
               quantity: item.quantity,
-              image: item.thumbnail,
+              image: item.thumbnail || item.image,
               variant_id: item.variant_id,
               selectedColor: item.variant_value || item.selectedColor || null,
               variant_value: item.variant_value || item.selectedColor || null,

@@ -1,4 +1,4 @@
-import { getDB, saveCollection } from '../database/db.js';
+import { getDB, saveCollection, recordCartTrack, getCartTracks } from '../database/db.js';
 import { isPostgresConnected, pool } from '../database/pg.js';
 import { sendCartReminderEmail, buildCartReminderEmail } from '../services/emailService.js';
 
@@ -6,7 +6,7 @@ import { sendCartReminderEmail, buildCartReminderEmail } from '../services/email
  * Helper to enrich cart items with catalog data (live stock, prices)
  * and calculate full financial totals (subtotal, shipping, tax, discounts, final total)
  */
-function enrichCartAndCalculateSummary(rawCart = [], db, options = {}) {
+export function enrichCartAndCalculateSummary(rawCart = [], db, options = {}) {
   const products = db.products || [];
   const cart = (rawCart || []).map(item => {
     const prodId = item.product_id || item.id;
@@ -151,6 +151,7 @@ export async function handleCartWishlistRoutes(req, res, pathname, method, query
       !pathname.includes('/clear') && 
       !pathname.includes('/merge') && 
       !pathname.includes('/move-to-wishlist') && 
+      !pathname.includes('/tracks') && 
       method === 'GET') {
     let userId = pathname.startsWith('/api/v1/cart/') ? pathname.split('/').pop() : null;
     if (!userId || userId === 'cart') {
@@ -201,30 +202,74 @@ export async function handleCartWishlistRoutes(req, res, pathname, method, query
       }, 400);
     }
 
+    const userObj = (db.users || []).find(u => u.id === userId || u.customer_id === userId);
+    const accountEmail = body.customer_email || body.email || userObj?.email || (userId.includes('@') ? userId : null);
+    const accountName = body.customer_name || body.name || userObj?.name || 'Customer';
+
     if (existingIndex > -1) {
       db.carts[userId][existingIndex].quantity += qty;
+      db.carts[userId][existingIndex].updated_at = new Date().toISOString();
+      db.carts[userId][existingIndex].account_id = userId;
+      if (accountEmail) db.carts[userId][existingIndex].account_email = accountEmail;
+      if (accountName) db.carts[userId][existingIndex].account_name = accountName;
+
+      recordCartTrack(userId, {
+        action: 'QUANTITY_UPDATED',
+        title: `Quantity Updated: ${db.carts[userId][existingIndex].name}`,
+        description: `Increased quantity of "${db.carts[userId][existingIndex].name}" (${variantValue || 'Standard'}) to ${db.carts[userId][existingIndex].quantity}`,
+        product_id: prodId,
+        product_name: db.carts[userId][existingIndex].name,
+        variant: variantValue,
+        quantity: db.carts[userId][existingIndex].quantity,
+        price: db.carts[userId][existingIndex].price,
+        thumbnail: db.carts[userId][existingIndex].thumbnail,
+        account_email: accountEmail,
+        account_name: accountName
+      });
     } else {
       const cartItemId = `cart-item-${Date.now()}-${Math.floor(Math.random() * 1000)}`;
+      const itemName = body.name || prod?.name || 'Product';
+      const itemPrice = body.price !== undefined ? Number(body.price) : (prod?.price || 999);
+      const itemThumb = body.thumbnail || prod?.thumbnail || (prod?.images && prod.images[0]) || '';
+
       db.carts[userId].push({
         id: prodId,
         cart_item_id: cartItemId,
         product_id: prodId,
-        name: body.name || prod?.name || 'Product',
-        price: body.price !== undefined ? Number(body.price) : (prod?.price || 999),
+        account_id: userId,
+        account_email: accountEmail,
+        account_name: accountName,
+        name: itemName,
+        price: itemPrice,
         mrp: body.mrp !== undefined ? Number(body.mrp) : (prod?.mrp || 1499),
-        thumbnail: body.thumbnail || prod?.thumbnail || '',
+        thumbnail: itemThumb,
         variant_value: variantValue,
         selectedColor: variantValue,
         variant_id: variantId,
         quantity: qty,
         stock_quantity: availableStock,
         category_name: body.category_name || prod?.category_name || prod?.category || null,
-        added_at: new Date().toISOString()
+        added_at: new Date().toISOString(),
+        updated_at: new Date().toISOString()
+      });
+
+      recordCartTrack(userId, {
+        action: 'ITEM_ADDED',
+        title: `${itemName} Stored in Cart`,
+        description: `Account added "${itemName}" (${variantValue ? `Size/Option: ${variantValue}, ` : ''}Qty: ${qty}) to active cart at ₹${itemPrice.toLocaleString('en-IN')}`,
+        product_id: prodId,
+        product_name: itemName,
+        variant: variantValue,
+        quantity: qty,
+        price: itemPrice,
+        thumbnail: itemThumb,
+        account_email: accountEmail,
+        account_name: accountName
       });
     }
 
     saveCollection('carts'); if (typeof userId !== 'undefined') { persistCartToPostgres(userId, db.carts[userId]); }
-    updateCartMetadata(userId, body, db);
+    updateCartMetadata(userId, { ...body, customer_email: accountEmail, customer_name: accountName }, db);
     const { cart, summary } = enrichCartAndCalculateSummary(db.carts[userId], db);
     return sendJSON(res, {
       success: true,
@@ -267,9 +312,31 @@ export async function handleCartWishlistRoutes(req, res, pathname, method, query
         }
 
         if (newQty <= 0) {
-          db.carts[uid].splice(idx, 1);
+          const removed = db.carts[uid].splice(idx, 1)[0];
+          recordCartTrack(uid, {
+            action: 'ITEM_REMOVED',
+            title: `Removed "${removed.name}" from Cart`,
+            description: `Item quantity set to 0. Removed from account cart.`,
+            product_id: removed.product_id || removed.id,
+            product_name: removed.name,
+            variant: removed.variant_value,
+            thumbnail: removed.thumbnail
+          });
         } else {
+          const oldQty = db.carts[uid][idx].quantity;
           db.carts[uid][idx].quantity = newQty;
+          db.carts[uid][idx].updated_at = new Date().toISOString();
+          recordCartTrack(uid, {
+            action: 'QUANTITY_UPDATED',
+            title: `Quantity Updated: ${item.name}`,
+            description: `Cart quantity modified from ${oldQty} to ${newQty}`,
+            product_id: item.product_id || item.id,
+            product_name: item.name,
+            variant: item.variant_value,
+            quantity: newQty,
+            price: item.price,
+            thumbnail: item.thumbnail
+          });
         }
         break;
       }
@@ -301,6 +368,7 @@ export async function handleCartWishlistRoutes(req, res, pathname, method, query
     for (const uid in db.carts) {
       if (!Array.isArray(db.carts[uid])) continue;
       const initialLength = db.carts[uid].length;
+      let removedItem = null;
       db.carts[uid] = db.carts[uid].filter(i => {
         const matchesId = (
           String(i.id) === String(itemId) || 
@@ -312,12 +380,24 @@ export async function handleCartWishlistRoutes(req, res, pathname, method, query
         );
         if (!matchesId) return true;
         if (variantValue && variantValue !== 'default') {
-          return !(i.variant_value === variantValue || i.selectedColor === variantValue);
+          const matchVar = (i.variant_value === variantValue || i.selectedColor === variantValue);
+          if (matchVar) removedItem = i;
+          return !matchVar;
         }
+        removedItem = i;
         return false;
       });
       if (db.carts[uid].length !== initialLength) {
         targetUid = uid;
+        recordCartTrack(uid, {
+          action: 'ITEM_REMOVED',
+          title: `Item Removed: ${removedItem?.name || itemId}`,
+          description: `Removed "${removedItem?.name || itemId}" from account cart`,
+          product_id: removedItem?.product_id || itemId,
+          product_name: removedItem?.name,
+          variant: removedItem?.variant_value,
+          thumbnail: removedItem?.thumbnail
+        });
       }
     }
 
@@ -341,8 +421,17 @@ export async function handleCartWishlistRoutes(req, res, pathname, method, query
     if (!userId || userId === 'clear' || userId === 'cart') {
       userId = extractUserId(req, pathname, query, body);
     }
+    const previousCount = (db.carts[userId] || []).length;
     db.carts[userId] = [];
     saveCollection('carts'); if (typeof userId !== 'undefined') { persistCartToPostgres(userId, db.carts[userId]); }
+    
+    if (previousCount > 0) {
+      recordCartTrack(userId, {
+        action: 'CART_CLEARED',
+        title: 'Account Cart Cleared',
+        description: `Cleared all ${previousCount} product(s) from account cart`
+      });
+    }
     return sendJSON(res, { 
       success: true, 
       message: 'Cart cleared', 
@@ -355,6 +444,9 @@ export async function handleCartWishlistRoutes(req, res, pathname, method, query
   if (pathname === '/api/v1/cart/merge' && method === 'POST') {
     const userId = extractUserId(req, pathname, query, body);
     const guestItems = Array.isArray(body.items) ? body.items : [];
+    const userObj = (db.users || []).find(u => u.id === userId || u.customer_id === userId);
+    const accountEmail = body.customer_email || body.email || userObj?.email || null;
+    const accountName = body.customer_name || body.name || userObj?.name || null;
 
     if (!db.carts[userId]) db.carts[userId] = [];
 
@@ -377,12 +469,19 @@ export async function handleCartWishlistRoutes(req, res, pathname, method, query
       if (existingIndex > -1) {
         const newQty = Math.min(availableStock, db.carts[userId][existingIndex].quantity + qty);
         db.carts[userId][existingIndex].quantity = newQty;
+        db.carts[userId][existingIndex].account_id = userId;
+        db.carts[userId][existingIndex].updated_at = new Date().toISOString();
+        if (accountEmail) db.carts[userId][existingIndex].account_email = accountEmail;
+        if (accountName) db.carts[userId][existingIndex].account_name = accountName;
       } else {
         const cartItemId = item.cart_item_id || `cart-item-${Date.now()}-${Math.floor(Math.random() * 1000)}`;
         db.carts[userId].push({
           id: prodId,
           cart_item_id: cartItemId,
           product_id: prodId,
+          account_id: userId,
+          account_email: accountEmail,
+          account_name: accountName,
           name: item.name || prod?.name || 'Product',
           price: item.price !== undefined ? Number(item.price) : (prod?.price || 999),
           mrp: item.mrp !== undefined ? Number(item.mrp) : (prod?.mrp || 1499),
@@ -393,13 +492,26 @@ export async function handleCartWishlistRoutes(req, res, pathname, method, query
           quantity: Math.min(availableStock, qty),
           stock_quantity: availableStock,
           category_name: item.category_name || prod?.category_name || prod?.category || null,
-          added_at: new Date().toISOString()
+          added_at: item.added_at || new Date().toISOString(),
+          updated_at: new Date().toISOString()
         });
       }
     }
 
     saveCollection('carts'); if (typeof userId !== 'undefined') { persistCartToPostgres(userId, db.carts[userId]); }
-    updateCartMetadata(userId, body, db);
+    updateCartMetadata(userId, { ...body, customer_email: accountEmail, customer_name: accountName }, db);
+
+    if (guestItems.length > 0) {
+      recordCartTrack(userId, {
+        action: 'GUEST_CART_MERGED',
+        title: 'Guest Browsing Items Linked to Account',
+        description: `Successfully migrated and synced ${guestItems.length} product(s) from guest browsing session into account cart on login`,
+        metadata: { items_count: guestItems.length },
+        account_email: accountEmail,
+        account_name: accountName
+      });
+    }
+
     const { cart, summary } = enrichCartAndCalculateSummary(db.carts[userId], db);
     return sendJSON(res, {
       success: true,
@@ -537,6 +649,14 @@ export async function handleCartWishlistRoutes(req, res, pathname, method, query
       db.carts_meta[targetUid] = meta;
       saveCollection('carts_meta');
 
+      recordCartTrack(targetUid, {
+        action: 'REMINDER_SENT',
+        title: 'Cart Waiting Reminder Email Dispatched',
+        description: `Dispatched "Your cart is waiting for you" notification with coupon COMEBACK10 to ${customerEmail} (Idle: ${daysIdle} days, Items: ${cart.length})`,
+        account_email: customerEmail,
+        account_name: customerName
+      });
+
       return sendJSON(res, {
         success: true,
         message: `Cart reminder email successfully dispatched to ${customerEmail}`,
@@ -594,6 +714,15 @@ export async function handleCartWishlistRoutes(req, res, pathname, method, query
           meta.last_reminder_at = new Date().toISOString();
           meta.reminder_count = (meta.reminder_count || 0) + 1;
           db.carts_meta[uid] = meta;
+
+          recordCartTrack(uid, {
+            action: 'REMINDER_SENT',
+            title: 'Automated 5-Day Cart Reminder Dispatched',
+            description: `Automated job emailed ${customerEmail} (Idle: ${Number(daysIdle.toFixed(1))} days) with coupon COMEBACK10`,
+            account_email: customerEmail,
+            account_name: customerName
+          });
+
           details.push({
             user_id: uid,
             email: customerEmail,
@@ -642,6 +771,35 @@ export async function handleCartWishlistRoutes(req, res, pathname, method, query
       customer_email: customerEmail,
       days_idle: daysIdle,
       total_amount: summary.final_total
+    });
+  }
+
+  // 6g. Get Account Cart Tracks & Activity Ledger (GET /api/v1/cart/:userId/tracks or GET /api/v1/cart/tracks/:userId)
+  if (((pathname.startsWith('/api/v1/cart/') && pathname.endsWith('/tracks')) || 
+       pathname.startsWith('/api/v1/cart/tracks/')) && method === 'GET') {
+    let targetUid = pathname.endsWith('/tracks')
+      ? pathname.replace('/api/v1/cart/', '').replace('/tracks', '')
+      : pathname.replace('/api/v1/cart/tracks/', '');
+
+    if (!targetUid || targetUid === 'tracks') {
+      targetUid = extractUserId(req, pathname, query, body);
+    }
+
+    const tracks = getCartTracks(targetUid);
+    const rawCart = db.carts[targetUid] || [];
+    const { cart, summary } = enrichCartAndCalculateSummary(rawCart, db);
+    const meta = (db.carts_meta && db.carts_meta[targetUid]) || {};
+
+    return sendJSON(res, {
+      success: true,
+      account_id: targetUid,
+      customer_name: meta.customer_name || 'Customer',
+      customer_email: meta.customer_email || `${targetUid}@gomodeals.com`,
+      items_in_cart: cart.length,
+      cart_total: summary.final_total,
+      count: tracks.length,
+      tracks_count: tracks.length,
+      data: tracks
     });
   }
 

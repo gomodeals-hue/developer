@@ -1,4 +1,4 @@
-import { getDB, saveCollection } from '../database/db.js';
+import { getDB, saveCollection, recordCartTrack } from '../database/db.js';
 import { broadcast, advanceOrderStep } from '../realtime.js';
 import { isPostgresConnected, pool } from '../database/pg.js';
 import { sendOrderNotifications, getEmailOutbox, resendOrderEmail } from '../services/emailService.js';
@@ -389,6 +389,20 @@ export async function handleOrdersRoutes(req, res, pathname, method, query, body
       db.carts_meta[uid].status = 'converted';
       db.carts_meta[uid].converted_at = new Date().toISOString();
       saveCollection('carts_meta');
+    }
+    if (uid) {
+      recordCartTrack(uid, {
+        action: 'ORDER_PURCHASED',
+        title: `Cart Converted to Order #${newOrder.id}`,
+        description: `Order #${newOrder.id} placed successfully (${newOrder.payment_method || 'COD'}) for ₹${Number(newOrder.total_amount).toLocaleString('en-IN')}`,
+        account_email: newOrder.customer_email,
+        account_name: newOrder.customer_name,
+        metadata: {
+          order_id: newOrder.id,
+          total_amount: newOrder.total_amount,
+          items_count: newOrder.items.length
+        }
+      });
     }
     if (pgConnected) {
       try {

@@ -1,6 +1,8 @@
-import { getDB, saveCollection } from '../database/db.js';
+import { getDB, saveCollection, getCartTracks, recordCartTrack } from '../database/db.js';
 import { broadcast } from '../realtime.js';
 import { isPostgresConnected, pool } from '../database/pg.js';
+import { enrichCartAndCalculateSummary } from './cartWishlistRouter.js';
+import { sendCartReminderEmail } from '../services/emailService.js';
 
 export async function handleAdminRoutes(req, res, pathname, method, query, body, sendJSON) {
   const db = getDB();
@@ -270,11 +272,57 @@ export async function handleAdminRoutes(req, res, pathname, method, query, body,
     });
   }
 
-  // 5. Customers Management
+  // 5. Customers Management (with Account Cart & Full Activity Tracking)
   if (pathname === '/api/v1/admin/customers' && method === 'GET') {
-    const customers = db.users.map(u => {
-      const userOrders = db.orders.filter(o => o.userId === u.id || o.customer_id === u.id);
+    // 1. Collect all registered users
+    const allAccountsMap = new Map();
+
+    (db.users || []).forEach(u => {
+      allAccountsMap.set(u.id || u.customer_id, {
+        id: u.id,
+        customer_id: u.customer_id || u.id,
+        name: u.name,
+        email: u.email,
+        phone: u.phone || '+91 98450 12345',
+        role: u.role || 'customer',
+        avatar: u.avatar,
+        is_active: u.is_active !== undefined ? u.is_active : true,
+        created_at: u.created_at || '2026-01-10T08:00:00Z'
+      });
+    });
+
+    // 2. Also register any account in carts or carts_meta so no cart is orphaned
+    const cartKeys = new Set([...Object.keys(db.carts || {}), ...Object.keys(db.carts_meta || {})]);
+    cartKeys.forEach(uid => {
+      if (!allAccountsMap.has(uid)) {
+        const meta = db.carts_meta?.[uid] || {};
+        const prettyName = meta.customer_name || (uid.startsWith('cust_') ? uid.replace('cust_', '').replace('_5d', '').replace('_6d', '').toUpperCase() : 'Customer');
+        const email = meta.customer_email || (uid.includes('@') ? uid : `${uid}@gomodeals.com`);
+        allAccountsMap.set(uid, {
+          id: uid,
+          customer_id: uid,
+          name: prettyName,
+          email,
+          phone: meta.customer_phone || '+91 98765 43210',
+          role: 'customer',
+          avatar: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150&q=80',
+          is_active: true,
+          created_at: meta.created_at || new Date().toISOString()
+        });
+      }
+    });
+
+    const customers = Array.from(allAccountsMap.values()).map(u => {
+      const userOrders = (db.orders || []).filter(o => o.userId === u.id || o.customer_id === u.id);
       const totalSpent = userOrders.reduce((s, o) => s + (o.status !== 'Cancelled' ? Number(o.total_amount || 0) : 0), 0);
+
+      const rawCart = db.carts?.[u.id] || db.carts?.[u.customer_id] || [];
+      const meta = db.carts_meta?.[u.id] || db.carts_meta?.[u.customer_id] || {};
+      const { cart, summary } = enrichCartAndCalculateSummary(rawCart, db);
+      const updatedAt = meta.updated_at || rawCart[0]?.added_at || u.created_at || new Date().toISOString();
+      const idleMs = Math.max(0, Date.now() - new Date(updatedAt).getTime());
+      const daysIdle = Number((idleMs / (1000 * 60 * 60 * 24)).toFixed(1));
+      const tracks = getCartTracks(u.id);
 
       return {
         id: u.id,
@@ -287,7 +335,21 @@ export async function handleAdminRoutes(req, res, pathname, method, query, body,
         is_active: u.is_active !== undefined ? u.is_active : true,
         orders_count: userOrders.length,
         total_spent: totalSpent,
-        joined_at: u.created_at || '2026-01-10T08:00:00Z'
+        joined_at: u.created_at || '2026-01-10T08:00:00Z',
+        active_cart: {
+          items: cart,
+          items_count: summary.total_items,
+          distinct_items: cart.length,
+          total_value: summary.final_total,
+          subtotal: summary.subtotal,
+          updated_at: updatedAt,
+          days_idle: daysIdle,
+          is_eligible_5_day: daysIdle >= 5.0 && summary.total_items > 0,
+          has_cart: summary.total_items > 0,
+          status: summary.total_items === 0 ? 'empty' : (daysIdle >= 5.0 ? 'waiting_5_days' : 'active')
+        },
+        cart_tracks: tracks,
+        tracks_count: tracks.length
       };
     });
 
@@ -308,17 +370,111 @@ export async function handleAdminRoutes(req, res, pathname, method, query, body,
     });
   }
 
+  // Direct Send Cart Waiting Reminder from Customer Profile
+  if (pathname.startsWith('/api/v1/admin/customer/') && pathname.endsWith('/send-cart-reminder') && method === 'POST') {
+    const customerId = pathname.split('/')[4];
+    const rawCart = db.carts?.[customerId] || [];
+    if (!rawCart || rawCart.length === 0) {
+      return sendJSON(res, { success: false, message: 'Customer has no active items stored in cart.' }, 400);
+    }
+
+    const userObj = db.users.find(u => u.id === customerId || u.customer_id === customerId);
+    const meta = db.carts_meta?.[customerId] || {};
+    const { cart, summary } = enrichCartAndCalculateSummary(rawCart, db);
+    const customerEmail = body.email || meta.customer_email || userObj?.email || `${customerId}@gomodeals.com`;
+    const customerName = body.name || meta.customer_name || userObj?.name || 'Valued Customer';
+    const updatedAt = meta.updated_at || rawCart[0]?.added_at || new Date().toISOString();
+    const idleMs = Math.max(0, Date.now() - new Date(updatedAt).getTime());
+    const daysIdle = Number((idleMs / (1000 * 60 * 60 * 24)).toFixed(1));
+
+    const reminderResult = await sendCartReminderEmail({
+      user_id: customerId,
+      customer_name: customerName,
+      customer_email: customerEmail,
+      days_idle: Math.max(1, Math.round(daysIdle)),
+      items: cart,
+      total_amount: summary.final_total
+    });
+
+    if (reminderResult.success) {
+      if (!Array.isArray(meta.reminders_sent)) meta.reminders_sent = [];
+      meta.reminders_sent.push({
+        type: 'profile_direct',
+        sent_at: new Date().toISOString(),
+        to: customerEmail
+      });
+      meta.last_reminder_at = new Date().toISOString();
+      meta.reminder_count = (meta.reminder_count || 0) + 1;
+      db.carts_meta[customerId] = meta;
+      saveCollection('carts_meta');
+
+      recordCartTrack(customerId, {
+        action: 'REMINDER_SENT',
+        title: 'Direct Cart Waiting Reminder Dispatched',
+        description: `Admin sent "Your cart is waiting for you" email with coupon COMEBACK10 to ${customerEmail}`,
+        account_email: customerEmail,
+        account_name: customerName
+      });
+
+      return sendJSON(res, {
+        success: true,
+        message: `Cart reminder email dispatched to ${customerEmail}`,
+        email: reminderResult.emailRecord
+      });
+    } else {
+      return sendJSON(res, { success: false, message: reminderResult.error || 'Failed to dispatch email' }, 500);
+    }
+  }
+
+  // Get Detailed Customer Profile
   if (pathname.startsWith('/api/v1/admin/customer/') && method === 'GET') {
     const customerId = pathname.split('/').pop();
-    const user = db.users.find(u => u.id === customerId || u.customer_id === customerId);
-    if (!user) return sendJSON(res, { success: false, message: 'Customer not found' }, 404);
+    let user = db.users.find(u => u.id === customerId || u.customer_id === customerId);
+    const meta = db.carts_meta?.[customerId] || {};
 
-    const userOrders = db.orders.filter(o => o.userId === user.id || o.customer_id === user.id);
+    if (!user) {
+      user = {
+        id: customerId,
+        customer_id: customerId,
+        name: meta.customer_name || (customerId.startsWith('cust_') ? customerId.replace('cust_', '').toUpperCase() : 'Customer'),
+        email: meta.customer_email || `${customerId}@gomodeals.com`,
+        phone: meta.customer_phone || '+91 98450 12345',
+        role: 'customer',
+        avatar: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150&q=80',
+        is_active: true,
+        created_at: meta.created_at || '2026-01-10T08:00:00Z'
+      };
+    }
+
+    const userOrders = (db.orders || []).filter(o => o.userId === user.id || o.customer_id === user.id);
+    const rawCart = db.carts?.[user.id] || db.carts?.[customerId] || [];
+    const { cart, summary } = enrichCartAndCalculateSummary(rawCart, db);
+    const updatedAt = meta.updated_at || rawCart[0]?.added_at || user.created_at || new Date().toISOString();
+    const idleMs = Math.max(0, Date.now() - new Date(updatedAt).getTime());
+    const daysIdle = Number((idleMs / (1000 * 60 * 60 * 24)).toFixed(1));
+    const tracks = getCartTracks(user.id);
+    const userAddresses = (db.addresses || []).filter(a => a.user_id === user.id || a.userId === user.id || a.customer_id === user.id);
+
     return sendJSON(res, {
       success: true,
       data: {
         ...user,
-        orders: userOrders
+        orders: userOrders,
+        addresses: userAddresses,
+        active_cart: {
+          items: cart,
+          items_count: summary.total_items,
+          distinct_items: cart.length,
+          total_value: summary.final_total,
+          subtotal: summary.subtotal,
+          updated_at: updatedAt,
+          days_idle: daysIdle,
+          is_eligible_5_day: daysIdle >= 5.0 && summary.total_items > 0,
+          has_cart: summary.total_items > 0,
+          status: summary.total_items === 0 ? 'empty' : (daysIdle >= 5.0 ? 'waiting_5_days' : 'active')
+        },
+        cart_tracks: tracks,
+        tracks_count: tracks.length
       }
     });
   }
