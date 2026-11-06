@@ -103,5 +103,102 @@
       "account_email": "vikram.mehta@example.com",
       "account_name": "Vikram Mehta"
     }
+  ],
+  "cust_101": [
+    {
+      "id": "trk_1793954791538_iu69g",
+      "user_id": "cust_101",
+      "timestamp": "2026-11-06T08:46:31.538Z",
+      "action": "GUEST_CART_MERGED",
+      "title": "Guest Browsing Items Linked to Account",
+      "description": "Successfully migrated and synced 1 product(s) from guest browsing session into account cart on login",
+      "product_id": null,
+      "product_name": null,
+      "variant": null,
+      "quantity": null,
+      "price": null,
+      "thumbnail": null,
+      "account_email": "ananya.roy@example.com",
+      "account_name": "Ananya Roy",
+      "metadata": {
+        "items_count": 1
+      }
+    },
+    {
+      "id": "trk_1793954786321_4f2w5",
+      "user_id": "cust_101",
+      "timestamp": "2026-11-06T08:46:26.321Z",
+      "action": "GUEST_CART_MERGED",
+      "title": "Guest Browsing Items Linked to Account",
+      "description": "Successfully migrated and synced 1 product(s) from guest browsing session into account cart on login",
+      "product_id": null,
+      "product_name": null,
+      "variant": null,
+      "quantity": null,
+      "price": null,
+      "thumbnail": null,
+      "account_email": "ananya.roy@example.com",
+      "account_name": "Ananya Roy",
+      "metadata": {
+        "items_count": 1
+      }
+    },
+    {
+      "id": "trk_1793954498853_nbnis",
+      "user_id": "cust_101",
+      "timestamp": "2026-11-06T08:41:38.853Z",
+      "action": "GUEST_CART_MERGED",
+      "title": "Guest Browsing Items Linked to Account",
+      "description": "Successfully migrated and synced 1 product(s) from guest browsing session into account cart on login",
+      "product_id": null,
+      "product_name": null,
+      "variant": null,
+      "quantity": null,
+      "price": null,
+      "thumbnail": null,
+      "account_email": "ananya.roy@example.com",
+      "account_name": "Ananya Roy",
+      "metadata": {
+        "items_count": 1
+      }
+    },
+    {
+      "id": "trk_1793954447650_wlkrm",
+      "user_id": "cust_101",
+      "timestamp": "2026-11-06T08:40:47.650Z",
+      "action": "GUEST_CART_MERGED",
+      "title": "Guest Browsing Items Linked to Account",
+      "description": "Successfully migrated and synced 1 product(s) from guest browsing session into account cart on login",
+      "product_id": null,
+      "product_name": null,
+      "variant": null,
+      "quantity": null,
+      "price": null,
+      "thumbnail": null,
+      "account_email": "ananya.roy@example.com",
+      "account_name": "Ananya Roy",
+      "metadata": {
+        "items_count": 1
+      }
+    },
+    {
+      "id": "trk_1793953922967_eq83e",
+      "user_id": "cust_101",
+      "timestamp": "2026-11-06T08:32:02.967Z",
+      "action": "GUEST_CART_MERGED",
+      "title": "Guest Browsing Items Linked to Account",
+      "description": "Successfully migrated and synced 1 product(s) from guest browsing session into account cart on login",
+      "product_id": null,
+      "product_name": null,
+      "variant": null,
+      "quantity": null,
+      "price": null,
+      "thumbnail": null,
+      "account_email": "ananya.roy@example.com",
+      "account_name": "Ananya Roy",
+      "metadata": {
+        "items_count": 1
+      }
+    }
   ]
 }

@@ -3,6 +3,7 @@ import { useNavigate, Link } from "react-router-dom";
 import { ArrowLeft, ArrowRight, Eye, EyeOff, Mail, ShieldCheck, User, Lock, RefreshCw, Shield } from "lucide-react";
 import { useAdminAuth } from "../../../context/AdminAuthContext.jsx";
 import { useToast } from "../../../hooks/use-toast";
+import { getPortalUrl } from "../../../utils/subdomain";
 import { 
   adminLogin, 
   adminRegister, 
@@ -413,6 +414,15 @@ p {
     setResetNewPassword("");
   };
 
+  const navigateToAdminDashboard = () => {
+    // If in live production and not on admin subdomain, redirect to admin.gomodeals.com
+    if (window.location.hostname.includes('gomodeals.com') && !window.location.hostname.startsWith('admin.')) {
+      window.location.href = 'https://admin.gomodeals.com';
+      return;
+    }
+    navigate("/admin");
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
@@ -432,7 +442,7 @@ p {
         } else {
           loginAdmin(resData.data, resData.token);
           toast({ title: successMsg, description: `Accessing your ${formData.type === 'super_admin' ? 'Super Admin' : 'Admin'} dashboard.` });
-          navigate("/admin");
+          navigateToAdminDashboard();
         }
       } else {
         toast({ variant: "destructive", title: "Authentication Failed", description: resData.message || "Invalid credentials." });
@@ -503,7 +513,7 @@ p {
         loginAdmin(resData.data, resData.token);
         toast({ title: "Welcome Super Admin.", description: "Accessing elevated dashboard." });
         setShow2FA(false);
-        navigate("/admin");
+        navigateToAdminDashboard();
       } else {
         toast({ variant: "destructive", title: "2FA Failed", description: resData.message });
       }

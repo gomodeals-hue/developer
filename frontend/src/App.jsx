@@ -1,10 +1,11 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate, useLocation } from 'react-router-dom';
 import Navbar from "./components/layout/Navbar/Navbar";
 import ScrollToTop from "./components/common/ScrollToTop";
 import Footer from "./components/layout/Footer/Footer";
 import Home from "./pages/Home/Home";
 import ProductDetails from "./pages/Product/ProductDetails";
+import { getActiveSubdomain } from './utils/subdomain';
 
 import { ShopProvider } from './context/ShopContext';
 import { AuthProvider } from './context/AuthContext';
@@ -201,6 +202,16 @@ class ErrorBoundary extends React.Component {
 }
 
 function App() {
+  const [activeSubdomain, setActiveSubdomain] = useState(() => getActiveSubdomain());
+
+  useEffect(() => {
+    const handleHostCheck = () => {
+      setActiveSubdomain(getActiveSubdomain());
+    };
+    window.addEventListener('popstate', handleHostCheck);
+    return () => window.removeEventListener('popstate', handleHostCheck);
+  }, []);
+
   return (
     <ErrorBoundary>
       <AuthProvider>
@@ -217,6 +228,85 @@ function App() {
                         <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-sky-400"></div>
                       </div>
                     }>
+                      {activeSubdomain === 'admin' ? (
+                        <Routes>
+                          {/* Dedicated Admin Operations Subdomain (e.g. admin.gomodeals.com / admin.localhost) */}
+                          <Route path="/login" element={<AdminAuthPage />} />
+                          <Route path="/admin/login" element={<AdminAuthPage />} />
+                          <Route path="/forgot-password" element={<ForgotPasswordPage />} />
+                          <Route path="/admin/forgot-password" element={<ForgotPasswordPage />} />
+
+                          <Route element={<AdminRouteGuard><AdminLayout /></AdminRouteGuard>}>
+                            <Route path="/" element={<AdminDashboardHome />} />
+                            <Route path="/products" element={<AdminProducts />} />
+                            <Route path="/products/add" element={<AddProductPage />} />
+                            <Route path="/products/edit/:id" element={<AddProductPage />} />
+                            <Route path="/inventory" element={<AdminInventory />} />
+                            <Route path="/categories" element={<AdminCategories />} />
+                            <Route path="/orders" element={<AdminOrders />} />
+                            <Route path="/returns" element={<ReturnsPage />} />
+                            <Route path="/customers" element={<AdminCustomers />} />
+                            <Route path="/homepage" element={<AdminHomepage />} />
+                            <Route path="/ad-banners" element={<AdBannersPage />} />
+                            <Route path="/reviews" element={<AdminReviews />} />
+                            <Route path="/coupons" element={<AdminCoupons />} />
+                            <Route path="/reports" element={<AdminReports />} />
+                            <Route path="/finance" element={<AdminFinance />} />
+                            <Route path="/payments" element={<AdminPayments />} />
+                            <Route path="/analytics" element={<AdminAnalytics />} />
+                            <Route path="/support" element={<AdminSupport />} />
+                            <Route path="/mediator/flea-market" element={<FleaMarketMediator />} />
+                            <Route path="/tickets-manager" element={<TicketsAdminDashboard />} />
+                            <Route path="/logs" element={<AdminLogs />} />
+                            <Route path="/settings" element={<AdminSettings />} />
+                            <Route path="/profile" element={<AdminProfile />} />
+                            <Route path="/administrators" element={<Administrators />} />
+                            <Route path="/rankings" element={<BrandRankingsPage />} />
+
+                            {/* Backwards compatibility for /admin/* paths */}
+                            <Route path="/admin" element={<AdminDashboardHome />} />
+                            <Route path="/admin/products" element={<AdminProducts />} />
+                            <Route path="/admin/products/add" element={<AddProductPage />} />
+                            <Route path="/admin/products/edit/:id" element={<AddProductPage />} />
+                            <Route path="/admin/inventory" element={<AdminInventory />} />
+                            <Route path="/admin/categories" element={<AdminCategories />} />
+                            <Route path="/admin/orders" element={<AdminOrders />} />
+                            <Route path="/admin/returns" element={<ReturnsPage />} />
+                            <Route path="/admin/customers" element={<AdminCustomers />} />
+                            <Route path="/admin/homepage" element={<AdminHomepage />} />
+                            <Route path="/admin/ad-banners" element={<AdBannersPage />} />
+                            <Route path="/admin/reviews" element={<AdminReviews />} />
+                            <Route path="/admin/coupons" element={<AdminCoupons />} />
+                            <Route path="/admin/reports" element={<AdminReports />} />
+                            <Route path="/admin/finance" element={<AdminFinance />} />
+                            <Route path="/admin/payments" element={<AdminPayments />} />
+                            <Route path="/admin/analytics" element={<AdminAnalytics />} />
+                            <Route path="/admin/support" element={<AdminSupport />} />
+                            <Route path="/admin/mediator/flea-market" element={<FleaMarketMediator />} />
+                            <Route path="/admin/tickets-manager" element={<TicketsAdminDashboard />} />
+                            <Route path="/admin/logs" element={<AdminLogs />} />
+                            <Route path="/admin/settings" element={<AdminSettings />} />
+                            <Route path="/admin/profile" element={<AdminProfile />} />
+                            <Route path="/admin/administrators" element={<Administrators />} />
+                            <Route path="/admin/rankings" element={<BrandRankingsPage />} />
+                          </Route>
+
+                          <Route path="*" element={<Navigate to="/" replace />} />
+                        </Routes>
+                      ) : activeSubdomain === 'seller' ? (
+                        <Routes>
+                          {/* Dedicated Seller Portal Subdomain (e.g. seller.dashboard.com / seller.gomodeals.com / seller.localhost) */}
+                          <Route path="/" element={<SellerDashboard />} />
+                          <Route path="/login" element={<SellerLoginPage />} />
+                          <Route path="/register" element={<SellerLoginPage />} />
+                          <Route path="/flea-market" element={<SellerFleaMarket />} />
+                          <Route path="/store/:sellerId" element={<SellerStorefront />} />
+                          <Route path="/seller" element={<SellerDashboard />} />
+                          <Route path="/seller/login" element={<SellerLoginPage />} />
+                          <Route path="/seller/flea-market" element={<SellerFleaMarket />} />
+                          <Route path="*" element={<Navigate to="/" replace />} />
+                        </Routes>
+                      ) : (
                       <Routes>
                         {/* Standalone Video Negotiation Conference Room */}
                         <Route path="/flea-market/conference/:id" element={<CustomerConferenceRoom />} />
@@ -355,6 +445,7 @@ function App() {
                         {/* Catch all fallback */}
                         <Route path="*" element={<Navigate to="/" replace />} />
                       </Routes>
+                      )}
                     </React.Suspense>
                   </Router>
                   </ToastProvider>

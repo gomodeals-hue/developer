@@ -29,6 +29,7 @@ import {
   Truck
 } from 'lucide-react';
 import { useSellerAuth } from '../../context/SellerAuthContext';
+import { getPortalUrl } from '../../utils/subdomain';
 import gmdLogo from '../../assets/GMD_Logo.png';
 
 export default function SellerLoginPage() {
@@ -87,6 +88,16 @@ export default function SellerLoginPage() {
   const compNetPayout = calcPrice - compCommission - pgFee - shippingFee;
   const extraProfit = gmdNetPayout - compNetPayout;
 
+  const navigateToSellerDashboard = () => {
+    // If running in production domain, redirect to the dedicated seller subdomain
+    if (window.location.hostname.includes('gomodeals.com')) {
+      window.location.href = 'https://seller.dashboard.com';
+      return;
+    }
+    // In local development or fallback
+    navigate('/seller');
+  };
+
   const handleDemoLogin = async (sellerEmail) => {
     const targetEmail = sellerEmail || 'seller@gomodeals.com';
     const targetPass = 'sellerpassword123';
@@ -96,11 +107,11 @@ export default function SellerLoginPage() {
     setLoading(true);
     try {
       await login(targetEmail, targetPass);
-      navigate('/seller');
+      navigateToSellerDashboard();
     } catch (err) {
       if (demoLogin) {
         demoLogin(targetEmail);
-        navigate('/seller');
+        navigateToSellerDashboard();
       } else {
         setError(err.message || 'Demo login failed');
       }
@@ -127,7 +138,7 @@ export default function SellerLoginPage() {
       } else {
         await login(email, password);
       }
-      navigate('/seller');
+      navigateToSellerDashboard();
     } catch (err) {
       setError(err.message || 'Authentication failed. Please check your credentials.');
     } finally {

@@ -578,9 +578,18 @@ const ProductDetails = () => {
     }
   };
 
-  // Buy now handler
-  const handleBuyNow = () => {
+  const buyNowBtnRef = useRef(null);
+
+  // Buy now handler with Anime.js tactile feedback
+  const handleBuyNow = (e) => {
     if (!product || isOutOfStock) return;
+    if (buyNowBtnRef.current) {
+      animate(buyNowBtnRef.current, {
+        scale: [0.94, 1.05, 1],
+        duration: 250,
+        ease: 'outBack'
+      });
+    }
     if (!user) {
       navigate('/login', { state: { from: `/product/${productId}` } });
       return;
@@ -1130,6 +1139,7 @@ const ProductDetails = () => {
                 )}
               </button>
               <button
+                ref={buyNowBtnRef}
                 className={`btn primary ${isOutOfStock ? 'opacity-50 cursor-not-allowed' : ''}`}
                 id="buyNow"
                 type="button"

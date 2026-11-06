@@ -1,6 +1,8 @@
-import React, { useState, useEffect, useMemo } from "react";
+import React, { useState, useEffect, useMemo, useRef } from "react";
 import { useLocation, useNavigate, Link } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
+import gsap from "gsap";
+import { animate } from "animejs";
 import { 
   ArrowLeft,
   ArrowRight,
@@ -287,52 +289,7 @@ const CheckoutPage = () => {
     }
   }, [isOtpModalOpen, otpTimer]);
 
-  const dynamicTxnId = useMemo(() => `TXN_${Date.now()}_${Math.floor(1000 + Math.random() * 9000)}`, []);
-  const upiUri = useMemo(() => {
-    return `upi://pay?pa=gomodeals@icici&pn=GoMo+Deals+Private+Limited&mc=5311&tid=${dynamicTxnId}&tr=${dynamicTxnId}&tn=Order+at+GoMo+Deals&am=${finalTotal.toFixed(2)}&cu=INR`;
-  }, [finalTotal, dynamicTxnId]);
-
-  const getCardBrand = (num) => {
-    const clean = (num || "").replace(/\s+/g, "");
-    if (/^4/.test(clean)) return { name: "Visa", icon: "VISA", bg: "bg-blue-600", text: "text-white" };
-    if (/^(5[1-5]|2[2-7])/.test(clean)) return { name: "Mastercard", icon: "MC", bg: "bg-rose-600", text: "text-white" };
-    if (/^(60|65|81|82)/.test(clean)) return { name: "RuPay", icon: "RuPay", bg: "bg-emerald-600", text: "text-white" };
-    if (/^3[47]/.test(clean)) return { name: "Amex", icon: "AMEX", bg: "bg-sky-600", text: "text-white" };
-    if (/^(50|5[6-8]|6)/.test(clean)) return { name: "Maestro", icon: "Maestro", bg: "bg-indigo-600", text: "text-white" };
-    return { name: "Card", icon: "CARD", bg: "bg-stone-800", text: "text-white" };
-  };
-
-  // Remove item from checkout queue and cart
-  const handleRemoveCheckoutItem = (index) => {
-    const itemToRemove = items[index];
-    if (!itemToRemove) return;
-    setItems((prev) => prev.filter((_, idx) => idx !== index));
-    if (!buyNowProduct) {
-      removeFromCart(itemToRemove.product_id || itemToRemove.id, itemToRemove.selectedColor, itemToRemove.cart_item_id);
-    }
-    showToast(`Removed "${itemToRemove.name || itemToRemove.title || 'item'}" from checkout`);
-  };
-
-  // Update item quantity
-  const handleUpdateQty = (index, delta) => {
-    const currentItem = items[index];
-    if (!currentItem) return;
-    const newQty = (currentItem.quantity || 1) + delta;
-    if (newQty <= 0) {
-      handleRemoveCheckoutItem(index);
-      return;
-    }
-    setItems((prev) =>
-      prev.map((item, idx) => {
-        if (idx === index) {
-          return { ...item, quantity: newQty };
-        }
-        return item;
-      })
-    );
-  };
-
-  // Bill calculations
+  // Bill calculations (computed before UPI URI and payment intent to avoid TDZ)
   const subtotal = useMemo(() => {
     return items.reduce((acc, item) => {
       const p = Number(item.price || 0);
@@ -365,6 +322,58 @@ const CheckoutPage = () => {
 
   const finalTotal = Math.max(0, subtotal + giftWrapFee - couponDiscount);
   const totalSavings = productSavings + couponDiscount + 99; // 99 free shipping value
+
+  const dynamicTxnId = useMemo(() => `TXN_${Date.now()}_${Math.floor(1000 + Math.random() * 9000)}`, []);
+  const upiUri = useMemo(() => {
+    return `upi://pay?pa=gomodeals@icici&pn=GoMo+Deals+Private+Limited&mc=5311&tid=${dynamicTxnId}&tr=${dynamicTxnId}&tn=Order+at+GoMo+Deals&am=${finalTotal.toFixed(2)}&cu=INR`;
+  }, [finalTotal, dynamicTxnId]);
+
+  const getCardBrand = (num) => {
+    const clean = (num || "").replace(/\s+/g, "");
+    if (/^4/.test(clean)) return { name: "Visa", icon: "VISA", bg: "bg-blue-600", text: "text-white" };
+    if (/^(5[1-5]|2[2-7])/.test(clean)) return { name: "Mastercard", icon: "MC", bg: "bg-rose-600", text: "text-white" };
+    if (/^(60|65|81|82)/.test(clean)) return { name: "RuPay", icon: "RuPay", bg: "bg-emerald-600", text: "text-white" };
+    if (/^3[47]/.test(clean)) return { name: "Amex", icon: "AMEX", bg: "bg-sky-600", text: "text-white" };
+    if (/^(50|5[6-8]|6)/.test(clean)) return { name: "Maestro", icon: "Maestro", bg: "bg-indigo-600", text: "text-white" };
+    return { name: "Card", icon: "CARD", bg: "bg-stone-800", text: "text-white" };
+  };
+
+  // Remove item from checkout queue and cart
+  const handleRemoveCheckoutItem = (index) => {
+    const itemToRemove = items[index];
+    if (!itemToRemove) return;
+    setItems((prev) => prev.filter((_, idx) => idx !== index));
+    if (!buyNowProduct) {
+      removeFromCart(itemToRemove.product_id || itemToRemove.id, itemToRemove.selectedColor, itemToRemove.cart_item_id);
+    }
+    showToast(`Removed "${itemToRemove.name || itemToRemove.title || 'item'}" from checkout`);
+  };
+
+  // Update item quantity with Anime.js tactile pulse
+  const handleUpdateQty = (index, delta, event) => {
+    if (event?.currentTarget) {
+      animate(event.currentTarget, {
+        scale: [0.85, 1.2, 1],
+        duration: 250,
+        ease: 'outBack'
+      });
+    }
+    const currentItem = items[index];
+    if (!currentItem) return;
+    const newQty = (currentItem.quantity || 1) + delta;
+    if (newQty <= 0) {
+      handleRemoveCheckoutItem(index);
+      return;
+    }
+    setItems((prev) =>
+      prev.map((item, idx) => {
+        if (idx === index) {
+          return { ...item, quantity: newQty };
+        }
+        return item;
+      })
+    );
+  };
 
   // Verify UPI VPA with real backend API & NPCI validation
   const handleVerifyUpi = async () => {

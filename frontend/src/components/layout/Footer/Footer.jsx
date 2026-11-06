@@ -1,6 +1,7 @@
 import { MessageCircle, ArrowRight, Lock, Truck, RefreshCw, ShieldCheck, Store } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { useShop } from '../../../context/ShopContext';
+import { getPortalUrl } from '../../../utils/subdomain';
 import gmdLogo from '../../../assets/GMD_Logo.png';
 
 const Instagram = ({ size = 24, ...props }) => (
@@ -140,10 +141,16 @@ const Footer = () => {
                 </li>
               ))}
               <li>
-                <Link to="/seller" className="hover:text-[#f76e28] transition-colors text-[#f76e28] font-bold flex items-center gap-1">
+                <a href={getPortalUrl('seller')} className="hover:text-[#f76e28] transition-colors text-[#f76e28] font-bold flex items-center gap-1">
                   <span>{t("Sell on GMD (Merchant Hub)")}</span>
                   <ArrowRight size={12} />
-                </Link>
+                </a>
+              </li>
+              <li>
+                <a href={getPortalUrl('admin')} className="hover:text-sky-600 transition-colors text-stone-500 hover:underline flex items-center gap-1 text-[11px] pt-1">
+                  <Lock size={11} />
+                  <span>Admin Operations Portal</span>
+                </a>
               </li>
             </ul>
           </div>
