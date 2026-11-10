@@ -1,21 +1,18 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { useNavigate, Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { useShop } from '../../../../context/ShopContext';
-import { ChevronRight, ArrowRight, Sparkles, Cpu, Shirt } from 'lucide-react';
+import { ChevronRight, ArrowRight, Cpu, Shirt } from 'lucide-react';
 
-// Bento Card Collection 1: Tech & Flagship Gadgets (Exact Match to Reference Image 2)
+// Bento Collection 1: Tech & Flagship Gadgets (With Photographic Container Backgrounds & Brand Theme)
 const TECH_HIGHLIGHTS = [
   {
     id: 'earphone',
     eyebrow: 'Enjoy',
     mainWord: 'With',
     watermark: 'EARPHONE',
-    bgClass: 'bg-[#18181b]',
-    textTheme: 'dark', // white text
-    buttonBg: 'bg-[#f76e28] hover:bg-[#ea580c] text-white',
+    bgImage: 'https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=800&auto=format&fit=crop&q=80',
     colSpan: 'md:col-span-3',
-    image: 'https://images.unsplash.com/photo-1546435770-a3e426bf472b?w=600&auto=format&fit=crop&q=80',
     path: '/collection/electronics?subcategory=headphones',
     alt: 'Wireless Noise Cancelling Earphones'
   },
@@ -24,11 +21,8 @@ const TECH_HIGHLIGHTS = [
     eyebrow: 'New',
     mainWord: 'Wear',
     watermark: 'GADGET',
-    bgClass: 'bg-[#f5a623]',
-    textTheme: 'dark',
-    buttonBg: 'bg-white hover:bg-stone-50 text-stone-900',
+    bgImage: 'https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=800&auto=format&fit=crop&q=80',
     colSpan: 'md:col-span-3',
-    image: 'https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=600&auto=format&fit=crop&q=80',
     path: '/collection/electronics?subcategory=smartwatches',
     alt: 'Smartwatch Fitness Tracker'
   },
@@ -37,11 +31,8 @@ const TECH_HIGHLIGHTS = [
     eyebrow: 'Trend',
     mainWord: 'Devices',
     watermark: 'LAPTOP',
-    bgClass: 'bg-gradient-to-r from-[#ea580c] via-[#f76e28] to-[#dc2626]',
-    textTheme: 'dark',
-    buttonBg: 'bg-white hover:bg-stone-50 text-stone-900',
+    bgImage: 'https://images.unsplash.com/photo-1517336714731-489689fd1ca8?w=900&auto=format&fit=crop&q=80',
     colSpan: 'md:col-span-6',
-    image: 'https://images.unsplash.com/photo-1517336714731-489689fd1ca8?w=800&auto=format&fit=crop&q=80',
     path: '/collection/electronics?subcategory=laptops',
     alt: 'Slim Flagship Metallic Laptop'
   },
@@ -50,11 +41,8 @@ const TECH_HIGHLIGHTS = [
     eyebrow: 'Best',
     mainWord: 'Gaming',
     watermark: 'CONSOLE',
-    bgClass: 'bg-[#f4f5f7] border border-stone-200/90',
-    textTheme: 'light', // dark text
-    buttonBg: 'bg-[#f76e28] hover:bg-[#ea580c] text-white',
+    bgImage: 'https://images.unsplash.com/photo-1607604276583-eef5d076aa5f?w=900&auto=format&fit=crop&q=80',
     colSpan: 'md:col-span-6',
-    image: 'https://images.unsplash.com/photo-1607604276583-eef5d076aa5f?w=800&auto=format&fit=crop&q=80',
     path: '/collection/electronics?subcategory=gaming',
     alt: 'Next-Gen Gaming Console and Wireless Controller'
   },
@@ -63,11 +51,8 @@ const TECH_HIGHLIGHTS = [
     eyebrow: 'Play',
     mainWord: 'Game',
     watermark: 'OCULUS',
-    bgClass: 'bg-[#10b981]',
-    textTheme: 'dark',
-    buttonBg: 'bg-white hover:bg-stone-50 text-stone-900',
+    bgImage: 'https://images.unsplash.com/photo-1593508512255-86ab42a8e620?w=800&auto=format&fit=crop&q=80',
     colSpan: 'md:col-span-3',
-    image: 'https://images.unsplash.com/photo-1593508512255-86ab42a8e620?w=600&auto=format&fit=crop&q=80',
     path: '/collection/electronics?subcategory=vr',
     alt: 'Immersive VR Headset and Spatial Tech'
   },
@@ -76,28 +61,22 @@ const TECH_HIGHLIGHTS = [
     eyebrow: 'New',
     mainWord: 'Amazon',
     watermark: 'SPEAKER',
-    bgClass: 'bg-[#3b82f6]',
-    textTheme: 'dark',
-    buttonBg: 'bg-white hover:bg-stone-50 text-stone-900',
+    bgImage: 'https://images.unsplash.com/photo-1545454675-3531b543be5d?w=800&auto=format&fit=crop&q=80',
     colSpan: 'md:col-span-3',
-    image: 'https://images.unsplash.com/photo-1545454675-3531b543be5d?w=600&auto=format&fit=crop&q=80',
     path: '/collection/electronics?subcategory=speakers',
     alt: 'Smart Home Cylindrical Speaker'
   }
 ];
 
-// Bento Card Collection 2: Fashion & Heritage Collections (GoMo Store Signature)
+// Bento Collection 2: Fashion & Heritage Collections (With Photographic Container Backgrounds & Brand Theme)
 const FASHION_HIGHLIGHTS = [
   {
     id: 'sarees',
     eyebrow: 'Regal',
     mainWord: 'Silk',
     watermark: 'SAREES',
-    bgClass: 'bg-[#1c1917]',
-    textTheme: 'dark',
-    buttonBg: 'bg-[#f76e28] hover:bg-[#ea580c] text-white',
+    bgImage: 'https://images.unsplash.com/photo-1610030469983-98e550d6193c?w=800&auto=format&fit=crop&q=80',
     colSpan: 'md:col-span-3',
-    image: 'https://images.unsplash.com/photo-1610030469983-98e550d6193c?w=600&auto=format&fit=crop&q=80',
     path: '/collection/ethnic-wear?section=women&subcategory=sarees',
     alt: 'Pure Silk Kanjivaram Sarees'
   },
@@ -106,11 +85,8 @@ const FASHION_HIGHLIGHTS = [
     eyebrow: 'Sacred',
     mainWord: 'Divine',
     watermark: 'POOJA',
-    bgClass: 'bg-[#f59e0b]',
-    textTheme: 'dark',
-    buttonBg: 'bg-white hover:bg-stone-50 text-stone-900',
+    bgImage: 'https://images.unsplash.com/photo-1606293926075-69a00dbfde81?w=800&auto=format&fit=crop&q=80',
     colSpan: 'md:col-span-3',
-    image: 'https://images.unsplash.com/photo-1606293926075-69a00dbfde81?w=600&auto=format&fit=crop&q=80',
     path: '/collection/pooja-items',
     alt: 'Brass Idols and Pooja Essentials'
   },
@@ -119,11 +95,8 @@ const FASHION_HIGHLIGHTS = [
     eyebrow: 'Trending',
     mainWord: 'Women',
     watermark: 'FASHION',
-    bgClass: 'bg-gradient-to-r from-[#ea580c] via-[#f76e28] to-[#dc2626]',
-    textTheme: 'dark',
-    buttonBg: 'bg-white hover:bg-stone-50 text-stone-900',
+    bgImage: 'https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?w=900&auto=format&fit=crop&q=80',
     colSpan: 'md:col-span-6',
-    image: 'https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?w=800&auto=format&fit=crop&q=80',
     path: '/collection/clothing?section=women',
     alt: 'Contemporary Women Minimal Fashion'
   },
@@ -132,11 +105,8 @@ const FASHION_HIGHLIGHTS = [
     eyebrow: 'Tailored',
     mainWord: 'Urban',
     watermark: "MEN'S",
-    bgClass: 'bg-[#f4f5f7] border border-stone-200/90',
-    textTheme: 'light',
-    buttonBg: 'bg-[#f76e28] hover:bg-[#ea580c] text-white',
+    bgImage: 'https://images.unsplash.com/photo-1617137984095-74e4e5e3613f?w=900&auto=format&fit=crop&q=80',
     colSpan: 'md:col-span-6',
-    image: 'https://images.unsplash.com/photo-1617137984095-74e4e5e3613f?w=800&auto=format&fit=crop&q=80',
     path: '/collection/clothing?section=men',
     alt: 'Men Crisp Linen and Oxford Shirts'
   },
@@ -145,11 +115,8 @@ const FASHION_HIGHLIGHTS = [
     eyebrow: 'Artisan',
     mainWord: 'Living',
     watermark: 'HOME',
-    bgClass: 'bg-[#10b981]',
-    textTheme: 'dark',
-    buttonBg: 'bg-white hover:bg-stone-50 text-stone-900',
+    bgImage: 'https://images.unsplash.com/photo-1513694203232-719a280e022f?w=800&auto=format&fit=crop&q=80',
     colSpan: 'md:col-span-3',
-    image: 'https://images.unsplash.com/photo-1513694203232-719a280e022f?w=600&auto=format&fit=crop&q=80',
     path: '/collection/home-living',
     alt: 'Artisan Ceramic Home Living'
   },
@@ -158,11 +125,8 @@ const FASHION_HIGHLIGHTS = [
     eyebrow: 'Organic',
     mainWord: 'Glow',
     watermark: 'BEAUTY',
-    bgClass: 'bg-[#3b82f6]',
-    textTheme: 'dark',
-    buttonBg: 'bg-white hover:bg-stone-50 text-stone-900',
+    bgImage: 'https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?w=800&auto=format&fit=crop&q=80',
     colSpan: 'md:col-span-3',
-    image: 'https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?w=600&auto=format&fit=crop&q=80',
     path: '/collection/beauty',
     alt: 'Pure Botanical Skin Glow'
   }
@@ -218,7 +182,7 @@ export default function EditorialShowcase() {
         </div>
       </div>
 
-      {/* Bento Grid: 2 Rows with 6 Cards (1 + 1 + 2 and 2 + 1 + 1) */}
+      {/* Bento Grid: 2 Rows with 6 Cards (1 + 1 + 2 and 2 + 1 + 1) with Photographic Backgrounds */}
       <AnimatePresence mode="wait">
         <motion.div
           key={activeTab}
@@ -228,85 +192,66 @@ export default function EditorialShowcase() {
           transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
           className="grid grid-cols-1 md:grid-cols-12 gap-5 sm:gap-6"
         >
-          {activeCards.map((card, idx) => {
-            const isDark = card.textTheme === 'dark';
+          {activeCards.map((card, idx) => (
+            <motion.div
+              key={card.id}
+              initial={{ opacity: 0, y: 16 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.45, delay: idx * 0.06, ease: [0.22, 1, 0.36, 1] }}
+              onClick={() => navigate(card.path)}
+              className={`relative rounded-3xl overflow-hidden min-h-[260px] sm:min-h-[290px] md:min-h-[310px] p-6 sm:p-7 flex flex-col justify-between group cursor-pointer shadow-sm hover:shadow-2xl transition-all duration-500 hover:-translate-y-1 bg-stone-950 border border-stone-800/80 hover:border-[#f76e28]/70 ${card.colSpan}`}
+              role="button"
+              tabIndex={0}
+              onKeyDown={(e) => {
+                if (e.key === 'Enter' || e.key === ' ') {
+                  e.preventDefault();
+                  navigate(card.path);
+                }
+              }}
+              aria-label={`${card.eyebrow} ${card.mainWord} ${card.watermark}`}
+            >
+              {/* 1. Full High-Definition Photographic Container Background */}
+              <img
+                src={card.bgImage}
+                alt={card.alt}
+                className="absolute inset-0 w-full h-full object-cover object-center transform group-hover:scale-108 transition-transform duration-700 ease-out opacity-60 group-hover:opacity-75"
+                loading="lazy"
+              />
 
-            return (
-              <motion.div
-                key={card.id}
-                initial={{ opacity: 0, y: 16 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.45, delay: idx * 0.06, ease: [0.22, 1, 0.36, 1] }}
-                onClick={() => navigate(card.path)}
-                className={`relative rounded-3xl overflow-hidden min-h-[250px] sm:min-h-[280px] md:min-h-[300px] p-6 sm:p-7 flex flex-col justify-between group cursor-pointer shadow-sm hover:shadow-2xl transition-all duration-500 hover:-translate-y-1 ${card.bgClass} ${card.colSpan}`}
-                role="button"
-                tabIndex={0}
-                onKeyDown={(e) => {
-                  if (e.key === 'Enter' || e.key === ' ') {
-                    e.preventDefault();
-                    navigate(card.path);
-                  }
-                }}
-                aria-label={`${card.eyebrow} ${card.mainWord} ${card.watermark}`}
-              >
-                {/* Subtle light ambient glow */}
-                <div className="absolute inset-0 bg-radial from-white/10 to-transparent pointer-events-none" />
+              {/* 2. Cohesive Dark Luxury Stone Overlay with Soft Warm Brand Tint */}
+              <div className="absolute inset-0 bg-gradient-to-t from-stone-950 via-stone-950/75 to-stone-950/40 group-hover:via-stone-950/60 transition-colors duration-500" />
+              
+              {/* Subtle brand warm radial glow */}
+              <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_left,rgba(247,110,40,0.16),transparent_65%)] pointer-events-none" />
 
-                {/* Left Side: Eyebrow, Main Title, and Huge Watermark */}
-                <div className="relative z-10 max-w-[62%] sm:max-w-[55%]">
-                  {/* Eyebrow */}
-                  <span
-                    className={`text-xs sm:text-sm font-sans font-medium block ${
-                      isDark ? 'text-white/80' : 'text-stone-500'
-                    }`}
-                  >
-                    {card.eyebrow}
-                  </span>
+              {/* 3. Left Side: Eyebrow, Main Title, and Watermark */}
+              <div className="relative z-10 max-w-[75%] sm:max-w-[70%]">
+                {/* Eyebrow in Brand Accent Color */}
+                <span className="text-xs sm:text-sm font-sans font-medium text-orange-400 block tracking-wide">
+                  {card.eyebrow}
+                </span>
 
-                  {/* Main Word */}
-                  <h3
-                    className={`text-xl sm:text-2xl md:text-3xl font-extrabold tracking-tight leading-tight mt-0.5 ${
-                      isDark ? 'text-white' : 'text-stone-900'
-                    }`}
-                  >
-                    {card.mainWord}
-                  </h3>
+                {/* Main Word */}
+                <h3 className="text-xl sm:text-2xl md:text-3xl font-extrabold tracking-tight text-white leading-tight mt-0.5">
+                  {card.mainWord}
+                </h3>
 
-                  {/* Huge Bold Watermark Title */}
-                  <p
-                    className={`text-2xl sm:text-3xl md:text-4xl lg:text-[2.6rem] font-black uppercase tracking-tight leading-none mt-1 select-none ${
-                      isDark ? 'text-white/25 group-hover:text-white/40' : 'text-stone-300 group-hover:text-stone-400'
-                    } transition-colors duration-300`}
-                  >
-                    {card.watermark}
-                  </p>
-                </div>
+                {/* Huge Bold Watermark Title */}
+                <p className="text-2xl sm:text-3xl md:text-4xl lg:text-[2.6rem] font-black uppercase tracking-tight leading-none mt-1 select-none text-white/20 group-hover:text-white/35 transition-colors duration-300">
+                  {card.watermark}
+                </p>
+              </div>
 
-                {/* Right Side: Floating Angled 3D Product Image */}
-                <div className="absolute right-0 bottom-0 top-0 w-[55%] sm:w-[50%] flex items-center justify-center p-4 pointer-events-none z-10">
-                  <div className="relative w-full h-full flex items-center justify-center">
-                    <img
-                      src={card.image}
-                      alt={card.alt}
-                      className="w-full h-full max-h-[220px] object-cover sm:object-contain rounded-2xl sm:rounded-none drop-shadow-[0_15px_20px_rgba(0,0,0,0.35)] transform group-hover:scale-108 group-hover:-translate-y-2 group-hover:rotate-1 transition-transform duration-500 ease-out"
-                      loading="lazy"
-                    />
-                  </div>
-                </div>
-
-                {/* Bottom Left: Rounded Pill Action Button */}
-                <div className="relative z-10 mt-auto pt-4">
-                  <span
-                    className={`inline-flex items-center justify-center px-6 sm:px-7 py-2 sm:py-2.5 rounded-full text-xs font-bold uppercase tracking-wider shadow-md transition-all duration-300 group-hover:scale-105 active:scale-95 ${card.buttonBg}`}
-                  >
-                    <span>Browse</span>
-                    <ArrowRight size={12} className="ml-1.5 opacity-80 group-hover:translate-x-0.5 transition-transform" />
-                  </span>
-                </div>
-              </motion.div>
-            );
-          })}
+              {/* 4. Bottom Left: GoMo Signature Brand Orange Action Pill */}
+              <div className="relative z-10 mt-auto pt-6">
+                <span className="inline-flex items-center justify-center px-6 sm:px-7 py-2 sm:py-2.5 rounded-full text-xs font-bold uppercase tracking-wider bg-[#f76e28] hover:bg-[#ea580c] text-white shadow-md shadow-orange-950/30 transition-all duration-300 group-hover:scale-105 active:scale-95">
+                  <span>Browse</span>
+                  <ArrowRight size={12} className="ml-1.5 opacity-80 group-hover:translate-x-0.5 transition-transform" />
+                </span>
+              </div>
+            </motion.div>
+          ))}
         </motion.div>
       </AnimatePresence>
     </section>
