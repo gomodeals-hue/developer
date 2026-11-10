@@ -25,3 +25,4 @@ export default function EditorialPromoBannerShowcase({ showMode = 'both' }) {
 }
 
 export { DualSplitPromoBanner, GeometricSaleBanner };
+
