@@ -106,6 +106,44 @@
   ],
   "cust_101": [
     {
+      "id": "trk_1793962164678_9vcgg",
+      "user_id": "cust_101",
+      "timestamp": "2026-11-06T10:49:24.678Z",
+      "action": "ORDER_PURCHASED",
+      "title": "Cart Converted to Order #GMD-ORD-10038",
+      "description": "Order #GMD-ORD-10038 placed successfully (UPI) for ₹1,999",
+      "product_id": null,
+      "product_name": null,
+      "variant": null,
+      "quantity": null,
+      "price": null,
+      "thumbnail": null,
+      "account_email": "customer@gomodeals.com",
+      "account_name": "Saranyan E",
+      "metadata": {
+        "order_id": "GMD-ORD-10038",
+        "total_amount": 1999,
+        "items_count": 1
+      }
+    },
+    {
+      "id": "trk_1793962154732_ajigz",
+      "user_id": "cust_101",
+      "timestamp": "2026-11-06T10:49:14.732Z",
+      "action": "ITEM_ADDED",
+      "title": "Anker PowerCore 20000mAh Ultra-High Capacity Portable Charger Power Bank with PowerIQ Stored in Cart",
+      "description": "Account added \"Anker PowerCore 20000mAh Ultra-High Capacity Portable Charger Power Bank with PowerIQ\" (Qty: 1) to active cart at ₹2,499",
+      "product_id": "gmd-el-pb-001",
+      "product_name": "Anker PowerCore 20000mAh Ultra-High Capacity Portable Charger Power Bank with PowerIQ",
+      "variant": null,
+      "quantity": 1,
+      "price": 2499,
+      "thumbnail": "https://m.media-amazon.com/images/I/51KkoqFqjjL._AC_UF1000,1000_QL80_.jpg",
+      "account_email": "customer@gomodeals.com",
+      "account_name": "Saranyan E",
+      "metadata": {}
+    },
+    {
       "id": "trk_1793957329453_2qwrf",
       "user_id": "cust_101",
       "timestamp": "2026-11-06T09:28:49.453Z",

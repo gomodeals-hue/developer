@@ -5,6 +5,7 @@ import Hero from '../../components/sections/Home/Hero/Hero';
 import TrustGuarantee from '../../components/sections/Home/TrustGuarantee/TrustGuarantee';
 import EasyShoppingExplainer from '../../components/sections/Home/EasyShoppingExplainer/EasyShoppingExplainer';
 import CategoryBubbles from '../../components/sections/Home/CategoryBubbles/CategoryBubbles';
+import { DualSplitPromoBanner, GeometricSaleBanner } from '../../components/sections/Home/EditorialPromoBanner';
 import EditorialShowcase from '../../components/sections/Home/EditorialShowcase/EditorialShowcase';
 import FlashDeals from '../../components/sections/Home/FlashDeals/FlashDeals';
 import AdBannerCarousel from '../../components/sections/Home/AdBannerCarousel/AdBannerCarousel';
@@ -55,8 +56,14 @@ const Home = () => {
       {/* 3. Visual Circular Department Bubbles */}
       {!isSearching && <CategoryBubbles />}
 
+      {/* 3b. Dual Split Editorial Promotion Banner (Style 1: Sale up to 75% off / 20% off everything) */}
+      {!isSearching && <DualSplitPromoBanner />}
+
       {/* 4. Editorial Bento Collection Showcase (Our New Collection) */}
       {!isSearching && <EditorialShowcase />}
+
+      {/* 4b. Concentric Geometric Mega-Sale Banner (Style 2: 60% OFF with Multi-Category Navigations) */}
+      {!isSearching && <GeometricSaleBanner />}
 
       {/* 5. Limited-Time Flash Deals */}
       {!isSearching && <FlashDeals />}

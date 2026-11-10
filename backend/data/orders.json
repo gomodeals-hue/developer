@@ -1,173 +1,156 @@
 [
   {
-    "id": "GMD-ORD-10037",
-    "order_id": "GMD-ORD-10037",
-    "order_number": "GOMO-2026-10037",
-    "userId": "cust_101",
-    "customer_id": "cust_101",
+    "id": "GMD-ORD-10038",
+    "order_number": "GOMO-2026-10038",
+    "user_id": "cust_101",
     "customer_name": "Saranyan E",
     "customer_email": "customer@gomodeals.com",
-    "customer_phone": "+91 98765 43210",
+    "items": [
+      {
+        "id": "gmd-el-pb-001",
+        "name": "Anker PowerCore 20000mAh Ultra-High Capacity Portable Charger Power Bank with PowerIQ",
+        "price": 2499,
+        "quantity": 1,
+        "thumbnail": "https://m.media-amazon.com/images/I/51KkoqFqjjL._AC_UF1000,1000_QL80_.jpg",
+        "product_id": "gmd-el-pb-001",
+        "variant_value": null
+      }
+    ],
+    "total_amount": 1999,
+    "discount_amount": 0,
+    "shipping_fee": 0,
+    "payment_method": "UPI",
+    "payment_status": "Paid",
+    "order_status": "Confirmed",
+    "shipping_address": {
+      "id": "addr_1",
+      "tag": "Default / Home",
+      "city": "Chennai",
+      "type": "Home",
+      "phone": "+91 98765 43210",
+      "state": "Tamil Nadu",
+      "street": "123 Anna Salai, Guindy",
+      "full_name": "Saranyan E",
+      "is_default": true,
+      "postal_code": "600032"
+    },
+    "created_at": "2026-11-06T10:49:23.827Z",
+    "subtotal": 0,
+    "tax": 0,
+    "status": "Confirmed",
+    "tracking": [],
+    "delivery_address": {},
+    "courier_partner": "BlueDart Express",
+    "tracking_number": null,
+    "estimated_delivery": null,
+    "seller_id": null,
+    "seller_name": null,
+    "customer_phone": null,
+    "order_id": "GMD-ORD-10038",
+    "userId": "cust_101",
+    "customer_id": "cust_101"
+  },
+  {
+    "id": "GMD-ORD-10037",
+    "order_number": "GOMO-2026-10037",
+    "user_id": "cust_101",
+    "customer_name": "Saranyan E",
+    "customer_email": "customer@gomodeals.com",
     "items": [
       {
         "id": "gmd-el-eb-001",
-        "product_id": "gmd-el-eb-001",
         "name": "boAt Airdopes Pro TWS True Wireless Earbuds with Deep Bass & HD Mic (Graphite Black)",
         "price": 1299,
         "quantity": 1,
         "thumbnail": "https://rukminim3.flixcart.com/image/480/640/xif0q/headphone/r/u/2/tws-true-wireless-earbuds-with-deep-bass-mic-graphite-black-original-imahmxaafdmtsf3y.jpeg?q=90",
+        "product_id": "gmd-el-eb-001",
         "variant_value": null
       }
     ],
     "total_amount": 1039,
-    "subtotal": 1299,
+    "discount_amount": 0,
     "shipping_fee": 0,
-    "tax": 65,
-    "status": "Confirmed",
     "payment_method": "UPI",
     "payment_status": "Paid",
-    "courier_partner": "BlueDart Express",
-    "tracking_number": "BLU55182330",
-    "created_at": "2026-11-06T09:28:48.541Z",
-    "estimated_delivery": "2026-11-08T09:28:48.541Z",
+    "order_status": "Confirmed",
     "shipping_address": {
       "id": "addr_1",
-      "full_name": "Saranyan E",
-      "type": "Home",
       "tag": "Default / Home",
-      "street": "123 Anna Salai, Guindy",
       "city": "Chennai",
-      "state": "Tamil Nadu",
-      "postal_code": "600032",
-      "phone": "+91 98765 43210",
-      "is_default": true
-    },
-    "delivery_address": {
-      "id": "addr_1",
-      "full_name": "Saranyan E",
       "type": "Home",
-      "tag": "Default / Home",
-      "street": "123 Anna Salai, Guindy",
-      "city": "Chennai",
-      "state": "Tamil Nadu",
-      "postal_code": "600032",
       "phone": "+91 98765 43210",
-      "is_default": true
+      "state": "Tamil Nadu",
+      "street": "123 Anna Salai, Guindy",
+      "full_name": "Saranyan E",
+      "is_default": true,
+      "postal_code": "600032"
     },
-    "tracking": [
-      {
-        "step": "Order Placed",
-        "status": "completed",
-        "time": "2026-11-06T09:28:48.541Z",
-        "note": "Payment verified and order confirmed"
-      },
-      {
-        "step": "Processing & Quality Check",
-        "status": "in_transit",
-        "time": "2026-11-06T09:28:48.541Z",
-        "note": "Our fulfillment team is carefully preparing your shipment"
-      },
-      {
-        "step": "Shipped via Express",
-        "status": "pending",
-        "note": "Assigned to BlueDart Express (AWB: BLU55182330)"
-      },
-      {
-        "step": "Out for Delivery",
-        "status": "pending",
-        "note": "Scheduled for local contactless delivery"
-      },
-      {
-        "step": "Delivered",
-        "status": "pending",
-        "note": "Doorstep handover with OTP verification"
-      }
-    ]
+    "created_at": "2026-11-06T09:28:48.541Z",
+    "subtotal": 0,
+    "tax": 0,
+    "status": "Confirmed",
+    "tracking": [],
+    "delivery_address": {},
+    "courier_partner": "BlueDart Express",
+    "tracking_number": null,
+    "estimated_delivery": null,
+    "seller_id": null,
+    "seller_name": null,
+    "customer_phone": null,
+    "order_id": "GMD-ORD-10037",
+    "userId": "cust_101",
+    "customer_id": "cust_101"
   },
   {
     "id": "GMD-ORD-10036",
-    "order_id": "GMD-ORD-10036",
     "order_number": "GOMO-2026-10036",
-    "userId": "cust_101",
-    "customer_id": "cust_101",
+    "user_id": "cust_101",
     "customer_name": "Saranyan E",
     "customer_email": "customer@gomodeals.com",
-    "customer_phone": "+91 98765 43210",
     "items": [
       {
         "id": "gmd-el-eb-001",
-        "product_id": "gmd-el-eb-001",
         "name": "boAt Airdopes Pro TWS True Wireless Earbuds with Deep Bass & HD Mic (Graphite Black)",
         "price": 1299,
         "quantity": 1,
         "thumbnail": "https://rukminim3.flixcart.com/image/480/640/xif0q/headphone/r/u/2/tws-true-wireless-earbuds-with-deep-bass-mic-graphite-black-original-imahmxaafdmtsf3y.jpeg?q=90",
+        "product_id": "gmd-el-eb-001",
         "variant_value": null
       }
     ],
     "total_amount": 1039,
-    "subtotal": 1299,
+    "discount_amount": 0,
     "shipping_fee": 0,
-    "tax": 65,
-    "status": "Confirmed",
     "payment_method": "UPI",
     "payment_status": "Paid",
-    "courier_partner": "BlueDart Express",
-    "tracking_number": "BLU37183372",
-    "created_at": "2026-11-06T09:28:42.509Z",
-    "estimated_delivery": "2026-11-08T09:28:42.509Z",
+    "order_status": "Confirmed",
     "shipping_address": {
       "id": "addr_1",
-      "full_name": "Saranyan E",
-      "type": "Home",
       "tag": "Default / Home",
-      "street": "123 Anna Salai, Guindy",
       "city": "Chennai",
-      "state": "Tamil Nadu",
-      "postal_code": "600032",
-      "phone": "+91 98765 43210",
-      "is_default": true
-    },
-    "delivery_address": {
-      "id": "addr_1",
-      "full_name": "Saranyan E",
       "type": "Home",
-      "tag": "Default / Home",
-      "street": "123 Anna Salai, Guindy",
-      "city": "Chennai",
-      "state": "Tamil Nadu",
-      "postal_code": "600032",
       "phone": "+91 98765 43210",
-      "is_default": true
+      "state": "Tamil Nadu",
+      "street": "123 Anna Salai, Guindy",
+      "full_name": "Saranyan E",
+      "is_default": true,
+      "postal_code": "600032"
     },
-    "tracking": [
-      {
-        "step": "Order Placed",
-        "status": "completed",
-        "time": "2026-11-06T09:28:42.509Z",
-        "note": "Payment verified and order confirmed"
-      },
-      {
-        "step": "Processing & Quality Check",
-        "status": "in_transit",
-        "time": "2026-11-06T09:28:42.509Z",
-        "note": "Our fulfillment team is carefully preparing your shipment"
-      },
-      {
-        "step": "Shipped via Express",
-        "status": "pending",
-        "note": "Assigned to BlueDart Express (AWB: BLU37183372)"
-      },
-      {
-        "step": "Out for Delivery",
-        "status": "pending",
-        "note": "Scheduled for local contactless delivery"
-      },
-      {
-        "step": "Delivered",
-        "status": "pending",
-        "note": "Doorstep handover with OTP verification"
-      }
-    ]
+    "created_at": "2026-11-06T09:28:42.509Z",
+    "subtotal": 0,
+    "tax": 0,
+    "status": "Confirmed",
+    "tracking": [],
+    "delivery_address": {},
+    "courier_partner": "BlueDart Express",
+    "tracking_number": null,
+    "estimated_delivery": null,
+    "seller_id": null,
+    "seller_name": null,
+    "customer_phone": null,
+    "order_id": "GMD-ORD-10036",
+    "userId": "cust_101",
+    "customer_id": "cust_101"
   },
   {
     "id": "GMD-ORD-10035",
@@ -726,7 +709,7 @@
       {
         "note": "Courier executive assigned: Ramesh K. (+91 99012 34567)",
         "step": "Out for Delivery",
-        "time": "2026-11-06T09:53:38.817Z",
+        "time": "2026-11-10T08:19:52.841Z",
         "status": "in_transit"
       },
       {
