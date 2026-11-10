@@ -8,7 +8,7 @@ import {
   Tag, CheckSquare, Square, ArrowRight, Sparkles
 } from 'lucide-react';
 import ProductCard from '../../components/common/ProductCard';
-import CategoryHeroBanner from '../../components/sections/Category/CategoryHeroBanner';
+import { CategoryHeroBanner, WomenFashionVibeFooterBanner, MenFashionCollectionFooterBanner } from '../../components/sections/Category';
 import { ProductContext } from '../../context/ProductContext/ProductContext';
 import { useShop } from '../../context/ShopContext';
 import { categoryService, MAIN_CATEGORIES } from '../../services/categoryService';
@@ -2177,6 +2177,33 @@ const CategoryPage = () => {
     return 'all';
   }, [selectedSection, selectedCategory, type, isShirtsPage]);
 
+  // Determine if viewing Women's product domain (for editorial footer-above banner)
+  const isWomenPage = useMemo(() => {
+    const sec = (selectedSection || '').toLowerCase();
+    const cat = (selectedCategory || type || '').toLowerCase();
+    const sub = (selectedSubcategory || '').toLowerCase();
+    const sareeSlugs = [
+      'silk-sarees', 'kanjivaram-sarees', 'banarasi-sarees', 'cotton-sarees',
+      'bridal-sarees', 'party-wear-sarees', 'wedding-sarees', 'festive-wear-sarees',
+      'daily-wear-sarees', 'lightweight-sarees', 'handloom-sarees', 'sarees'
+    ];
+    if (sec === 'women' || cat === 'women' || cat === 'womens' || categoryContext === 'women') return true;
+    if (sareeSlugs.includes(sub) || ['dresses', 'kurtas', 'blouses', 'lehengas', 'heels', 'flats'].includes(sub)) return true;
+    return false;
+  }, [selectedSection, selectedCategory, type, selectedSubcategory, categoryContext]);
+
+  // Determine if viewing Men's product domain (for editorial footer-above banner)
+  const isMenPage = useMemo(() => {
+    if (isWomenPage) return false;
+    const sec = (selectedSection || '').toLowerCase();
+    const cat = (selectedCategory || type || '').toLowerCase();
+    const sub = (selectedSubcategory || '').toLowerCase();
+    if (isShirtsPage || type === 'men-shirts') return true;
+    if (sec === 'men' || sec === 'mens' || cat === 'men' || cat === 'mens' || categoryContext === 'men') return true;
+    if (['formal-shirts', 'casual-shirts', 't-shirts', 'jeans-men', 'trousers'].includes(sub)) return true;
+    return false;
+  }, [isWomenPage, selectedSection, selectedCategory, type, selectedSubcategory, categoryContext, isShirtsPage]);
+
   // Sidebar Controls (Category-Specific, Minimal, Fast Accessible & Sticky)
   const renderSidebarControls = () => {
     const currentMeta = CATEGORY_META[categoryContext] || CATEGORY_META.all;
@@ -3321,6 +3348,16 @@ const CategoryPage = () => {
           </div>
         </div>
       </div>
+
+      {/* ─── Editorial Footer-Above Section for Women Products Page ─── */}
+      {isWomenPage && (
+        <WomenFashionVibeFooterBanner />
+      )}
+
+      {/* ─── Editorial Footer-Above Section for Men Products Page ─── */}
+      {isMenPage && (
+        <MenFashionCollectionFooterBanner />
+      )}
 
       {/* Slide-Up Mobile Filter Drawer */}
       <AnimatePresence>
