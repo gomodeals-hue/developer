@@ -97,7 +97,7 @@ export default function CategoryBubbles() {
         </button>
       </div>
 
-      {/* Capsule Pill Grid with Image Backgrounds & Brand Color Theme */}
+      {/* Capsule Pill Grid with Bright Photographic Backgrounds */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-5">
         {CATEGORIES.map((cat, idx) => (
           <motion.div
@@ -107,7 +107,7 @@ export default function CategoryBubbles() {
             viewport={{ once: true }}
             transition={{ duration: 0.4, delay: idx * 0.05, ease: [0.22, 1, 0.36, 1] }}
             onClick={() => navigate(cat.path)}
-            className="group relative flex items-center rounded-full p-2 sm:p-2.5 overflow-hidden shadow-sm hover:shadow-2xl transition-all duration-500 hover:scale-[1.02] cursor-pointer select-none bg-stone-950 border border-stone-800/80 hover:border-[#f76e28]/70"
+            className="group relative flex items-center rounded-full p-2 sm:p-2.5 overflow-hidden shadow-sm hover:shadow-xl transition-all duration-500 hover:scale-[1.02] cursor-pointer select-none bg-stone-100 border border-stone-200/90 hover:border-[#f76e28]/80"
             role="button"
             tabIndex={0}
             onKeyDown={(e) => {
@@ -118,26 +118,23 @@ export default function CategoryBubbles() {
             }}
             aria-label={`${cat.line1} ${cat.line2}`}
           >
-            {/* 1. Full Image Background */}
+            {/* 1. Bright & Clear Photographic Background */}
             <img
               src={cat.bgImage}
               alt=""
-              className="absolute inset-0 w-full h-full object-cover object-center transform group-hover:scale-110 transition-transform duration-700 ease-out opacity-55 group-hover:opacity-70"
+              className="absolute inset-0 w-full h-full object-cover object-center transform group-hover:scale-110 transition-transform duration-700 ease-out opacity-90 group-hover:opacity-100"
               loading="lazy"
             />
 
-            {/* 2. Cohesive Dark Luxury Stone Overlay with Soft Warm Brand Tint */}
-            <div className="absolute inset-0 bg-gradient-to-r from-stone-950/95 via-stone-950/75 to-stone-900/50 group-hover:from-stone-950/85 group-hover:via-stone-950/60 transition-colors duration-500" />
-            
-            {/* Subtle brand warm radial glow */}
-            <div className="absolute inset-0 bg-[radial-gradient(circle_at_15%_50%,rgba(247,110,40,0.18),transparent_60%)] pointer-events-none" />
+            {/* 2. Light & Airy Left-Side Scrim (Keeps Image Bright & Vivid while Text is 100% Crisp) */}
+            <div className="absolute inset-0 bg-gradient-to-r from-stone-950/70 via-stone-950/35 to-transparent group-hover:from-stone-950/60 transition-colors duration-300" />
 
             {/* 3. Left: Circular Model / Category Avatar */}
-            <div className="relative z-10 w-14 h-14 sm:w-16 sm:h-16 md:w-18 md:h-18 rounded-full overflow-hidden shrink-0 border-2 border-white/80 group-hover:border-[#f76e28] shadow-md bg-stone-900/60 transition-colors duration-300">
+            <div className="relative z-10 w-14 h-14 sm:w-16 sm:h-16 md:w-18 md:h-18 rounded-full overflow-hidden shrink-0 border-2 border-white shadow-md bg-white/20 transition-transform duration-300 group-hover:scale-105">
               <img
                 src={cat.avatar}
                 alt={`${cat.line1} ${cat.line2}`}
-                className="w-full h-full object-cover object-center transform group-hover:scale-108 transition-transform duration-500"
+                className="w-full h-full object-cover object-center"
                 loading="lazy"
               />
             </div>
@@ -145,17 +142,17 @@ export default function CategoryBubbles() {
             {/* 4. Right: Two-Line High-Fashion Serif Typography + Arrow */}
             <div className="relative z-10 flex items-center justify-between flex-grow pl-3.5 sm:pl-4 pr-3 sm:pr-4">
               <div className="flex flex-col text-left">
-                <span className="font-serif text-white text-base sm:text-lg md:text-xl font-normal leading-tight drop-shadow-sm">
+                <span className="font-serif text-white text-base sm:text-lg md:text-xl font-medium leading-tight drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)]">
                   {cat.line1}
                 </span>
-                <span className="font-serif text-white text-base sm:text-lg md:text-xl font-normal leading-tight drop-shadow-sm">
+                <span className="font-serif text-white text-base sm:text-lg md:text-xl font-medium leading-tight drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)]">
                   {cat.line2}
                 </span>
               </div>
 
-              {/* Minimal Animated Brand-Themed Arrow */}
-              <div className="text-white/80 group-hover:text-[#f76e28] shrink-0 ml-2 transform group-hover:translate-x-1.5 transition-all duration-300">
-                <ArrowRight size={18} strokeWidth={2.2} />
+              {/* Minimal Animated Arrow with Brand Hover Color */}
+              <div className="text-white group-hover:text-[#f76e28] shrink-0 ml-2 transform group-hover:translate-x-1.5 transition-all duration-300 drop-shadow-md">
+                <ArrowRight size={18} strokeWidth={2.4} />
               </div>
             </div>
           </motion.div>
